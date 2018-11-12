@@ -1,0 +1,75 @@
+{
+  "query_dict":{
+   "summary": {
+    "url": "https://query1.finance.yahoo.com/v10/finance/quoteSummary/{0}?formatted=true&lang=en-US&region=US&{1}&corsDomain=finance.yahoo.com",
+    "enc_key": "modules",
+    "enc_val": "defaultKeyStatistics,assetProfile,financialData,balanceSheetHistory,balanceSheetHistoryQuarterly,cashflowStatementHistory,cashflowStatementHistoryQuarterly,incomeStatementHistory,incomeStatementHistoryQuarterly,calendarEvents,earnings,earningsHistory,earningsTrend,recommendationTrend,upgradeDowngradeHistory,indexTrend,fundOwnership,insiderHolders,institutionOwnership,majorDirectHolders,majorHoldersBreakdown,netSharePurchaseActivity"
+   },
+   "option": {
+    "url": "https://query1.finance.yahoo.com/v7/finance/options/{0}?formatted=true&lang=en-US&region=US&straddle=false&{1}&corsDomain=finance.yahoo.com",
+    "enc_key": "date"
+   },
+   "quote": {
+    "url": "https://query1.finance.yahoo.com/v7/finance/quote?formatted=true&lang=en-US&region=US&{0}&corsDomain=finance.yahoo.com",
+    "enc_key": "symbols"
+   }
+  },
+ "symbols": [
+  "MU", "AMAT", "FB", "LRCX", "AEIS", "THO", "EXEL",
+  "MKSI", "IPGP", "ANET", "HALO", "SUPN", "F", "LOGM", "NVDA", "OLED",
+  "GSKY", "REGN", "CI", "HRB", "UBNT", "SWKS", "UTHR", "BKNG", "TXN",
+  "STMP", "IONS", "AAPL", "YELP", "RHT", "ORCL", "KLAC", "GM",
+  "ROG", "WCG", "CSU", "TER", "SKX", "VAC", "MA", "CTSH",
+  "FL", "EXPE", "ADBE", "MSFT", "FSLR", "BRKS", "CGNX", "ULTA",
+  "CRUS", "BMY", "BBY", "FFIV", "GNTX", "PLCE", "GOOG", "EA", "GILD",
+  "HUM", "ADP", "MXIM", "CERN", "CAKE", "MOH", "CNC", "ANTM",
+  "FTNT", "CSCO", "DECK", "IRBT", "PAYX", "INTU", "TJX", "JNPR",
+  "GPS", "CCMP", "ROST", "TXRH", "ATVI", "EBS", "ICUI", "BC",
+  "AVX", "PANW", "XLNX", "EW", "VRTX", "PEGA", "NTAP", "POWI",
+  "DOX", "NKE", "EEFT", "MANH", "ETSY", "LGND", "NTGR", "VC",
+  "ABMD", "SHOO", "CA", "CRM", "MRVL", "AEO", "DSW", "CBM",
+  "VAR", "GHC", "LOPE", "QCOM", "TWTR", "EPAM", "NATI", "SLAB", "A",
+  "DLB", "CDNS", "ZNGA", "GRPN", "RL", "TTD", "QLYS", "ANSS",
+  "WAT", "VEEV", "URBN", "OLLI", "COLM", "TIF", "Z", "ZG", "NWS",
+  "SHAK", "PLT", "FIVE", "GMED", "NWSA", "CVCO", "MASI", "DBX",
+  "AKAM", "ISRG", "BRKR", "ALGN", "PCTY", "FLIR", "DORM", "WWE",
+  "IDCC", "LULU", "PAYC", "TYL", "GRUB", "HQY", "EXLS", "APPF",
+  "VSH", "MYGN", "MDSO", "TTWO", "ALRM", "SNPS", "ULTI", "NOW",
+  "ATGE", "ILMN", "CMG", "SMTC", "ELLI", "TDC", "MPWR", "MIME",
+  "NEOG", "TRIP", "WST", "MSG", "SPLK", "CVLT", "RGEN", "CSOD",
+  "HUBS", "NEWR", "GWRE", "CHGG", "DXCM", "FIVN", "SQ", "RNG",
+  "DATA", "WDAY", "PSTG", "COUP", "BL", "CREE", "BOX", "AYX", "ZEN",
+
+  "ADSK", "AMD", "AME", "AMZN", "APTV",
+  "AQB", "ARCT", "ARNC", "ATHN", "ATI", "ATTU", "AUDC", "AVAV",
+  "BABA", "BGNE", "BIDU", "BIIB", "BLCM", "BLUE",
+  "CALL", "CAMT", "CEL", "CELG", "CERS", "CGEN", "CHKP", "CLLS",
+  "CRNT", "CRS", "CRSP", "CYBR", "DANE", "DDD", "DE", "DMLRY",
+  "DWDP", "EDIT", "EMN", "ESLT", "EVGN", "EVK",
+  "EVLO", "FARO", "FOMX", "GBTC", "GE", "GILT", "GLMD", "HDP",
+  "HLAN", "HPQ", "HXL", "ICE", "IFNNY", "INCY",
+  "INO", "IOVA", "ITRN", "JD", "KMDA", "KODK", "KTOS", "KTWO",
+  "LC", "MCRB", "MDT", "MELI", "MGTI", "MLNX", "MMM", "MOG-A",
+  "MTLS", "MTRX", "MZOR", "NFLX", "NICE", "NNDM", "NSTG", "NTEC",
+  "NTLA", "NVMI", "NVTA", "NXPI", "ONCE", "ONVO", "OPRA", "ORBK",
+  "PACB", "PNTR", "PRLB", "PSTI", "PTC",
+  "PX", "PYPL", "RDCM", "RDHL", "RDWR", "RKUNY", "ROK",
+  "RUBY", "SAND", "SEDG", "SFTBY", "SHOP",
+  "SPNS", "SPOT", "SSYS", "SYK", "SYRS", "TARO", "TCEHY", "TDOC",
+  "TEVA", "TM", "TREE", "TRMB", "TSEM", "TSLA", "TSM",
+  "TWOU", "UCTT", "UPS", "URGN", "VCYT", "WIX", "XONE", "YY", "ZUO"
+ ],
+ "s3_store": true,
+ "filename_fmt": "{0}.json",
+ "min_max_sleep": [1, 2],
+ "max_symbols_request": 50,
+ "bucket_name": "fund-fin-data",
+ "option_path": "option/{0}/",
+ "option_consol_path": "option/csv/",
+ "quote_path": "quote/",
+ "quote_consol_path": "quote/csv/",
+ "option_recomendation_path": "recommend/options/",
+ "summary_path": "summary/{0}/",
+ "training_path": "training/",
+ "option_train_fmt": "options_{0}.csv"
+}

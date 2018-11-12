@@ -1,0 +1,11 @@
+{
+    "fileLocations": [{
+        "URIs": [
+            "s3://fund-fin-data/summary-categories/financialData/2018-09-27.csv"
+        ]
+    }],
+    "globalUploadSettings": {
+        "format": "CSV",
+        "containsHeader": "true"
+    }
+}
