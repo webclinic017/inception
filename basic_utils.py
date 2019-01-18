@@ -158,6 +158,10 @@ def get_data(symbol, dataset, encoded_params):
     data = url_open(url.format(symbol, encoded_params))
     return data
 
+def get_data_params(dataset, param_dict):
+    url = QUERY_DICT[dataset][url_key]
+    data = url_open(url.format(**param_dict))
+    return data
 
 def get_grouped_ds(symbol, dataset):
     # bulks download of all description modules
@@ -221,11 +225,27 @@ def get_options(symbol):
     path = get_path(dataset, str(today_date))
     store_s3(data, path + json_ext.format(symbol))
 
+def get_pricing(symbol, interval='1d', prange='5y'):
+    # save pricing for a given interval and range
+    dataset = 'pricing'
+    point = {'s':symbol,'i':interval, 'r': prange}
+    print('Getting pricing interval of {s} interval: {i}, range: {r}'.format(**point))
+    # first expiration no date
+    data = get_data_params('pricing', point)
+    json_dict = json.loads(data)
+    pricing_data = json_dict['chart']['result'][0]
+    data = json.dumps(pricing_data)
+    path = get_path(dataset, interval)
+    store_s3(data, path + json_ext.format(symbol))
+    return data    
+    
 ###### environment variables ######
 
 config = load_config('config.json')
 QUERY_DICT = config["query_dict"]
-UNIVERSE = config['symbols']
+COMPANIES = config['companies']
+UNIVERSE = []
+[UNIVERSE.extend(config[y]) for y in [z for z in config['universe_list']]]
 MIN_MAX_SLEEP = config["min_max_sleep"]
 MAX_SYMBOLS = config["max_symbols_request"]
 S3_STORE = config['s3_store']

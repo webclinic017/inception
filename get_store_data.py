@@ -10,12 +10,22 @@ if __name__ == '__main__':
         quotes = flatten_quotes([str(today_date)])
         csv_store(quotes, get_path('quote_consol'), csv_ext.format(today_date), True)
     elif hook == 'summary':
-        for t in UNIVERSE: get_grouped_ds(t, 'summary')
+        for t in UNIVERSE:
+            print('Retrieving {0} for {1}'.format(hook, t))
+            get_grouped_ds(t, 'summary')
     elif hook == 'options':
-        for t in UNIVERSE: get_options(t)
+        sample_set = sys.argv[2]
+        for t in config[sample_set]:
+            print('Retrieving {0} for {1}'.format(hook, t))
+            get_options(t)
         options = flatten_options([today_date])
         csv_store(options, get_path('option_consol'), csv_ext.format(today_date), True)
-        run_options_recommendation()
+        #run_options_recommendation()
+    elif hook == 'pricing':
+        for t in UNIVERSE:
+            print('Retrieving {0} for {1}'.format(hook, t))
+            get_pricing(t, '1m', '5d')
+            get_pricing(t, '1d', '10y')
     else:
         print('Please enter a valid option')
         print('Valid options are: quotes, summary, and options')
