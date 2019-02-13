@@ -8,6 +8,7 @@ import urllib
 from urllib.request import urlopen
 
 import pandas as pd
+import numpy as np
 from pandas.io.json import json_normalize
 
 import boto3
@@ -196,8 +197,11 @@ def get_quotes(symbol_list):
         encoded_kv = urllib.parse.urlencode(
             {QUERY_DICT[dataset][enc_key]: symbols}
         )
-        data = get_data(encoded_kv, dataset, '')
-        full_data.extend(get_children_list(json.loads(data), 'quoteResponse'))
+        try:
+            data = get_data(encoded_kv, dataset, '')
+            full_data.extend(get_children_list(json.loads(data), 'quoteResponse'))
+        except Exception as e:
+            print(e)
     data = json.dumps(full_data)
     path = get_path(dataset)
     store_s3(data, path + json_ext.format(str(today_date)))
@@ -237,8 +241,8 @@ def get_pricing(symbol, interval='1d', prange='5y'):
     data = json.dumps(pricing_data)
     path = get_path(dataset, interval)
     store_s3(data, path + json_ext.format(symbol))
-    return data    
-    
+    return pricing_data
+
 ###### environment variables ######
 
 config = load_config('config.json')
