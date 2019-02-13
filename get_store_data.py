@@ -13,14 +13,20 @@ if __name__ == '__main__':
         csv_store(quotes, get_path('quote_consol'), csv_ext.format(today_date), True)
     elif hook == 'summary':
         for t in UNIVERSE:
-            print('Retrieving {0} for {1}'.format(hook, t))
-            get_grouped_ds(t, 'summary')
+            try:
+                print('Retrieving {0} for {1}'.format(hook, t))
+                get_grouped_ds(t, 'summary')
+            except Exception as e:
+                print(e)
         unpack_summaries([today_date])
     elif hook == 'options':
         sample_set = sys.argv[2]
         for t in config[sample_set]:
-            print('Retrieving {0} for {1}'.format(hook, t))
-            get_options(t)
+            try:
+                print('Retrieving {0} for {1}'.format(hook, t))
+                get_options(t)
+            except Exception as e: 
+                print(e)
         options = flatten_options([today_date])
         csv_store(options, get_path('option_consol'), csv_ext.format(today_date), True)
         #run_options_recommendation()
