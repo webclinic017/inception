@@ -137,7 +137,7 @@ def unpack_summaries(dates):
         fileList = list_files('summary', d)
         i = 0
         for f in fileList:
-            symbol = f.split('/')[2].split('.')[0]
+            symbol = f.split('/')[2].split('.json')[0]
             consol_summary = json_load(f)
 
             if consol_summary:
