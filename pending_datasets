@@ -1,0 +1,25 @@
+DONE
+  assetProfile
+  defaultKeyStatistics -> needs ML dataset transformation
+  financialData -> needs ML dataset transformation
+  earningsTrend
+  netSharePurchaseActivity
+  financials
+
+PENDING
+  majorHoldersBreakdown
+  recommendationTrend
+  earningsHistory: save as DF when loading parse into separate frames -> single row [surprisePercent, quarter, period]
+  indexTrend: single row [growth period], can compare directly with benchmark values
+
+  insiderHolders: does not change often
+
+DAILY OVERRIDES
+  institutionOwnership: override file daily, just for reference
+  fundOwnership: override file daily, just for reference
+  upgradeDowngradeHistory
+  majorDirectHolders
+
+NOT RELEVANT
+  earnings: absolute values, need transformation
+  calendarEvents
