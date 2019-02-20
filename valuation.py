@@ -132,7 +132,7 @@ def value_equity(symbol):
 
     key_stats_df = latest_keystats[latest_keystats.symbol == symbol]
     fin_stats_df = latest_finstats[latest_finstats.symbol == symbol]
-    quote_df = latest_quotes[latest_quotes.symbol == symbol]
+    quote_df = quotes[quotes.symbol == symbol]
 
     # PENDING: need to add symbol and storeDate so we can save as an aggregate dataset
     bs_sum = get_BS_metrics(symbol)
@@ -184,6 +184,26 @@ def value_equity(symbol):
 
     return waterfall, val_df
 
+def create_IV_ds():
+    eqty_symbols = quotes[quotes.quoteType == 'EQUITY'].symbol.unique().tolist()
+    # excl_list = ['TSM'] # one-time exclude because missing
+    # eqty_symbols = [x for x in eqty_symbols if x not in excl_list]
+    # full loop value each company
+    waterfalls = pd.DataFrame() # key assumptions
+    val_sheets = pd.DataFrame() # valuation datasets for each co
+    for symbol in eqty_symbols:
+        try:
+            print('Intrinsic value for {}'.format(symbol))
+            waterfall, val_df = value_equity(symbol)
+            val_sheets = val_sheets.append(val_df)
+            waterfalls = waterfalls.append(waterfall, ignore_index=True)
+        except Exception as e: print(e)
+    waterfalls.set_index('symbol', inplace=True)
+
+    # save the results to S3
+    csv_store(waterfalls, 'valuation/waterfall/', csv_ext.format(str(today_date)))
+    csv_store(val_sheets, 'valuation/backup/', csv_ext.format(str(today_date)))
+
 UNIT_SCALE = 10**9
 date_cols = ['endDate', 'storeDate']
 excl_cols = ['maxAge', 'symbol', 'period', 'storeDate']
@@ -198,19 +218,19 @@ growth_cols = [
 
 dates = read_dates('quote')
 tgt_date = [dates[-1]] # hardcoded for now
-latest_quotes = load_csvs('quote_consol', tgt_date)
-latest_quotes.set_index('symbol', drop=False, inplace=True)
+quotes = load_csvs('quote_consol', tgt_date)
+quotes.set_index('symbol', drop=False, inplace=True)
 profile = load_csvs('summary_detail', ['assetProfile'])
 latest_keystats = load_csvs('summary_detail', ['defaultKeyStatistics/' + str(tgt_date[0])])
 latest_finstats = load_csvs('summary_detail', ['financialData/' + str(tgt_date[0])])
 
-FXs = latest_quotes[(latest_quotes.quoteType == 'CURRENCY')]
+FXs = quotes[(quotes.quoteType == 'CURRENCY')]
 FXs.underlyingSymbol = [x.split('=X')[0].split('USD')[0] for x in FXs.symbol.unique().tolist()]
 get_FX = lambda FXs, curr: 1 / FXs[FXs.underlyingSymbol == curr].iloc[0].regularMarketPrice
 
 # key assumptions
 base_rate_symbol = "^TNX"
-base_rate = latest_quotes.loc[base_rate_symbol,:].regularMarketPrice / 100
+base_rate = quotes.loc[base_rate_symbol,:].regularMarketPrice / 100
 risk_premium = 500 / 10000 # pending set up externally
 proj_increase = 50 / 10000 # pending set up externally
 growth_cap_factor = 0.3 # pending set up externally
@@ -226,3 +246,5 @@ latest_finCF = load_csvs('summary_detail', ['financials-CF'])
 latest_finBS = convert_dates(latest_finBS, date_cols, 'endDate')
 latest_finIS = convert_dates(latest_finIS, date_cols, 'endDate')
 latest_finCF = convert_dates(latest_finCF, date_cols, 'endDate')
+
+create_IV_ds()
