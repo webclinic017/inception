@@ -247,4 +247,6 @@ latest_finBS = convert_dates(latest_finBS, date_cols, 'endDate')
 latest_finIS = convert_dates(latest_finIS, date_cols, 'endDate')
 latest_finCF = convert_dates(latest_finCF, date_cols, 'endDate')
 
+# WARNING: careful not to import this file
+# upon loading will run valuation for entire universe
 create_IV_ds()
