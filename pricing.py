@@ -6,6 +6,7 @@ import numpy as np
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
 shorten_name = lambda x: "".join([str.upper(z[:3]) for z in x])
 roll_vol = lambda df, rw: (df.rolling(rw).std() * pow(252, 1/2))
+fwd_ss_ret = lambda x, df, arr: df.loc[[y for y in arr[x-1] if y in df.index.tolist()]].mean()
 
 # helper methods
 def build_px_struct(data_dict, freq):
@@ -105,7 +106,7 @@ def get_left_right(alist, sl):
 
 # contextual variables, can be configured externally
 market_etf = 'SPY'
-freq, tail = '1d', 20 * 6
+freq = '1d'
 window, stds = 20, 1.75
 dates = read_dates('quote')
 tgt_date = [dates[-1]] # last date saved in S3
