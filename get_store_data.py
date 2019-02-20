@@ -1,6 +1,5 @@
 import sys
 from basic_utils import *
-from option_recommendations import *
 from unpack_summary import *
 
 if __name__ == '__main__':
@@ -19,17 +18,6 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
         unpack_summaries([today_date])
-    elif hook == 'options':
-        sample_set = sys.argv[2]
-        for t in config[sample_set]:
-            try:
-                print('Retrieving {0} for {1}'.format(hook, t))
-                get_options(t)
-            except Exception as e: 
-                print(e)
-        options = flatten_options([today_date])
-        csv_store(options, get_path('option_consol'), csv_ext.format(today_date), True)
-        #run_options_recommendation()
     elif hook == 'pricing':
         for t in UNIVERSE:
             try:
@@ -38,6 +26,16 @@ if __name__ == '__main__':
                 get_pricing(t, '1d', '10y')
             except Exception as e:
                 print(e)
+    elif hook == 'options':
+        sample_set = sys.argv[2]
+        for t in config[sample_set]:
+            try:
+                print('Retrieving {0} for {1}'.format(hook, t))
+                get_options(t)
+            except Exception as e:
+                print(e)
+        options = flatten_options([today_date])
+        csv_store(options, get_path('option_consol'), csv_ext.format(today_date), True)
     else:
         print('Please enter a valid option')
-        print('Valid options are: quotes, summary, and options')
+        print('Valid options are: quotes, summary, pricing, and options')
