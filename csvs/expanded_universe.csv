@@ -1,0 +1,1168 @@
+,,,"EQY_FUND_CRNCY=USD,SCALING_FORMAT=BLN",,"SCALING_FORMAT=BLN,EQY_FUND_CRNCY=USD","SCALING_FORMAT=BLN,EQY_FUND_CRNCY=USD",,,,,,,BEST_FPERIOD_OVERRIDE=1GY,,,
+,,,Trailing 12M Free Cash Flow,,Currency Adj Market Cap,Net Debt,Volatility 30 Day,,,GICS Sector Name,GICS Industry Name,GICS Industry Group Name,Total Analyst Recommendations,,,
+Symbol,BEST_CRNCY_ISO,NAME,TRAIL_12M_FREE_CASH_FLOW,NET_DEBT_TO_EBITDA,CRNCY_ADJ_MKT_CAP,NET_DEBT,VOLATILITY_30D,PEG1,PEG2,GICS_SECTOR_NAME,GICS_INDUSTRY_NAME,GICS_INDUSTRY_GROUP_NAME,TOT_ANALYST_REC,ASSET_TURNOVER,RETURN_COM_EQY,Filtered?
+PENN US Equity,USD,PENN NATIONAL GAMING INC,0.3,5.5,  3 ,  5 ,61.5,  0.18 ,  0.33 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,12.0,60%,  (123),  116 
+MAT US Equity,USD,MATTEL INC,-1.2,#N/A N/A,  5 ,  2 ,37.6,  (1.42),  0.03 ,Consumer Discretionary,Leisure Products,Consumer Durables & Apparel,17.0,79%,  (79),  134 
+PAM US Equity,ARS,PAMPA ENERGIA SA-SPON ADR,-0.1,#N/A N/A,  3 ,  1 ,56.2,  0.00 ,  0.00 ,Utilities,Electric Utilities,Utilities,12.0,68%,  (70),  299 
+GE US Equity,USD,GENERAL ELECTRIC CO,-0.8,#N/A N/A,  71 ,  63 ,54.1,  0.48 ,  0.62 ,Industrials,Industrial Conglomerates,Capital Goods,24.0,35%,  (62),  746 
+NWL US Equity,USD,NEWELL BRANDS INC,0.8,#N/A N/A,  10 ,  10 ,62.0,  (1.12),  0.88 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,13.0,40%,  (58),  119 
+GWPH US Equity,GBP,GW PHARMACEUTICALS -ADR,-0.2,#N/A N/A,  4 ,  (0),49.1,#VALUE!,  (0.49),Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",11.0,3%,  (51),  804 
+ADNT US Equity,USD,ADIENT PLC,0.1,#N/A N/A,  2 ,  3 ,111.0,  0.09 ,  0.02 ,Consumer Discretionary,Auto Components,Automobiles & Components,14.0,145%,  (51),  122 
+TEVA US Equity,USD,TEVA PHARMACEUTICAL-SP ADR,-0.8,#N/A N/A,  24 ,  32 ,57.8,  (3.56),  1.62 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",25.0,26%,  (48),  878 
+BCO US Equity,USD,BRINK'S CO/THE,0.1,2.7,  3 ,  1 ,33.5,  0.51 ,  0.48 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,6.0,118%,  (35),  629 
+BILI US Equity,CNY,BILIBILI INC-SPONSORED ADR,0.0,-15.6,  4 ,  (0),72.9,  (2.55),  0.06 ,Communication Services,Entertainment,Media & Entertainment,7.0,88%,  (35),  22 
+BRFS US Equity,BRL,BRF SA-ADR,0.1,12.0,  4 ,  4 ,45.9,  (1.05),  0.06 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",8.0,73%,  (32),  221 
+QCOM US Equity,USD,QUALCOMM INC,3.1,1.8,  67 ,  4 ,40.2,  0.68 ,  0.38 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,30.0,46%,  (31),  583 
+HES US Equity,USD,HESS CORP,-0.6,369.0,  17 ,  2 ,40.9,  (0.01),  0.36 ,Energy,"Oil, Gas & Consumable Fuels",Energy,24.0,26%,  (28),"  1,077 "
+XRAY US Equity,USD,DENTSPLY SIRONA INC,0.4,#N/A N/A,  8 ,  1 ,26.3,  1.35 ,  1.11 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,15.0,40%,  (26),  821 
+FE US Equity,USD,FIRSTENERGY CORP,-1.1,11.7,  20 ,  22 ,19.4,  8.47 ,  (129.55),Utilities,Electric Utilities,Utilities,19.0,29%,  (25),  317 
+NCR US Equity,USD,NCR CORPORATION,0.5,4.3,  3 ,  2 ,58.6,  0.73 ,  0.55 ,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,7.0,83%,  (22),  489 
+PLT US Equity,USD,PLANTRONICS INC,0.1,13.8,  2 ,  (0),48.7,  0.18 ,#VALUE!,Information Technology,Communications Equipment,Technology Hardware & Equipmen,3.0,52%,  (19),  463 
+BGNE US Equity,USD,BEIGENE LTD-ADR,0.0,#N/A N/A,  8 ,  (1),75.0,#VALUE!,#VALUE!,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",10.0,35%,  (19),  792 
+ERIC US Equity,SEK,ERICSSON (LM) TEL-SP ADR,1.4,#N/A N/A,  28 ,  (4),36.1,  0.20 ,  0.43 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,11.0,77%,  (18),  510 
+WHR US Equity,USD,WHIRLPOOL CORP,0.0,6.9,  7 ,  4 ,47.1,  0.85 ,  0.45 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,10.0,106%,  (17),  102 
+ITRI US Equity,USD,ITRON INC,0.1,11.7,  2 ,  0 ,47.1,  0.27 ,  0.42 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,9.0,106%,  (17),  499 
+RIG US Equity,USD,TRANSOCEAN LTD,0.3,#N/A N/A,  4 ,  4 ,56.0,#VALUE!,#VALUE!,Energy,Energy Equipment & Services,Energy,29.0,13%,  (15),"  1,090 "
+THS US Equity,USD,TREEHOUSE FOODS INC,0.3,#N/A N/A,  3 ,  2 ,35.5,  1.04 ,  0.94 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",15.0,98%,  (15),  236 
+NWS US Equity,USD,NEWS CORP - CLASS B,0.4,0.0,  8 ,  (0),28.7,  1.59 ,  1.55 ,Communication Services,Media,Media & Entertainment,2.0,61%,  (15),  7 
+NWSA US Equity,USD,NEWS CORP - CLASS A,0.4,0.0,  8 ,  (0),31.9,  1.56 ,  1.52 ,Communication Services,Media,Media & Entertainment,9.0,61%,  (15),  26 
+CVLT US Equity,USD,COMMVAULT SYSTEMS INC,0.1,-33.3,  3 ,  (0),41.2,  0.72 ,  0.59 ,Information Technology,Software,Software & Services,12.0,84%,  (15),  527 
+GFI US Equity,USD,GOLD FIELDS LTD-SPONS ADR,0.0,1.0,  2 ,  1 ,49.5,  0.06 ,  0.22 ,Materials,Metals & Mining,Materials,4.0,44%,  (15),  401 
+HIG US Equity,USD,HARTFORD FINANCIAL SVCS GRP,2.3,#N/A N/A,  16 ,  5 ,25.5,  1.62 ,  1.04 ,Financials,Insurance,Insurance,19.0,13%,  (14),"  1,010 "
+DISCK US Equity,USD,DISCOVERY INC-C,2.0,11.5,  21 ,  8 ,41.4,  0.18 ,  0.65 ,Communication Services,Media,Media & Entertainment,3.0,34%,  (13),  11 
+DISCA US Equity,USD,DISCOVERY INC - A,2.0,11.5,  21 ,  8 ,42.8,  0.20 ,  0.72 ,Communication Services,Media,Media & Entertainment,29.0,34%,  (13),  61 
+CREE US Equity,USD,CREE INC,0.0,#N/A N/A,  5 ,  (0),62.1,  0.50 ,  0.56 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,13.0,55%,  (12),  534 
+SIG US Equity,USD,SIGNET JEWELERS LTD,1.8,#N/A N/A,  3 ,  1 ,46.6,  24.33 ,  25.45 ,Consumer Discretionary,Specialty Retail,Retailing,12.0,115%,  (12),  117 
+VOD US Equity,EUR,VODAFONE GROUP PLC-SP ADR,8.8,2.8,  53 ,  33 ,38.8,  0.91 ,  0.74 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,5.0,32%,  (10),  16 
+CNO US Equity,USD,CNO FINANCIAL GROUP INC,0.3,#N/A N/A,  3 ,  3 ,31.5,  0.97 ,  0.70 ,Financials,Insurance,Insurance,7.0,14%,  (10),  925 
+GDS US Equity,CNY,GDS HOLDINGS LTD - ADR,-0.4,11.6,  4 ,  1 ,92.3,#VALUE!,  (0.49),Information Technology,IT Services,Software & Services,11.0,14%,  (9),  518 
+TDC US Equity,USD,TERADATA CORP,0.2,-1.3,  4 ,  (0),33.1,  0.89 ,  0.98 ,Information Technology,IT Services,Software & Services,20.0,99%,  (9),  553 
+AIG US Equity,USD,AMERICAN INTERNATIONAL GROUP,-0.4,#N/A N/A,  38 ,  29 ,36.1,  0.09 ,  0.62 ,Financials,Insurance,Insurance,19.0,9%,  (9),"  1,013 "
+EBAY US Equity,USD,EBAY INC,1.7,1.5,  27 ,  (1),43.8,  0.95 ,  0.65 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,38.0,42%,  (9),  206 
+AHL US Equity,USD,ASPEN INSURANCE HOLDINGS LTD,#N/A N/A,#N/A N/A,  2 ,  (0),5.5,  1.15 ,  2.22 ,Financials,Insurance,Insurance,4.0,18%,  (9),  892 
+CBT US Equity,USD,CABOT CORP,0.1,2.8,  3 ,  1 ,47.9,  0.75 ,  1.41 ,Materials,Chemicals,Materials,9.0,99%,  (9),  413 
+AES US Equity,USD,AES CORP,0.3,5.2,  10 ,  18 ,30.6,  1.42 ,  1.35 ,Utilities,Independent Power and Renewabl,Utilities,11.0,30%,  (8),  297 
+ESV US Equity,USD,ENSCO PLC-CL A,-0.5,45.2,  3 ,  4 ,66.4,#VALUE!,#VALUE!,Energy,Energy Equipment & Services,Energy,25.0,13%,  (8),"  1,078 "
+VIAV US Equity,USD,VIAVI SOLUTIONS INC,0.0,0.6,  2 ,  0 ,51.0,  1.00 ,  2.31 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,11.0,50%,  (8),  511 
+UFS US Equity,USD,DOMTAR CORP,0.3,15.1,  3 ,  1 ,34.6,  0.80 ,  (1.70),Materials,Paper & Forest Products,Materials,14.0,99%,  (7),  433 
+UA US Equity,USD,UNDER ARMOUR INC-CLASS C,0.2,4.9,  10 ,  1 ,77.2,  1.73 ,  3.66 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,3.0,124%,  (7),  78 
+UAA US Equity,USD,UNDER ARMOUR INC-CLASS A,0.2,4.9,  10 ,  1 ,84.1,  1.27 ,  1.00 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,35.0,124%,  (7),  202 
+WPX US Equity,USD,WPX ENERGY INC,-0.4,3.3,  6 ,  2 ,47.0,  0.04 ,  0.14 ,Energy,"Oil, Gas & Consumable Fuels",Energy,30.0,21%,  (6),"  1,094 "
+FSLR US Equity,USD,FIRST SOLAR INC,-0.5,-23.8,  5 ,  (3),56.3,  0.13 ,  1.65 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,18.0,27%,  (6),  552 
+INCY US Equity,USD,INCYTE CORP,0.1,#N/A N/A,  14 ,  (1),49.2,  0.42 ,  0.34 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",22.0,73%,  (6),  863 
+NOK US Equity,EUR,NOKIA CORP-SPON ADR,0.4,-1.7,  32 ,  (6),31.1,  0.42 ,  0.51 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,13.0,56%,  (6),  529 
+RGLD US Equity,USD,ROYAL GOLD INC,0.3,3.1,  5 ,  0 ,30.0,  1.03 ,  5.53 ,Materials,Metals & Mining,Materials,14.0,16%,  (6),  432 
+ARNC US Equity,USD,ARCONIC INC,-0.3,4.4,  10 ,  5 ,44.1,  0.63 ,  0.53 ,Industrials,Aerospace & Defense,Capital Goods,12.0,74%,  (6),  665 
+LYV US Equity,USD,LIVE NATION ENTERTAINMENT IN,0.2,1.6,  11 ,  0 ,37.7,  0.18 ,  2.45 ,Communication Services,Entertainment,Media & Entertainment,13.0,132%,  (6),  35 
+VSAT US Equity,USD,VIASAT INC,-0.4,7.5,  4 ,  1 ,41.8,  (0.32),  0.61 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,10.0,51%,  (6),  502 
+GLW US Equity,USD,CORNING INC,0.7,1.2,  26 ,  1 ,40.5,  0.87 ,  1.70 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,15.0,40%,  (6),  541 
+STRA US Equity,USD,STRATEGIC EDUCATION INC,0.0,-75.0,  3 ,  (0),52.9,  0.69 ,  1.06 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,4.0,52%,  (5),  81 
+FNSR US Equity,USD,FINISAR CORPORATION,-0.1,-6.0,  3 ,  (0),64.9,  0.21 ,  1.20 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,14.0,50%,  (5),  537 
+TRVG US Equity,EUR,TRIVAGO NV - ADR,-0.1,#N/A N/A,  2 ,  (0),77.1,  (1.11),  0.44 ,Communication Services,Interactive Media & Services,Media & Entertainment,14.0,86%,  (5),  39 
+LIVN US Equity,USD,LIVANOVA PLC,0.1,0.6,  6 ,  0 ,39.1,  4.37 ,  2.56 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,8.0,42%,  (5),  785 
+HOLX US Equity,USD,HOLOGIC INC,-0.2,10.9,  11 ,  3 ,30.4,  1.88 ,  1.70 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,21.0,42%,  (4),  857 
+PDCE US Equity,USD,PDC ENERGY INC,-0.3,3.9,  3 ,  1 ,62.0,  0.04 ,  0.11 ,Energy,"Oil, Gas & Consumable Fuels",Energy,22.0,27%,  (4),"  1,073 "
+OAS US Equity,USD,OASIS PETROLEUM INC,-0.1,4.5,  3 ,  2 ,59.1,  0.07 ,  0.27 ,Energy,"Oil, Gas & Consumable Fuels",Energy,28.0,25%,  (4),"  1,089 "
+EQT US Equity,USD,EQT CORP,-0.8,22.1,  4 ,  7 ,71.7,  (0.81),  (0.43),Energy,"Oil, Gas & Consumable Fuels",Energy,19.0,20%,  (4),"  1,065 "
+SCG US Equity,USD,SCANA CORP,0.2,18.8,  6 ,  7 ,50.8,  (1.93),  0.87 ,Utilities,Multi-Utilities,Utilities,10.0,21%,  (4),  292 
+ERJ US Equity,BRL,EMBRAER SA-SPON ADR,1.3,2.5,  4 ,  0 ,42.3,  0.06 ,  0.49 ,Industrials,Aerospace & Defense,Capital Goods,14.0,42%,  (3),  688 
+C US Equity,USD,CITIGROUP INC,19.6,2.8,  158 ,  146 ,27.4,  0.58 ,  0.50 ,Financials,Banks,Banks,30.0,5%,  (3),"  1,040 "
+SRE US Equity,USD,SEMPRA ENERGY,-0.3,10.0,  30 ,  19 ,22.1,  1.63 ,  0.80 ,Utilities,Multi-Utilities,Utilities,14.0,21%,  (3),  301 
+FLS US Equity,USD,FLOWSERVE CORP,0.2,2.8,  6 ,  1 ,46.5,  0.90 ,  1.24 ,Industrials,Machinery,Capital Goods,18.0,82%,  (3),  718 
+HAIN US Equity,USD,HAIN CELESTIAL GROUP INC,0.0,5.8,  2 ,  1 ,52.1,  1.22 ,  0.78 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",21.0,87%,  (3),  250 
+AVT US Equity,USD,AVNET INC,0.1,2.3,  5 ,  1 ,37.6,  1.14 ,  1.03 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,10.0,202%,  (3),  504 
+LHO US Equity,USD,LASALLE HOTEL PROPERTIES,0.1,2.7,  4 ,  1 ,16.6,  (0.01),#VALUE!,Real Estate,Equity Real Estate Investment,Real Estate,13.0,29%,  (3),  351 
+BHF US Equity,USD,BRIGHTHOUSE FINANCIAL INC,3.4,#N/A N/A,  5 ,  6 ,37.8,  0.37 ,  0.45 ,Financials,Insurance,Insurance,16.0,3%,  (3),  997 
+VG US Equity,USD,VONAGE HOLDINGS CORP,0.1,1.3,  3 ,  0 ,54.3,  (1.81),  2.30 ,Communication Services,Diversified Telecommunication,Telecommunication Services,10.0,112%,  (2),  29 
+NI US Equity,USD,NISOURCE INC,-0.6,8.3,  9 ,  9 ,20.5,  3.48 ,  2.70 ,Utilities,Multi-Utilities,Utilities,16.0,25%,  (2),  306 
+SJI US Equity,USD,SOUTH JERSEY INDUSTRIES,-0.1,24.5,  3 ,  1 ,40.4,  7.57 ,  1.52 ,Utilities,Gas Utilities,Utilities,7.0,29%,  (2),  285 
+COTY US Equity,USD,COTY INC-CL A,-0.1,8.7,  7 ,  7 ,88.2,  0.58 ,  1.92 ,Consumer Staples,Personal Products,Household & Personal Products,17.0,40%,  (2),  238 
+NEM US Equity,USD,NEWMONT MINING CORP,0.8,0.5,  18 ,  1 ,37.9,  1.98 ,  1.38 ,Materials,Metals & Mining,Materials,21.0,34%,  (2),  453 
+SLB US Equity,USD,SCHLUMBERGER LTD,3.5,3.9,  67 ,  13 ,27.4,  0.70 ,  0.30 ,Energy,Energy Equipment & Services,Energy,35.0,46%,  (2),"  1,102 "
+SYNH US Equity,USD,SYNEOS HEALTH INC,0.2,7.2,  5 ,  3 ,39.0,  1.00 ,  1.14 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",15.0,60%,  (1),  824 
+JD US Equity,CNY,JD.COM INC-ADR,-0.2,-12.2,  35 ,  (2),59.7,  0.46 ,  0.31 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,38.0,209%,  (1),  205 
+QRVO US Equity,USD,QORVO INC,0.6,0.2,  8 ,  0 ,55.1,  0.69 ,  1.75 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,26.0,50%,  (1),  571 
+MOS US Equity,USD,MOSAIC CO/THE,0.8,2.2,  14 ,  3 ,44.7,  0.53 ,  1.26 ,Materials,Chemicals,Materials,19.0,48%,  (1),  448 
+NOV US Equity,USD,NATIONAL OILWELL VARCO INC,0.2,2.0,  13 ,  1 ,38.5,  (0.01),  0.18 ,Energy,Energy Equipment & Services,Energy,31.0,39%,  (0),"  1,096 "
+KMI US Equity,USD,KINDER MORGAN INC,1.5,5.8,  38 ,  37 ,26.8,  0.66 ,  1.87 ,Energy,"Oil, Gas & Consumable Fuels",Energy,23.0,18%,  (0),"  1,075 "
+BHGE US Equity,USD,BAKER HUGHES A GE CO,-0.4,1.4,  26 ,  1 ,39.6,  0.15 ,  0.20 ,Energy,Energy Equipment & Services,Energy,28.0,41%,  0 ,"  1,086 "
+DSW US Equity,USD,DSW INC-CLASS A,0.2,-1.6,  2 ,  (0),57.3,  1.75 ,  6.38 ,Consumer Discretionary,Specialty Retail,Retailing,11.0,203%,  0 ,  114 
+HBI US Equity,USD,HANESBRANDS INC,0.4,4.6,  6 ,  4 ,38.5,  1.62 ,  8.62 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,17.0,91%,  0 ,  138 
+TTM US Equity,INR,TATA MOTORS LTD-SPON ADR,#N/A N/A,1.9,  8 ,  6 ,54.5,  0.06 ,  0.17 ,Consumer Discretionary,Automobiles,Automobiles & Components,3.0,97%,  0 ,  76 
+MUR US Equity,USD,MURPHY OIL CORP,0.1,1.3,  6 ,  2 ,51.4,  0.05 ,  (0.46),Energy,"Oil, Gas & Consumable Fuels",Energy,15.0,24%,  0 ,"  1,056 "
+XRX US Equity,USD,XEROX CORP,0.6,2.9,  6 ,  4 ,29.3,  1.45 ,  (2.85),Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,6.0,62%,  0 ,  483 
+MCHP US Equity,USD,MICROCHIP TECHNOLOGY INC,1.2,7.3,  18 ,  1 ,48.5,  1.06 ,  0.67 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,21.0,35%,  1 ,  558 
+AU US Equity,USD,ANGLOGOLD ASHANTI-SPON ADR,0.3,1.8,  4 ,  2 ,48.2,  0.16 ,  0.44 ,Materials,Metals & Mining,Materials,5.0,63%,  1 ,  405 
+PCG US Equity,USD,P G & E CORP,-0.9,5.8,  9 ,  19 ,147.5,  0.78 ,  0.78 ,Utilities,Electric Utilities,Utilities,18.0,23%,  1 ,  313 
+ATGE US Equity,USD,ADTALEM GLOBAL EDUCATION INC,0.2,-0.6,  3 ,  (0),35.4,  1.23 ,  0.94 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,6.0,54%,  1 ,  84 
+NTCT US Equity,USD,NETSCOUT SYSTEMS INC,0.2,1.8,  2 ,  0 ,52.8,  0.60 ,  0.63 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,5.0,28%,  1 ,  474 
+HR US Equity,USD,HEALTHCARE REALTY TRUST INC,-0.1,5.5,  4 ,  1 ,27.9,  (2.65),  13.31 ,Real Estate,Equity Real Estate Investment,Real Estate,14.0,14%,  1 ,  357 
+MCK US Equity,USD,MCKESSON CORP,2.8,4.3,  25 ,  5 ,35.0,  1.87 ,  0.90 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,19.0,337%,  1 ,  848 
+FTI US Equity,USD,TECHNIPFMC PLC,-0.8,-0.9,  11 ,  (3),27.8,  1.53 ,  0.51 ,Energy,Energy Equipment & Services,Energy,36.0,46%,  1 ,"  1,103 "
+NSA US Equity,USD,NATIONAL STORAGE AFFILIATES,-0.5,6.7,  2 ,  1 ,24.9,  0.74 ,  8.84 ,Real Estate,Equity Real Estate Investment,Real Estate,9.0,13%,  1 ,  336 
+NYT US Equity,USD,NEW YORK TIMES CO-A,0.0,-2.8,  4 ,  (0),44.1,  1.06 ,  0.71 ,Communication Services,Media,Media & Entertainment,6.0,79%,  1 ,  20 
+TRIP US Equity,USD,TRIPADVISOR INC,0.3,-2.3,  9 ,  (0),66.5,  3.49 ,  1.66 ,Communication Services,Interactive Media & Services,Media & Entertainment,27.0,70%,  2 ,  57 
+ACIW US Equity,USD,ACI WORLDWIDE INC,0.1,2.8,  3 ,  1 ,47.6,  2.94 ,  1.03 ,Information Technology,Software,Software & Services,4.0,53%,  2 ,  473 
+LPNT US Equity,USD,LIFEPOINT HEALTH INC,0.1,4.2,  3 ,  3 ,2.1,  8.53 ,  3.50 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,17.0,98%,  2 ,  835 
+ALXN US Equity,USD,ALEXION PHARMACEUTICALS INC,0.3,2.0,  27 ,  2 ,55.4,  0.89 ,  0.69 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",19.0,28%,  2 ,  846 
+SNPS US Equity,USD,SYNOPSYS INC,0.4,-0.2,  14 ,  (1),35.8,  2.65 ,  1.68 ,Information Technology,Software,Software & Services,8.0,53%,  2 ,  495 
+HAL US Equity,USD,HALLIBURTON CO,1.4,2.2,  28 ,  9 ,32.7,  0.98 ,  0.20 ,Energy,Energy Equipment & Services,Energy,34.0,93%,  2 ,"  1,101 "
+GM US Equity,USD,GENERAL MOTORS CO,7.5,-0.2,  50 ,  (6),41.7,  (1.09),  (2.71),Consumer Discretionary,Automobiles,Automobiles & Components,24.0,63%,  2 ,  163 
+CHU US Equity,CNY,CHINA UNICOM HONG KONG-ADR,5.4,0.1,  35 ,  5 ,27.8,  1.18 ,  0.12 ,Communication Services,Diversified Telecommunication,Telecommunication Services,4.0,50%,  2 ,  14 
+PTEN US Equity,USD,PATTERSON-UTI ENERGY INC,-0.1,1.2,  3 ,  1 ,59.4,#VALUE!,  (0.04),Energy,Energy Equipment & Services,Energy,28.0,59%,  2 ,"  1,087 "
+GGB US Equity,BRL,GERDAU SA -SPON ADR,0.4,3.6,  7 ,  4 ,55.2,  0.80 ,  3.40 ,Materials,Metals & Mining,Materials,4.0,83%,  2 ,  399 
+PRGO US Equity,USD,PERRIGO CO PLC,0.5,3.9,  9 ,  3 ,62.3,  4.28 ,  2.06 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",15.0,42%,  2 ,  825 
+DWDP US Equity,USD,DOWDUPONT INC,#N/A N/A,3.9,  135 ,  20 ,37.3,  0.89 ,  0.67 ,Materials,Chemicals,Materials,29.0,45%,  2 ,  461 
+JNJ US Equity,USD,JOHNSON & JOHNSON,18.5,0.7,  388 ,  16 ,16.8,  2.97 ,  2.70 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",22.0,52%,  2 ,  868 
+CSCO US Equity,USD,CISCO SYSTEMS INC,13.5,-1.1,  212 ,  (21),38.1,  1.66 ,  2.35 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,33.0,43%,  2 ,  589 
+BVN US Equity,USD,CIA DE MINAS BUENAVENTUR-ADR,0.2,1.4,  4 ,  1 ,30.3,  0.33 ,  0.93 ,Materials,Metals & Mining,Materials,13.0,30%,  2 ,  426 
+MAC US Equity,USD,MACERICH CO/THE,0.1,8.8,  7 ,  5 ,29.6,  1.27 ,  4.87 ,Real Estate,Equity Real Estate Investment,Real Estate,19.0,10%,  2 ,  371 
+WAT US Equity,USD,WATERS CORP,0.5,-1.1,  15 ,  (1),30.4,  1.56 ,  1.44 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",16.0,52%,  2 ,  830 
+IDTI US Equity,USD,INTEGRATED DEVICE TECH INC,0.2,0.5,  6 ,  0 ,7.5,  1.41 ,  0.84 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,10.0,66%,  3 ,  507 
+ARRS US Equity,USD,ARRIS INTERNATIONAL PLC,0.3,2.7,  5 ,  2 ,54.4,  1.66 ,  1.07 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,10.0,90%,  3 ,  501 
+TFX US Equity,USD,TELEFLEX INC,0.3,3.6,  12 ,  2 ,35.7,  1.79 ,  1.34 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,13.0,40%,  3 ,  813 
+ABT US Equity,USD,ABBOTT LABORATORIES,4.9,2.4,  124 ,  18 ,26.1,  2.00 ,  1.56 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,23.0,42%,  3 ,  870 
+HAE US Equity,USD,HAEMONETICS CORP/MASS,0.1,1.0,  6 ,  0 ,38.5,  1.12 ,  1.06 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,9.0,74%,  3 ,  791 
+MMSI US Equity,USD,MERIT MEDICAL SYSTEMS INC,0.0,3.8,  3 ,  0 ,32.1,  1.72 ,  1.50 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,10.0,68%,  3 ,  796 
+AKR US Equity,USD,ACADIA REALTY TRUST,#N/A N/A,11.9,  2 ,  1 ,24.9,  2.52 ,#VALUE!,Real Estate,Equity Real Estate Investment,Real Estate,5.0,6%,  3 ,  327 
+ESL US Equity,USD,ESTERLINE TECHNOLOGIES CORP,0.1,1.4,  3 ,  0 ,78.6,  1.21 ,  (3.98),Industrials,Aerospace & Defense,Capital Goods,8.0,67%,  3 ,  642 
+DLR US Equity,USD,DIGITAL REALTY TRUST INC,-0.6,7.0,  24 ,  9 ,36.2,  8.36 ,  2.88 ,Real Estate,Equity Real Estate Investment,Real Estate,23.0,14%,  3 ,  387 
+ACC US Equity,USD,AMERICAN CAMPUS COMMUNITIES,-0.3,6.9,  6 ,  3 ,21.8,  (6.42),  (19.20),Real Estate,Equity Real Estate Investment,Real Estate,11.0,13%,  3 ,  340 
+NUVA US Equity,USD,NUVASIVE INC,0.1,2.8,  3 ,  1 ,51.6,  1.60 ,  1.57 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,17.0,66%,  3 ,  833 
+HCP US Equity,USD,HCP INC,#N/A N/A,7.3,  13 ,  8 ,24.4,  (1.16),  7.22 ,Real Estate,Equity Real Estate Investment,Real Estate,21.0,14%,  3 ,  378 
+CUZ US Equity,USD,COUSINS PROPERTIES INC,0.0,3.6,  4 ,  1 ,22.5,  (3.40),  (3.22),Real Estate,Equity Real Estate Investment,Real Estate,6.0,11%,  3 ,  330 
+LLY US Equity,USD,ELI LILLY & CO,4.6,0.4,  119 ,  (0),32.8,  4.95 ,  1.43 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",21.0,55%,  3 ,  860 
+AGN US Equity,USD,ALLERGAN PLC,5.9,3.6,  54 ,  24 ,38.0,  (13.84),  0.90 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",25.0,14%,  3 ,  877 
+CTRP US Equity,CNY,CTRIP.COM INTERNATIONAL-ADR,#N/A N/A,#N/A N/A,  14 ,  (0),88.9,  2.88 ,  0.38 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,33.0,17%,  3 ,  196 
+ASH US Equity,USD,ASHLAND GLOBAL HOLDINGS INC,0.1,4.1,  5 ,  2 ,34.8,  0.83 ,  1.40 ,Materials,Chemicals,Materials,11.0,44%,  3 ,  415 
+ACM US Equity,USD,AECOM,0.8,3.1,  5 ,  3 ,38.4,  0.88 ,  1.93 ,Industrials,Construction & Engineering,Capital Goods,13.0,139%,  3 ,  681 
+KRC US Equity,USD,KILROY REALTY CORP,-0.6,6.2,  7 ,  2 ,25.4,  3.08 ,  2.18 ,Real Estate,Equity Real Estate Investment,Real Estate,17.0,10%,  3 ,  364 
+CY US Equity,USD,CYPRESS SEMICONDUCTOR CORP,0.4,1.4,  5 ,  1 ,49.2,  (1.12),  0.72 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,17.0,68%,  3 ,  549 
+ROIC US Equity,USD,RETAIL OPPORTUNITY INVESTMEN,0.1,7.2,  2 ,  1 ,26.4,  (18.16),  4.14 ,Real Estate,Equity Real Estate Investment,Real Estate,13.0,10%,  4 ,  354 
+EIX US Equity,USD,EDISON INTERNATIONAL,-1.1,4.1,  15 ,  13 ,68.8,  1.12 ,  1.21 ,Utilities,Electric Utilities,Utilities,19.0,24%,  4 ,  318 
+REG US Equity,USD,REGENCY CENTERS CORP,0.1,5.2,  11 ,  4 ,20.3,  0.70 ,  (2.10),Real Estate,Equity Real Estate Investment,Real Estate,18.0,10%,  4 ,  367 
+RGEN US Equity,USD,REPLIGEN CORP,0.0,-5.1,  3 ,  (0),59.5,  4.07 ,  4.57 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",10.0,25%,  4 ,  793 
+WELL US Equity,USD,WELLTOWER INC,-2.3,7.6,  26 ,  11 ,32.6,  (1.45),  7.38 ,Real Estate,Equity Real Estate Investment,Real Estate,23.0,16%,  4 ,  386 
+JBL US Equity,USD,JABIL INC,-0.1,1.0,  4 ,  1 ,34.9,  0.60 ,  1.32 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,11.0,191%,  4 ,  513 
+MRCY US Equity,USD,MERCURY SYSTEMS INC,0.0,1.8,  2 ,  0 ,46.7,  1.67 ,  1.55 ,Industrials,Aerospace & Defense,Capital Goods,9.0,54%,  4 ,  650 
+COO US Equity,USD,COOPER COS INC/THE,0.4,3.3,  13 ,  1 ,27.6,  4.25 ,  1.52 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,16.0,44%,  4 ,  827 
+EPAY US Equity,USD,BOTTOMLINE TECHNOLOGIES (DE),0.1,0.4,  2 ,  0 ,75.8,  1.98 ,  1.18 ,Information Technology,Software,Software & Services,10.0,66%,  4 ,  509 
+CCI US Equity,USD,CROWN CASTLE INTL CORP,0.8,5.7,  46 ,  16 ,22.9,  5.56 ,  2.50 ,Real Estate,Equity Real Estate Investment,Real Estate,20.0,16%,  4 ,  373 
+RRC US Equity,USD,RANGE RESOURCES CORP,-0.2,5.1,  4 ,  4 ,50.2,  0.82 ,  0.15 ,Energy,"Oil, Gas & Consumable Fuels",Energy,30.0,25%,  4 ,"  1,095 "
+PNM US Equity,USD,PNM RESOURCES INC,-0.1,5.1,  3 ,  3 ,22.7,  2.27 ,  7.05 ,Utilities,Electric Utilities,Utilities,11.0,21%,  4 ,  296 
+BDX US Equity,USD,BECTON DICKINSON AND CO,1.8,6.8,  64 ,  5 ,26.4,  1.43 ,  1.55 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,21.0,32%,  4 ,  856 
+VSH US Equity,USD,VISHAY INTERTECHNOLOGY INC,0.0,-0.8,  3 ,  (1),47.0,  1.22 ,#VALUE!,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,6.0,88%,  4 ,  478 
+MYL US Equity,USD,MYLAN NV,1.9,4.5,  18 ,  14 ,58.3,  0.66 ,  0.84 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",18.0,33%,  4 ,  844 
+WDC US Equity,USD,WESTERN DIGITAL CORP,2.8,1.2,  14 ,  6 ,78.6,  0.38 ,  0.23 ,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,30.0,69%,  4 ,  586 
+VAC US Equity,USD,MARRIOTT VACATIONS WORLD,-1.3,13.7,  4 ,  (0),53.5,  0.27 ,  0.28 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,9.0,40%,  4 ,  95 
+KT US Equity,KRW,KT CORP-SP ADR,1.6,0.5,  8 ,  4 ,24.6,  0.35 ,  0.11 ,Communication Services,Diversified Telecommunication,Telecommunication Services,3.0,76%,  4 ,  12 
+OFC US Equity,USD,CORPORATE OFFICE PROPERTIES,-0.1,6.6,  3 ,  2 ,27.9,  2.71 ,  3.11 ,Real Estate,Equity Real Estate Investment,Real Estate,14.0,17%,  4 ,  358 
+O US Equity,USD,REALTY INCOME CORP,-1.0,6.0,  18 ,  6 ,21.7,  6.58 ,  15.22 ,Real Estate,Equity Real Estate Investment,Real Estate,20.0,9%,  5 ,  375 
+MAA US Equity,USD,MID-AMERICA APARTMENT COMM,0.4,5.1,  11 ,  4 ,23.0,  2.56 ,  2.67 ,Real Estate,Equity Real Estate Investment,Real Estate,18.0,14%,  5 ,  366 
+JNPR US Equity,USD,JUNIPER NETWORKS INC,0.7,-1.6,  10 ,  (1),33.4,  1.48 ,  1.52 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,27.0,50%,  5 ,  573 
+LOGM US Equity,USD,LOGMEIN INC,0.3,0.1,  4 ,  (0),48.7,  1.73 ,  1.66 ,Information Technology,Software,Software & Services,11.0,30%,  5 ,  524 
+EQIX US Equity,USD,EQUINIX INC,-0.3,4.9,  31 ,  9 ,29.3,  2.05 ,  8.43 ,Real Estate,Equity Real Estate Investment,Real Estate,27.0,26%,  5 ,  393 
+DRH US Equity,USD,DIAMONDROCK HOSPITALITY CO,0.0,3.3,  2 ,  1 ,26.3,  5.01 ,  (0.98),Real Estate,Equity Real Estate Investment,Real Estate,14.0,27%,  5 ,  359 
+DEI US Equity,USD,DOUGLAS EMMETT INC,0.2,7.1,  6 ,  4 ,20.4,  4.91 ,  4.13 ,Real Estate,Equity Real Estate Investment,Real Estate,19.0,11%,  5 ,  372 
+PKI US Equity,USD,PERKINELMER INC,0.2,3.6,  9 ,  2 ,40.0,  1.66 ,  1.51 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",16.0,50%,  5 ,  831 
+UMC US Equity,TWD,UNITED MICROELECTRON-SP ADR,0.9,0.1,  4 ,  1 ,47.9,  3.48 ,  0.61 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,3.0,40%,  5 ,  466 
+ETR US Equity,USD,ENTERGY CORP,-1.4,5.9,  16 ,  16 ,18.7,  (1.08),  (3.20),Utilities,Electric Utilities,Utilities,18.0,23%,  5 ,  312 
+CTLT US Equity,USD,CATALENT INC,0.2,4.3,  6 ,  2 ,54.5,  1.75 ,  1.25 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",14.0,60%,  5 ,  820 
+SLG US Equity,USD,SL GREEN REALTY CORP,#N/A N/A,7.6,  8 ,  6 ,19.2,  (1.11),  8.31 ,Real Estate,Equity Real Estate Investment,Real Estate,21.0,9%,  5 ,  380 
+CX US Equity,MXN,CEMEX SAB-SPONS ADR PART CER,1.0,4.4,  8 ,  11 ,51.2,  0.66 ,  0.32 ,Materials,Construction Materials,Materials,20.0,51%,  5 ,  451 
+PRA US Equity,USD,PROASSURANCE CORP,0.2,#N/A N/A,  2 ,  0 ,27.5,  (3.51),  15.96 ,Financials,Insurance,Insurance,7.0,19%,  5 ,  920 
+TECD US Equity,USD,TECH DATA CORP,0.5,1.3,  3 ,  1 ,32.7,  0.98 ,  (53.99),Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,8.0,325%,  5 ,  492 
+B US Equity,USD,BARNES GROUP INC,0.1,1.5,  3 ,  0 ,29.1,  2.37 ,  1.56 ,Industrials,Machinery,Capital Goods,6.0,63%,  5 ,  631 
+MCY US Equity,USD,MERCURY GENERAL CORP,0.4,#N/A N/A,  3 ,  0 ,48.4,  0.38 ,  2.02 ,Financials,Insurance,Insurance,3.0,66%,  5 ,  890 
+LTM US Equity,USD,LATAM AIRLINES GROUP-SP ADR,0.8,4.2,  6 ,  6 ,53.7,  0.20 ,  0.47 ,Industrials,Airlines,Transportation,15.0,55%,  6 ,  696 
+GVA US Equity,USD,GRANITE CONSTRUCTION INC,0.0,1.2,  2 ,  (0),63.4,  0.26 ,  0.41 ,Industrials,Construction & Engineering,Capital Goods,8.0,144%,  6 ,  644 
+ATVI US Equity,USD,ACTIVISION BLIZZARD INC,1.8,-0.3,  41 ,  (0),65.5,  2.28 ,  1.39 ,Communication Services,Entertainment,Media & Entertainment,30.0,42%,  6 ,  62 
+ALRM US Equity,USD,ALARM.COM HOLDINGS INC,0.0,-1.5,  2 ,  (0),56.8,  4.39 ,  2.00 ,Information Technology,Software,Software & Services,12.0,99%,  6 ,  528 
+WLTW US Equity,USD,WILLIS TOWERS WATSON PLC,0.8,3.0,  21 ,  4 ,26.9,  1.23 ,  1.37 ,Financials,Insurance,Insurance,21.0,25%,  6 ,"  1,017 "
+MYGN US Equity,USD,MYRIAD GENETICS INC,0.1,0.7,  2 ,  (0),66.9,  1.17 ,  0.63 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",13.0,56%,  6 ,  812 
+MRO US Equity,USD,MARATHON OIL CORP,0.3,1.1,  14 ,  5 ,47.7,  0.24 ,  0.67 ,Energy,"Oil, Gas & Consumable Fuels",Energy,29.0,27%,  6 ,"  1,091 "
+JEC US Equity,USD,JACOBS ENGINEERING GROUP INC,0.4,2.2,  11 ,  (1),39.7,  0.67 ,  2.09 ,Industrials,Construction & Engineering,Capital Goods,17.0,136%,  6 ,  707 
+KFY US Equity,USD,KORN/FERRY INTERNATIONAL,0.2,-1.7,  3 ,  (0),32.9,  1.35 ,  0.58 ,Industrials,Professional Services,Commercial & Professional Serv,6.0,92%,  6 ,  632 
+SRCL US Equity,USD,STERICYCLE INC,0.1,6.5,  4 ,  3 ,33.4,  (4.91),  0.84 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,13.0,51%,  6 ,  680 
+PTC US Equity,USD,PTC INC,0.2,2.0,  11 ,  0 ,52.9,  0.69 ,  0.45 ,Information Technology,Software,Software & Services,16.0,53%,  6 ,  548 
+EPC US Equity,USD,EDGEWELL PERSONAL CARE CO,0.2,3.1,  2 ,  1 ,43.6,  2.58 ,  3.95 ,Consumer Staples,Personal Products,Household & Personal Products,14.0,55%,  6 ,  232 
+CPT US Equity,USD,CAMDEN PROPERTY TRUST,0.1,4.2,  8 ,  2 ,25.6,  3.46 ,  9.60 ,Real Estate,Equity Real Estate Investment,Real Estate,22.0,15%,  6 ,  384 
+ESS US Equity,USD,ESSEX PROPERTY TRUST INC,0.5,5.9,  17 ,  6 ,24.5,  (22.50),  3.22 ,Real Estate,Equity Real Estate Investment,Real Estate,26.0,11%,  6 ,  392 
+UNM US Equity,USD,UNUM GROUP,2.0,#N/A N/A,  8 ,  3 ,37.3,  1.43 ,  0.94 ,Financials,Insurance,Insurance,14.0,18%,  6 ,  984 
+BEAT US Equity,USD,BIOTELEMETRY INC,0.0,2.0,  2 ,  0 ,69.7,  16.44 ,  3.56 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,6.0,71%,  6 ,  774 
+RAMP US Equity,USD,LIVERAMP HOLDINGS INC,0.0,3.1,  4 ,  0 ,46.0,#VALUE!,  (0.20),Information Technology,IT Services,Software & Services,5.0,64%,  6 ,  476 
+ONB US Equity,USD,OLD NATIONAL BANCORP,0.2,#N/A N/A,  3 ,  2 ,33.9,  1.45 ,  1.41 ,Financials,Banks,Banks,10.0,5%,  6 ,  952 
+HSBC US Equity,USD,HSBC HOLDINGS PLC-SPONS ADR,#N/A N/A,#N/A N/A,  169 ,  (11),25.6,  1.89 ,  1.92 ,Financials,Banks,Banks,3.0,2%,  6 ,  889 
+CONE US Equity,USD,CYRUSONE INC,-1.0,6.6,  6 ,  2 ,37.4,  (2.45),  (7.68),Real Estate,Equity Real Estate Investment,Real Estate,21.0,17%,  6 ,  381 
+SNY US Equity,EUR,SANOFI-ADR,5.7,2.5,  112 ,  6 ,26.6,  2.66 ,  1.70 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",5.0,33%,  6 ,  772 
+GNW US Equity,USD,GENWORTH FINANCIAL INC-CL A,1.6,#N/A N/A,  2 ,  2 ,62.1,  (1.25),  (0.46),Financials,Insurance,Insurance,4.0,8%,  6 ,  896 
+TRMB US Equity,USD,TRIMBLE INC,0.4,3.6,  9 ,  0 ,39.9,  1.58 ,  1.12 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,13.0,61%,  6 ,  530 
+FMBI US Equity,USD,FIRST MIDWEST BANCORP INC/IL,0.4,#N/A N/A,  2 ,  1 ,31.6,  0.56 ,  1.31 ,Financials,Banks,Banks,9.0,5%,  6 ,  939 
+MDT US Equity,USD,MEDTRONIC PLC,4.6,1.6,  125 ,  15 ,21.0,  2.03 ,  1.91 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,29.0,32%,  6 ,  884 
+NATI US Equity,USD,NATIONAL INSTRUMENTS CORP,0.2,-2.0,  7 ,  (0),57.2,  2.20 ,  1.91 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,3.0,85%,  6 ,  464 
+SLAB US Equity,USD,SILICON LABORATORIES INC,0.2,-1.7,  4 ,  (0),38.3,  4.85 ,  0.97 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,13.0,55%,  6 ,  535 
+UBSI US Equity,USD,UNITED BANKSHARES INC,0.3,#N/A N/A,  4 ,  0 ,27.4,  4.07 ,  5.66 ,Financials,Banks,Banks,6.0,4%,  6 ,  911 
+VEON US Equity,USD,VEON LTD,0.4,2.0,  5 ,  10 ,26.8,  1.92 ,  0.31 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,15.0,50%,  6 ,  41 
+FMX US Equity,MXN,FOMENTO ECONOMICO MEX-SP ADR,1.1,2.6,  29 ,  2 ,34.2,  1.13 ,  1.15 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",17.0,84%,  6 ,  237 
+EQR US Equity,USD,EQUITY RESIDENTIAL,0.3,5.4,  25 ,  9 ,21.4,  (2.29),#VALUE!,Real Estate,Equity Real Estate Investment,Real Estate,24.0,12%,  6 ,  390 
+A US Equity,USD,AGILENT TECHNOLOGIES INC,0.8,-0.3,  21 ,  (1),32.0,  2.26 ,  1.59 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",14.0,58%,  6 ,  818 
+BBL US Equity,USD,BHP BILLITON PLC-ADR,12.6,0.5,  119 ,  11 ,31.4,  (1.53),  (3.42),Materials,Metals & Mining,Materials,5.0,38%,  7 ,  403 
+BHP US Equity,USD,BHP BILLITON LTD-SPON ADR,12.6,0.5,  119 ,  11 ,30.4,  (1.75),  (3.91),Materials,Metals & Mining,Materials,5.0,38%,  7 ,  404 
+BANR US Equity,USD,BANNER CORPORATION,0.1,#N/A N/A,  2 ,  (0),43.3,  2.11 ,  2.36 ,Financials,Banks,Banks,7.0,5%,  7 ,  917 
+FBP US Equity,USD,FIRST BANCORP PUERTO RICO,0.2,#N/A N/A,  2 ,  1 ,28.8,  1.10 ,  1.19 ,Financials,Banks,Banks,5.0,6%,  7 ,  904 
+CIG US Equity,BRL,CIA ENERGETICA DE-SPON ADR,-0.4,3.5,  4 ,  4 ,87.3,  0.14 ,  0.36 ,Utilities,Electric Utilities,Utilities,4.0,53%,  7 ,  271 
+PBR/A US Equity,BRL,PETROLEO BRASIL-SP PREF  ADR,12.7,3.1,  92 ,  85 ,67.2,  0.22 ,  0.79 ,Energy,"Oil, Gas & Consumable Fuels",Energy,11.0,40%,  7 ,"  1,052 "
+PBR US Equity,BRL,PETROLEO BRASILEIRO-SPON ADR,12.7,3.1,  92 ,  85 ,60.7,  0.24 ,  0.85 ,Energy,"Oil, Gas & Consumable Fuels",Energy,18.0,40%,  7 ,"  1,062 "
+NAVI US Equity,USD,NAVIENT CORP,0.9,#N/A N/A,  3 ,  108 ,29.8,  1.78 ,  1.23 ,Financials,Consumer Finance,Diversified Financials,10.0,5%,  7 ,  953 
+FNB US Equity,USD,FNB CORP,0.6,#N/A N/A,  4 ,  4 ,26.3,  1.80 ,  1.72 ,Financials,Banks,Banks,11.0,4%,  7 ,  959 
+BEN US Equity,USD,FRANKLIN RESOURCES INC,2.1,-2.7,  16 ,  (6),31.9,  8.20 ,  12.04 ,Financials,Capital Markets,Diversified Financials,13.0,40%,  7 ,  972 
+GILD US Equity,USD,GILEAD SCIENCES INC,7.9,-0.3,  90 ,  (3),35.9,  (9.53),  2.95 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",30.0,35%,  7 ,  885 
+RNR US Equity,USD,RENAISSANCERE HOLDINGS LTD,1.3,#N/A N/A,  5 ,  (0),29.2,  1.29 ,  1.04 ,Financials,Insurance,Insurance,12.0,13%,  7 ,  962 
+LSI US Equity,USD,LIFE STORAGE INC,0.2,5.5,  4 ,  2 ,23.3,  2.66 ,  (1.93),Real Estate,Equity Real Estate Investment,Real Estate,11.0,14%,  7 ,  342 
+BC US Equity,USD,BRUNSWICK CORP,0.2,2.3,  5 ,  (0),37.5,  0.88 ,  0.73 ,Consumer Discretionary,Leisure Products,Consumer Durables & Apparel,17.0,130%,  7 ,  135 
+NYCB US Equity,USD,NEW YORK COMMUNITY BANCORP,0.2,#N/A N/A,  5 ,  10 ,28.7,  (23.87),  2.45 ,Financials,Thrifts & Mortgage Finance,Banks,17.0,3%,  7 ,"  1,006 "
+GOLD US Equity,USD,RANDGOLD RESOURCES LTD-ADR,0.2,-1.4,  8 ,  (1),41.5,  0.99 ,  2.29 ,Materials,Metals & Mining,Materials,3.0,27%,  7 ,  395 
+VMI US Equity,USD,VALMONT INDUSTRIES,0.0,1.4,  3 ,  0 ,43.6,  1.46 ,  0.80 ,Industrials,Construction & Engineering,Capital Goods,7.0,107%,  7 ,  635 
+L US Equity,USD,LOEWS CORP,3.1,#N/A N/A,  15 ,  11 ,30.3,  0.72 ,  68.66 ,Financials,Insurance,Insurance,3.0,18%,  7 ,  891 
+RL US Equity,USD,RALPH LAUREN CORP,0.6,-1.1,  10 ,  (1),50.5,  1.91 ,  1.58 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,22.0,103%,  7 ,  160 
+DUK US Equity,USD,DUKE ENERGY CORP,-1.7,5.9,  61 ,  54 ,19.0,  3.81 ,  3.04 ,Utilities,Electric Utilities,Utilities,21.0,17%,  7 ,  320 
+SM US Equity,USD,SM ENERGY CO,-0.6,2.6,  2 ,  3 ,55.0,  0.01 ,  0.05 ,Energy,"Oil, Gas & Consumable Fuels",Energy,19.0,26%,  7 ,"  1,066 "
+AVA US Equity,USD,AVISTA CORP,#N/A N/A,4.3,  3 ,  2 ,8.0,  3.95 ,  6.01 ,Utilities,Multi-Utilities,Utilities,3.0,26%,  7 ,  269 
+CRM US Equity,USD,SALESFORCE.COM INC,2.6,0.2,  100 ,  (3),55.0,  5.65 ,  1.41 ,Information Technology,Software,Software & Services,43.0,55%,  7 ,  600 
+AKAM US Equity,USD,AKAMAI TECHNOLOGIES INC,0.5,-0.7,  11 ,  (1),56.5,  1.13 ,  1.10 ,Information Technology,IT Services,Software & Services,24.0,54%,  7 ,  569 
+WMT US Equity,USD,WALMART INC,18.4,1.7,  292 ,  36 ,21.5,  (10.69),  3.60 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,35.0,235%,  7 ,  266 
+PRAH US Equity,USD,PRA HEALTH SCIENCES INC,0.2,3.5,  7 ,  1 ,45.3,  1.31 ,  1.13 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",14.0,85%,  7 ,  819 
+UDR US Equity,USD,UDR INC,#N/A N/A,5.9,  11 ,  4 ,23.8,  (3.84),  3.08 ,Real Estate,Equity Real Estate Investment,Real Estate,21.0,13%,  7 ,  379 
+FLIR US Equity,USD,FLIR SYSTEMS INC,0.3,-0.5,  7 ,  (0),49.2,  2.65 ,  1.70 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,9.0,65%,  7 ,  498 
+VTR US Equity,USD,VENTAS INC,0.8,5.5,  22 ,  11 ,24.2,  3.16 ,  35.13 ,Real Estate,Equity Real Estate Investment,Real Estate,22.0,16%,  7 ,  383 
+TS US Equity,USD,TENARIS SA-ADR,0.0,-0.2,  17 ,  (1),38.1,  0.48 ,  0.37 ,Energy,Energy Equipment & Services,Energy,21.0,49%,  7 ,"  1,069 "
+IART US Equity,USD,INTEGRA LIFESCIENCES HOLDING,0.1,6.3,  5 ,  2 ,51.8,  1.80 ,  1.43 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,15.0,52%,  7 ,  822 
+ARE US Equity,USD,ALEXANDRIA REAL ESTATE EQUIT,-1.4,6.7,  13 ,  5 ,23.9,  (2.20),  (5.08),Real Estate,Equity Real Estate Investment,Real Estate,12.0,10%,  7 ,  348 
+LHCG US Equity,USD,LHC GROUP INC,0.0,1.9,  3 ,  0 ,41.4,  1.23 ,  1.76 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,11.0,119%,  7 ,  801 
+ICUI US Equity,USD,ICU MEDICAL INC,0.1,-2.4,  5 ,  (0),54.0,  2.57 ,  2.27 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,4.0,93%,  7 ,  764 
+GS US Equity,USD,GOLDMAN SACHS GROUP INC,-11.2,2.3,  79 ,  46 ,38.6,  4.60 ,  1.12 ,Financials,Capital Markets,Diversified Financials,27.0,5%,  7 ,"  1,030 "
+PLD US Equity,USD,PROLOGIS INC,-0.5,6.6,  42 ,  9 ,23.1,  (1.94),  (9.53),Real Estate,Equity Real Estate Investment,Real Estate,20.0,8%,  7 ,  374 
+INFO US Equity,USD,IHS MARKIT LTD,0.9,5.1,  21 ,  4 ,26.2,  1.65 ,  1.41 ,Industrials,Professional Services,Commercial & Professional Serv,18.0,26%,  7 ,  719 
+VLY US Equity,USD,VALLEY NATIONAL BANCORP,#N/A N/A,#N/A N/A,  3 ,  3 ,29.4,  0.52 ,  0.77 ,Financials,Banks,Banks,11.0,4%,  7 ,  958 
+TV US Equity,MXN,GRUPO TELEVISA SA-SPON ADR,0.4,2.2,  8 ,  4 ,47.3,  (14.20),  2.49 ,Communication Services,Media,Media & Entertainment,16.0,35%,  7 ,  43 
+LM US Equity,USD,LEGG MASON INC,0.5,4.0,  2 ,  2 ,30.9,  3.32 ,  0.88 ,Financials,Capital Markets,Diversified Financials,12.0,38%,  7 ,  968 
+SMTC US Equity,USD,SEMTECH CORP,0.1,-0.8,  3 ,  (0),50.9,  1.04 ,  0.72 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,11.0,54%,  7 ,  521 
+ULTI US Equity,USD,ULTIMATE SOFTWARE GROUP INC,0.2,-1.1,  8 ,  (0),36.5,  2.63 ,  1.69 ,Information Technology,Software,Software & Services,20.0,70%,  7 ,  554 
+ALE US Equity,USD,ALLETE INC,0.1,3.9,  4 ,  1 ,20.0,  2.89 ,  2.37 ,Utilities,Electric Utilities,Utilities,6.0,27%,  7 ,  278 
+FLR US Equity,USD,FLUOR CORP,-0.2,-0.3,  6 ,  (0),68.1,  0.21 ,  0.42 ,Industrials,Construction & Engineering,Capital Goods,15.0,211%,  7 ,  699 
+AVNS US Equity,USD,AVANOS MEDICAL INC,-0.1,-4.0,  2 ,  0 ,61.2,  1.27 ,  0.66 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,8.0,32%,  7 ,  787 
+COF US Equity,USD,CAPITAL ONE FINANCIAL CORP,12.2,3.0,  42 ,  46 ,25.7,  (6.94),  0.96 ,Financials,Consumer Finance,Diversified Financials,25.0,9%,  8 ,"  1,029 "
+AXE US Equity,USD,ANIXTER INTERNATIONAL INC,0.1,3.2,  2 ,  1 ,35.4,  0.65 ,  0.79 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,4.0,187%,  8 ,  469 
+DAR US Equity,USD,DARLING INGREDIENTS INC,0.1,3.8,  3 ,  2 ,32.4,  0.09 ,  5.30 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",8.0,72%,  8 ,  222 
+PBCT US Equity,USD,PEOPLE'S UNITED FINANCIAL,0.6,#N/A N/A,  6 ,  4 ,25.7,  0.99 ,  1.32 ,Financials,Banks,Banks,12.0,4%,  8 ,  971 
+HMSY US Equity,USD,HMS HOLDINGS CORP,0.1,1.0,  3 ,  0 ,54.2,  3.87 ,  1.57 ,Health Care,Health Care Technology,Health Care Equipment & Servic,13.0,60%,  8 ,  816 
+PXD US Equity,USD,PIONEER NATURAL RESOURCES CO,-0.3,0.3,  26 ,  1 ,48.5,  0.19 ,  0.53 ,Energy,"Oil, Gas & Consumable Fuels",Energy,40.0,50%,  8 ,"  1,105 "
+PNFP US Equity,USD,PINNACLE FINANCIAL PARTNERS,0.3,#N/A N/A,  4 ,  1 ,31.9,  1.31 ,  1.16 ,Financials,Banks,Banks,10.0,5%,  8 ,  947 
+NAVG US Equity,USD,NAVIGATORS GROUP INC,0.3,#N/A N/A,  2 ,  0 ,3.7,  2.97 ,  7.17 ,Financials,Insurance,Insurance,5.0,27%,  8 ,  903 
+MD US Equity,USD,MEDNAX INC,0.4,3.4,  4 ,  2 ,30.7,  1.01 ,  0.87 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,14.0,63%,  8 ,  817 
+AGCO US Equity,USD,AGCO CORP,0.4,1.8,  4 ,  1 ,36.2,  0.55 ,  0.73 ,Industrials,Machinery,Capital Goods,20.0,115%,  8 ,  727 
+ABCB US Equity,USD,AMERIS BANCORP,-0.1,#N/A N/A,  2 ,  0 ,34.1,  0.31 ,  0.77 ,Financials,Banks,Banks,6.0,5%,  8 ,  910 
+PB US Equity,USD,PROSPERITY BANCSHARES INC,0.3,#N/A N/A,  5 ,  0 ,29.1,  2.20 ,  2.26 ,Financials,Banks,Banks,16.0,4%,  8 ,  994 
+MOG/A US Equity,USD,MOOG INC-CLASS A,0.0,2.4,  3 ,  1 ,47.6,  1.20 ,  9.31 ,Industrials,Aerospace & Defense,Capital Goods,4.0,90%,  8 ,  613 
+HIW US Equity,USD,HIGHWOODS PROPERTIES INC,0.0,4.8,  5 ,  2 ,20.7,  (12.54),  4.42 ,Real Estate,Equity Real Estate Investment,Real Estate,13.0,15%,  8 ,  350 
+UMPQ US Equity,USD,UMPQUA HOLDINGS CORP,0.6,#N/A N/A,  4 ,  1 ,29.9,  0.93 ,  0.98 ,Financials,Banks,Banks,12.0,5%,  8 ,  966 
+MDP US Equity,USD,MEREDITH CORP,0.1,10.1,  3 ,  3 ,43.9,  0.08 ,  0.35 ,Communication Services,Media,Media & Entertainment,6.0,57%,  8 ,  21 
+OHI US Equity,USD,OMEGA HEALTHCARE INVESTORS,0.4,6.3,  7 ,  4 ,26.9,  3.83 ,  4.57 ,Real Estate,Equity Real Estate Investment,Real Estate,12.0,10%,  8 ,  349 
+AVB US Equity,USD,AVALONBAY COMMUNITIES INC,-0.2,5.1,  25 ,  7 ,22.4,  (8.22),  7.31 ,Real Estate,Equity Real Estate Investment,Real Estate,24.0,12%,  8 ,  389 
+BDC US Equity,USD,BELDEN INC,0.1,2.7,  2 ,  1 ,42.7,  1.61 ,  1.18 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,10.0,68%,  8 ,  505 
+AWK US Equity,USD,AMERICAN WATER WORKS CO INC,-0.2,5.0,  17 ,  8 ,22.8,  3.42 ,  2.95 ,Utilities,Water Utilities,Utilities,16.0,17%,  8 ,  307 
+CXO US Equity,USD,CONCHO RESOURCES INC,0.0,1.4,  27 ,  3 ,41.4,  0.61 ,  0.18 ,Energy,"Oil, Gas & Consumable Fuels",Energy,33.0,18%,  8 ,"  1,098 "
+AAXN US Equity,USD,AXON ENTERPRISE INC,0.0,-7.7,  3 ,  (0),73.0,  2.95 ,  0.87 ,Industrials,Aerospace & Defense,Capital Goods,14.0,79%,  8 ,  689 
+CHFC US Equity,USD,CHEMICAL FINANCIAL CORP,0.4,#N/A N/A,  3 ,  2 ,35.4,  1.47 ,  1.50 ,Financials,Banks,Banks,8.0,4%,  8 ,  933 
+CPE US Equity,USD,CALLON PETROLEUM CO,-0.2,2.7,  2 ,  1 ,54.9,  0.14 ,  0.11 ,Energy,"Oil, Gas & Consumable Fuels",Energy,25.0,16%,  8 ,"  1,079 "
+TRMK US Equity,USD,TRUSTMARK CORP,0.2,#N/A N/A,  2 ,  1 ,31.8,  8.34 ,  3.64 ,Financials,Banks,Banks,7.0,5%,  8 ,  924 
+FULT US Equity,USD,FULTON FINANCIAL CORP,0.3,#N/A N/A,  3 ,  1 ,35.3,  0.67 ,  2.33 ,Financials,Banks,Banks,10.0,5%,  8 ,  948 
+UCBI US Equity,USD,UNITED COMMUNITY BANKS/GA,0.2,#N/A N/A,  2 ,  0 ,30.5,  1.65 ,  1.95 ,Financials,Banks,Banks,7.0,5%,  8 ,  922 
+ORCL US Equity,USD,ORACLE CORP,13.9,-0.1,  192 ,  (7),26.5,  2.07 ,  3.41 ,Information Technology,Software,Software & Services,38.0,30%,  8 ,  597 
+CWT US Equity,USD,CALIFORNIA WATER SERVICE GRP,-0.2,4.1,  2 ,  1 ,25.7,  2.13 ,  1.98 ,Utilities,Water Utilities,Utilities,6.0,25%,  8 ,  283 
+BSX US Equity,USD,BOSTON SCIENTIFIC CORP,0.9,2.6,  50 ,  5 ,31.8,  1.76 ,  1.43 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,27.0,50%,  8 ,  882 
+CRUS US Equity,USD,CIRRUS LOGIC INC,0.3,-1.5,  2 ,  (0),66.8,  4.08 ,  3.30 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,11.0,98%,  9 ,  522 
+GTLS US Equity,USD,CHART INDUSTRIES INC,0.1,2.5,  2 ,  0 ,40.8,  0.57 ,  0.46 ,Industrials,Machinery,Capital Goods,8.0,69%,  9 ,  648 
+KMPR US Equity,USD,KEMPER CORP,0.4,#N/A N/A,  5 ,  1 ,35.2,  0.64 ,  0.91 ,Financials,Insurance,Insurance,6.0,33%,  9 ,  913 
+COLB US Equity,USD,COLUMBIA BANKING SYSTEM INC,0.2,#N/A N/A,  3 ,  (0),33.7,  1.22 ,  2.13 ,Financials,Banks,Banks,6.0,5%,  9 ,  909 
+BP US Equity,USD,BP PLC-SPONS ADR,6.8,1.3,  138 ,  37 ,29.6,  1.08 ,  3.74 ,Energy,"Oil, Gas & Consumable Fuels",Energy,12.0,105%,  9 ,"  1,054 "
+OMCL US Equity,USD,OMNICELL INC,0.0,1.6,  3 ,  0 ,39.1,  1.58 ,  1.48 ,Health Care,Health Care Technology,Health Care Equipment & Servic,8.0,78%,  9 ,  788 
+ASB US Equity,USD,ASSOCIATED BANC-CORP,0.2,#N/A N/A,  4 ,  3 ,31.2,  2.37 ,  2.35 ,Financials,Banks,Banks,15.0,5%,  9 ,  988 
+CVS US Equity,USD,CVS HEALTH CORP,4.3,2.5,  81 ,  25 ,36.5,  2.86 ,  1.12 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,24.0,168%,  9 ,  872 
+HE US Equity,USD,HAWAIIAN ELECTRIC INDS,-0.2,0.7,  4 ,  0 ,13.7,  2.10 ,  2.45 ,Utilities,Electric Utilities,Utilities,6.0,21%,  9 ,  277 
+ACHC US Equity,USD,ACADIA HEALTHCARE CO INC,0.1,5.5,  3 ,  3 ,82.6,  1.86 ,  0.64 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,16.0,47%,  9 ,  829 
+CVBF US Equity,USD,CVB FINANCIAL CORP,0.1,#N/A N/A,  3 ,  0 ,28.5,  1.21 ,  3.15 ,Financials,Banks,Banks,8.0,4%,  9 ,  932 
+GWB US Equity,USD,GREAT WESTERN BANCORP INC,0.2,#N/A N/A,  2 ,  0 ,34.6,  1.59 ,#VALUE!,Financials,Banks,Banks,9.0,5%,  9 ,  937 
+OGS US Equity,USD,ONE GAS INC,0.0,3.2,  4 ,  2 ,21.8,  6.42 ,  4.56 ,Utilities,Gas Utilities,Utilities,6.0,32%,  9 ,  280 
+BAC US Equity,USD,BANK OF AMERICA CORP,46.4,#N/A N/A,  274 ,  137 ,28.5,  0.79 ,  0.70 ,Financials,Banks,Banks,32.0,5%,  9 ,"  1,044 "
+VNO US Equity,USD,VORNADO REALTY TRUST,-0.4,8.7,  13 ,  8 ,21.6,  (11.67),  0.15 ,Real Estate,Equity Real Estate Investment,Real Estate,15.0,13%,  9 ,  360 
+ROG US Equity,USD,ROGERS CORP,0.0,0.6,  2 ,  (0),47.2,  0.84 ,  0.56 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,4.0,74%,  9 ,  470 
+NNN US Equity,USD,NATIONAL RETAIL PROPERTIES,-0.2,4.7,  8 ,  3 ,22.5,  (6.18),  (60.61),Real Estate,Equity Real Estate Investment,Real Estate,14.0,9%,  9 ,  355 
+VALE US Equity,BRL,VALE SA-SP ADR,10.6,0.8,  79 ,  18 ,43.3,  0.44 ,  (1.75),Materials,Metals & Mining,Materials,27.0,38%,  9 ,  460 
+NLSN US Equity,USD,NIELSEN HOLDINGS PLC,0.8,4.6,  9 ,  8 ,27.1,  2.68 ,  0.38 ,Industrials,Professional Services,Commercial & Professional Serv,17.0,40%,  9 ,  712 
+BMS US Equity,USD,BEMIS COMPANY,0.2,4.7,  4 ,  1 ,18.1,  1.95 ,  1.76 ,Materials,Containers & Packaging,Materials,13.0,109%,  9 ,  425 
+EE US Equity,USD,EL PASO ELECTRIC CO,0.0,4.4,  2 ,  1 ,21.0,  5.40 ,  10.60 ,Utilities,Electric Utilities,Utilities,3.0,25%,  9 ,  267 
+DORM US Equity,USD,DORMAN PRODUCTS INC,0.1,-0.3,  3 ,  (0),37.7,  1.79 ,  1.31 ,Consumer Discretionary,Auto Components,Automobiles & Components,4.0,119%,  9 ,  79 
+UE US Equity,USD,URBAN EDGE PROPERTIES,0.0,4.9,  2 ,  1 ,26.4,  (3.20),  2.63 ,Real Estate,Equity Real Estate Investment,Real Estate,3.0,15%,  9 ,  325 
+AEE US Equity,USD,AMEREN CORPORATION,-0.7,3.6,  17 ,  8 ,19.4,  (8.57),  2.71 ,Utilities,Multi-Utilities,Utilities,13.0,24%,  9 ,  300 
+CTXS US Equity,USD,CITRIX SYSTEMS INC,1.0,0.4,  15 ,  0 ,21.9,  2.25 ,  1.62 ,Information Technology,Software,Software & Services,23.0,54%,  9 ,  567 
+PACW US Equity,USD,PACWEST BANCORP,0.6,#N/A N/A,  5 ,  1 ,31.9,  2.63 ,  1.27 ,Financials,Banks,Banks,12.0,5%,  9 ,  965 
+ARI US Equity,USD,APOLLO COMMERCIAL REAL ESTAT,0.3,#N/A N/A,  2 ,  2 ,15.4,  0.93 ,  1.86 ,Financials,Mortgage Real Estate Investmen,Diversified Financials,9.0,8%,  9 ,  942 
+SF US Equity,USD,STIFEL FINANCIAL CORP,-0.4,6.2,  4 ,  2 ,36.9,  1.04 ,  2.94 ,Financials,Capital Markets,Diversified Financials,4.0,14%,  9 ,  897 
+PWR US Equity,USD,QUANTA SERVICES INC,0.1,1.3,  5 ,  1 ,34.0,  0.88 ,  0.76 ,Industrials,Construction & Engineering,Capital Goods,12.0,152%,  9 ,  671 
+ES US Equity,USD,EVERSOURCE ENERGY,-0.8,4.9,  21 ,  13 ,18.1,  2.90 ,  2.97 ,Utilities,Electric Utilities,Utilities,19.0,24%,  9 ,  316 
+TKC US Equity,TRY,TURKCELL ILETISIM HIZMET-ADR,1.1,1.6,  5 ,  2 ,53.1,  0.11 ,  0.20 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,6.0,52%,  9 ,  19 
+STL US Equity,USD,STERLING BANCORP/DE,0.3,#N/A N/A,  4 ,  5 ,42.5,  1.75 ,  2.07 ,Financials,Banks,Banks,11.0,5%,  9 ,  960 
+ALB US Equity,USD,ALBEMARLE CORP,0.0,0.9,  11 ,  1 ,36.1,  1.29 ,  1.41 ,Materials,Chemicals,Materials,26.0,44%,  9 ,  458 
+IIVI US Equity,USD,II-VI INC,0.0,1.2,  2 ,  0 ,104.8,  0.57 ,  0.38 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,11.0,70%,  9 ,  515 
+BXP US Equity,USD,BOSTON PROPERTIES INC,0.0,6.9,  19 ,  10 ,21.7,  (22.98),  2.55 ,Real Estate,Equity Real Estate Investment,Real Estate,25.0,14%,  9 ,  391 
+WWW US Equity,USD,WOLVERINE WORLD WIDE INC,0.1,2.8,  3 ,  0 ,46.7,  1.62 ,  2.11 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,14.0,95%,  9 ,  128 
+AMGN US Equity,USD,AMGEN INC,10.4,0.4,  123 ,  (6),30.5,  7.53 ,  2.40 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",27.0,32%,  9 ,  880 
+CVX US Equity,USD,CHEVRON CORP,14.3,0.9,  223 ,  34 ,29.1,  0.73 ,  (4.26),Energy,"Oil, Gas & Consumable Fuels",Energy,28.0,60%,  9 ,"  1,088 "
+TDS US Equity,USD,TELEPHONE AND DATA SYSTEMS,0.2,1.3,  4 ,  2 ,54.7,  0.40 ,  (0.83),Communication Services,Wireless Telecommunication Ser,Telecommunication Services,5.0,54%,  10 ,  17 
+HWC US Equity,USD,HANCOCK WHITNEY CORP,-0.6,#N/A N/A,  3 ,  2 ,30.2,  1.72 ,  1.68 ,Financials,Banks,Banks,10.0,5%,  10 ,  951 
+SIGI US Equity,USD,SELECTIVE INSURANCE GROUP,0.3,#N/A N/A,  4 ,  0 ,32.1,  0.89 ,  3.01 ,Financials,Insurance,Insurance,6.0,33%,  10 ,  912 
+ENSG US Equity,USD,ENSIGN GROUP INC/THE,0.1,1.2,  2 ,  0 ,57.4,  1.42 ,  1.25 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,7.0,180%,  10 ,  782 
+CMC US Equity,USD,COMMERCIAL METALS CO,0.0,1.5,  2 ,  1 ,49.2,  2.41 ,  (0.71),Materials,Metals & Mining,Materials,13.0,152%,  10 ,  427 
+SKX US Equity,USD,SKECHERS USA INC-CL A,0.3,-1.6,  4 ,  (1),56.5,  1.50 ,  1.14 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,13.0,159%,  10 ,  121 
+KWR US Equity,USD,QUAKER CHEMICAL CORP,0.1,-0.5,  3 ,  (0),45.3,  1.29 ,  1.54 ,Materials,Chemicals,Materials,5.0,116%,  10 ,  402 
+GIII US Equity,USD,G-III APPAREL GROUP LTD,0.1,1.8,  2 ,  0 ,49.1,  0.84 ,  0.54 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,10.0,139%,  10 ,  104 
+CFG US Equity,USD,CITIZENS FINANCIAL GROUP,1.3,#N/A N/A,  17 ,  11 ,29.9,  0.91 ,  0.98 ,Financials,Banks,Banks,22.0,5%,  10 ,"  1,023 "
+FFBC US Equity,USD,FIRST FINANCIAL BANCORP,0.2,#N/A N/A,  3 ,  1 ,38.8,  1.42 ,  2.65 ,Financials,Banks,Banks,9.0,5%,  10 ,  940 
+PNW US Equity,USD,PINNACLE WEST CAPITAL,0.0,3.5,  10 ,  5 ,21.2,  2.64 ,  4.07 ,Utilities,Electric Utilities,Utilities,16.0,21%,  10 ,  303 
+MDSO US Equity,USD,MEDIDATA SOLUTIONS INC,0.0,-1.4,  4 ,  (0),39.1,  3.08 ,  1.27 ,Health Care,Health Care Technology,Health Care Equipment & Servic,11.0,68%,  10 ,  802 
+VAR US Equity,USD,VARIAN MEDICAL SYSTEMS INC,0.4,-1.1,  11 ,  (1),39.1,  2.41 ,  17.49 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,10.0,91%,  10 ,  794 
+ENIC US Equity,CLP,ENEL CHILE SA-ADR,0.6,2.6,  6 ,  1 ,32.8,  0.93 ,  1.26 ,Utilities,Electric Utilities,Utilities,6.0,39%,  10 ,  276 
+MANT US Equity,USD,MANTECH INTERNATIONAL CORP-A,0.1,-0.1,  2 ,  0 ,39.5,  2.28 ,  3.20 ,Information Technology,IT Services,Software & Services,8.0,111%,  10 ,  494 
+IFF US Equity,USD,INTL FLAVORS & FRAGRANCES,0.2,-1.2,  15 ,  1 ,25.6,  (64.99),  1.39 ,Materials,Chemicals,Materials,15.0,51%,  10 ,  434 
+NWE US Equity,USD,NORTHWESTERN CORP,0.0,4.5,  3 ,  2 ,22.6,  23.39 ,  10.25 ,Utilities,Multi-Utilities,Utilities,6.0,22%,  10 ,  282 
+EPR US Equity,USD,EPR PROPERTIES,0.0,5.3,  5 ,  3 ,19.5,  (5.52),  4.65 ,Real Estate,Equity Real Estate Investment,Real Estate,11.0,11%,  10 ,  341 
+WUBA US Equity,CNY,58.COM INC-ADR,#N/A N/A,#N/A N/A,  10 ,  (1),71.9,  0.52 ,  0.54 ,Communication Services,Interactive Media & Services,Media & Entertainment,12.0,41%,  10 ,  31 
+RBC US Equity,USD,REGAL BELOIT CORP,0.2,2.3,  3 ,  1 ,33.7,  1.09 ,  1.35 ,Industrials,Electrical Equipment,Capital Goods,10.0,79%,  10 ,  656 
+LFUS US Equity,USD,LITTELFUSE INC,0.3,0.6,  5 ,  0 ,41.8,  2.02 ,  1.68 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,8.0,74%,  10 ,  491 
+EXPE US Equity,USD,EXPEDIA GROUP INC,1.2,0.2,  18 ,  1 ,28.8,  1.01 ,  1.12 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,35.0,58%,  10 ,  200 
+TOT US Equity,USD,TOTAL SA-SPON ADR,5.5,0.9,  153 ,  13 ,25.8,  0.64 ,  4.26 ,Energy,"Oil, Gas & Consumable Fuels",Energy,9.0,72%,  10 ,"  1,051 "
+TMO US Equity,USD,THERMO FISHER SCIENTIFIC INC,3.9,3.0,  96 ,  20 ,28.9,  1.78 ,  1.48 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",18.0,43%,  10 ,  842 
+MRK US Equity,USD,MERCK & CO. INC.,8.9,1.1,  195 ,  16 ,22.3,  1.72 ,  1.23 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",20.0,47%,  10 ,  855 
+KEYS US Equity,USD,KEYSIGHT TECHNOLOGIES IN,0.3,1.8,  11 ,  1 ,33.8,  0.99 ,  1.14 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,9.0,63%,  10 ,  497 
+SO US Equity,USD,SOUTHERN CO/THE,-1.6,5.7,  48 ,  49 ,18.8,  (52.58),  4.92 ,Utilities,Electric Utilities,Utilities,22.0,21%,  10 ,  322 
+COG US Equity,USD,CABOT OIL & GAS CORP,0.1,1.9,  11 ,  1 ,46.6,  0.31 ,  1.84 ,Energy,"Oil, Gas & Consumable Fuels",Energy,30.0,41%,  10 ,"  1,093 "
+ED US Equity,USD,CONSOLIDATED EDISON INC,-1.3,4.5,  25 ,  16 ,21.7,  13.49 ,  3.42 ,Utilities,Multi-Utilities,Utilities,18.0,25%,  10 ,  314 
+CTL US Equity,USD,CENTURYLINK INC,3.2,4.5,  20 ,  37 ,52.2,  1.34 ,  2.48 ,Communication Services,Diversified Telecommunication,Telecommunication Services,19.0,37%,  10 ,  48 
+GT US Equity,USD,GOODYEAR TIRE & RUBBER CO,0.5,2.8,  5 ,  5 ,40.7,  0.58 ,  0.30 ,Consumer Discretionary,Auto Components,Automobiles & Components,10.0,88%,  10 ,  98 
+KIM US Equity,USD,KIMCO REALTY CORP,0.1,6.9,  7 ,  5 ,29.8,  (0.73),  1.35 ,Real Estate,Equity Real Estate Investment,Real Estate,23.0,10%,  10 ,  388 
+BMY US Equity,USD,BRISTOL-MYERS SQUIBB CO,3.7,-0.3,  87 ,  (1),41.2,  2.32 ,  2.02 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",21.0,65%,  10 ,  861 
+SKT US Equity,USD,TANGER FACTORY OUTLET CENTER,0.2,7.2,  2 ,  2 ,25.5,  1.60 ,  33.21 ,Real Estate,Equity Real Estate Investment,Real Estate,8.0,20%,  10 ,  334 
+SXT US Equity,USD,SENSIENT TECHNOLOGIES CORP,0.0,2.8,  3 ,  1 ,56.1,  4.08 ,  1.08 ,Materials,Chemicals,Materials,3.0,78%,  10 ,  394 
+CB US Equity,USD,CHUBB LTD,5.0,#N/A N/A,  60 ,  12 ,24.9,  1.05 ,  1.68 ,Financials,Insurance,Insurance,21.0,20%,  10 ,"  1,020 "
+IRDM US Equity,USD,IRIDIUM COMMUNICATIONS INC,-0.3,6.8,  2 ,  1 ,64.3,#VALUE!,#VALUE!,Communication Services,Diversified Telecommunication,Telecommunication Services,7.0,13%,  10 ,  25 
+WAFD US Equity,USD,WASHINGTON FEDERAL INC,0.2,#N/A N/A,  2 ,  2 ,28.7,  1.70 ,#VALUE!,Financials,Thrifts & Mortgage Finance,Banks,5.0,4%,  10 ,  905 
+MET US Equity,USD,METLIFE INC,12.5,#N/A N/A,  44 ,  8 ,34.6,  2.01 ,  0.88 ,Financials,Insurance,Insurance,19.0,9%,  10 ,"  1,012 "
+TEX US Equity,USD,TEREX CORP,0.1,2.3,  2 ,  0 ,65.9,  0.29 ,  1.01 ,Industrials,Machinery,Capital Goods,23.0,143%,  10 ,  743 
+CBD US Equity,BRL,CIA BRASILEIRA DE DIS-SP PRF,0.2,1.4,  6 ,  0 ,37.6,  1.14 ,  0.92 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,4.0,107%,  10 ,  212 
+STE US Equity,USD,STERIS PLC,0.3,1.8,  10 ,  1 ,26.7,  2.12 ,  2.58 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,9.0,53%,  10 ,  790 
+CNC US Equity,USD,CENTENE CORP,1.7,-0.6,  28 ,  (0),43.1,  0.87 ,  1.16 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,21.0,212%,  10 ,  858 
+IDA US Equity,USD,IDACORP INC,0.2,3.4,  5 ,  2 ,20.6,  98.47 ,  5.59 ,Utilities,Electric Utilities,Utilities,4.0,22%,  10 ,  270 
+JCI US Equity,USD,JOHNSON CONTROLS INTERNATION,1.5,2.6,  31 ,  11 ,34.3,  0.94 ,  111.63 ,Industrials,Building Products,Capital Goods,18.0,62%,  10 ,  717 
+DHR US Equity,USD,DANAHER CORP,3.0,2.1,  71 ,  10 ,27.9,  3.06 ,  2.55 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,20.0,42%,  10 ,  849 
+SFNC US Equity,USD,SIMMONS FIRST NATL CORP-CL A,0.1,#N/A N/A,  3 ,  1 ,32.9,  2.94 ,  0.90 ,Financials,Banks,Banks,6.0,6%,  10 ,  914 
+ENS US Equity,USD,ENERSYS,0.2,0.2,  4 ,  0 ,38.5,  0.75 ,  3.74 ,Industrials,Electrical Equipment,Capital Goods,4.0,108%,  10 ,  619 
+RYN US Equity,USD,RAYONIER INC,0.3,2.2,  4 ,  1 ,24.1,  (4.80),  23.78 ,Real Estate,Equity Real Estate Investment,Real Estate,8.0,31%,  10 ,  333 
+SR US Equity,USD,SPIRE INC,0.0,5.1,  4 ,  3 ,18.5,  4.15 ,  4.85 ,Utilities,Gas Utilities,Utilities,9.0,31%,  10 ,  289 
+MSA US Equity,USD,MSA SAFETY INC,0.2,1.9,  4 ,  0 ,47.0,  2.12 ,  3.93 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,3.0,83%,  10 ,  609 
+XEL US Equity,USD,XCEL ENERGY INC,-0.6,4.3,  26 ,  16 ,20.7,  3.53 ,  2.73 ,Utilities,Electric Utilities,Utilities,17.0,26%,  10 ,  308 
+MS US Equity,USD,MORGAN STANLEY,14.3,4.8,  76 ,  124 ,33.7,  1.73 ,  1.11 ,Financials,Capital Markets,Diversified Financials,29.0,6%,  10 ,"  1,039 "
+HP US Equity,USD,HELMERICH & PAYNE,0.1,0.3,  7 ,  (0),41.3,  0.21 ,  0.95 ,Energy,Energy Equipment & Services,Energy,27.0,36%,  10 ,"  1,083 "
+KEY US Equity,USD,KEYCORP,1.4,#N/A N/A,  19 ,  10 ,32.8,  0.88 ,  1.06 ,Financials,Banks,Banks,28.0,5%,  10 ,"  1,032 "
+ZION US Equity,USD,ZIONS BANCORP NA,0.8,#N/A N/A,  9 ,  4 ,30.0,  1.83 ,  0.95 ,Financials,Banks,Banks,28.0,4%,  11 ,"  1,031 "
+TRV US Equity,USD,TRAVELERS COS INC/THE,4.0,#N/A N/A,  33 ,  6 ,24.9,  0.73 ,  2.67 ,Financials,Insurance,Insurance,24.0,29%,  11 ,"  1,025 "
+HELE US Equity,USD,HELEN OF TROY LTD,#N/A N/A,1.9,  4 ,  0 ,22.3,  4.19 ,  2.27 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,5.0,91%,  11 ,  82 
+AEP US Equity,USD,AMERICAN ELECTRIC POWER,-1.6,4.6,  38 ,  22 ,20.0,  3.88 ,  2.84 ,Utilities,Electric Utilities,Utilities,21.0,25%,  11 ,  321 
+IBKR US Equity,USD,INTERACTIVE BROKERS GRO-CL A,2.5,-1.2,  23 ,  0 ,45.7,  1.00 ,  1.24 ,Financials,Capital Markets,Diversified Financials,5.0,4%,  11 ,  901 
+ARW US Equity,USD,ARROW ELECTRONICS INC,0.0,2.4,  6 ,  3 ,36.9,  2.39 ,  13.98 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,10.0,184%,  11 ,  503 
+VVC US Equity,USD,VECTREN CORP,-0.2,4.3,  6 ,  2 ,3.1,  3.97 ,  2.89 ,Utilities,Multi-Utilities,Utilities,5.0,43%,  11 ,  273 
+TER US Equity,USD,TERADYNE INC,0.3,-1.7,  7 ,  (2),51.0,  1.83 ,  0.47 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,14.0,69%,  11 ,  540 
+THG US Equity,USD,HANOVER INSURANCE GROUP INC/,1.2,#N/A N/A,  5 ,  0 ,22.7,  1.01 ,  1.01 ,Financials,Insurance,Insurance,4.0,33%,  11 ,  894 
+MBFI US Equity,USD,MB FINANCIAL INC,0.8,#N/A N/A,  4 ,  1 ,25.4,  0.56 ,  2.19 ,Financials,Banks,Banks,10.0,5%,  11 ,  946 
+HAS US Equity,USD,HASBRO INC,0.6,1.1,  12 ,  0 ,29.7,  1.21 ,  1.77 ,Consumer Discretionary,Leisure Products,Consumer Durables & Apparel,17.0,87%,  11 ,  133 
+SBS US Equity,BRL,CIA SANEAMENTO BASICO DE-ADR,1.2,1.8,  5 ,  3 ,43.1,  0.25 ,  0.85 ,Utilities,Water Utilities,Utilities,5.0,38%,  11 ,  274 
+DRE US Equity,USD,DUKE REALTY CORP,-1.1,5.5,  10 ,  2 ,23.2,  (1.60),  4.84 ,Real Estate,Equity Real Estate Investment,Real Estate,18.0,12%,  11 ,  368 
+JLL US Equity,USD,JONES LANG LASALLE INC,0.3,1.5,  6 ,  0 ,29.3,  7.28 ,  1.23 ,Real Estate,Real Estate Management & Devel,Real Estate,11.0,163%,  11 ,  346 
+KEX US Equity,USD,KIRBY CORP,-0.4,4.0,  5 ,  1 ,51.3,  0.64 ,  0.68 ,Industrials,Marine,Transportation,9.0,54%,  11 ,  651 
+WTS US Equity,USD,WATTS WATER TECHNOLOGIES-A,0.1,1.0,  3 ,  0 ,32.4,  1.80 ,  2.37 ,Industrials,Machinery,Capital Goods,10.0,92%,  11 ,  661 
+GBCI US Equity,USD,GLACIER BANCORP INC,#N/A N/A,#N/A N/A,  4 ,  1 ,30.4,  1.73 ,  4.10 ,Financials,Banks,Banks,7.0,5%,  11 ,  923 
+FRT US Equity,USD,FEDERAL REALTY INVS TRUST,0.1,5.5,  9 ,  3 ,21.3,  13.16 ,  38.22 ,Real Estate,Equity Real Estate Investment,Real Estate,18.0,14%,  11 ,  369 
+RDS/B US Equity,USD,ROYAL DUTCH SHELL-SPON ADR-B,13.8,1.2,  258 ,  65 ,23.0,  0.44 ,  2.85 ,Energy,"Oil, Gas & Consumable Fuels",Energy,5.0,91%,  11 ,"  1,046 "
+RDS/A US Equity,USD,ROYAL DUTCH SHELL-SPON ADR-A,13.8,1.2,  258 ,  65 ,22.9,  0.43 ,  2.75 ,Energy,"Oil, Gas & Consumable Fuels",Energy,13.0,91%,  11 ,"  1,055 "
+ATI US Equity,USD,ALLEGHENY TECHNOLOGIES INC,0.1,2.7,  3 ,  1 ,37.8,  0.33 ,  0.36 ,Materials,Metals & Mining,Materials,11.0,75%,  11 ,  417 
+EGP US Equity,USD,EASTGROUP PROPERTIES INC,-0.1,5.5,  4 ,  1 ,23.2,  (4.24),  10.58 ,Real Estate,Equity Real Estate Investment,Real Estate,13.0,15%,  11 ,  352 
+MTB US Equity,USD,M & T BANK CORP,2.2,#N/A N/A,  24 ,  2 ,24.1,  1.14 ,  1.41 ,Financials,Banks,Banks,23.0,5%,  11 ,"  1,024 "
+WAB US Equity,USD,WABTEC CORP,0.1,6.0,  8 ,  2 ,38.8,  1.19 ,  1.33 ,Industrials,Machinery,Capital Goods,12.0,58%,  11 ,  673 
+RF US Equity,USD,REGIONS FINANCIAL CORP,1.4,#N/A N/A,  17 ,  5 ,31.7,  1.14 ,  1.11 ,Financials,Banks,Banks,29.0,5%,  11 ,"  1,035 "
+BBT US Equity,USD,BB&T CORP,4.7,#N/A N/A,  40 ,  26 ,24.2,  1.32 ,  1.52 ,Financials,Banks,Banks,29.0,6%,  11 ,"  1,037 "
+BXS US Equity,USD,BANCORPSOUTH BANK,#N/A N/A,#N/A N/A,  3 ,  1 ,32.2,  2.97 ,  2.35 ,Financials,Banks,Banks,10.0,6%,  11 ,  949 
+WTFC US Equity,USD,WINTRUST FINANCIAL CORP,#N/A N/A,#N/A N/A,  4 ,  (0),33.2,  1.45 ,  1.36 ,Financials,Banks,Banks,13.0,5%,  11 ,  976 
+LEN US Equity,USD,LENNAR CORP-A,1.3,5.4,  13 ,  4 ,43.1,  0.58 ,  2.65 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,19.0,79%,  11 ,  144 
+HOMB US Equity,USD,HOME BANCSHARES INC,#N/A N/A,#N/A N/A,  3 ,  1 ,32.6,  1.99 ,  1.44 ,Financials,Banks,Banks,9.0,5%,  11 ,  941 
+MNRO US Equity,USD,MONRO INC,0.1,2.2,  3 ,  0 ,48.9,  2.34 ,  2.35 ,Consumer Discretionary,Specialty Retail,Retailing,8.0,95%,  11 ,  91 
+UNF US Equity,USD,UNIFIRST CORP/MA,0.1,-1.0,  3 ,  (0),30.7,  6.32 ,#VALUE!,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,4.0,93%,  11 ,  616 
+SBNY US Equity,USD,SIGNATURE BANK,0.3,#N/A N/A,  6 ,  5 ,33.9,  1.04 ,  1.36 ,Financials,Banks,Banks,19.0,4%,  11 ,"  1,011 "
+CIB US Equity,COP,BANCOLOMBIA S.A.-SPONS ADR,#N/A N/A,#N/A N/A,  10 ,  7 ,36.1,  0.48 ,  0.67 ,Financials,Banks,Banks,15.0,10%,  11 ,  991 
+FUL US Equity,USD,H.B. FULLER CO.,0.1,6.5,  2 ,  2 ,36.3,  0.53 ,  0.56 ,Materials,Chemicals,Materials,8.0,90%,  11 ,  412 
+SWX US Equity,USD,SOUTHWEST GAS HOLDINGS INC,-0.3,3.5,  4 ,  2 ,21.8,  3.99 ,  4.36 ,Utilities,Gas Utilities,Utilities,8.0,45%,  11 ,  287 
+FL US Equity,USD,FOOT LOCKER INC,0.8,-1.1,  6 ,  (1),30.5,  1.29 ,  2.03 ,Consumer Discretionary,Specialty Retail,Retailing,23.0,203%,  11 ,  161 
+BUD US Equity,USD,ANHEUSER-BUSCH INBEV-SPN ADR,9.2,5.0,  156 ,  105 ,37.7,  0.77 ,  1.22 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",10.0,23%,  11 ,  225 
+FHN US Equity,USD,FIRST HORIZON NATIONAL CORP,0.1,#N/A N/A,  5 ,  3 ,30.1,  1.27 ,  0.90 ,Financials,Banks,Banks,18.0,6%,  11 ,"  1,007 "
+CATY US Equity,USD,CATHAY GENERAL BANCORP,#N/A N/A,#N/A N/A,  3 ,  0 ,31.2,  2.50 ,  1.89 ,Financials,Banks,Banks,8.0,4%,  11 ,  930 
+AIZ US Equity,USD,ASSURANT INC,1.0,#N/A N/A,  6 ,  0 ,28.8,  0.29 ,  0.63 ,Financials,Insurance,Insurance,5.0,20%,  11 ,  900 
+UGP US Equity,BRL,ULTRAPAR PARTICPAC-SPON ADR,0.2,3.2,  6 ,  2 ,70.8,  0.37 ,  0.88 ,Energy,"Oil, Gas & Consumable Fuels",Energy,6.0,318%,  11 ,"  1,049 "
+CHL US Equity,CNY,CHINA MOBILE LTD-SPON ADR,#N/A N/A,-1.7,  200 ,  (72),25.2,  2.22 ,  1.43 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,3.0,47%,  11 ,  8 
+MLCO US Equity,USD,MELCO RESORTS & ENTERT-ADR,#N/A N/A,2.5,  8 ,  2 ,65.5,  0.45 ,  0.43 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,18.0,58%,  11 ,  140 
+CLH US Equity,USD,CLEAN HARBORS INC,0.1,3.0,  4 ,  1 ,35.7,  1.31 ,  1.53 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,10.0,85%,  11 ,  653 
+GOOG US Equity,USD,ALPHABET INC-CL C,22.9,-3.0,  743 ,  (98),40.0,  4.74 ,  0.68 ,Communication Services,Interactive Media & Services,Media & Entertainment,14.0,63%,  11 ,  37 
+GOOGL US Equity,USD,ALPHABET INC-CL A,22.9,-3.0,  743 ,  (98),39.5,  4.77 ,  0.69 ,Communication Services,Interactive Media & Services,Media & Entertainment,44.0,63%,  11 ,  70 
+SBRA US Equity,USD,SABRA HEALTH CARE REIT INC,0.3,6.0,  3 ,  3 ,33.9,  (0.54),  (1.77),Real Estate,Equity Real Estate Investment,Real Estate,13.0,10%,  12 ,  353 
+WST US Equity,USD,WEST PHARMACEUTICAL SERVICES,0.2,-0.3,  8 ,  (0),35.4,  3.99 ,  2.12 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,7.0,88%,  12 ,  778 
+AWR US Equity,USD,AMERICAN STATES WATER CO,0.0,2.8,  2 ,  0 ,24.3,  2.70 ,  5.33 ,Utilities,Water Utilities,Utilities,5.0,29%,  12 ,  275 
+SNV US Equity,USD,SYNOVUS FINANCIAL CORP,0.5,#N/A N/A,  4 ,  1 ,31.5,  0.82 ,  0.86 ,Financials,Banks,Banks,17.0,5%,  12 ,"  1,003 "
+BK US Equity,USD,BANK OF NEW YORK MELLON CORP,3.0,#N/A N/A,  49 ,  (66),24.4,  2.28 ,  1.52 ,Financials,Capital Markets,Diversified Financials,22.0,5%,  12 ,"  1,021 "
+PNR US Equity,USD,PENTAIR PLC,0.5,#N/A N/A,  7 ,  1 ,24.9,  1.87 ,  2.00 ,Industrials,Machinery,Capital Goods,17.0,56%,  12 ,  708 
+NTDOY US Equity,JPY,NINTENDO CO LTD-UNSPONS ADR,#N/A N/A,#N/A N/A,  44 ,  (9),33.3,  0.62 ,#VALUE!,Communication Services,Entertainment,Media & Entertainment,2.0,64%,  12 ,  4 
+WFC US Equity,USD,WELLS FARGO & CO,21.3,#N/A N/A,  249 ,  32 ,23.8,  0.56 ,  0.66 ,Financials,Banks,Banks,35.0,5%,  12 ,"  1,045 "
+CAH US Equity,USD,CARDINAL HEALTH INC,1.6,4.0,  17 ,  7 ,34.6,  1.55 ,  1.26 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,18.0,340%,  12 ,  839 
+STT US Equity,USD,STATE STREET CORP,13.5,#N/A N/A,  27 ,  (57),39.3,  1.98 ,  0.74 ,Financials,Capital Markets,Diversified Financials,22.0,5%,  12 ,"  1,022 "
+PDCO US Equity,USD,PATTERSON COS INC,0.4,3.0,  2 ,  1 ,41.9,  1.73 ,  2.41 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,17.0,162%,  12 ,  836 
+CMS US Equity,USD,CMS ENERGY CORP,-0.1,4.9,  14 ,  10 ,20.4,  2.87 ,  2.55 ,Utilities,Multi-Utilities,Utilities,18.0,30%,  12 ,  315 
+FBR US Equity,BRL,FIBRIA CELULOSE SA-SPON ADR,0.8,1.4,  11 ,  4 ,20.2,  0.22 ,  (3.31),Materials,Paper & Forest Products,Materials,6.0,45%,  12 ,  407 
+INDB US Equity,USD,INDEPENDENT BANK CORP/MA,0.1,#N/A N/A,  2 ,  0 ,29.3,  0.77 ,  1.29 ,Financials,Banks,Banks,4.0,5%,  12 ,  893 
+LNT US Equity,USD,ALLIANT ENERGY CORP,-1.0,4.7,  11 ,  5 ,19.3,  4.31 ,  3.10 ,Utilities,Electric Utilities,Utilities,11.0,24%,  12 ,  294 
+SAFM US Equity,USD,SANDERSON FARMS INC,-0.1,-0.9,  2 ,  (0),33.9,  (2.08),  4.18 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",10.0,192%,  12 ,  227 
+IRM US Equity,USD,IRON MOUNTAIN INC,0.4,6.0,  9 ,  6 ,33.5,  0.86 ,  3.11 ,Real Estate,Equity Real Estate Investment,Real Estate,10.0,38%,  12 ,  337 
+APA US Equity,USD,APACHE CORP,-0.2,1.8,  14 ,  7 ,44.6,  0.98 ,  (1.25),Energy,"Oil, Gas & Consumable Fuels",Energy,30.0,33%,  12 ,"  1,092 "
+JPM US Equity,USD,JPMORGAN CHASE & CO,27.3,#N/A N/A,  366 ,  (127),25.2,  1.31 ,  1.06 ,Financials,Banks,Banks,32.0,5%,  12 ,"  1,042 "
+CRL US Equity,USD,CHARLES RIVER LABORATORIES,0.3,3.5,  6 ,  1 ,45.5,  2.65 ,  1.40 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",18.0,64%,  12 ,  843 
+WWD US Equity,USD,WOODWARD INC,0.2,3.6,  5 ,  1 ,35.1,  1.19 ,  1.22 ,Industrials,Machinery,Capital Goods,11.0,68%,  12 ,  663 
+SNX US Equity,USD,SYNNEX CORP,0.1,2.3,  4 ,  1 ,46.1,  0.47 ,  1.36 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,7.0,304%,  12 ,  484 
+YY US Equity,CNY,YY INC-ADR,#N/A N/A,#N/A N/A,  4 ,  (1),77.2,  0.78 ,  0.43 ,Communication Services,Interactive Media & Services,Media & Entertainment,27.0,80%,  12 ,  58 
+MHK US Equity,USD,MOHAWK INDUSTRIES INC,0.3,1.6,  9 ,  3 ,89.9,  (3.20),  0.87 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,21.0,80%,  12 ,  153 
+HPE US Equity,USD,HEWLETT PACKARD ENTERPRISE,-0.4,2.0,  23 ,  4 ,36.5,  2.97 ,  1.06 ,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,26.0,48%,  12 ,  572 
+HST US Equity,USD,HOST HOTELS & RESORTS INC,0.0,1.9,  14 ,  3 ,27.7,  (0.80),  (2.23),Real Estate,Equity Real Estate Investment,Real Estate,21.0,46%,  12 ,  377 
+SYK US Equity,USD,STRYKER CORP,1.6,1.5,  63 ,  4 ,25.2,  2.16 ,  1.99 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,30.0,61%,  12 ,  887 
+WRB US Equity,USD,WR BERKLEY CORP,0.5,#N/A N/A,  9 ,  2 ,21.3,  (5.15),  3.59 ,Financials,Insurance,Insurance,12.0,31%,  12 ,  967 
+CBU US Equity,USD,COMMUNITY BANK SYSTEM INC,0.2,#N/A N/A,  3 ,  0 ,26.1,  317.35 ,  3.88 ,Financials,Banks,Banks,9.0,5%,  12 ,  938 
+EBS US Equity,USD,EMERGENT BIOSOLUTIONS INC,#N/A N/A,-1.8,  3 ,  (0),39.8,  0.53 ,  (7.43),Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",8.0,64%,  12 ,  784 
+WY US Equity,USD,WEYERHAEUSER CO,0.7,2.8,  20 ,  5 ,39.0,  (2.84),  0.57 ,Real Estate,Equity Real Estate Investment,Real Estate,12.0,43%,  12 ,  347 
+STI US Equity,USD,SUNTRUST BANKS INC,4.0,#N/A N/A,  28 ,  9 ,25.2,  2.78 ,  1.42 ,Financials,Banks,Banks,31.0,5%,  12 ,"  1,041 "
+TCBI US Equity,USD,TEXAS CAPITAL BANCSHARES INC,-0.4,#N/A N/A,  3 ,  1 ,50.1,  0.83 ,  1.29 ,Financials,Banks,Banks,17.0,5%,  12 ,"  1,001 "
+HPT US Equity,USD,HOSPITALITY PROPERTIES TRUST,0.4,5.0,  4 ,  4 ,21.8,  (0.60),#VALUE!,Real Estate,Equity Real Estate Investment,Real Estate,6.0,32%,  12 ,  329 
+TECH US Equity,USD,BIO-TECHNE CORP,0.1,1.9,  6 ,  0 ,39.3,  2.11 ,  3.04 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",10.0,39%,  12 ,  798 
+TAP US Equity,USD,MOLSON COORS BREWING CO -B,1.9,3.7,  14 ,  11 ,41.6,  (36.07),  2.35 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",20.0,36%,  12 ,  246 
+FELE US Equity,USD,FRANKLIN ELECTRIC CO INC,0.1,1.1,  2 ,  0 ,36.7,  2.21 ,  1.86 ,Industrials,Machinery,Capital Goods,5.0,107%,  12 ,  622 
+DTE US Equity,USD,DTE ENERGY COMPANY,0.2,4.9,  22 ,  13 ,23.0,  79.35 ,  3.76 ,Utilities,Multi-Utilities,Utilities,16.0,40%,  12 ,  305 
+FCFS US Equity,USD,FIRSTCASH INC,0.2,2.0,  4 ,  0 ,31.5,  1.20 ,  1.14 ,Financials,Consumer Finance,Diversified Financials,7.0,84%,  12 ,  921 
+NEOG US Equity,USD,NEOGEN CORP,0.0,-2.6,  3 ,  (0),30.2,  6.53 ,  2.90 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,7.0,68%,  12 ,  780 
+TTWO US Equity,USD,TAKE-TWO INTERACTIVE SOFTWRE,0.1,-3.2,  13 ,  (1),68.8,  7.07 ,  0.60 ,Communication Services,Entertainment,Media & Entertainment,21.0,49%,  12 ,  50 
+XOM US Equity,USD,EXXON MOBIL CORP,16.8,0.9,  331 ,  39 ,22.7,  0.66 ,  4.58 ,Energy,"Oil, Gas & Consumable Fuels",Energy,26.0,79%,  12 ,"  1,080 "
+JCOM US Equity,USD,J2 GLOBAL INC,0.3,1.7,  4 ,  1 ,35.0,  1.46 ,  1.57 ,Information Technology,Software,Software & Services,9.0,49%,  12 ,  500 
+WBS US Equity,USD,WEBSTER FINANCIAL CORP,0.7,#N/A N/A,  6 ,  2 ,33.0,  1.43 ,  1.72 ,Financials,Banks,Banks,14.0,5%,  12 ,  983 
+EGN US Equity,USD,ENERGEN CORP,-0.1,1.2,  7 ,  1 ,44.2,  0.22 ,  0.15 ,Energy,"Oil, Gas & Consumable Fuels",Energy,20.0,26%,  12 ,"  1,068 "
+ITT US Equity,USD,ITT INC,0.2,-0.7,  5 ,  (0),45.8,  1.11 ,  1.32 ,Industrials,Machinery,Capital Goods,14.0,72%,  12 ,  692 
+ADM US Equity,USD,ARCHER-DANIELS-MIDLAND CO,-4.5,2.4,  26 ,  7 ,25.9,  3.03 ,  2.64 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",15.0,164%,  12 ,  233 
+BSBR US Equity,BRL,BANCO SANTANDER BRASIL-ADS,-4.0,#N/A N/A,  41 ,  31 ,55.4,  1.46 ,  2.23 ,Financials,Banks,Banks,8.0,12%,  13 ,  934 
+WTR US Equity,USD,AQUA AMERICA INC,-0.1,5.0,  6 ,  2 ,32.7,  3.90 ,  3.37 ,Utilities,Water Utilities,Utilities,11.0,13%,  13 ,  298 
+IDCC US Equity,USD,INTERDIGITAL INC,0.4,-2.8,  3 ,  (1),28.1,  (38.60),  0.14 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,4.0,23%,  13 ,  468 
+EXC US Equity,USD,EXELON CORP,0.7,3.3,  44 ,  34 ,18.2,  19.66 ,  11.24 ,Utilities,Electric Utilities,Utilities,22.0,30%,  13 ,  323 
+SMG US Equity,USD,SCOTTS MIRACLE-GRO CO,0.2,7.0,  4 ,  2 ,41.1,  1.68 ,#VALUE!,Materials,Chemicals,Materials,7.0,92%,  13 ,  408 
+NBL US Equity,USD,NOBLE ENERGY INC,-1.0,1.6,  12 ,  6 ,50.3,  0.41 ,  0.10 ,Energy,"Oil, Gas & Consumable Fuels",Energy,33.0,22%,  13 ,"  1,100 "
+MDLZ US Equity,USD,MONDELEZ INTERNATIONAL INC-A,2.6,4.5,  64 ,  17 ,22.4,  7.03 ,  1.74 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",23.0,41%,  13 ,  253 
+MDU US Equity,USD,MDU RESOURCES GROUP INC,-0.1,3.0,  5 ,  2 ,21.5,  1.71 ,  2.76 ,Utilities,Multi-Utilities,Utilities,6.0,69%,  13 ,  281 
+AVAV US Equity,USD,AEROVIRONMENT INC,0.0,-4.8,  2 ,  (0),44.9,  5.35 ,  1.29 ,Industrials,Aerospace & Defense,Capital Goods,6.0,68%,  13 ,  626 
+VIV US Equity,BRL,TELEFONICA BRASIL-ADR PREF,1.1,0.1,  20 ,  1 ,45.9,  (0.80),  6.15 ,Communication Services,Diversified Telecommunication,Telecommunication Services,15.0,42%,  13 ,  40 
+BKH US Equity,USD,BLACK HILLS CORP,0.1,5.6,  4 ,  3 ,19.6,  79.15 ,  2.54 ,Utilities,Multi-Utilities,Utilities,7.0,26%,  13 ,  286 
+LKQ US Equity,USD,LKQ CORP,0.4,3.5,  9 ,  3 ,32.6,  0.78 ,  1.19 ,Consumer Discretionary,Distributors,Retailing,18.0,111%,  13 ,  139 
+OZK US Equity,USD,BANK OZK,0.4,#N/A N/A,  3 ,  (0),98.6,  1.90 ,  0.94 ,Financials,Banks,Banks,13.0,5%,  13 ,  974 
+CGNX US Equity,USD,COGNEX CORP,0.2,-2.1,  7 ,  (0),56.9,  1.56 ,  1.21 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,12.0,61%,  13 ,  526 
+ETN US Equity,USD,EATON CORP PLC,2.1,1.8,  32 ,  7 ,30.2,  1.29 ,  1.29 ,Industrials,Electrical Equipment,Capital Goods,25.0,66%,  13 ,  748 
+ENIA US Equity,USD,ENEL AMERICAS SA-ADR,0.6,2.3,  10 ,  4 ,45.1,  0.32 ,  0.76 ,Utilities,Electric Utilities,Utilities,9.0,54%,  13 ,  288 
+BLL US Equity,USD,BALL CORP,1.0,3.4,  17 ,  7 ,31.6,  0.88 ,  1.26 ,Materials,Containers & Packaging,Materials,14.0,69%,  13 ,  429 
+GEO US Equity,USD,GEO GROUP INC/THE,0.3,6.8,  3 ,  3 ,34.3,  1.82 ,  1.57 ,Real Estate,Equity Real Estate Investment,Real Estate,3.0,53%,  13 ,  324 
+BRC US Equity,USD,BRADY CORPORATION - CL A,0.1,-1.0,  2 ,  (0),28.1,  1.97 ,#VALUE!,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,5.0,110%,  13 ,  621 
+BAX US Equity,USD,BAXTER INTERNATIONAL INC,1.2,#N/A N/A,  35 ,  0 ,37.4,  2.44 ,  1.26 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,19.0,64%,  13 ,  847 
+RE US Equity,USD,EVEREST RE GROUP LTD,0.7,#N/A N/A,  9 ,  (0),32.0,  0.20 ,  1.15 ,Financials,Insurance,Insurance,12.0,31%,  13 ,  963 
+PNC US Equity,USD,PNC FINANCIAL SERVICES GROUP,6.6,#N/A N/A,  63 ,  25 ,33.0,  1.69 ,  1.44 ,Financials,Banks,Banks,29.0,5%,  13 ,"  1,036 "
+PVH US Equity,USD,PVH CORP,0.4,2.2,  9 ,  3 ,36.8,  1.03 ,  1.06 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,21.0,82%,  13 ,  154 
+NTES US Equity,CNY,NETEASE INC-ADR,1.3,-3.3,  30 ,  (6),52.8,  0.74 ,  0.97 ,Communication Services,Entertainment,Media & Entertainment,26.0,85%,  13 ,  56 
+WEX US Equity,USD,WEX INC,0.3,3.3,  7 ,  2 ,40.3,  0.99 ,  1.00 ,Information Technology,IT Services,Software & Services,14.0,21%,  13 ,  539 
+CMA US Equity,USD,COMERICA INC,1.1,#N/A N/A,  13 ,  (1),27.6,  0.88 ,  0.98 ,Financials,Banks,Banks,29.0,5%,  13 ,"  1,034 "
+QLYS US Equity,USD,QUALYS INC,0.1,-5.3,  3 ,  (0),55.7,  3.12 ,  1.64 ,Information Technology,Software,Software & Services,15.0,49%,  13 ,  544 
+CTSH US Equity,USD,COGNIZANT TECH SOLUTIONS-A,2.4,-1.2,  40 ,  (4),31.5,  1.18 ,  1.32 ,Information Technology,IT Services,Software & Services,33.0,106%,  13 ,  590 
+TCF US Equity,USD,TCF FINANCIAL CORP,0.5,#N/A N/A,  4 ,  1 ,32.6,  1.72 ,  2.39 ,Financials,Banks,Banks,17.0,7%,  13 ,"  1,000 "
+UMBF US Equity,USD,UMB FINANCIAL CORP,0.3,#N/A N/A,  3 ,  (1),28.2,  4.98 ,  2.16 ,Financials,Banks,Banks,7.0,5%,  13 ,  915 
+URBN US Equity,USD,URBAN OUTFITTERS INC,0.3,-1.4,  4 ,  (1),28.2,  1.53 ,  2.73 ,Consumer Discretionary,Specialty Retail,Retailing,24.0,188%,  13 ,  169 
+LNC US Equity,USD,LINCOLN NATIONAL CORP,1.2,#N/A N/A,  14 ,  4 ,37.5,  0.74 ,  0.53 ,Financials,Insurance,Insurance,15.0,5%,  13 ,  989 
+CCL US Equity,USD,CARNIVAL CORP,2.0,1.7,  41 ,  9 ,30.1,  1.38 ,  0.86 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,25.0,45%,  13 ,  170 
+HSIC US Equity,USD,HENRY SCHEIN INC,0.5,2.0,  13 ,  1 ,29.0,  2.08 ,  2.31 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,20.0,166%,  13 ,  851 
+ANSS US Equity,USD,ANSYS INC,0.4,-1.5,  13 ,  (1),45.8,  4.57 ,  2.70 ,Information Technology,Software,Software & Services,17.0,40%,  13 ,  550 
+NDAQ US Equity,USD,NASDAQ INC,0.9,2.7,  14 ,  4 ,25.3,  1.94 ,  1.85 ,Financials,Capital Markets,Diversified Financials,14.0,17%,  13 ,  985 
+PPL US Equity,USD,PPL CORP,-0.4,5.1,  22 ,  21 ,24.7,  3.55 ,  2.56 ,Utilities,Electric Utilities,Utilities,16.0,19%,  13 ,  302 
+HON US Equity,USD,HONEYWELL INTERNATIONAL INC,6.1,0.8,  109 ,  7 ,22.8,  (15.74),  1.69 ,Industrials,Industrial Conglomerates,Capital Goods,28.0,72%,  13 ,  756 
+CMG US Equity,USD,CHIPOTLE MEXICAN GRILL INC,0.3,-1.4,  13 ,  (1),30.3,  0.96 ,  1.12 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,34.0,221%,  13 ,  199 
+NTAP US Equity,USD,NETAPP INC,1.2,-1.7,  18 ,  (3),59.6,  1.22 ,  0.77 ,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,30.0,65%,  13 ,  585 
+FTNT US Equity,USD,FORTINET INC,0.6,-6.7,  12 ,  (1),59.0,  2.39 ,  1.76 ,Information Technology,Software,Software & Services,30.0,66%,  13 ,  584 
+TSU US Equity,BRL,TIM PARTICIPACOES SA-ADR,0.7,0.4,  8 ,  1 ,48.4,  1.02 ,  0.37 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,14.0,53%,  13 ,  38 
+YPF US Equity,ARS,YPF S.A.-SPONSORED ADR,0.3,2.5,  6 ,  8 ,48.3,  12.24 ,  0.09 ,Energy,"Oil, Gas & Consumable Fuels",Energy,17.0,47%,  13 ,"  1,060 "
+WEC US Equity,USD,WEC ENERGY GROUP INC,0.2,4.6,  22 ,  11 ,19.5,  3.74 ,  2.86 ,Utilities,Multi-Utilities,Utilities,16.0,24%,  14 ,  304 
+ADI US Equity,USD,ANALOG DEVICES INC,2.2,2.2,  33 ,  7 ,37.6,  149.55 ,  2.80 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,27.0,30%,  14 ,  575 
+IVZ US Equity,USD,INVESCO LTD,0.9,3.8,  8 ,  5 ,37.6,  1.80 ,  0.50 ,Financials,Capital Markets,Diversified Financials,17.0,17%,  14 ,"  1,005 "
+SWK US Equity,USD,STANLEY BLACK & DECKER INC,0.5,2.6,  19 ,  3 ,42.0,  1.90 ,  1.31 ,Industrials,Machinery,Capital Goods,21.0,68%,  14 ,  734 
+RJF US Equity,USD,RAYMOND JAMES FINANCIAL INC,0.7,-0.2,  11 ,  (0),36.3,  1.08 ,  0.87 ,Financials,Capital Markets,Diversified Financials,7.0,21%,  14 ,  916 
+SON US Equity,USD,SONOCO PRODUCTS CO,0.3,1.7,  6 ,  1 ,25.3,  2.83 ,  3.28 ,Materials,Containers & Packaging,Materials,13.0,116%,  14 ,  424 
+EDU US Equity,USD,NEW ORIENTAL EDUCATIO-SP ADR,#N/A N/A,#N/A N/A,  9 ,  (3),74.1,  0.54 ,  0.56 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,31.0,74%,  14 ,  195 
+WCG US Equity,USD,WELLCARE HEALTH PLANS INC,-0.1,-3.8,  12 ,  (3),38.3,  0.83 ,  0.84 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,18.0,173%,  14 ,  840 
+PYPL US Equity,USD,PAYPAL HOLDINGS INC,3.4,-2.4,  102 ,  (5),53.5,  1.46 ,  1.20 ,Information Technology,IT Services,Software & Services,49.0,37%,  14 ,  603 
+CFR US Equity,USD,CULLEN/FROST BANKERS INC,0.6,#N/A N/A,  6 ,  (4),25.4,  2.69 ,  3.11 ,Financials,Banks,Banks,16.0,4%,  14 ,  992 
+SHPG US Equity,USD,SHIRE PLC-ADR,3.5,2.6,  55 ,  19 ,23.5,  2.19 ,  1.33 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",13.0,24%,  14 ,  809 
+AFG US Equity,USD,AMERICAN FINANCIAL GROUP INC,2.0,#N/A N/A,  9 ,  (1),27.2,  (103.27),  (7.60),Financials,Insurance,Insurance,5.0,12%,  14 ,  898 
+HUM US Equity,USD,HUMANA INC,-1.0,-2.3,  44 ,  (9),33.8,  0.85 ,  1.30 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,23.0,185%,  14 ,  871 
+SSD US Equity,USD,SIMPSON MANUFACTURING CO INC,0.1,-0.8,  3 ,  (0),29.1,  0.80 ,  0.79 ,Industrials,Building Products,Capital Goods,4.0,99%,  14 ,  615 
+GMED US Equity,USD,GLOBUS MEDICAL INC - A,0.1,-2.5,  5 ,  (0),42.6,  3.76 ,  2.20 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,11.0,61%,  14 ,  800 
+TOL US Equity,USD,TOLL BROTHERS INC,0.4,4.1,  4 ,  3 ,49.7,  0.52 ,  1.79 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,19.0,67%,  14 ,  145 
+ATO US Equity,USD,ATMOS ENERGY CORP,-0.2,3.3,  11 ,  4 ,21.7,  3.05 ,  2.20 ,Utilities,Gas Utilities,Utilities,10.0,28%,  14 ,  290 
+KO US Equity,USD,COCA-COLA CO/THE,5.2,2.7,  212 ,  27 ,16.2,  3.30 ,  2.53 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",30.0,36%,  14 ,  263 
+KNX US Equity,USD,KNIGHT-SWIFT TRANSPORTATION,0.0,0.9,  6 ,  1 ,47.4,  0.82 ,  0.99 ,Industrials,Road & Rail,Transportation,20.0,69%,  14 ,  729 
+IRBT US Equity,USD,IROBOT CORP,0.0,-1.0,  2 ,  (0),72.9,  2.75 ,  1.48 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,10.0,159%,  14 ,  103 
+BWA US Equity,USD,BORGWARNER INC,0.5,1.1,  8 ,  2 ,42.7,  1.34 ,  0.87 ,Consumer Discretionary,Auto Components,Automobiles & Components,19.0,108%,  14 ,  143 
+LPT US Equity,USD,LIBERTY PROPERTY TRUST,-0.5,9.1,  6 ,  3 ,25.2,  (0.73),  4.71 ,Real Estate,Equity Real Estate Investment,Real Estate,10.0,11%,  14 ,  338 
+HMC US Equity,JPY,HONDA MOTOR CO LTD-SPONS ADR,4.4,3.1,  51 ,  43 ,28.2,  3.49 ,#VALUE!,Consumer Discretionary,Automobiles,Automobiles & Components,3.0,79%,  14 ,  75 
+FR US Equity,USD,FIRST INDUSTRIAL REALTY TR,-0.1,5.4,  4 ,  1 ,23.5,  (7.75),  1.74 ,Real Estate,Equity Real Estate Investment,Real Estate,9.0,13%,  14 ,  335 
+ISRG US Equity,USD,INTUITIVE SURGICAL INC,1.0,-2.4,  59 ,  (2),49.0,  3.02 ,  2.41 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,20.0,55%,  14 ,  850 
+EFX US Equity,USD,EQUIFAX INC,0.4,2.6,  12 ,  2 ,56.1,  5.13 ,  1.17 ,Industrials,Professional Services,Commercial & Professional Serv,17.0,48%,  14 ,  711 
+TYL US Equity,USD,TYLER TECHNOLOGIES INC,0.2,-1.3,  7 ,  (0),37.2,  2.93 ,  3.15 ,Information Technology,Software,Software & Services,11.0,54%,  14 ,  523 
+DVA US Equity,USD,DAVITA INC,0.8,5.1,  11 ,  9 ,49.6,  0.42 ,  0.81 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,10.0,59%,  14 ,  797 
+GDOT US Equity,USD,GREEN DOT CORP-CLASS A,0.2,-7.0,  4 ,  (1),59.4,  1.77 ,  1.22 ,Financials,Consumer Finance,Diversified Financials,15.0,48%,  14 ,  986 
+APD US Equity,USD,AIR PRODUCTS & CHEMICALS INC,1.2,0.1,  35 ,  0 ,22.9,  1.26 ,  1.40 ,Materials,Chemicals,Materials,24.0,47%,  14 ,  456 
+WIT US Equity,INR,WIPRO LTD-ADR,1.1,-2.1,  24 ,  (2),28.7,  2.41 ,  1.91 ,Information Technology,IT Services,Software & Services,4.0,68%,  14 ,  471 
+CRS US Equity,USD,CARPENTER TECHNOLOGY,0.1,1.7,  2 ,  0 ,62.1,  0.39 ,  0.52 ,Materials,Metals & Mining,Materials,7.0,76%,  14 ,  411 
+PRU US Equity,USD,PRUDENTIAL FINANCIAL INC,15.0,#N/A N/A,  38 ,  12 ,33.1,  1.08 ,  0.98 ,Financials,Insurance,Insurance,18.0,7%,  14 ,"  1,009 "
+MTDR US Equity,USD,MATADOR RESOURCES CO,-1.0,1.9,  3 ,  0 ,55.1,  0.47 ,  0.16 ,Energy,"Oil, Gas & Consumable Fuels",Energy,17.0,31%,  14 ,"  1,061 "
+AJG US Equity,USD,ARTHUR J GALLAGHER & CO,1.0,2.6,  14 ,  1 ,19.4,  1.40 ,  1.66 ,Financials,Insurance,Insurance,16.0,48%,  14 ,  995 
+JJSF US Equity,USD,J & J SNACK FOODS CORP,0.1,-1.6,  3 ,  (0),19.8,  4.83 ,  4.14 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",4.0,127%,  14 ,  214 
+TTEK US Equity,USD,TETRA TECH INC,0.2,0.6,  4 ,  0 ,34.7,  2.16 ,  1.27 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,6.0,114%,  14 ,  628 
+FIX US Equity,USD,COMFORT SYSTEMS USA INC,0.1,0.4,  2 ,  0 ,39.1,  1.99 ,  4.44 ,Industrials,Construction & Engineering,Capital Goods,4.0,211%,  14 ,  618 
+TIF US Equity,USD,TIFFANY & CO,0.5,0.1,  13 ,  (0),42.8,  1.50 ,  1.58 ,Consumer Discretionary,Specialty Retail,Retailing,30.0,85%,  14 ,  194 
+FITB US Equity,USD,FIFTH THIRD BANCORP,2.0,#N/A N/A,  18 ,  14 ,29.5,  1.10 ,  0.81 ,Financials,Banks,Banks,28.0,5%,  15 ,"  1,033 "
+VMC US Equity,USD,VULCAN MATERIALS CO,0.4,2.8,  14 ,  3 ,63.1,  0.93 ,  0.88 ,Materials,Construction Materials,Materials,16.0,44%,  15 ,  442 
+HBAN US Equity,USD,HUNTINGTON BANCSHARES INC,1.9,#N/A N/A,  16 ,  13 ,29.6,  0.82 ,  0.99 ,Financials,Banks,Banks,25.0,5%,  15 ,"  1,027 "
+SNH US Equity,USD,SENIOR HOUSING PROP TRUST,0.0,6.8,  4 ,  4 ,31.0,  (0.42),  2.21 ,Real Estate,Equity Real Estate Investment,Real Estate,10.0,15%,  15 ,  339 
+PRLB US Equity,USD,PROTO LABS INC,0.0,-1.4,  3 ,  (0),55.8,  3.14 ,  1.55 ,Industrials,Machinery,Capital Goods,6.0,80%,  15 ,  630 
+ETFC US Equity,USD,E*TRADE FINANCIAL CORP,1.6,1.8,  13 ,  3 ,30.3,  1.22 ,  1.05 ,Financials,Capital Markets,Diversified Financials,13.0,5%,  15 ,  979 
+CR US Equity,USD,CRANE CO,0.3,1.4,  5 ,  0 ,31.2,  1.31 ,  1.58 ,Industrials,Machinery,Capital Goods,8.0,83%,  15 ,  647 
+ATR US Equity,USD,APTARGROUP INC,0.1,2.2,  7 ,  1 ,25.1,  2.05 ,  1.51 ,Materials,Containers & Packaging,Materials,12.0,79%,  15 ,  422 
+LDOS US Equity,USD,LEIDOS HOLDINGS INC,0.7,2.7,  10 ,  3 ,30.8,  1.49 ,  1.24 ,Information Technology,IT Services,Software & Services,11.0,113%,  15 ,  517 
+ANET US Equity,USD,ARISTA NETWORKS INC,0.4,-6.7,  18 ,  (1),57.5,  1.91 ,  1.42 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,32.0,79%,  15 ,  587 
+USB US Equity,USD,US BANCORP,7.7,#N/A N/A,  88 ,  29 ,22.4,  1.88 ,  1.54 ,Financials,Banks,Banks,29.0,5%,  15 ,"  1,038 "
+APC US Equity,USD,ANADARKO PETROLEUM CORP,-0.7,2.3,  28 ,  11 ,42.8,  0.22 ,  1.26 ,Energy,"Oil, Gas & Consumable Fuels",Energy,33.0,30%,  15 ,"  1,097 "
+EME US Equity,USD,EMCOR GROUP INC,0.2,-0.1,  4 ,  (0),35.9,  2.12 ,  3.08 ,Industrials,Construction & Engineering,Capital Goods,4.0,199%,  15 ,  617 
+TDY US Equity,USD,TELEDYNE TECHNOLOGIES INC,0.4,1.4,  8 ,  1 ,30.3,  6.91 ,  3.29 ,Industrials,Aerospace & Defense,Capital Goods,3.0,74%,  15 ,  605 
+OI US Equity,USD,OWENS-ILLINOIS INC,0.3,5.1,  3 ,  5 ,54.3,  0.75 ,  0.51 ,Materials,Containers & Packaging,Materials,15.0,70%,  15 ,  438 
+FIS US Equity,USD,FIDELITY NATIONAL INFO SERV,1.8,2.9,  35 ,  8 ,29.7,  1.76 ,  1.31 ,Information Technology,IT Services,Software & Services,21.0,36%,  15 ,  555 
+NTRS US Equity,USD,NORTHERN TRUST CORP,1.7,#N/A N/A,  22 ,  (40),30.5,  1.66 ,  1.29 ,Financials,Capital Markets,Diversified Financials,21.0,5%,  15 ,"  1,014 "
+TXT US Equity,USD,TEXTRON INC,0.9,1.3,  14 ,  2 ,47.7,  1.35 ,  0.79 ,Industrials,Aerospace & Defense,Capital Goods,13.0,93%,  15 ,  678 
+NCLH US Equity,USD,NORWEGIAN CRUISE LINE HOLDIN,0.3,3.6,  11 ,  6 ,40.4,  1.80 ,  0.62 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,22.0,40%,  15 ,  156 
+OKE US Equity,USD,ONEOK INC,0.4,4.1,  25 ,  9 ,29.9,  20.24 ,  0.83 ,Energy,"Oil, Gas & Consumable Fuels",Energy,21.0,76%,  15 ,"  1,071 "
+EWBC US Equity,USD,EAST WEST BANCORP INC,0.7,#N/A N/A,  8 ,  (3),29.9,  1.12 ,  0.93 ,Financials,Banks,Banks,14.0,5%,  15 ,  980 
+ZTO US Equity,CNY,ZTO EXPRESS CAYMAN INC-ADR,0.2,-2.4,  12 ,  (2),44.5,  0.79 ,  0.61 ,Industrials,Air Freight & Logistics,Transportation,14.0,53%,  15 ,  690 
+ZBH US Equity,USD,ZIMMER BIOMET HOLDINGS INC,1.3,4.7,  23 ,  10 ,30.8,  6.05 ,  1.85 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,30.0,31%,  15 ,  888 
+XYL US Equity,USD,XYLEM INC,0.5,2.4,  13 ,  2 ,35.5,  1.22 ,  1.13 ,Industrials,Machinery,Capital Goods,19.0,72%,  16 ,  722 
+NJR US Equity,USD,NEW JERSEY RESOURCES CORP,-0.1,4.4,  4 ,  1 ,23.9,  (1.01),  2.55 ,Utilities,Gas Utilities,Utilities,7.0,71%,  16 ,  284 
+FFIN US Equity,USD,FIRST FINL BANKSHARES INC,0.2,#N/A N/A,  4 ,  (0),30.0,  4.82 ,  5.00 ,Financials,Banks,Banks,7.0,5%,  16 ,  918 
+CBSH US Equity,USD,COMMERCE BANCSHARES INC,0.5,#N/A N/A,  7 ,  0 ,24.3,  6.11 ,  5.38 ,Financials,Banks,Banks,11.0,6%,  16 ,  956 
+FCN US Equity,USD,FTI CONSULTING INC,0.2,0.2,  3 ,  0 ,47.6,  (226.68),  2.20 ,Industrials,Professional Services,Commercial & Professional Serv,3.0,81%,  16 ,  612 
+INGR US Equity,USD,INGREDION INC,0.5,1.2,  7 ,  1 ,37.1,  1.25 ,  1.82 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",7.0,101%,  16 ,  219 
+DXC US Equity,USD,DXC TECHNOLOGY CO,2.4,1.1,  17 ,  6 ,71.6,  0.66 ,  0.51 ,Information Technology,IT Services,Software & Services,21.0,73%,  16 ,  556 
+BBD US Equity,BRL,BANCO BRADESCO-ADR,-6.0,#N/A N/A,  61 ,  22 ,51.8,  0.88 ,  0.70 ,Financials,Banks,Banks,11.0,17%,  16 ,  961 
+BCPC US Equity,USD,BALCHEM CORP,0.1,0.9,  3 ,  0 ,26.5,  2.73 ,  1.71 ,Materials,Chemicals,Materials,4.0,66%,  16 ,  398 
+ICE US Equity,USD,INTERCONTINENTAL EXCHANGE IN,2.1,2.3,  46 ,  6 ,26.8,  1.99 ,  1.59 ,Financials,Capital Markets,Diversified Financials,16.0,6%,  16 ,  996 
+ABB US Equity,USD,ABB LTD-SPON ADR,1.9,1.3,  43 ,  2 ,25.0,  1.01 ,  1.16 ,Industrials,Electrical Equipment,Capital Goods,7.0,83%,  16 ,  636 
+TRN US Equity,USD,TRINITY INDUSTRIES INC,-0.4,3.8,  3 ,  2 ,64.7,  0.68 ,  0.25 ,Industrials,Machinery,Capital Goods,12.0,38%,  16 ,  675 
+PEG US Equity,USD,PUBLIC SERVICE ENTERPRISE GP,-1.2,4.2,  28 ,  13 ,19.8,  3.02 ,  1.84 ,Utilities,Multi-Utilities,Utilities,17.0,22%,  16 ,  310 
+AMX US Equity,MXN,AMERICA MOVIL-SPN ADR CL L,3.4,2.3,  44 ,  31 ,42.5,  0.48 ,  0.74 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,18.0,74%,  16 ,  45 
+BYD US Equity,USD,BOYD GAMING CORP,0.3,5.6,  3 ,  3 ,70.7,  0.65 ,  0.65 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,13.0,49%,  16 ,  118 
+UTX US Equity,USD,UNITED TECHNOLOGIES CORP,4.9,2.4,  104 ,  19 ,31.3,  2.12 ,  1.42 ,Industrials,Aerospace & Defense,Capital Goods,21.0,61%,  16 ,  731 
+CMD US Equity,USD,CANTEL MEDICAL CORP,0.1,0.7,  4 ,  0 ,28.2,  2.05 ,  2.54 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,4.0,100%,  16 ,  765 
+INGN US Equity,USD,INOGEN INC,0.0,-4.5,  3 ,  (0),78.5,  20.75 ,  4.06 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,8.0,107%,  16 ,  786 
+MPWR US Equity,USD,MONOLITHIC POWER SYSTEMS INC,0.1,-2.9,  5 ,  (0),52.9,  1.52 ,  1.09 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,10.0,82%,  16 ,  508 
+AAP US Equity,USD,ADVANCE AUTO PARTS INC,0.7,0.1,  13 ,  0 ,44.9,  1.40 ,  1.01 ,Consumer Discretionary,Specialty Retail,Retailing,24.0,109%,  16 ,  168 
+ELY US Equity,USD,CALLAWAY GOLF COMPANY,0.1,-0.4,  2 ,  0 ,35.7,  3.41 ,  2.33 ,Consumer Discretionary,Leisure Products,Consumer Durables & Apparel,11.0,131%,  16 ,  112 
+JBLU US Equity,USD,JETBLUE AIRWAYS CORP,0.2,0.9,  6 ,  1 ,37.9,  0.62 ,  0.22 ,Industrials,Airlines,Transportation,17.0,75%,  16 ,  706 
+ROP US Equity,USD,ROPER TECHNOLOGIES INC,1.3,2.8,  30 ,  4 ,35.1,  5.83 ,  4.14 ,Industrials,Industrial Conglomerates,Capital Goods,14.0,34%,  16 ,  691 
+IT US Equity,USD,GARTNER INC,0.3,4.2,  13 ,  3 ,31.5,  2.32 ,  1.68 ,Information Technology,IT Services,Software & Services,11.0,60%,  16 ,  516 
+MLM US Equity,USD,MARTIN MARIETTA MATERIALS,0.3,3.0,  12 ,  2 ,46.0,  0.94 ,  1.21 ,Materials,Construction Materials,Materials,15.0,49%,  16 ,  436 
+SNN US Equity,USD,SMITH & NEPHEW PLC -SPON ADR,0.7,1.0,  16 ,  1 ,29.2,  2.74 ,  2.73 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,5.0,64%,  16 ,  769 
+COL US Equity,USD,ROCKWELL COLLINS INC,0.8,3.2,  22 ,  6 ,20.0,  3.49 ,  0.73 ,Industrials,Aerospace & Defense,Capital Goods,13.0,47%,  16 ,  676 
+BABA US Equity,CNY,ALIBABA GROUP HOLDING-SP ADR,15.4,-2.3,  405 ,  (20),56.2,  0.79 ,  0.72 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,52.0,44%,  16 ,  210 
+RLI US Equity,USD,RLI CORP,0.2,#N/A N/A,  3 ,  0 ,28.7,  7.68 ,  11.96 ,Financials,Insurance,Insurance,5.0,28%,  16 ,  902 
+AON US Equity,USD,AON PLC,1.1,2.5,  39 ,  5 ,23.7,  1.35 ,  1.45 ,Financials,Insurance,Insurance,21.0,42%,  16 ,"  1,018 "
+MOH US Equity,USD,MOLINA HEALTHCARE INC,-0.4,-4.5,  8 ,  (4),47.9,  (9.92),  4.10 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,16.0,226%,  16 ,  828 
+SKM US Equity,KRW,SK TELECOM CO LTD-SPON ADR,0.8,1.0,  19 ,  4 ,31.5,  (0.46),#VALUE!,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,2.0,49%,  16 ,  5 
+RCL US Equity,USD,ROYAL CARIBBEAN CRUISES LTD,0.5,3.5,  23 ,  7 ,41.3,  0.93 ,  1.06 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,24.0,37%,  16 ,  165 
+HQY US Equity,USD,HEALTHEQUITY INC,0.1,-3.7,  5 ,  (0),50.6,  2.55 ,  1.34 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,13.0,66%,  16 ,  815 
+UHS US Equity,USD,UNIVERSAL HEALTH SERVICES-B,0.6,2.3,  12 ,  4 ,28.6,  2.02 ,  1.53 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,18.0,97%,  16 ,  841 
+GPN US Equity,USD,GLOBAL PAYMENTS INC,0.6,3.7,  17 ,  4 ,36.6,  1.06 ,  0.95 ,Information Technology,IT Services,Software & Services,34.0,27%,  16 ,  591 
+SAP US Equity,EUR,SAP SE-SPONSORED ADR,3.5,0.4,  130 ,  3 ,44.3,  1.75 ,  1.65 ,Information Technology,Software,Software & Services,15.0,55%,  17 ,  543 
+ANTM US Equity,USD,ANTHEM INC,0.9,-0.7,  73 ,  (5),34.2,  1.35 ,  0.95 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,22.0,128%,  17 ,  864 
+BSMX US Equity,MXN,BANCO SANTANDER MEXICO -ADR,3.6,#N/A N/A,  9 ,  11 ,52.6,  0.88 ,  0.68 ,Financials,Banks,Banks,7.0,10%,  17 ,  926 
+DECK US Equity,USD,DECKERS OUTDOOR CORP,0.3,-0.3,  4 ,  (0),45.1,  2.47 ,  1.71 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,16.0,133%,  17 ,  131 
+EXPO US Equity,USD,EXPONENT INC,0.1,-2.3,  3 ,  (0),30.1,  6.70 ,  4.29 ,Industrials,Professional Services,Commercial & Professional Serv,5.0,82%,  17 ,  624 
+SLM US Equity,USD,SLM CORP,-0.1,2.8,  5 ,  2 ,27.5,  0.50 ,  0.54 ,Financials,Consumer Finance,Diversified Financials,12.0,7%,  17 ,  969 
+POST US Equity,USD,POST HOLDINGS INC,0.6,6.8,  6 ,  6 ,28.4,  0.73 ,#VALUE!,Consumer Staples,Food Products,"Food, Beverage & Tobacco",10.0,52%,  17 ,  226 
+KHC US Equity,USD,KRAFT HEINZ CO/THE,0.6,4.8,  63 ,  30 ,42.0,  3.89 ,  3.29 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",25.0,22%,  17 ,  258 
+BRO US Equity,USD,BROWN & BROWN INC,0.4,0.7,  8 ,  0 ,21.9,  2.46 ,  2.15 ,Financials,Insurance,Insurance,14.0,30%,  17 ,  982 
+AEL US Equity,USD,AMERICAN EQUITY INVT LIFE HL,1.2,#N/A N/A,  3 ,  (1),35.8,  (0.73),  1.84 ,Financials,Insurance,Insurance,11.0,6%,  17 ,  954 
+CACI US Equity,USD,CACI INTERNATIONAL INC -CL A,0.3,2.3,  4 ,  1 ,28.4,  2.85 ,  3.43 ,Information Technology,IT Services,Software & Services,13.0,111%,  17 ,  533 
+BOH US Equity,USD,BANK OF HAWAII CORP,#N/A N/A,#N/A N/A,  3 ,  0 ,21.6,  2.02 ,  2.37 ,Financials,Banks,Banks,8.0,4%,  17 ,  931 
+EQNR US Equity,USD,EQUINOR ASA-SPON ADR,5.4,0.4,  81 ,  14 ,30.7,  0.61 ,  4.68 ,Energy,"Oil, Gas & Consumable Fuels",Energy,5.0,65%,  17 ,"  1,047 "
+CW US Equity,USD,CURTISS-WRIGHT CORP,0.3,1.2,  5 ,  0 ,33.5,  1.57 ,  4.20 ,Industrials,Aerospace & Defense,Capital Goods,8.0,73%,  17 ,  641 
+SYF US Equity,USD,SYNCHRONY FINANCIAL,9.2,2.1,  19 ,  9 ,47.8,  0.28 ,  0.83 ,Financials,Consumer Finance,Diversified Financials,24.0,18%,  17 ,"  1,026 "
+AXP US Equity,USD,AMERICAN EXPRESS CO,14.0,2.2,  94 ,  26 ,25.5,  1.32 ,  1.19 ,Financials,Consumer Finance,Diversified Financials,32.0,23%,  17 ,"  1,043 "
+RLGY US Equity,USD,REALOGY HOLDINGS CORP,0.3,5.6,  2 ,  3 ,55.4,  0.53 ,  1.14 ,Real Estate,Real Estate Management & Devel,Real Estate,6.0,82%,  17 ,  332 
+GRMN US Equity,USD,GARMIN LTD,0.7,-3.1,  13 ,  (2),28.0,  10.68 ,  3.05 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,10.0,67%,  17 ,  101 
+HRC US Equity,USD,HILL-ROM HOLDINGS INC,0.3,3.7,  6 ,  2 ,32.3,  1.51 ,  1.38 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,10.0,64%,  17 ,  795 
+RMD US Equity,USD,RESMED INC,0.4,0.4,  15 ,  0 ,31.9,  2.05 ,  2.46 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,12.0,73%,  17 ,  806 
+DGX US Equity,USD,QUEST DIAGNOSTICS INC,0.9,2.4,  13 ,  4 ,28.3,  3.61 ,  3.12 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,20.0,71%,  17 ,  852 
+SHOO US Equity,USD,STEVEN MADDEN LTD,0.2,-1.1,  3 ,  (0),45.0,  1.81 ,  1.50 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,14.0,146%,  17 ,  129 
+CLGX US Equity,USD,CORELOGIC INC,0.3,3.7,  3 ,  2 ,31.8,  3.79 ,  0.72 ,Information Technology,IT Services,Software & Services,11.0,44%,  17 ,  519 
+HUBB US Equity,USD,HUBBELL INC,0.4,2.5,  6 ,  1 ,50.1,  1.56 ,  1.21 ,Industrials,Electrical Equipment,Capital Goods,7.0,97%,  17 ,  637 
+TPR US Equity,USD,TAPESTRY INC,0.8,0.5,  12 ,  0 ,37.0,  1.17 ,  1.03 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,38.0,84%,  17 ,  208 
+CALM US Equity,USD,CAL-MAINE FOODS INC,0.2,-1.6,  2 ,  (0),20.0,  11.71 ,  0.40 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",4.0,146%,  17 ,  215 
+DKS US Equity,USD,DICK'S SPORTING GOODS INC,0.5,0.1,  4 ,  (0),37.4,  2.90 ,  2.19 ,Consumer Discretionary,Specialty Retail,Retailing,28.0,201%,  17 ,  186 
+FAF US Equity,USD,FIRST AMERICAN FINANCIAL,0.5,#N/A N/A,  5 ,  (1),40.7,  5.69 ,  2.01 ,Financials,Insurance,Insurance,5.0,56%,  17 ,  899 
+CERN US Equity,USD,CERNER CORP,1.0,-0.3,  19 ,  (0),43.1,  2.16 ,  1.43 ,Health Care,Health Care Technology,Health Care Equipment & Servic,25.0,82%,  17 ,  876 
+CMI US Equity,USD,CUMMINS INC,1.6,0.3,  24 ,  0 ,31.0,  0.73 ,  (3.38),Industrials,Machinery,Capital Goods,29.0,125%,  17 ,  758 
+CPB US Equity,USD,CAMPBELL SOUP CO,0.9,10.7,  12 ,  10 ,32.1,  2.14 ,  2.94 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",19.0,78%,  17 ,  243 
+FLO US Equity,USD,FLOWERS FOODS INC,0.2,2.1,  4 ,  1 ,31.5,  5.16 ,  3.06 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",6.0,147%,  17 ,  216 
+OGE US Equity,USD,OGE ENERGY CORP,0.5,3.7,  8 ,  3 ,20.6,  4.73 ,  2.68 ,Utilities,Electric Utilities,Utilities,11.0,21%,  17 ,  295 
+CINF US Equity,USD,CINCINNATI FINANCIAL CORP,1.0,#N/A N/A,  13 ,  0 ,33.0,  7.12 ,  79.22 ,Financials,Insurance,Insurance,7.0,28%,  17 ,  919 
+CCMP US Equity,USD,CABOT MICROELECTRONICS CORP,0.1,-1.9,  3 ,  (0),45.2,  1.25 ,#VALUE!,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,3.0,73%,  17 ,  467 
+ASGN US Equity,USD,ASGN INC,0.3,3.3,  4 ,  1 ,54.2,  2.32 ,  1.38 ,Industrials,Professional Services,Commercial & Professional Serv,7.0,141%,  17 ,  640 
+VIPS US Equity,CNY,VIPSHOP HOLDINGS LTD - ADR,-0.3,#N/A N/A,  4 ,  (1),87.4,  0.53 ,  0.37 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,14.0,265%,  17 ,  126 
+DHI US Equity,USD,DR HORTON INC,0.4,0.8,  13 ,  2 ,46.0,  1.12 ,  0.75 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,20.0,122%,  17 ,  149 
+WRK US Equity,USD,WESTROCK CO,1.4,2.3,  12 ,  6 ,46.8,  1.82 ,  0.27 ,Materials,Containers & Packaging,Materials,15.0,65%,  17 ,  437 
+IQV US Equity,USD,IQVIA HOLDINGS INC,0.6,5.2,  24 ,  9 ,35.4,  1.38 ,  1.30 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",22.0,46%,  17 ,  867 
+ALL US Equity,USD,ALLSTATE CORP,4.6,#N/A N/A,  31 ,  6 ,33.1,  (14.74),  1.63 ,Financials,Insurance,Insurance,21.0,35%,  17 ,"  1,019 "
+NOAH US Equity,CNY,NOAH HOLDINGS LTD-SPON ADS,#N/A N/A,#N/A N/A,  2 ,  (0),50.9,  0.64 ,  0.49 ,Financials,Capital Markets,Diversified Financials,6.0,47%,  17 ,  908 
+WMB US Equity,USD,WILLIAMS COS INC,-0.3,7.6,  30 ,  20 ,29.7,  1.11 ,  4.97 ,Energy,"Oil, Gas & Consumable Fuels",Energy,23.0,19%,  18 ,"  1,076 "
+F US Equity,USD,FORD MOTOR CO,9.0,-0.7,  37 ,  (11),41.8,  (6.28),  0.40 ,Consumer Discretionary,Automobiles,Automobiles & Components,24.0,63%,  18 ,  164 
+HCSG US Equity,USD,HEALTHCARE SERVICES GROUP,0.0,-0.5,  3 ,  (0),33.0,  1.71 ,  1.70 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,10.0,298%,  18 ,  654 
+NVS US Equity,USD,NOVARTIS AG-SPONSORED ADR,12.2,1.2,  223 ,  19 ,23.5,  2.42 ,  1.78 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",5.0,38%,  18 ,  771 
+PLCE US Equity,USD,CHILDREN'S PLACE INC/THE,0.1,-0.1,  2 ,  (0),47.5,  0.78 ,  0.47 ,Consumer Discretionary,Specialty Retail,Retailing,8.0,213%,  18 ,  92 
+CBOE US Equity,USD,CBOE GLOBAL MARKETS INC,0.5,1.5,  12 ,  1 ,22.8,  4.43 ,  2.57 ,Financials,Capital Markets,Diversified Financials,13.0,22%,  18 ,  978 
+TXRH US Equity,USD,TEXAS ROADHOUSE INC,0.2,-0.5,  5 ,  (0),35.1,  1.55 ,  1.72 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,21.0,189%,  18 ,  152 
+D US Equity,USD,DOMINION ENERGY INC,-0.3,6.3,  48 ,  37 ,18.1,  4.54 ,  3.96 ,Utilities,Multi-Utilities,Utilities,17.0,17%,  18 ,  309 
+RSG US Equity,USD,REPUBLIC SERVICES INC,1.2,2.9,  25 ,  8 ,18.9,  3.77 ,  1.89 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,12.0,48%,  18 ,  669 
+SJM US Equity,USD,JM SMUCKER CO/THE,0.8,4.5,  13 ,  5 ,24.1,  12.56 ,  2.80 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",18.0,45%,  18 ,  240 
+MASI US Equity,USD,MASIMO CORP,0.2,-2.1,  6 ,  (0),29.1,  9.53 ,  2.09 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,7.0,86%,  18 ,  779 
+SCHW US Equity,USD,SCHWAB (CHARLES) CORP,3.6,-2.7,  64 ,  7 ,34.3,  0.88 ,  1.49 ,Financials,Capital Markets,Diversified Financials,18.0,4%,  18 ,"  1,008 "
+RS US Equity,USD,RELIANCE STEEL & ALUMINUM,0.2,1.7,  6 ,  2 ,27.0,  (0.67),  (3.29),Materials,Metals & Mining,Materials,10.0,137%,  18 ,  414 
+GRFS US Equity,EUR,GRIFOLS SA-ADR,0.5,4.8,  18 ,  6 ,51.2,  1.33 ,  1.12 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",5.0,38%,  18 ,  767 
+FBHS US Equity,USD,FORTUNE BRANDS HOME & SECURI,0.4,2.8,  6 ,  1 ,51.3,  0.86 ,  0.82 ,Industrials,Building Products,Capital Goods,20.0,95%,  18 ,  725 
+TKR US Equity,USD,TIMKEN CO,0.2,2.8,  3 ,  1 ,39.3,  0.56 ,  0.93 ,Industrials,Machinery,Capital Goods,10.0,88%,  18 ,  659 
+KSS US Equity,USD,KOHLS CORP,1.8,1.2,  12 ,  3 ,36.1,  2.11 ,  10.97 ,Consumer Discretionary,Multiline Retail,Retailing,22.0,153%,  18 ,  159 
+BRK/B US Equity,USD,BERKSHIRE HATHAWAY INC-CL B,21.5,-4.5,  535 ,  (216),30.0,  5.57 ,  3.31 ,Financials,Diversified Financial Services,Diversified Financials,6.0,37%,  18 ,  906 
+PFG US Equity,USD,PRINCIPAL FINANCIAL GROUP,4.2,#N/A N/A,  14 ,  1 ,35.9,  3.34 ,  1.16 ,Financials,Insurance,Insurance,13.0,5%,  18 ,  977 
+ITUB US Equity,BRL,ITAU UNIBANCO H-SPON PRF ADR,-18.5,#N/A N/A,  83 ,  45 ,43.1,  0.96 ,  0.98 ,Financials,Banks,Banks,9.0,11%,  18 ,  945 
+BLK US Equity,USD,BLACKROCK INC,3.7,-0.2,  65 ,  (2),38.1,  9.08 ,  1.26 ,Financials,Capital Markets,Diversified Financials,16.0,7%,  18 ,  993 
+RPM US Equity,USD,RPM INTERNATIONAL INC,0.3,3.6,  9 ,  2 ,19.0,  0.84 ,  0.63 ,Materials,Chemicals,Materials,14.0,105%,  18 ,  428 
+CASY US Equity,USD,CASEY'S GENERAL STORES INC,-0.1,2.6,  5 ,  1 ,19.2,  2.71 ,  2.21 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,13.0,266%,  18 ,  229 
+NGG US Equity,GBP,NATIONAL GRID PLC-SP ADR,0.2,5.4,  36 ,  33 ,21.3,  3.53 ,  2.47 ,Utilities,Multi-Utilities,Utilities,3.0,25%,  18 ,  268 
+IPGP US Equity,USD,IPG PHOTONICS CORP,0.2,-1.7,  7 ,  (1),53.1,  (6.96),  1.01 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,11.0,62%,  18 ,  512 
+SIVB US Equity,USD,SVB FINANCIAL GROUP,0.8,#N/A N/A,  13 ,  (1),53.5,  0.76 ,  0.77 ,Financials,Banks,Banks,21.0,5%,  18 ,"  1,015 "
+DAN US Equity,USD,DANA INC,0.1,1.8,  2 ,  1 ,66.2,  0.45 ,  0.63 ,Consumer Discretionary,Auto Components,Automobiles & Components,9.0,137%,  18 ,  94 
+AMED US Equity,USD,AMEDISYS INC,0.2,0.3,  4 ,  0 ,66.4,  2.27 ,  2.48 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,12.0,214%,  18 ,  807 
+GWR US Equity,USD,GENESEE & WYOMING INC-CL A,0.3,3.3,  5 ,  2 ,37.6,  0.82 ,  1.25 ,Industrials,Road & Rail,Transportation,15.0,29%,  18 ,  700 
+TWTR US Equity,USD,TWITTER INC,0.8,-4.3,  25 ,  (3),63.4,  (9.60),  2.05 ,Communication Services,Interactive Media & Services,Media & Entertainment,39.0,34%,  18 ,  69 
+DLX US Equity,USD,DELUXE CORP,0.3,2.1,  2 ,  1 ,51.8,  (5.50),  1.72 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,3.0,89%,  19 ,  610 
+TAL US Equity,USD,TAL EDUCATION GROUP- ADR,#N/A N/A,#N/A N/A,  17 ,  (1),70.3,  0.83 ,  0.63 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,29.0,77%,  19 ,  188 
+CI US Equity,USD,CIGNA CORP,3.9,-0.2,  52 ,  0 ,29.1,  1.59 ,  1.28 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,22.0,62%,  19 ,  866 
+WSO US Equity,USD,WATSCO INC,0.2,0.1,  5 ,  (0),30.4,  2.42 ,  2.56 ,Industrials,Trading Companies & Distributo,Capital Goods,11.0,206%,  19 ,  664 
+OXY US Equity,USD,OCCIDENTAL PETROLEUM CORP,1.1,0.8,  55 ,  8 ,37.0,  0.86 ,  (0.90),Energy,"Oil, Gas & Consumable Fuels",Energy,26.0,38%,  19 ,"  1,081 "
+JBT US Equity,USD,JOHN BEAN TECHNOLOGIES CORP,0.0,2.3,  3 ,  0 ,47.9,  1.99 ,  1.21 ,Industrials,Machinery,Capital Goods,10.0,127%,  19 ,  660 
+PG US Equity,USD,PROCTER & GAMBLE CO/THE,11.1,1.2,  234 ,  19 ,30.7,  2.91 ,  3.24 ,Consumer Staples,Household Products,Household & Personal Products,28.0,55%,  19 ,  262 
+AAN US Equity,USD,AARON'S INC,0.3,0.7,  3 ,  0 ,43.4,  0.93 ,  0.61 ,Consumer Discretionary,Specialty Retail,Retailing,9.0,141%,  19 ,  97 
+WBA US Equity,USD,WALGREENS BOOTS ALLIANCE INC,6.9,1.7,  78 ,  14 ,24.7,  1.60 ,  1.10 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,27.0,196%,  19 ,  261 
+GEF US Equity,USD,GREIF INC-CL A,0.1,2.1,  2 ,  1 ,33.7,  1.54 ,  1.62 ,Materials,Containers & Packaging,Materials,7.0,116%,  19 ,  410 
+AN US Equity,USD,AUTONATION INC,0.3,6.3,  3 ,  6 ,30.9,  2.03 ,  (4.46),Consumer Discretionary,Specialty Retail,Retailing,15.0,216%,  19 ,  130 
+PHM US Equity,USD,PULTEGROUP INC,1.4,1.7,  7 ,  3 ,44.7,  18.48 ,  1.59 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,18.0,100%,  19 ,  142 
+AZN US Equity,USD,ASTRAZENECA PLC-SPONS ADR,0.5,2.5,  105 ,  12 ,27.9,  1.80 ,  0.87 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",7.0,34%,  19 ,  783 
+JHG US Equity,USD,JANUS HENDERSON GROUP PLC,0.7,-0.6,  5 ,  (0),27.6,  (10.69),  1.23 ,Financials,Capital Markets,Diversified Financials,11.0,33%,  19 ,  955 
+APH US Equity,USD,AMPHENOL CORP-CL A,0.9,1.2,  26 ,  2 ,27.9,  2.58 ,  1.62 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,14.0,82%,  19 ,  538 
+BRKS US Equity,USD,BROOKS AUTOMATION INC,0.1,-0.3,  2 ,  (0),46.4,  3.90 ,  0.68 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,6.0,87%,  19 ,  481 
+KMT US Equity,USD,KENNAMETAL INC,0.1,1.1,  3 ,  0 ,47.0,  0.91 ,  0.82 ,Industrials,Machinery,Capital Goods,12.0,98%,  19 ,  674 
+AIT US Equity,USD,APPLIED INDUSTRIAL TECH INC,0.1,3.1,  3 ,  1 ,31.1,  1.98 ,#VALUE!,Industrials,Trading Companies & Distributo,Capital Goods,5.0,177%,  19 ,  625 
+AAON US Equity,USD,AAON INC,0.0,-0.1,  2 ,  (0),45.2,  0.41 ,  3.02 ,Industrials,Building Products,Capital Goods,3.0,138%,  19 ,  608 
+HRL US Equity,USD,HORMEL FOODS CORP,0.9,0.3,  24 ,  (0),20.9,  (24.17),  3.62 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",14.0,132%,  19 ,  230 
+COP US Equity,USD,CONOCOPHILLIPS,5.0,0.7,  75 ,  12 ,37.6,  0.64 ,  (1.93),Energy,"Oil, Gas & Consumable Fuels",Energy,23.0,48%,  19 ,"  1,074 "
+OLLI US Equity,USD,OLLIE'S BARGAIN OUTLET HOLDI,0.1,0.0,  6 ,  0 ,33.2,  2.29 ,  1.74 ,Consumer Discretionary,Multiline Retail,Retailing,14.0,111%,  19 ,  127 
+JW/A US Equity,USD,WILEY (JOHN) & SONS-CLASS A,0.2,1.1,  3 ,  0 ,28.2,  1.88 ,#VALUE!,Communication Services,Media,Media & Entertainment,3.0,66%,  19 ,  13 
+PCH US Equity,USD,POTLATCHDELTIC CORP,0.1,2.4,  2 ,  0 ,37.9,  (1.33),  0.50 ,Real Estate,Equity Real Estate Investment,Real Estate,6.0,55%,  19 ,  331 
+AME US Equity,USD,AMETEK INC,#N/A N/A,1.1,  17 ,  2 ,35.2,  2.05 ,  2.46 ,Industrials,Electrical Equipment,Capital Goods,16.0,59%,  19 ,  702 
+APTV US Equity,USD,APTIV PLC,0.5,1.6,  20 ,  3 ,34.7,  1.64 ,  0.94 ,Consumer Discretionary,Auto Components,Automobiles & Components,26.0,107%,  19 ,  173 
+OSK US Equity,USD,OSHKOSH CORP,0.3,0.5,  5 ,  0 ,73.9,  1.16 ,  (3.51),Industrials,Machinery,Capital Goods,17.0,148%,  20 ,  709 
+ERI US Equity,USD,ELDORADO RESORTS INC,0.2,7.2,  3 ,  2 ,77.9,  0.15 ,  0.56 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,9.0,45%,  20 ,  96 
+AMG US Equity,USD,AFFILIATED MANAGERS GROUP,1.2,2.5,  6 ,  2 ,32.2,  1.13 ,  0.44 ,Financials,Capital Markets,Diversified Financials,9.0,28%,  20 ,  943 
+CBRE US Equity,USD,CBRE GROUP INC - A,0.7,2.0,  15 ,  2 ,27.4,  2.03 ,  1.53 ,Real Estate,Real Estate Management & Devel,Real Estate,11.0,157%,  20 ,  345 
+NKE US Equity,USD,NIKE INC -CL B,4.6,-0.1,  118 ,  (1),32.3,  1.30 ,  1.25 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,38.0,162%,  20 ,  207 
+PH US Equity,USD,PARKER HANNIFIN CORP,1.3,1.7,  22 ,  4 ,34.7,  1.75 ,  1.79 ,Industrials,Machinery,Capital Goods,24.0,93%,  20 ,  747 
+AOS US Equity,USD,SMITH (A.O.) CORP,0.4,-0.7,  8 ,  (0),41.2,  1.67 ,  1.91 ,Industrials,Building Products,Capital Goods,13.0,103%,  20 ,  679 
+WPP US Equity,GBP,WPP PLC-SPONSORED ADR,1.4,1.9,  14 ,  6 ,62.0,  (4.57),  2.29 ,Communication Services,Media,Media & Entertainment,2.0,46%,  20 ,  6 
+COHR US Equity,USD,COHERENT INC,0.1,0.3,  3 ,  (0),64.0,  0.65 ,  0.22 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,11.0,83%,  20 ,  514 
+EA US Equity,USD,ELECTRONIC ARTS INC,1.4,-2.5,  27 ,  (4),41.4,  1.23 ,  1.41 ,Communication Services,Entertainment,Media & Entertainment,31.0,63%,  20 ,  63 
+LLL US Equity,USD,L3 TECHNOLOGIES INC,0.5,2.1,  15 ,  3 ,55.1,  1.50 ,  1.09 ,Industrials,Aerospace & Defense,Capital Goods,14.0,78%,  20 ,  687 
+EXP US Equity,USD,EAGLE MATERIALS INC,0.2,1.6,  3 ,  1 ,43.5,  0.90 ,  0.81 ,Materials,Construction Materials,Materials,12.0,60%,  20 ,  420 
+X US Equity,USD,UNITED STATES STEEL CORP,0.1,0.8,  5 ,  1 ,39.8,  18.32 ,  (0.30),Materials,Metals & Mining,Materials,19.0,133%,  20 ,  449 
+HTHT US Equity,CNY,HUAZHU GROUP LTD-ADR,0.3,1.8,  8 ,  0 ,84.5,  0.74 ,  0.81 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,14.0,49%,  20 ,  124 
+UGI US Equity,USD,UGI CORP,0.9,2.7,  10 ,  4 ,19.2,  2.03 ,  2.68 ,Utilities,Gas Utilities,Utilities,5.0,65%,  20 ,  272 
+ABEV US Equity,BRL,AMBEV SA-ADR,4.2,-0.4,  67 ,  (2),42.3,  1.87 ,  1.16 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",9.0,55%,  20 ,  223 
+NUS US Equity,USD,NU SKIN ENTERPRISES INC - A,0.2,0.1,  4 ,  (0),56.3,  1.67 ,  1.20 ,Consumer Staples,Personal Products,Household & Personal Products,7.0,162%,  20 ,  220 
+CME US Equity,USD,CME GROUP INC,2.4,0.7,  69 ,  0 ,18.0,  3.71 ,  2.99 ,Financials,Capital Markets,Diversified Financials,12.0,5%,  20 ,  964 
+CDNS US Equity,USD,CADENCE DESIGN SYS INC,0.5,-0.4,  13 ,  0 ,54.6,  3.66 ,  2.46 ,Information Technology,Software,Software & Services,8.0,90%,  21 ,  496 
+DOV US Equity,USD,DOVER CORP,0.6,2.7,  13 ,  3 ,21.0,  0.93 ,  2.22 ,Industrials,Machinery,Capital Goods,23.0,79%,  21 ,  742 
+AYI US Equity,USD,ACUITY BRANDS INC,0.3,0.4,  5 ,  0 ,33.9,  0.92 ,  7.83 ,Industrials,Electrical Equipment,Capital Goods,12.0,125%,  21 ,  672 
+BLKB US Equity,USD,BLACKBAUD INC,0.2,2.8,  3 ,  0 ,62.0,  41.80 ,  3.35 ,Information Technology,Software,Software & Services,11.0,66%,  21 ,  525 
+CNK US Equity,USD,CINEMARK HOLDINGS INC,0.2,2.5,  5 ,  2 ,31.9,  1.31 ,  3.36 ,Communication Services,Entertainment,Media & Entertainment,12.0,72%,  21 ,  33 
+SNA US Equity,USD,SNAP-ON INC,0.6,1.0,  9 ,  1 ,38.4,  1.97 ,  1.92 ,Industrials,Machinery,Capital Goods,10.0,77%,  21 ,  657 
+GPC US Equity,USD,GENUINE PARTS CO,1.0,2.0,  15 ,  3 ,25.1,  3.17 ,  3.19 ,Consumer Discretionary,Distributors,Retailing,11.0,166%,  21 ,  107 
+IEX US Equity,USD,IDEX CORP,0.4,0.6,  10 ,  0 ,29.6,  2.97 ,  3.04 ,Industrials,Machinery,Capital Goods,16.0,71%,  21 ,  703 
+AFL US Equity,USD,AFLAC INC,6.2,#N/A N/A,  34 ,  2 ,24.3,  5.88 ,  2.65 ,Financials,Insurance,Insurance,15.0,16%,  21 ,  987 
+MMC US Equity,USD,MARSH & MCLENNAN COS,1.8,1.6,  44 ,  4 ,26.0,  2.45 ,  1.45 ,Financials,Insurance,Insurance,17.0,73%,  21 ,"  1,004 "
+INTC US Equity,USD,INTEL CORP,14.4,0.2,  220 ,  9 ,40.3,  12.56 ,  3.31 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,44.0,54%,  21 ,  601 
+ITGR US Equity,USD,INTEGER HOLDINGS CORP,0.1,3.7,  3 ,  2 ,46.3,  1.64 ,  1.45 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,5.0,53%,  21 ,  770 
+ECL US Equity,USD,ECOLAB INC,1.2,2.4,  46 ,  7 ,21.9,  2.10 ,  1.87 ,Materials,Chemicals,Materials,23.0,73%,  21 ,  455 
+PSB US Equity,USD,PS BUSINESS PARKS INC/CA,0.1,0.0,  4 ,  (0),25.6,  (1.20),  6.09 ,Real Estate,Equity Real Estate Investment,Real Estate,4.0,20%,  21 ,  326 
+DCI US Equity,USD,DONALDSON CO INC,0.2,0.7,  7 ,  0 ,26.4,  2.18 ,  1.24 ,Industrials,Machinery,Capital Goods,8.0,138%,  21 ,  646 
+TEF US Equity,EUR,TELEFONICA SA-SPON ADR,5.4,3.0,  45 ,  56 ,24.8,  1.80 ,  1.95 ,Communication Services,Diversified Telecommunication,Telecommunication Services,2.0,43%,  21 ,  3 
+CF US Equity,USD,CF INDUSTRIES HOLDINGS INC,1.0,2.4,  11 ,  4 ,60.2,  0.24 ,  0.73 ,Materials,Chemicals,Materials,20.0,31%,  21 ,  450 
+LH US Equity,USD,LABORATORY CRP OF AMER HLDGS,1.0,2.9,  17 ,  6 ,33.7,  4.72 ,  1.80 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,21.0,68%,  21 ,  859 
+AZUL US Equity,BRL,AZUL SA-ADR,-0.2,1.1,  3 ,  0 ,64.3,  0.84 ,  0.63 ,Industrials,Airlines,Transportation,8.0,87%,  21 ,  643 
+MSFT US Equity,USD,MICROSOFT CORP,32.0,-1.1,  829 ,  (51),41.1,  1.61 ,  0.95 ,Information Technology,Software,Software & Services,38.0,45%,  21 ,  596 
+ALK US Equity,USD,ALASKA AIR GROUP INC,0.4,0.6,  8 ,  1 ,36.8,  0.31 ,  0.44 ,Industrials,Airlines,Transportation,15.0,75%,  21 ,  695 
+RHT US Equity,USD,RED HAT INC,0.9,-2.7,  31 ,  (2),116.6,  2.93 ,  2.33 ,Information Technology,Software,Software & Services,27.0,67%,  21 ,  576 
+VLO US Equity,USD,VALERO ENERGY CORP,2.7,0.9,  35 ,  3 ,46.1,  0.15 ,  0.17 ,Energy,"Oil, Gas & Consumable Fuels",Energy,21.0,218%,  21 ,"  1,070 "
+NFG US Equity,USD,NATIONAL FUEL GAS CO,0.0,2.6,  4 ,  2 ,34.1,  2.43 ,  (26.29),Utilities,Gas Utilities,Utilities,6.0,26%,  22 ,  279 
+ILMN US Equity,USD,ILLUMINA INC,0.8,-1.3,  48 ,  (1),54.1,  4.85 ,  2.81 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",20.0,55%,  22 ,  854 
+AEO US Equity,USD,AMERICAN EAGLE OUTFITTERS,0.3,-0.7,  4 ,  (0),35.2,  1.86 ,  2.53 ,Consumer Discretionary,Specialty Retail,Retailing,17.0,225%,  22 ,  137 
+AET US Equity,USD,AETNA INC,0.6,-0.2,  69 ,  4 ,17.4,  1.90 ,  1.30 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,18.0,107%,  22 ,  838 
+T US Equity,USD,AT&T INC,19.2,3.7,  219 ,  114 ,33.3,  4.28 ,  4.28 ,Communication Services,Diversified Telecommunication,Telecommunication Services,36.0,34%,  22 ,  67 
+WOR US Equity,USD,WORTHINGTON INDUSTRIES,0.2,2.6,  3 ,  1 ,33.4,  3.64 ,#VALUE!,Materials,Metals & Mining,Materials,3.0,142%,  22 ,  396 
+EW US Equity,USD,EDWARDS LIFESCIENCES CORP,0.8,-0.3,  32 ,  (0),41.2,  2.86 ,  2.25 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,27.0,63%,  22 ,  883 
+RGA US Equity,USD,REINSURANCE GROUP OF AMERICA,1.8,#N/A N/A,  9 ,  2 ,30.6,  1.00 ,  1.29 ,Financials,Insurance,Insurance,9.0,21%,  22 ,  944 
+KMX US Equity,USD,CARMAX INC,-0.4,10.4,  11 ,  13 ,31.4,  1.50 ,  1.39 ,Consumer Discretionary,Specialty Retail,Retailing,17.0,101%,  22 ,  136 
+IR US Equity,USD,INGERSOLL-RAND PLC,1.2,1.4,  25 ,  3 ,28.4,  1.26 ,  1.31 ,Industrials,Machinery,Capital Goods,23.0,85%,  22 ,  741 
+SQM US Equity,USD,QUIMICA Y MINERA CHIL-SP ADR,0.4,0.5,  12 ,  0 ,36.9,  0.96 ,  1.05 ,Materials,Chemicals,Materials,15.0,54%,  22 ,  435 
+BIDU US Equity,CNY,BAIDU INC - SPON ADR,3.9,-2.4,  66 ,  (9),43.5,  2.29 ,  0.61 ,Communication Services,Interactive Media & Services,Media & Entertainment,36.0,38%,  22 ,  68 
+DE US Equity,USD,DEERE & CO,-1.5,0.5,  47 ,  (2),32.6,  0.57 ,  0.99 ,Industrials,Machinery,Capital Goods,25.0,55%,  22 ,  749 
+CAG US Equity,USD,CONAGRA BRANDS INC,0.6,3.0,  16 ,  4 ,33.5,  1.04 ,  1.28 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",15.0,77%,  22 ,  235 
+AJRD US Equity,USD,AEROJET ROCKETDYNE HOLDINGS,0.2,0.1,  3 ,  0 ,59.9,  (2.27),  2.07 ,Industrials,Aerospace & Defense,Capital Goods,4.0,83%,  22 ,  614 
+WERN US Equity,USD,WERNER ENTERPRISES INC,-0.2,0.3,  2 ,  0 ,32.2,  1.14 ,  2.04 ,Industrials,Road & Rail,Transportation,20.0,125%,  22 ,  730 
+AMT US Equity,USD,AMERICAN TOWER CORP,2.4,5.5,  71 ,  19 ,28.7,  4.43 ,  2.35 ,Real Estate,Equity Real Estate Investment,Real Estate,23.0,21%,  22 ,  385 
+SNE US Equity,JPY,SONY CORP-SPONSORED ADR,10.1,-1.3,  66 ,  (13),35.9,  (0.95),#VALUE!,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,2.0,45%,  22 ,  74 
+RTN US Equity,USD,RAYTHEON COMPANY,1.9,0.6,  52 ,  2 ,33.7,  0.86 ,  0.89 ,Industrials,Aerospace & Defense,Capital Goods,20.0,88%,  22 ,  724 
+DFS US Equity,USD,DISCOVER FINANCIAL SERVICES,5.8,1.8,  24 ,  13 ,32.7,  0.77 ,  0.72 ,Financials,Consumer Finance,Diversified Financials,25.0,12%,  22 ,"  1,028 "
+SWKS US Equity,USD,SKYWORKS SOLUTIONS INC,0.8,-0.6,  13 ,  (1),47.1,  0.93 ,  0.46 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,28.0,82%,  23 ,  578 
+UTHR US Equity,USD,UNITED THERAPEUTICS CORP,0.4,-1.9,  5 ,  (1),48.6,  (0.38),  (3.59),Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",13.0,54%,  23 ,  811 
+FLT US Equity,USD,FLEETCOR TECHNOLOGIES INC,0.7,2.7,  18 ,  4 ,43.8,  1.16 ,  1.00 ,Information Technology,IT Services,Software & Services,13.0,21%,  23 ,  531 
+PPG US Equity,USD,PPG INDUSTRIES INC,0.8,1.6,  26 ,  3 ,43.7,  1.51 ,  1.35 ,Materials,Chemicals,Materials,27.0,89%,  23 ,  459 
+LANC US Equity,USD,LANCASTER COLONY CORP,0.1,-1.1,  5 ,  (0),24.4,  5.74 ,#DIV/0!,Consumer Staples,Food Products,"Food, Beverage & Tobacco",4.0,156%,  23 ,  213 
+NUE US Equity,USD,NUCOR CORP,1.4,0.7,  20 ,  3 ,33.8,  (0.66),  (0.74),Materials,Metals & Mining,Materials,16.0,138%,  23 ,  444 
+MAN US Equity,USD,MANPOWERGROUP INC,0.4,0.4,  5 ,  0 ,32.6,  (2.57),  1.87 ,Industrials,Professional Services,Commercial & Professional Serv,14.0,257%,  23 ,  693 
+EXR US Equity,USD,EXTRA SPACE STORAGE INC,-0.2,6.1,  12 ,  4 ,20.8,  10.62 ,  7.32 ,Real Estate,Equity Real Estate Investment,Real Estate,15.0,16%,  23 ,  361 
+KSU US Equity,USD,KANSAS CITY SOUTHERN,0.4,2.0,  10 ,  2 ,31.3,  0.99 ,  1.09 ,Industrials,Road & Rail,Transportation,20.0,29%,  23 ,  728 
+RGNX US Equity,USD,REGENXBIO INC,0.1,-6.6,  2 ,  (0),78.3,#VALUE!,#VALUE!,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",6.0,50%,  23 ,  773 
+RIO US Equity,USD,RIO TINTO PLC-SPON ADR,7.7,0.3,  88 ,  4 ,27.6,  (1.26),  (2.91),Materials,Metals & Mining,Materials,6.0,45%,  23 ,  406 
+LGND US Equity,USD,LIGAND PHARMACEUTICALS,0.2,-1.3,  3 ,  0 ,61.8,  (1.50),  1.65 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",7.0,18%,  23 ,  777 
+TSM US Equity,TWD,TAIWAN SEMICONDUCTOR-SP ADR,11.3,-0.7,  200 ,  (15),33.0,  1.27 ,  0.53 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,6.0,53%,  23 ,  480 
+CAKE US Equity,USD,CHEESECAKE FACTORY INC/THE,0.1,0.0,  2 ,  0 ,29.0,  2.02 ,  2.37 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,22.0,181%,  23 ,  158 
+TREE US Equity,USD,LENDINGTREE INC,0.1,-0.7,  3 ,  (0),89.5,  1.28 ,  0.72 ,Financials,Thrifts & Mortgage Finance,Banks,13.0,102%,  24 ,  975 
+MMS US Equity,USD,MAXIMUS INC,0.2,-0.7,  4 ,  (0),20.6,  8.90 ,  4.77 ,Information Technology,IT Services,Software & Services,7.0,183%,  24 ,  486 
+CNX US Equity,USD,CNX RESOURCES CORP,-0.1,#N/A N/A,  3 ,  2 ,53.6,  0.75 ,  6.16 ,Energy,"Oil, Gas & Consumable Fuels",Energy,11.0,18%,  24 ,"  1,053 "
+XLNX US Equity,USD,XILINX INC,0.8,-1.7,  22 ,  (2),62.3,  2.71 ,  1.82 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,29.0,54%,  24 ,  580 
+XEC US Equity,USD,CIMAREX ENERGY CO,-0.1,0.5,  8 ,  1 ,50.1,  0.50 ,  0.28 ,Energy,"Oil, Gas & Consumable Fuels",Energy,26.0,42%,  24 ,"  1,082 "
+WWE US Equity,USD,WORLD WRESTLING ENTERTAIN-A,0.1,-0.8,  5 ,  (0),53.7,  1.39 ,  0.17 ,Communication Services,Entertainment,Media & Entertainment,12.0,135%,  24 ,  32 
+GNTX US Equity,USD,GENTEX CORP,0.5,-0.5,  6 ,  (1),35.1,  2.27 ,  0.77 ,Consumer Discretionary,Auto Components,Automobiles & Components,11.0,83%,  24 ,  105 
+SAM US Equity,USD,BOSTON BEER COMPANY INC-A,0.1,-0.4,  4 ,  (0),48.7,  2.77 ,  2.38 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",12.0,161%,  24 ,  228 
+BIIB US Equity,USD,BIOGEN INC,5.0,0.0,  65 ,  (1),32.2,  1.48 ,  3.12 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",30.0,54%,  24 ,  886 
+LECO US Equity,USD,LINCOLN ELECTRIC HOLDINGS,0.2,0.5,  5 ,  0 ,34.2,  1.23 ,  1.24 ,Industrials,Machinery,Capital Goods,13.0,126%,  24 ,  684 
+MKSI US Equity,USD,MKS INSTRUMENTS INC,0.3,-0.5,  4 ,  (0),42.1,  32.00 ,  0.48 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,7.0,86%,  24 ,  488 
+INFY US Equity,INR,INFOSYS LTD-SP ADR,2.0,-1.3,  41 ,  (4),31.0,  2.29 ,  1.90 ,Information Technology,IT Services,Software & Services,16.0,89%,  24 ,  547 
+FTV US Equity,USD,FORTIVE CORP,1.2,2.3,  25 ,  3 ,30.2,  1.38 ,  2.23 ,Industrials,Machinery,Capital Goods,20.0,62%,  24 ,  726 
+CAT US Equity,USD,CATERPILLAR INC,2.2,0.1,  76 ,  1 ,47.5,  0.96 ,  1.03 ,Industrials,Machinery,Capital Goods,29.0,68%,  24 ,  757 
+WSM US Equity,USD,WILLIAMS-SONOMA INC,0.4,0.3,  5 ,  (0),35.7,  3.77 ,  2.70 ,Consumer Discretionary,Specialty Retail,Retailing,26.0,208%,  24 ,  178 
+MPW US Equity,USD,MEDICAL PROPERTIES TRUST INC,-0.9,4.6,  6 ,  5 ,27.3,  (0.31),  2.15 ,Real Estate,Equity Real Estate Investment,Real Estate,14.0,9%,  24 ,  356 
+UAL US Equity,USD,UNITED CONTINENTAL HOLDINGS,2.1,1.7,  25 ,  10 ,35.6,  0.55 ,  0.36 ,Industrials,Airlines,Transportation,18.0,92%,  24 ,  715 
+THO US Equity,USD,THOR INDUSTRIES INC,0.3,-0.4,  4 ,  (0),43.2,  0.61 ,  0.61 ,Consumer Discretionary,Automobiles,Automobiles & Components,11.0,312%,  24 ,  106 
+BKNG US Equity,USD,BOOKING HOLDINGS INC,5.0,-1.3,  88 ,  (8),32.0,  1.42 ,  1.30 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,37.0,56%,  24 ,  204 
+CSL US Equity,USD,CARLISLE COS INC,0.1,1.2,  6 ,  1 ,41.1,  0.64 ,  0.99 ,Industrials,Industrial Conglomerates,Capital Goods,8.0,92%,  25 ,  645 
+LEG US Equity,USD,LEGGETT & PLATT INC,0.3,1.6,  5 ,  1 ,43.6,  1.29 ,  1.77 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,7.0,122%,  25 ,  88 
+HRS US Equity,USD,HARRIS CORP,0.6,2.7,  18 ,  4 ,52.4,  1.33 ,  1.28 ,Industrials,Aerospace & Defense,Capital Goods,13.0,63%,  25 ,  677 
+EC US Equity,COP,ECOPETROL SA-SPONSORED ADR,5.8,1.1,  42 ,  12 ,44.3,  1.72 ,  (1.37),Energy,"Oil, Gas & Consumable Fuels",Energy,17.0,54%,  25 ,"  1,058 "
+EMR US Equity,USD,EMERSON ELECTRIC CO,2.3,1.0,  43 ,  4 ,31.4,  1.26 ,  1.91 ,Industrials,Electrical Equipment,Capital Goods,26.0,87%,  25 ,  751 
+TEL US Equity,USD,TE CONNECTIVITY LTD,1.5,1.0,  26 ,  3 ,29.0,  1.04 ,  1.09 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,16.0,73%,  25 ,  546 
+MNST US Equity,USD,MONSTER BEVERAGE CORP,0.9,-0.7,  31 ,  (1),35.3,  2.21 ,  2.46 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",19.0,77%,  25 ,  241 
+DAL US Equity,USD,DELTA AIR LINES INC,2.6,1.0,  38 ,  6 ,30.6,  0.56 ,  0.70 ,Industrials,Airlines,Transportation,19.0,82%,  25 ,  721 
+ROK US Equity,USD,ROCKWELL AUTOMATION INC,1.2,0.6,  21 ,  1 ,38.2,  1.92 ,  3.55 ,Industrials,Electrical Equipment,Capital Goods,24.0,99%,  25 ,  745 
+BFR US Equity,ARS,BBVA BANCO FRANCES SA-ADR,-0.3,#N/A N/A,  3 ,  (2),64.1,  3.50 ,  0.27 ,Financials,Banks,Banks,8.0,21%,  25 ,  927 
+TX US Equity,USD,TERNIUM SA-SPONSORED ADR,0.7,0.8,  6 ,  3 ,36.1,  (0.31),  (12.58),Materials,Metals & Mining,Materials,14.0,98%,  25 ,  431 
+MSM US Equity,USD,MSC INDUSTRIAL DIRECT CO-A,0.3,1.0,  5 ,  0 ,35.4,  1.68 ,  1.31 ,Industrials,Trading Companies & Distributo,Capital Goods,17.0,146%,  25 ,  714 
+FOXF US Equity,USD,FOX FACTORY HOLDING CORP,0.1,0.3,  3 ,  0 ,66.5,  2.55 ,  1.98 ,Consumer Discretionary,Auto Components,Automobiles & Components,9.0,136%,  25 ,  93 
+GD US Equity,USD,GENERAL DYNAMICS CORP,2.5,2.5,  54 ,  1 ,33.8,  1.69 ,  1.13 ,Industrials,Aerospace & Defense,Capital Goods,22.0,83%,  25 ,  736 
+DLTR US Equity,USD,DOLLAR TREE INC,0.8,1.7,  20 ,  5 ,31.5,  1.36 ,  1.09 ,Consumer Discretionary,Multiline Retail,Retailing,26.0,144%,  25 ,  177 
+SYMC US Equity,USD,SYMANTEC CORP,1.0,3.3,  15 ,  3 ,52.3,  0.88 ,  1.54 ,Information Technology,Software,Software & Services,29.0,29%,  26 ,  581 
+RYAAY US Equity,EUR,RYANAIR HOLDINGS PLC-SP ADR,0.5,0.5,  18 ,  0 ,32.6,  1.46 ,  0.77 ,Industrials,Airlines,Transportation,3.0,63%,  26 ,  606 
+AMN US Equity,USD,AMN HEALTHCARE SERVICES INC,0.2,1.9,  3 ,  0 ,52.4,  2.19 ,  1.79 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,12.0,158%,  26 ,  808 
+SEM US Equity,USD,SELECT MEDICAL HOLDINGS CORP,0.3,5.3,  3 ,  3 ,62.2,  0.77 ,  0.97 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,7.0,89%,  26 ,  781 
+FB US Equity,USD,FACEBOOK INC-CLASS A,17.4,-1.5,  414 ,  (42),36.4,  5.26 ,  1.04 ,Communication Services,Interactive Media & Services,Media & Entertainment,52.0,61%,  26 ,  73 
+PCAR US Equity,USD,PACCAR INC,0.9,-1.0,  21 ,  (4),32.4,  5.41 ,  (1.12),Industrials,Machinery,Capital Goods,26.0,94%,  26 ,  752 
+REGN US Equity,USD,REGENERON PHARMACEUTICALS,1.6,-1.3,  37 ,  (2),41.4,  3.45 ,  1.15 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",25.0,65%,  26 ,  874 
+EL US Equity,USD,ESTEE LAUDER COMPANIES-CL A,1.7,0.6,  53 ,  1 ,34.8,  2.59 ,  2.00 ,Consumer Staples,Personal Products,Household & Personal Products,30.0,113%,  26 ,  265 
+TSN US Equity,USD,TYSON FOODS INC-CL A,1.8,2.4,  23 ,  10 ,30.2,  2.01 ,  0.58 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",15.0,140%,  26 ,  234 
+WRI US Equity,USD,WEINGARTEN REALTY INVESTORS,0.1,5.1,  4 ,  2 ,23.1,  (0.46),  (3.08),Real Estate,Equity Real Estate Investment,Real Estate,11.0,13%,  26 ,  343 
+DVN US Equity,USD,DEVON ENERGY CORP,0.0,1.2,  14 ,  8 ,42.9,  0.19 ,  0.24 ,Energy,"Oil, Gas & Consumable Fuels",Energy,33.0,52%,  26 ,"  1,099 "
+COR US Equity,USD,CORESITE REALTY CORP,0.0,3.8,  5 ,  1 ,35.7,  (79.32),  4.18 ,Real Estate,Equity Real Estate Investment,Real Estate,20.0,32%,  26 ,  376 
+UNH US Equity,USD,UNITEDHEALTH GROUP INC,8.6,1.0,  255 ,  16 ,29.5,  1.34 ,  1.23 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,25.0,151%,  26 ,  875 
+ALGN US Equity,USD,ALIGN TECHNOLOGY INC,0.2,-1.2,  18 ,  (1),87.3,  1.85 ,  1.16 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,16.0,102%,  26 ,  826 
+PSA US Equity,USD,PUBLIC STORAGE,1.3,0.5,  36 ,  1 ,18.5,  (25.86),  (10.19),Real Estate,Equity Real Estate Investment,Real Estate,17.0,25%,  26 ,  363 
+FOX US Equity,USD,TWENTY-FIRST CENTURY FOX - B,3.5,1.7,  89 ,  12 ,14.5,  1.68 ,  2.44 ,Communication Services,Entertainment,Media & Entertainment,5.0,57%,  26 ,  15 
+FOXA US Equity,USD,TWENTY-FIRST CENTURY FOX-A,3.5,1.7,  89 ,  12 ,14.2,  1.70 ,  2.47 ,Communication Services,Entertainment,Media & Entertainment,26.0,57%,  26 ,  55 
+EHC US Equity,USD,ENCOMPASS HEALTH CORP,0.5,2.8,  7 ,  3 ,28.4,  5.88 ,  2.36 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,13.0,83%,  26 ,  814 
+COST US Equity,USD,COSTCO WHOLESALE CORP,2.8,-0.1,  101 ,  (1),23.0,  2.99 ,  2.67 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,30.0,367%,  27 ,  264 
+VC US Equity,USD,VISTEON CORP,0.1,-0.2,  2 ,  (0),51.9,  1.98 ,  0.22 ,Consumer Discretionary,Auto Components,Automobiles & Components,17.0,143%,  27 ,  132 
+ESRX US Equity,USD,EXPRESS SCRIPTS HOLDING CO,4.0,1.5,  55 ,  14 ,22.6,  2.70 ,  (0.71),Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,22.0,190%,  27 ,  865 
+FDX US Equity,USD,FEDEX CORP,-1.0,1.8,  60 ,  13 ,30.8,  0.72 ,  0.81 ,Industrials,Air Freight & Logistics,Transportation,31.0,133%,  27 ,  761 
+HOG US Equity,USD,HARLEY-DAVIDSON INC,1.0,5.7,  7 ,  6 ,30.9,  (5.49),  1.52 ,Consumer Discretionary,Automobiles,Automobiles & Components,22.0,56%,  27 ,  155 
+HSC US Equity,USD,HARSCO CORP,0.1,1.8,  2 ,  1 ,58.8,  1.21 ,  1.34 ,Industrials,Machinery,Capital Goods,3.0,104%,  27 ,  611 
+HFC US Equity,USD,HOLLYFRONTIER CORP,1.0,0.6,  11 ,  2 ,49.4,  0.27 ,  (0.93),Energy,"Oil, Gas & Consumable Fuels",Energy,17.0,160%,  27 ,"  1,059 "
+LAMR US Equity,USD,LAMAR ADVERTISING CO-A,0.4,3.7,  8 ,  2 ,37.8,  1.68 ,  5.47 ,Real Estate,Equity Real Estate Investment,Real Estate,6.0,39%,  27 ,  328 
+ABMD US Equity,USD,ABIOMED INC,0.1,-2.0,  14 ,  (0),81.8,  2.78 ,  1.41 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,11.0,87%,  27 ,  799 
+TSS US Equity,USD,TOTAL SYSTEM SERVICES INC,0.9,2.8,  16 ,  3 ,31.2,  1.81 ,  1.11 ,Information Technology,IT Services,Software & Services,26.0,63%,  27 ,  570 
+ODFL US Equity,USD,OLD DOMINION FREIGHT LINE,0.3,-0.1,  11 ,  (0),38.8,  1.90 ,  2.36 ,Industrials,Road & Rail,Transportation,17.0,121%,  27 ,  713 
+MPC US Equity,USD,MARATHON PETROLEUM CORP,3.1,2.0,  45 ,  10 ,39.6,  0.19 ,  0.24 ,Energy,"Oil, Gas & Consumable Fuels",Energy,19.0,167%,  27 ,"  1,064 "
+VRTX US Equity,USD,VERTEX PHARMACEUTICALS INC,1.1,-4.3,  43 ,  (2),43.6,  4.41 ,  0.51 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",25.0,72%,  28 ,  873 
+NEE US Equity,USD,NEXTERA ENERGY INC,-5.2,5.1,  86 ,  33 ,19.2,  2.68 ,  2.66 ,Utilities,Electric Utilities,Utilities,20.0,17%,  28 ,  319 
+TGT US Equity,USD,TARGET CORP,3.5,1.5,  43 ,  9 ,25.8,  4.09 ,  7.27 ,Consumer Discretionary,Multiline Retail,Retailing,27.0,191%,  28 ,  181 
+CTAS US Equity,USD,CINTAS CORP,0.6,1.9,  19 ,  2 ,32.2,  1.75 ,  1.95 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,15.0,93%,  28 ,  698 
+AMZN US Equity,USD,AMAZON.COM INC,13.3,0.6,  792 ,  13 ,60.5,  1.44 ,  0.99 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,50.0,171%,  28 ,  209 
+MTZ US Equity,USD,MASTEC INC,-0.2,2.8,  4 ,  1 ,45.5,  0.90 ,  1.25 ,Industrials,Construction & Engineering,Capital Goods,13.0,148%,  28 ,  682 
+DIS US Equity,USD,WALT DISNEY CO/THE,9.8,0.9,  174 ,  17 ,26.8,  4.07 ,  1.76 ,Communication Services,Entertainment,Media & Entertainment,25.0,61%,  28 ,  54 
+BBY US Equity,USD,BEST BUY CO INC,1.8,-0.6,  19 ,  (2),37.1,  1.68 ,  2.55 ,Consumer Discretionary,Specialty Retail,Retailing,25.0,339%,  28 ,  172 
+EMN US Equity,USD,EASTMAN CHEMICAL CO,0.9,2.8,  12 ,  6 ,34.3,  1.09 ,  0.75 ,Materials,Chemicals,Materials,18.0,63%,  28 ,  447 
+PGR US Equity,USD,PROGRESSIVE CORP,5.5,#N/A N/A,  39 ,  3 ,45.3,  14.60 ,  2.32 ,Financials,Insurance,Insurance,21.0,73%,  28 ,"  1,016 "
+ADBE US Equity,USD,ADOBE INC,3.5,-1.0,  117 ,  (4),56.2,  1.75 ,  1.26 ,Information Technology,Software,Software & Services,32.0,59%,  28 ,  588 
+FIVE US Equity,USD,FIVE BELOW,0.1,-1.3,  7 ,  (0),39.6,  2.16 ,  1.32 ,Consumer Discretionary,Specialty Retail,Retailing,19.0,211%,  28 ,  147 
+AVY US Equity,USD,AVERY DENNISON CORP,0.2,1.9,  8 ,  1 ,28.9,  1.47 ,  1.21 ,Materials,Containers & Packaging,Materials,12.0,136%,  28 ,  421 
+GPS US Equity,USD,GAP INC/THE,0.7,-0.2,  10 ,  (1),33.2,  2.38 ,  (10.59),Consumer Discretionary,Specialty Retail,Retailing,28.0,211%,  28 ,  185 
+BMA US Equity,ARS,BANCO MACRO SA-ADR,0.4,#N/A N/A,  3 ,  (1),67.8,  0.41 ,  0.67 ,Financials,Banks,Banks,14.0,25%,  29 ,  981 
+PSX US Equity,USD,PHILLIPS 66,3.2,2.2,  44 ,  7 ,39.9,  0.69 ,  0.40 ,Energy,"Oil, Gas & Consumable Fuels",Energy,20.0,200%,  29 ,"  1,067 "
+PLAY US Equity,USD,DAVE & BUSTER'S ENTERTAINMEN,0.1,1.2,  2 ,  0 ,37.6,  1.39 ,  0.71 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,11.0,102%,  29 ,  110 
+DG US Equity,USD,DOLLAR GENERAL CORP,1.4,1.0,  30 ,  3 ,27.1,  1.59 ,  1.45 ,Consumer Discretionary,Multiline Retail,Retailing,29.0,196%,  29 ,  190 
+MGM US Equity,USD,MGM RESORTS INTERNATIONAL,0.4,5.4,  14 ,  11 ,48.1,  0.55 ,  0.51 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,21.0,38%,  29 ,  151 
+ATHM US Equity,CNY,AUTOHOME INC-ADR,#N/A N/A,-3.1,  9 ,  (1),72.3,  1.09 ,  0.75 ,Communication Services,Interactive Media & Services,Media & Entertainment,10.0,55%,  29 ,  28 
+IBM US Equity,USD,INTL BUSINESS MACHINES CORP,13.3,1.6,  110 ,  28 ,38.5,  8.41 ,  2.10 ,Information Technology,IT Services,Software & Services,24.0,66%,  29 ,  568 
+AMP US Equity,USD,AMERIPRISE FINANCIAL INC,#N/A N/A,0.5,  18 ,  3 ,40.0,  0.78 ,  1.00 ,Financials,Capital Markets,Diversified Financials,12.0,9%,  29 ,  970 
+TMK US Equity,USD,TORCHMARK CORP,1.2,#N/A N/A,  10 ,  1 ,25.2,  1.73 ,  1.91 ,Financials,Insurance,Insurance,10.0,18%,  29 ,  950 
+OLN US Equity,USD,OLIN CORP,0.4,2.5,  4 ,  3 ,43.2,  0.46 ,  0.55 ,Materials,Chemicals,Materials,16.0,75%,  29 ,  441 
+SUPN US Equity,USD,SUPERNUS PHARMACEUTICALS INC,0.1,-2.8,  2 ,  (0),51.1,  0.61 ,  0.45 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",11.0,58%,  29 ,  805 
+IPG US Equity,USD,INTERPUBLIC GROUP OF COS INC,0.5,1.2,  9 ,  1 ,37.5,  2.78 ,  1.60 ,Communication Services,Media,Media & Entertainment,16.0,70%,  29 ,  42 
+MNK US Equity,USD,MALLINCKRODT PLC,0.6,6.1,  3 ,  5 ,46.7,  0.97 ,  0.65 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",18.0,18%,  29 ,  845 
+MKTX US Equity,USD,MARKETAXESS HOLDINGS INC,0.2,-1.9,  8 ,  (0),35.1,  2.92 ,  2.41 ,Financials,Capital Markets,Diversified Financials,8.0,70%,  29 ,  929 
+KORS US Equity,USD,MICHAEL KORS HOLDINGS LTD,0.8,0.6,  7 ,  1 ,59.6,  3.12 ,  1.01 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,28.0,153%,  29 ,  187 
+SFM US Equity,USD,SPROUTS FARMERS MARKET INC,0.1,1.6,  4 ,  0 ,25.6,  3.56 ,  1.51 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,22.0,313%,  29 ,  251 
+NDSN US Equity,USD,NORDSON CORP,0.4,2.1,  7 ,  2 ,34.4,  1.65 ,  1.63 ,Industrials,Machinery,Capital Goods,10.0,64%,  30 ,  658 
+SKYW US Equity,USD,SKYWEST INC,-0.2,3.1,  3 ,  2 ,50.3,  1.36 ,  1.42 ,Industrials,Airlines,Transportation,7.0,56%,  30 ,  633 
+PRI US Equity,USD,PRIMERICA INC,#N/A N/A,#N/A N/A,  5 ,  1 ,34.8,  1.18 ,  1.09 ,Financials,Insurance,Insurance,4.0,15%,  30 ,  895 
+DRI US Equity,USD,DARDEN RESTAURANTS INC,0.6,0.7,  14 ,  1 ,28.7,  1.70 ,  2.17 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,26.0,153%,  30 ,  176 
+STMP US Equity,USD,STAMPS.COM INC,0.2,-0.1,  3 ,  (0),62.2,  6.33 ,  1.56 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,5.0,71%,  30 ,  83 
+CHTR US Equity,USD,CHARTER COMMUNICATIONS INC-A,2.6,4.6,  81 ,  70 ,38.0,  1.32 ,  0.37 ,Communication Services,Media,Media & Entertainment,29.0,29%,  30 ,  60 
+DEO US Equity,GBP,DIAGEO PLC-SPONSORED ADR,3.4,2.1,  87 ,  12 ,22.6,  2.55 ,  2.44 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",7.0,42%,  30 ,  217 
+TROW US Equity,USD,T ROWE PRICE GROUP INC,1.0,-0.8,  23 ,  (2),33.1,  22.74 ,  2.11 ,Financials,Capital Markets,Diversified Financials,17.0,67%,  30 ,  998 
+NFLX US Equity,USD,NETFLIX INC,-2.1,3.1,  126 ,  4 ,67.5,  1.26 ,  0.63 ,Communication Services,Entertainment,Media & Entertainment,44.0,74%,  30 ,  71 
+PII US Equity,USD,POLARIS INDUSTRIES INC,0.2,2.5,  6 ,  1 ,43.5,  2.09 ,  1.48 ,Consumer Discretionary,Leisure Products,Consumer Durables & Apparel,19.0,162%,  30 ,  146 
+GATX US Equity,USD,GATX CORP,-0.2,6.4,  3 ,  4 ,41.0,  204.09 ,  3.48 ,Industrials,Trading Companies & Distributo,Capital Goods,8.0,18%,  30 ,  649 
+EOG US Equity,USD,EOG RESOURCES INC,1.2,0.7,  59 ,  6 ,42.1,  0.46 ,  0.69 ,Energy,"Oil, Gas & Consumable Fuels",Energy,37.0,52%,  31 ,"  1,104 "
+ZBRA US Equity,USD,ZEBRA TECHNOLOGIES CORP-CL A,0.7,2.5,  10 ,  2 ,44.0,  1.73 ,  3.24 ,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,8.0,92%,  31 ,  490 
+EXPD US Equity,USD,EXPEDITORS INTL WASH INC,0.5,-1.2,  13 ,  (1),32.2,  5.32 ,  2.83 ,Industrials,Air Freight & Logistics,Transportation,17.0,244%,  31 ,  705 
+ROL US Equity,USD,ROLLINS INC,0.2,-0.3,  13 ,  (0),24.2,  3.98 ,  7.34 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,6.0,165%,  31 ,  627 
+LPX US Equity,USD,LOUISIANA-PACIFIC CORP,0.4,-0.8,  3 ,  (1),42.7,  (0.44),  0.24 ,Materials,Paper & Forest Products,Materials,11.0,120%,  31 ,  418 
+TCEHY US Equity,CNY,TENCENT HOLDINGS LTD-UNS ADR,#N/A N/A,0.2,  358 ,  (2),66.7,  2.11 ,#VALUE!,Communication Services,Interactive Media & Services,Media & Entertainment,2.0,49%,  31 ,  1 
+700 HK Equity,CNY,TENCENT HOLDINGS LTD,#N/A N/A,0.2,  353 ,  (2),60.7,  1.19 ,  0.69 ,Communication Services,Interactive Media & Services,Media & Entertainment,49.0,49%,  31 ,  72 
+CPRT US Equity,USD,COPART INC,0.2,0.2,  12 ,  0 ,37.3,  1.95 ,  0.76 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,12.0,84%,  31 ,  670 
+GGAL US Equity,ARS,GRUPO FINANCIERO GALICIA-ADR,-0.6,-1.2,  4 ,  (2),80.1,  0.61 ,  0.33 ,Financials,Banks,Banks,13.0,23%,  31 ,  973 
+POL US Equity,USD,POLYONE CORPORATION,0.2,3.2,  3 ,  1 ,54.7,  1.28 ,  0.87 ,Materials,Chemicals,Materials,11.0,129%,  32 ,  416 
+R US Equity,USD,RYDER SYSTEM INC,-1.2,3.4,  3 ,  5 ,36.0,  1.12 ,  0.71 ,Industrials,Road & Rail,Transportation,13.0,68%,  32 ,  686 
+MKC US Equity,USD,MCCORMICK & CO-NON VTG SHRS,0.7,4.8,  20 ,  5 ,19.5,  3.54 ,  3.07 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",14.0,52%,  32 ,  231 
+VIAB US Equity,USD,VIACOM INC-CLASS B,1.9,3.2,  13 ,  10 ,38.9,  0.92 ,  4.54 ,Communication Services,Entertainment,Media & Entertainment,28.0,55%,  32 ,  59 
+RHI US Equity,USD,ROBERT HALF INTL INC,0.5,-0.6,  8 ,  (0),45.4,  1.57 ,  2.38 ,Industrials,Professional Services,Commercial & Professional Serv,13.0,286%,  33 ,  685 
+BIO US Equity,USD,BIO-RAD LABORATORIES-A,0.1,-1.3,  8 ,  (0),29.1,  1.48 ,  1.12 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",6.0,42%,  33 ,  775 
+JKHY US Equity,USD,JACK HENRY & ASSOCIATES INC,0.4,-0.2,  11 ,  (0),27.7,  2.68 ,  3.04 ,Information Technology,IT Services,Software & Services,10.0,82%,  33 ,  506 
+NFX US Equity,USD,NEWFIELD EXPLORATION CO,-0.2,1.6,  4 ,  2 ,68.8,  0.17 ,  0.14 ,Energy,"Oil, Gas & Consumable Fuels",Energy,27.0,44%,  33 ,"  1,084 "
+SEIC US Equity,USD,SEI INVESTMENTS COMPANY,0.5,-1.5,  9 ,  (1),30.2,  3.40 ,  1.09 ,Financials,Capital Markets,Diversified Financials,6.0,88%,  33 ,  907 
+FAST US Equity,USD,FASTENAL CO,0.5,0.2,  16 ,  0 ,34.1,  2.81 ,  2.87 ,Industrials,Trading Companies & Distributo,Capital Goods,18.0,158%,  34 ,  720 
+EVR US Equity,USD,EVERCORE INC - A,0.5,-0.4,  3 ,  (0),34.3,  1.36 ,  (2.49),Financials,Capital Markets,Diversified Financials,8.0,113%,  34 ,  928 
+M US Equity,USD,MACY'S INC,1.4,1.6,  10 ,  4 ,46.6,  (0.69),  (3.00),Consumer Discretionary,Multiline Retail,Retailing,20.0,127%,  34 ,  150 
+VRSK US Equity,USD,VERISK ANALYTICS INC,0.7,2.2,  20 ,  3 ,28.1,  3.52 ,  2.29 ,Industrials,Professional Services,Commercial & Professional Serv,17.0,41%,  34 ,  710 
+STZ US Equity,USD,CONSTELLATION BRANDS INC-A,1.2,3.6,  37 ,  10 ,24.6,  2.24 ,  1.54 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",25.0,36%,  34 ,  257 
+LITE US Equity,USD,LUMENTUM HOLDINGS INC,0.2,-1.4,  3 ,  (0),133.8,  0.73 ,  (14.75),Information Technology,Communications Equipment,Technology Hardware & Equipmen,16.0,94%,  35 ,  545 
+SFTBY US Equity,JPY,SOFTBANK GROUP CORP-UNSP ADR,-1.1,4.0,  89 ,  125 ,58.4,#VALUE!,#VALUE!,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,2.0,30%,  35 ,  2 
+9984 JT Equity,JPY,SOFTBANK GROUP CORP,-1.1,4.0,  86 ,  125 ,58.7,  0.07 ,  (0.27),Communication Services,Wireless Telecommunication Ser,Telecommunication Services,11.0,30%,  35 ,  30 
+PKG US Equity,USD,PACKAGING CORP OF AMERICA,0.6,1.5,  9 ,  2 ,46.0,  1.56 ,  4.22 ,Materials,Containers & Packaging,Materials,14.0,111%,  35 ,  430 
+TSCO US Equity,USD,TRACTOR SUPPLY COMPANY,0.4,0.6,  11 ,  0 ,33.0,  2.03 ,  1.72 ,Consumer Discretionary,Specialty Retail,Retailing,28.0,251%,  35 ,  184 
+NOC US Equity,USD,NORTHROP GRUMMAN CORP,2.0,2.9,  47 ,  4 ,38.3,  (3.25),  0.87 ,Industrials,Aerospace & Defense,Capital Goods,21.0,89%,  35 ,  732 
+EV US Equity,USD,EATON VANCE CORP,0.1,0.1,  5 ,  0 ,31.5,  1.09 ,  1.26 ,Financials,Capital Markets,Diversified Financials,9.0,65%,  36 ,  936 
+CRI US Equity,USD,CARTER'S INC,0.2,1.5,  4 ,  0 ,36.8,  1.50 ,  1.47 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,11.0,158%,  36 ,  115 
+PFE US Equity,USD,PFIZER INC,15.8,1.2,  250 ,  23 ,28.4,  6.31 ,  3.72 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",22.0,31%,  36 ,  869 
+FFIV US Equity,USD,F5 NETWORKS INC,0.7,-2.2,  11 ,  (1),37.8,  2.09 ,  3.23 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,22.0,85%,  36 ,  560 
+STLD US Equity,USD,STEEL DYNAMICS INC,0.9,0.7,  9 ,  1 ,32.4,  (0.58),  (1.00),Materials,Metals & Mining,Materials,15.0,153%,  36 ,  440 
+ULTA US Equity,USD,ULTA BEAUTY INC,0.6,-0.4,  19 ,  (0),32.3,  1.42 ,  1.23 ,Consumer Discretionary,Specialty Retail,Retailing,28.0,219%,  36 ,  183 
+LSTR US Equity,USD,LANDSTAR SYSTEM INC,0.2,-0.3,  4 ,  (0),27.4,  2.76 ,  2.70 ,Industrials,Road & Rail,Transportation,16.0,338%,  37 ,  704 
+SCI US Equity,USD,SERVICE CORP INTERNATIONAL,0.3,3.9,  8 ,  3 ,24.4,  2.31 ,  2.36 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,4.0,25%,  37 ,  80 
+LRCX US Equity,USD,LAM RESEARCH CORP,2.2,-0.4,  23 ,  (2),41.5,  0.44 ,  0.42 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,23.0,94%,  37 ,  565 
+CNP US Equity,USD,CENTERPOINT ENERGY INC,0.3,3.1,  14 ,  8 ,19.2,  2.65 ,  2.29 ,Utilities,Multi-Utilities,Utilities,17.0,46%,  37 ,  311 
+V US Equity,USD,VISA INC-CLASS A SHARES,12.0,0.1,  287 ,  1 ,38.5,  1.37 ,  1.23 ,Information Technology,IT Services,Software & Services,43.0,30%,  37 ,  599 
+FCX US Equity,USD,FREEPORT-MCMORAN INC,3.8,0.9,  17 ,  9 ,49.8,  (0.29),  0.19 ,Materials,Metals & Mining,Materials,24.0,53%,  37 ,  457 
+MUSA US Equity,USD,MURPHY USA INC,0.1,1.9,  3 ,  1 ,17.9,  2.62 ,  3.25 ,Consumer Discretionary,Specialty Retail,Retailing,6.0,538%,  37 ,  86 
+FII US Equity,USD,FEDERATED INVESTORS INC-CL B,0.2,0.1,  3 ,  (0),37.7,  1.86 ,  7.58 ,Financials,Capital Markets,Diversified Financials,9.0,82%,  38 ,  935 
+DISH US Equity,USD,DISH NETWORK CORP-A,2.2,5.0,  15 ,  14 ,50.7,  (0.71),  (0.76),Communication Services,Media,Media & Entertainment,22.0,46%,  38 ,  51 
+CMCSA US Equity,USD,COMCAST CORP-CLASS A,14.6,2.2,  175 ,  61 ,32.8,  1.53 ,  0.88 ,Communication Services,Media,Media & Entertainment,35.0,46%,  38 ,  66 
+MOMO US Equity,USD,MOMO INC-SPON ADR,0.5,-1.5,  7 ,  (1),74.5,  0.39 ,  0.34 ,Communication Services,Interactive Media & Services,Media & Entertainment,24.0,108%,  38 ,  53 
+GIS US Equity,USD,GENERAL MILLS INC,2.2,4.9,  27 ,  15 ,30.7,  2.65 ,  3.40 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",21.0,61%,  38 ,  248 
+CHD US Equity,USD,CHURCH & DWIGHT CO INC,0.8,2.0,  16 ,  2 ,40.6,  3.35 ,  2.77 ,Consumer Staples,Household Products,Household & Personal Products,23.0,69%,  39 ,  255 
+FMC US Equity,USD,FMC CORP,0.3,2.9,  11 ,  3 ,32.4,  2.80 ,  0.84 ,Materials,Chemicals,Materials,22.0,58%,  39 ,  454 
+GWW US Equity,USD,WW GRAINGER INC,0.9,1.3,  17 ,  2 ,47.7,  1.72 ,  1.46 ,Industrials,Trading Companies & Distributo,Capital Goods,21.0,189%,  39 ,  735 
+PBF US Equity,USD,PBF ENERGY INC-CLASS A,0.5,1.0,  5 ,  2 ,51.6,  0.10 ,  0.13 ,Energy,"Oil, Gas & Consumable Fuels",Energy,16.0,315%,  39 ,"  1,057 "
+HII US Equity,USD,HUNTINGTON INGALLS INDUSTRIE,0.3,1.0,  9 ,  1 ,43.5,  (1.13),  4.51 ,Industrials,Aerospace & Defense,Capital Goods,15.0,129%,  39 ,  694 
+LUV US Equity,USD,SOUTHWEST AIRLINES CO,2.6,-0.1,  30 ,  1 ,40.4,  0.84 ,  0.90 ,Industrials,Airlines,Transportation,21.0,84%,  39 ,  733 
+CELG US Equity,USD,CELGENE CORP,4.2,3.4,  49 ,  4 ,36.9,  0.37 ,  0.28 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",27.0,45%,  39 ,  881 
+CHE US Equity,USD,CHEMED CORP,0.2,0.2,  5 ,  0 ,40.1,  4.33 ,  4.13 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,4.0,187%,  39 ,  766 
+WM US Equity,USD,WASTE MANAGEMENT INC,1.7,2.4,  39 ,  9 ,20.9,  2.89 ,  2.01 ,Industrials,Commercial Services & Supplies,Commercial & Professional Serv,12.0,68%,  40 ,  668 
+ADP US Equity,USD,AUTOMATIC DATA PROCESSING,2.2,0.3,  64 ,  (0),35.4,  1.82 ,  1.36 ,Information Technology,IT Services,Software & Services,23.0,37%,  40 ,  563 
+BR US Equity,USD,BROADRIDGE FINANCIAL SOLUTIO,0.6,1.1,  12 ,  1 ,43.0,  2.10 ,  2.05 ,Information Technology,IT Services,Software & Services,7.0,133%,  40 ,  485 
+GGG US Equity,USD,GRACO INC,0.3,0.3,  7 ,  0 ,36.2,  3.05 ,  3.06 ,Industrials,Machinery,Capital Goods,11.0,112%,  40 ,  662 
+WB US Equity,USD,WEIBO CORP-SPON ADR,#N/A N/A,-1.3,  13 ,  (1),77.5,  0.57 ,  0.41 ,Communication Services,Interactive Media & Services,Media & Entertainment,22.0,70%,  40 ,  52 
+MMM US Equity,USD,3M CO,4.5,1.3,  119 ,  10 ,31.6,  2.23 ,  2.21 ,Industrials,Industrial Conglomerates,Capital Goods,22.0,90%,  40 ,  737 
+TTC US Equity,USD,TORO CO,0.3,0.1,  6 ,  0 ,24.7,  1.58 ,  1.86 ,Industrials,Machinery,Capital Goods,4.0,165%,  41 ,  620 
+KBR US Equity,USD,KBR INC,0.0,1.2,  3 ,  0 ,51.1,  2.36 ,  0.92 ,Industrials,Construction & Engineering,Capital Goods,13.0,107%,  41 ,  683 
+AMAT US Equity,USD,APPLIED MATERIALS INC,3.2,0.2,  34 ,  1 ,50.1,  0.39 ,#VALUE!,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,27.0,93%,  41 ,  574 
+FICO US Equity,USD,FAIR ISAAC CORP,0.2,2.8,  6 ,  1 ,37.7,  1.63 ,  1.16 ,Information Technology,Software,Software & Services,4.0,82%,  41 ,  472 
+NVR US Equity,USD,NVR INC,0.7,0.0,  9 ,  (0),37.0,  3.19 ,  1.73 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,6.0,228%,  41 ,  85 
+EVTC US Equity,USD,EVERTEC INC,0.2,2.7,  2 ,  1 ,64.2,  1.76 ,  1.49 ,Information Technology,IT Services,Software & Services,7.0,47%,  42 ,  487 
+RHHBY US Equity,CHF,ROCHE HOLDINGS LTD-SPONS ADR,14.5,0.6,  213 ,  7 ,28.6,  11.42 ,  5.24 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",3.0,73%,  42 ,  762 
+CABO US Equity,USD,CABLE ONE INC,0.2,2.0,  5 ,  1 ,30.0,  1.53 ,  0.95 ,Communication Services,Media,Media & Entertainment,6.0,48%,  42 ,  18 
+ACN US Equity,USD,ACCENTURE PLC-CL A,5.4,-0.7,  104 ,  (5),28.9,  2.11 ,  2.11 ,Information Technology,IT Services,Software & Services,29.0,177%,  42 ,  579 
+PEP US Equity,USD,PEPSICO INC,5.6,1.7,  165 ,  20 ,20.1,  3.61 ,  2.53 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",27.0,85%,  42 ,  260 
+NSC US Equity,USD,NORFOLK SOUTHERN CORP,1.9,2.1,  47 ,  9 ,34.2,  1.52 ,  1.24 ,Industrials,Road & Rail,Transportation,27.0,31%,  42 ,  754 
+SABR US Equity,USD,SABRE CORP,0.5,3.0,  7 ,  3 ,38.4,  1.76 ,  1.22 ,Information Technology,IT Services,Software & Services,13.0,66%,  43 ,  532 
+CHRW US Equity,USD,C.H. ROBINSON WORLDWIDE INC,0.7,1.1,  13 ,  1 ,28.4,  2.02 ,  2.87 ,Industrials,Air Freight & Logistics,Transportation,24.0,380%,  43 ,  744 
+TXN US Equity,USD,TEXAS INSTRUMENTS INC,5.9,0.0,  94 ,  (0),41.3,  11.35 ,  1.17 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,36.0,89%,  43 ,  594 
+SLGN US Equity,USD,SILGAN HOLDINGS INC,0.2,4.5,  3 ,  2 ,38.0,  1.25 ,  1.50 ,Materials,Containers & Packaging,Materials,15.0,87%,  43 ,  439 
+AMD US Equity,USD,ADVANCED MICRO DEVICES,0.2,0.4,  21 ,  0 ,103.7,  0.96 ,  0.42 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,35.0,165%,  44 ,  593 
+PAYX US Equity,USD,PAYCHEX INC,1.0,-0.3,  24 ,  (0),24.9,  2.79 ,  2.92 ,Information Technology,IT Services,Software & Services,23.0,47%,  44 ,  564 
+ITW US Equity,USD,ILLINOIS TOOL WORKS,2.3,1.4,  45 ,  5 ,30.3,  2.48 ,  2.63 ,Industrials,Machinery,Capital Goods,23.0,94%,  44 ,  740 
+CBRL US Equity,USD,CRACKER BARREL OLD COUNTRY,0.2,0.7,  4 ,  0 ,23.0,  3.90 ,  (6.49),Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,8.0,199%,  44 ,  89 
+JBHT US Equity,USD,HUNT (JB) TRANSPRT SVCS INC,0.1,0.9,  12 ,  1 ,26.7,  0.86 ,  1.20 ,Industrials,Road & Rail,Transportation,25.0,189%,  44 ,  750 
+BAK US Equity,BRL,BRASKEM SA-SPON ADR,2.0,2.4,  10 ,  8 ,36.7,  (1.24),  (0.66),Materials,Chemicals,Materials,4.0,98%,  45 ,  397 
+JWN US Equity,USD,NORDSTROM INC,0.8,1.0,  10 ,  2 ,38.9,  3.44 ,  2.28 ,Consumer Discretionary,Multiline Retail,Retailing,25.0,190%,  45 ,  171 
+TREX US Equity,USD,TREX COMPANY INC,0.1,-0.6,  3 ,  (0),47.6,  2.40 ,  1.98 ,Industrials,Building Products,Capital Goods,7.0,179%,  47 ,  634 
+OMC US Equity,USD,OMNICOM GROUP,1.8,1.2,  17 ,  1 ,32.6,  6.26 ,  1.83 ,Communication Services,Media,Media & Entertainment,18.0,69%,  48 ,  46 
+ADS US Equity,USD,ALLIANCE DATA SYSTEMS CORP,2.7,1.0,  11 ,  2 ,34.8,  0.85 ,  0.45 ,Information Technology,IT Services,Software & Services,30.0,27%,  49 ,  582 
+FDS US Equity,USD,FACTSET RESEARCH SYSTEMS INC,0.6,0.7,  9 ,  0 ,22.8,  2.08 ,  2.27 ,Financials,Capital Markets,Diversified Financials,17.0,95%,  49 ,  999 
+CBS US Equity,USD,CBS CORP-CLASS B NON VOTING,0.9,3.6,  21 ,  10 ,33.9,  0.97 ,  0.53 ,Communication Services,Media,Media & Entertainment,33.0,64%,  49 ,  64 
+AAPL US Equity,USD,APPLE INC,64.1,-1.5,  908 ,  (123),42.2,  1.24 ,  1.24 ,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,49.0,72%,  49 ,  604 
+AVGO US Equity,USD,BROADCOM INC,7.4,1.6,  98 ,  6 ,46.9,  1.81 ,  1.31 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,37.0,40%,  49 ,  595 
+MAR US Equity,USD,MARRIOTT INTERNATIONAL -CL A,1.8,3.4,  40 ,  8 ,35.4,  4.60 ,  1.17 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,26.0,89%,  50 ,  174 
+MBT US Equity,RUB,MOBILE TELESYSTEMS-SP ADR,1.5,1.9,  8 ,  4 ,37.4,  0.74 ,  1.04 ,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,18.0,68%,  50 ,  47 
+ROST US Equity,USD,ROSS STORES INC,1.5,-0.4,  36 ,  (1),21.4,  2.01 ,  1.62 ,Consumer Discretionary,Specialty Retail,Retailing,30.0,257%,  51 ,  193 
+SID US Equity,BRL,CIA SIDERURGICA NACL-SP ADR,#N/A N/A,3.3,  4 ,  8 ,62.8,  (0.19),  0.55 ,Materials,Metals & Mining,Materials,4.0,49%,  52 ,  400 
+IP US Equity,USD,INTERNATIONAL PAPER CO,1.9,2.9,  19 ,  10 ,46.2,  1.76 ,  2.54 ,Materials,Containers & Packaging,Materials,16.0,68%,  53 ,  443 
+BF/B US Equity,USD,BROWN-FORMAN CORP-CLASS B,0.5,2.0,  23 ,  2 ,28.9,  2.86 ,  2.40 ,Consumer Staples,Beverages,"Food, Beverage & Tobacco",19.0,67%,  53 ,  242 
+CSX US Equity,USD,CSX CORP,2.2,2.1,  61 ,  11 ,34.3,  1.60 ,  1.31 ,Industrials,Road & Rail,Transportation,27.0,33%,  54 ,  753 
+CIEN US Equity,USD,CIENA CORP,0.2,0.1,  5 ,  0 ,33.3,  0.55 ,  1.01 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,23.0,92%,  55 ,  562 
+SAIC US Equity,USD,SCIENCE APPLICATIONS INTE,0.2,2.8,  3 ,  1 ,32.6,  3.04 ,  1.89 ,Information Technology,IT Services,Software & Services,8.0,224%,  55 ,  493 
+MU US Equity,USD,MICRON TECHNOLOGY INC,8.5,-0.1,  45 ,  (3),51.5,  (0.72),  (0.65),Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,34.0,77%,  55 ,  592 
+AIV US Equity,USD,APARTMENT INVT & MGMT CO -A,-0.2,6.5,  7 ,  4 ,22.1,  (1.67),  1.12 ,Real Estate,Equity Real Estate Investment,Real Estate,17.0,16%,  56 ,  365 
+KR US Equity,USD,KROGER CO,0.6,2.9,  24 ,  15 ,35.0,  2.35 ,  1.30 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,26.0,338%,  56 ,  259 
+TGNA US Equity,USD,TEGNA INC,0.3,4.8,  3 ,  3 ,41.1,  (0.40),  0.12 ,Communication Services,Media,Media & Entertainment,13.0,37%,  56 ,  36 
+WYNN US Equity,USD,WYNN RESORTS LTD,-0.3,5.2,  12 ,  7 ,71.8,  (2.90),  0.47 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,20.0,54%,  56 ,  148 
+ZTS US Equity,USD,ZOETIS INC,1.5,2.3,  44 ,  3 ,28.7,  2.33 ,  2.03 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",16.0,58%,  57 ,  832 
+SHW US Equity,USD,SHERWIN-WILLIAMS CO/THE,1.8,3.8,  39 ,  10 ,34.1,  1.37 ,  1.24 ,Materials,Chemicals,Materials,30.0,86%,  57 ,  462 
+FISV US Equity,USD,FISERV INC,1.1,2.0,  32 ,  5 ,32.3,  1.78 ,  1.73 ,Information Technology,IT Services,Software & Services,22.0,55%,  58 ,  561 
+UNP US Equity,USD,UNION PACIFIC CORP,4.9,1.9,  112 ,  16 ,27.2,  1.21 ,  1.16 ,Industrials,Road & Rail,Transportation,30.0,39%,  59 ,  760 
+NVDA US Equity,USD,NVIDIA CORP,3.4,-1.3,  123 ,  (5),73.1,  2.23 ,  0.93 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,42.0,106%,  59 ,  598 
+CLB US Equity,USD,CORE LABORATORIES N.V.,0.1,1.8,  4 ,  0 ,38.1,  1.98 ,  0.80 ,Energy,Energy Equipment & Services,Energy,19.0,112%,  60 ,"  1,063 "
+KLAC US Equity,USD,KLA-TENCOR CORP,1.2,-0.3,  14 ,  (1),43.6,  4.25 ,  1.10 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,15.0,73%,  61 ,  542 
+URI US Equity,USD,UNITED RENTALS INC,0.2,2.9,  10 ,  9 ,66.5,  0.42 ,  0.60 ,Industrials,Trading Companies & Distributo,Capital Goods,19.0,51%,  61 ,  723 
+TJX US Equity,USD,TJX COMPANIES INC,2.4,-0.1,  65 ,  (1),20.2,  1.95 ,  1.80 ,Consumer Discretionary,Specialty Retail,Retailing,30.0,279%,  61 ,  192 
+SYY US Equity,USD,SYSCO CORP,1.7,2.5,  34 ,  8 ,36.3,  1.75 ,  2.10 ,Consumer Staples,Food & Staples Retailing,Food & Staples Retailing,18.0,321%,  61 ,  239 
+MANH US Equity,USD,MANHATTAN ASSOCIATES INC,0.1,-0.6,  3 ,  (0),41.0,  (1.97),  11.81 ,Information Technology,Software,Software & Services,5.0,181%,  62 ,  477 
+NGVT US Equity,USD,INGEVITY CORP,0.1,2.4,  4 ,  0 ,53.5,  0.86 ,  0.81 ,Materials,Chemicals,Materials,7.0,99%,  62 ,  409 
+EXEL US Equity,USD,EXELIXIS INC,0.3,-1.7,  5 ,  (0),77.7,  43.48 ,  0.38 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",13.0,91%,  64 ,  810 
+LYB US Equity,USD,LYONDELLBASELL INDU-CL A,3.8,1.0,  36 ,  6 ,29.9,  (1.95),  0.42 ,Materials,Chemicals,Materials,21.0,146%,  64 ,  452 
+GSK US Equity,GBP,GLAXOSMITHKLINE PLC-SPON ADR,6.8,3.7,  100 ,  18 ,24.8,  6.33 ,  2.15 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",6.0,52%,  65 ,  776 
+ALLE US Equity,USD,ALLEGION PLC,0.4,2.1,  8 ,  1 ,29.2,  1.74 ,  1.99 ,Industrials,Building Products,Capital Goods,12.0,102%,  65 ,  667 
+ABC US Equity,USD,AMERISOURCEBERGEN CORP,1.1,0.9,  19 ,  2 ,39.2,  1.38 ,  1.05 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,17.0,460%,  65 ,  834 
+INTU US Equity,USD,INTUIT INC,2.0,-0.7,  55 ,  (1),44.7,  2.32 ,  1.90 ,Information Technology,Software,Software & Services,21.0,129%,  65 ,  559 
+SPG US Equity,USD,SIMON PROPERTY GROUP INC,2.6,5.4,  56 ,  23 ,24.8,  4.16 ,  (3.46),Real Estate,Equity Real Estate Investment,Real Estate,22.0,18%,  66 ,  382 
+CHDN US Equity,USD,CHURCHILL DOWNS INC,-0.9,3.2,  4 ,  1 ,43.2,  0.86 ,  1.88 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,3.0,48%,  67 ,  77 
+LOW US Equity,USD,LOWE'S COS INC,4.6,1.7,  76 ,  16 ,27.8,  0.88 ,  0.88 ,Consumer Discretionary,Specialty Retail,Retailing,33.0,191%,  69 ,  197 
+K US Equity,USD,KELLOGG CO,0.9,3.4,  22 ,  8 ,35.2,  (625.34),  5.30 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",23.0,80%,  74 ,  254 
+MO US Equity,USD,ALTRIA GROUP INC,7.1,1.2,  108 ,  13 ,27.7,  1.58 ,  1.68 ,Consumer Staples,Tobacco,"Food, Beverage & Tobacco",19.0,44%,  77 ,  245 
+MTD US Equity,USD,METTLER-TOLEDO INTERNATIONAL,0.4,1.2,  15 ,  1 ,31.2,  2.38 ,  2.11 ,Health Care,Life Sciences Tools & Services,"Pharmaceuticals, Biotechnology",15.0,115%,  78 ,  823 
+VZ US Equity,USD,VERIZON COMMUNICATIONS INC,16.3,2.5,  244 ,  115 ,21.7,  16.75 ,  8.83 ,Communication Services,Diversified Telecommunication,Telecommunication Services,34.0,50%,  79 ,  65 
+NKTR US Equity,USD,NEKTAR THERAPEUTICS,0.7,-1.5,  7 ,  (0),85.6,#VALUE!,#VALUE!,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",11.0,88%,  80 ,  803 
+CAR US Equity,USD,AVIS BUDGET GROUP INC,-9.5,4.6,  2 ,  12 ,68.5,  1.11 ,  0.40 ,Industrials,Road & Rail,Transportation,9.0,46%,  81 ,  652 
+NVO US Equity,DKK,NOVO-NORDISK A/S-SPONS ADR,5.4,-0.3,  107 ,  (3),21.9,  3.99 ,  1.62 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",3.0,110%,  81 ,  763 
+POOL US Equity,USD,POOL CORP,0.1,1.6,  6 ,  0 ,20.6,  2.20 ,  1.34 ,Consumer Discretionary,Distributors,Retailing,7.0,247%,  83 ,  87 
+MA US Equity,USD,MASTERCARD INC - A,6.3,-0.3,  207 ,  (4),44.4,  1.56 ,  1.27 ,Information Technology,IT Services,Software & Services,46.0,65%,  85 ,  602 
+TPX US Equity,USD,TEMPUR SEALY INTERNATIONAL I,0.1,4.6,  3 ,  2 ,46.7,  0.51 ,  3.23 ,Consumer Discretionary,Household Durables,Consumer Durables & Apparel,11.0,97%,  93 ,  111 
+STX US Equity,USD,SEAGATE TECHNOLOGY,2.0,1.2,  13 ,  3 ,50.1,  3.17 ,  (5.93),Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,27.0,125%,  94 ,  577 
+WEN US Equity,USD,WENDY'S CO/THE,0.2,5.4,  4 ,  3 ,22.9,  1.60 ,  0.94 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,27.0,35%,  96 ,  180 
+NSP US Equity,USD,INSPERITY INC,0.2,-1.4,  4 ,  (0),42.1,  1.67 ,  1.10 ,Industrials,Professional Services,Commercial & Professional Serv,5.0,354%,  98 ,  623 
+HSY US Equity,USD,HERSHEY CO/THE,1.2,2.1,  23 ,  3 ,25.4,  3.78 ,  3.56 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",21.0,115%,  99 ,  249 
+BTI US Equity,GBP,BRITISH AMERICAN TOB-SP ADR,7.1,5.0,  81 ,  62 ,44.6,  1.11 ,  0.98 ,Consumer Staples,Tobacco,"Food, Beverage & Tobacco",3.0,27%,  108 ,  211 
+CC US Equity,USD,CHEMOURS CO/THE,0.7,1.7,  5 ,  3 ,53.0,  2.02 ,  0.63 ,Materials,Chemicals,Materials,13.0,92%,  111 ,  423 
+MSCI US Equity,USD,MSCI INC,0.6,1.6,  13 ,  1 ,38.4,  1.95 ,  1.26 ,Financials,Capital Markets,Diversified Financials,11.0,40%,  114 ,  957 
+CLX US Equity,USD,CLOROX COMPANY,0.8,1.9,  21 ,  2 ,26.3,  3.75 ,  3.63 ,Consumer Staples,Household Products,Household & Personal Products,19.0,128%,  133 ,  244 
+SBUX US Equity,USD,STARBUCKS CORP,2.7,0.1,  89 ,  1 ,35.6,  1.65 ,  1.33 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,34.0,128%,  137 ,  198 
+HLT US Equity,USD,HILTON WORLDWIDE HOLDINGS IN,1.1,4.0,  22 ,  6 ,39.8,  1.38 ,  1.18 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,26.0,63%,  137 ,  175 
+ENR US Equity,USD,ENERGIZER HOLDINGS INC,0.2,2.0,  3 ,  1 ,43.1,  0.93 ,  1.32 ,Consumer Staples,Household Products,Household & Personal Products,9.0,72%,  171 ,  224 
+SPGI US Equity,USD,S&P GLOBAL INC,2.1,0.5,  45 ,  1 ,30.6,  2.05 ,  1.54 ,Financials,Capital Markets,Diversified Financials,17.0,70%,  196 ,"  1,002 "
+LMT US Equity,USD,LOCKHEED MARTIN CORP,1.1,1.6,  87 ,  11 ,30.3,  1.29 ,  0.51 ,Industrials,Aerospace & Defense,Capital Goods,23.0,115%,  207 ,  738 
+UPS US Equity,USD,UNITED PARCEL SERVICE-CL B,0.5,2.1,  95 ,  20 ,28.6,  1.76 ,  1.50 ,Industrials,Air Freight & Logistics,Transportation,30.0,161%,  236 ,  759 
+ORLY US Equity,USD,O'REILLY AUTOMOTIVE INC,1.2,1.5,  28 ,  3 ,32.9,  1.85 ,  1.66 ,Consumer Discretionary,Specialty Retail,Retailing,24.0,122%,  238 ,  166 
+AMCX US Equity,USD,AMC NETWORKS INC-A,0.5,3.0,  3 ,  3 ,49.8,  1.55 ,  1.44 ,Communication Services,Media,Media & Entertainment,20.0,58%,  328 ,  49 
+HD US Equity,USD,HOME DEPOT INC,10.0,1.4,  203 ,  23 ,28.8,  3.51 ,  1.62 ,Consumer Discretionary,Specialty Retail,Retailing,35.0,234%,  547 ,  201 
+ORAN US Equity,EUR,ORANGE-SPON ADR,2.5,2.2,  44 ,  29 ,19.4,  1.50 ,  1.27 ,Communication Services,Diversified Telecommunication,Telecommunication Services,3.0,44%, #N/A N/A ,  9 
+BT US Equity,GBP,BT GROUP PLC-SPON ADR,#N/A N/A,#N/A N/A,  32 ,  15 ,48.4,  (64.19),  1.88 ,Communication Services,Diversified Telecommunication,Telecommunication Services,3.0,#N/A N/A, #N/A N/A ,  10 
+HUYA US Equity,CNY,HUYA INC-ADR,0.0,#N/A N/A,  4 ,  (0),67.2,  0.44 ,  0.38 ,Communication Services,Entertainment,Media & Entertainment,7.0,298%, #N/A N/A ,  23 
+SOGO US Equity,USD,SOGOU INC-ADR,#N/A N/A,#N/A N/A,  3 ,  (1),66.1,  2.70 ,  0.46 ,Communication Services,Interactive Media & Services,Media & Entertainment,7.0,103%, #N/A N/A ,  24 
+SE US Equity,USD,SEA LTD-ADR,#N/A N/A,#N/A N/A,  4 ,  (1),55.1,#VALUE!,#VALUE!,Communication Services,Entertainment,Media & Entertainment,9.0,#N/A N/A, #N/A N/A ,  27 
+IQ US Equity,CNY,IQIYI INC-ADR,0.5,#N/A N/A,  15 ,  (0),72.0,#VALUE!,#VALUE!,Communication Services,Entertainment,Media & Entertainment,13.0,103%, #N/A N/A ,  34 
+CCOI US Equity,USD,COGENT COMMUNICATIONS HOLDIN,0.1,3.1,  2 ,  0 ,31.4,  1.18 ,  1.09 ,Communication Services,Diversified Telecommunication,Telecommunication Services,16.0,69%, #N/A N/A ,  44 
+PDD US Equity,CNY,PINDUODUO INC-ADR,0.0,#N/A N/A,  23 ,  (2),93.6,  (6.45),  0.00 ,Consumer Discretionary,Internet & Direct Marketing Re,Retailing,8.0,23%, #N/A N/A ,  90 
+NIO US Equity,CNY,NIO INC - ADR,#N/A N/A,#N/A N/A,  8 ,  (1),94.7,#VALUE!,#VALUE!,Consumer Discretionary,Automobiles,Automobiles & Components,10.0,#N/A N/A, #N/A N/A ,  99 
+HRB US Equity,USD,H&R BLOCK INC,0.8,0.6,  6 ,  (0),29.5,  2.40 ,  1.67 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,10.0,134%, #N/A N/A ,  100 
+SIX US Equity,USD,SIX FLAGS ENTERTAINMENT CORP,0.3,3.7,  5 ,  2 ,60.8,  2.45 ,  1.43 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,11.0,56%, #N/A N/A ,  108 
+WH US Equity,USD,WYNDHAM HOTELS & RESORTS INC,#N/A N/A,#N/A N/A,  5 ,  2 ,37.0,  0.60 ,  0.89 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,11.0,#N/A N/A, #N/A N/A ,  109 
+SBH US Equity,USD,SALLY BEAUTY HOLDINGS INC,0.3,3.2,  3 ,  2 ,70.4,  9.05 ,  1.09 ,Consumer Discretionary,Specialty Retail,Retailing,11.0,187%, #N/A N/A ,  113 
+MIK US Equity,USD,MICHAELS COS INC/THE,0.3,3.5,  3 ,  2 ,29.9,  1.08 ,  1.81 ,Consumer Discretionary,Specialty Retail,Retailing,13.0,251%, #N/A N/A ,  120 
+WTW US Equity,USD,WEIGHT WATCHERS INTL INC,0.3,3.8,  3 ,  2 ,119.1,  0.60 ,  0.48 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,14.0,111%, #N/A N/A ,  123 
+WYND US Equity,USD,WYNDHAM DESTINATIONS INC,0.6,4.3,  4 ,  4 ,63.7,  0.62 ,  0.53 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,14.0,52%, #N/A N/A ,  125 
+JACK US Equity,USD,JACK IN THE BOX INC,0.0,3.1,  2 ,  1 ,24.1,  1.14 ,  1.43 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,18.0,97%, #N/A N/A ,  141 
+DPZ US Equity,USD,DOMINO'S PIZZA INC,0.3,5.5,  11 ,  3 ,34.1,  2.26 ,  1.44 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,22.0,375%, #N/A N/A ,  157 
+RH US Equity,USD,RH,0.2,3.3,  3 ,  1 ,74.3,  1.40 ,  1.40 ,Consumer Discretionary,Specialty Retail,Retailing,23.0,135%, #N/A N/A ,  162 
+AZO US Equity,USD,AUTOZONE INC,1.5,2.2,  21 ,  5 ,32.5,  2.03 ,  1.11 ,Consumer Discretionary,Specialty Retail,Retailing,24.0,121%, #N/A N/A ,  167 
+YUM US Equity,USD,YUM! BRANDS INC,0.9,3.2,  28 ,  8 ,24.8,  9.63 ,  2.27 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,27.0,119%, #N/A N/A ,  179 
+VFC US Equity,USD,VF CORP,#N/A N/A,#N/A N/A,  33 ,  2 ,46.3,  1.52 ,  1.44 ,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,27.0,#N/A N/A, #N/A N/A ,  182 
+DNKN US Equity,USD,DUNKIN' BRANDS GROUP INC,0.2,5.5,  6 ,  2 ,28.6,  4.29 ,  1.99 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,29.0,38%, #N/A N/A ,  189 
+LB US Equity,USD,L BRANDS INC,0.7,2.3,  10 ,  4 ,37.4,  10.06 ,  2.80 ,Consumer Discretionary,Specialty Retail,Retailing,29.0,170%, #N/A N/A ,  191 
+MCD US Equity,USD,MCDONALD'S CORP,4.1,2.8,  142 ,  27 ,26.2,  3.59 ,  2.60 ,Consumer Discretionary,"Hotels, Restaurants & Leisure",Consumer Services,36.0,64%, #N/A N/A ,  203 
+LW US Equity,USD,LAMB WESTON HOLDINGS INC,0.3,3.0,  12 ,  2 ,19.8,  2.16 ,  1.65 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",7.0,131%, #N/A N/A ,  218 
+KMB US Equity,USD,KIMBERLY-CLARK CORP,2.1,2.2,  38 ,  7 ,26.6,  10.00 ,  2.45 ,Consumer Staples,Household Products,Household & Personal Products,20.0,125%, #N/A N/A ,  247 
+PM US Equity,USD,PHILIP MORRIS INTERNATIONAL,8.3,2.0,  133 ,  26 ,22.5,  2.95 ,  1.66 ,Consumer Staples,Tobacco,"Food, Beverage & Tobacco",22.0,75%, #N/A N/A ,  252 
+CL US Equity,USD,COLGATE-PALMOLIVE CO,2.5,1.4,  54 ,  5 ,36.6,  6.89 ,  3.11 ,Consumer Staples,Household Products,Household & Personal Products,24.0,123%, #N/A N/A ,  256 
+NRG US Equity,USD,NRG ENERGY INC,0.7,7.9,  11 ,  15 ,28.6,  0.83 ,  1.87 ,Utilities,Independent Power and Renewabl,Utilities,10.0,57%, #N/A N/A ,  291 
+EVRG US Equity,USD,EVERGY INC,#N/A N/A,#N/A N/A,  16 ,  4 ,13.4,  1.30 ,  1.53 ,Utilities,Electric Utilities,Utilities,11.0,#N/A N/A, #N/A N/A ,  293 
+UNIT US Equity,USD,UNITI GROUP INC,0.1,6.1,  3 ,  4 ,37.1,  0.21 ,  1.98 ,Real Estate,Equity Real Estate Investment,Real Estate,11.0,22%, #N/A N/A ,  344 
+TCO US Equity,USD,TAUBMAN CENTERS INC,-0.1,11.2,  3 ,  4 ,30.1,  (4.33),  (2.26),Real Estate,Equity Real Estate Investment,Real Estate,15.0,15%, #N/A N/A ,  362 
+SBAC US Equity,USD,SBA COMMUNICATIONS CORP,0.7,8.1,  19 ,  9 ,27.0,  0.33 ,  2.11 ,Real Estate,Equity Real Estate Investment,Real Estate,19.0,25%, #N/A N/A ,  370 
+VVV US Equity,USD,VALVOLINE INC,0.2,2.7,  4 ,  1 ,40.8,  1.37 ,  2.05 ,Materials,Chemicals,Materials,12.0,121%, #N/A N/A ,  419 
+SEE US Equity,USD,SEALED AIR CORP,0.1,4.3,  6 ,  3 ,40.2,  1.23 ,  0.96 ,Materials,Containers & Packaging,Materials,17.0,86%, #N/A N/A ,  445 
+LIN US Equity,USD,LINDE PLC,#N/A N/A,#N/A N/A,  86 ,  8 ,27.8,  (7.18),  2.21 ,Materials,Chemicals,Materials,18.0,#N/A N/A, #N/A N/A ,  446 
+ASX US Equity,TWD,ASE TECHNOLOGY HOLDING -ADR,#N/A N/A,#N/A N/A,  8 , #N/A N/A ,38.8,  3.71 ,#VALUE!,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,3.0,#N/A N/A, #N/A N/A ,  465 
+VRSN US Equity,USD,VERISIGN INC,0.6,0.8,  19 ,  (0),62.3,  2.47 ,  2.95 ,Information Technology,IT Services,Software & Services,5.0,50%, #N/A N/A ,  475 
+PRSP US Equity,USD,PERSPECTA INC,#N/A N/A,#N/A N/A,  4 ,  0 ,30.0,  1.95 ,  4.05 ,Information Technology,IT Services,Software & Services,6.0,#N/A N/A, #N/A N/A ,  479 
+CDK US Equity,USD,CDK GLOBAL INC,0.4,3.4,  6 ,  2 ,29.0,  0.83 ,  0.63 ,Information Technology,Software,Software & Services,6.0,75%, #N/A N/A ,  482 
+VSM US Equity,USD,VERSUM MATERIALS INC,0.2,1.4,  4 ,  1 ,45.5,  1.84 ,  2.46 ,Information Technology,Semiconductors & Semiconductor,Semiconductors & Semiconductor,11.0,100%, #N/A N/A ,  520 
+MSI US Equity,USD,MOTOROLA SOLUTIONS INC,0.9,2.9,  21 ,  3 ,31.0,  2.12 ,  1.63 ,Information Technology,Communications Equipment,Technology Hardware & Equipmen,14.0,80%, #N/A N/A ,  536 
+HPQ US Equity,USD,HP INC,3.7,0.2,  38 ,  1 ,34.5,  1.31 ,  1.81 ,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,17.0,172%, #N/A N/A ,  551 
+WU US Equity,USD,WESTERN UNION CO,0.7,2.9,  8 ,  2 ,21.0,  5.77 ,  2.20 ,Information Technology,IT Services,Software & Services,21.0,60%, #N/A N/A ,  557 
+ADSK US Equity,USD,AUTODESK INC,0.0,#N/A N/A,  29 ,  0 ,55.0,  0.18 ,  0.44 ,Information Technology,Software,Software & Services,23.0,55%, #N/A N/A ,  566 
+REZI US Equity,USD,RESIDEO TECHNOLOGIES INC,#N/A N/A,#N/A N/A,  3 ,  (0),#N/A N/A,  (1.21),#VALUE!,Industrials,Building Products,Capital Goods,3.0,#N/A N/A, #N/A N/A ,  607 
+NVT US Equity,USD,NVENT ELECTRIC PLC,#N/A N/A,#N/A N/A,  4 ,  (0),55.1,  1.56 ,  1.46 ,Industrials,Electrical Equipment,Capital Goods,7.0,#N/A N/A, #N/A N/A ,  638 
+DNB US Equity,USD,DUN & BRADSTREET CORP,0.2,2.0,  5 ,  1 ,3.7,  3.90 ,  12.32 ,Industrials,Professional Services,Commercial & Professional Serv,7.0,85%, #N/A N/A ,  639 
+DY US Equity,USD,DYCOM INDUSTRIES INC,#N/A N/A,#N/A N/A,  2 ,  1 ,45.9,  0.24 ,  0.23 ,Industrials,Construction & Engineering,Capital Goods,10.0,#N/A N/A, #N/A N/A ,  655 
+BSTI US Equity,CNY,BEST INC - ADR,-0.2,#N/A N/A,  2 ,  (0),89.5,  (0.11),  0.08 ,Industrials,Air Freight & Logistics,Transportation,12.0,233%, #N/A N/A ,  666 
+LII US Equity,USD,LENNOX INTERNATIONAL INC,0.3,1.9,  9 ,  1 ,31.6,  0.59 ,  2.65 ,Industrials,Building Products,Capital Goods,15.0,198%, #N/A N/A ,  697 
+TDG US Equity,USD,TRANSDIGM GROUP INC,0.9,6.1,  18 ,  11 ,41.2,  1.34 ,  1.03 ,Industrials,Aerospace & Defense,Capital Goods,16.0,34%, #N/A N/A ,  701 
+AAL US Equity,USD,AMERICAN AIRLINES GROUP INC,-0.9,4.0,  17 ,  20 ,54.3,  0.43 ,  0.36 ,Industrials,Airlines,Transportation,18.0,84%, #N/A N/A ,  716 
+MAS US Equity,USD,MASCO CORP,0.7,#N/A N/A,  10 ,  2 ,44.9,  0.83 ,  0.79 ,Industrials,Building Products,Capital Goods,23.0,148%, #N/A N/A ,  739 
+BA US Equity,USD,BOEING CO/THE,13.6,0.1,  194 ,  1 ,36.8,  0.93 ,  1.22 ,Industrials,Aerospace & Defense,Capital Goods,28.0,95%, #N/A N/A ,  755 
+AMRN US Equity,USD,AMARIN CORP PLC -ADR,0.0,#N/A N/A,  5 ,  0 ,106.3,  (11.36),  0.01 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",5.0,110%, #N/A N/A ,  768 
+IDXX US Equity,USD,IDEXX LABORATORIES INC,0.3,1.4,  17 ,  1 ,39.1,  3.26 ,  2.46 ,Health Care,Health Care Equipment & Suppli,Health Care Equipment & Servic,9.0,135%, #N/A N/A ,  789 
+ENDP US Equity,USD,ENDO INTERNATIONAL PLC,0.2,40.8,  3 ,  7 ,80.2,  31.78 ,  0.47 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",17.0,26%, #N/A N/A ,  837 
+THC US Equity,USD,TENET HEALTHCARE CORP,0.7,6.0,  2 ,  14 ,60.6,  0.77 ,  0.31 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,20.0,82%, #N/A N/A ,  853 
+ABBV US Equity,USD,ABBVIE INC,11.9,2.6,  136 ,  28 ,37.9,  0.96 ,  0.91 ,Health Care,Biotechnology,"Pharmaceuticals, Biotechnology",22.0,48%, #N/A N/A ,  862 
+HCA US Equity,USD,HCA HEALTHCARE INC,2.9,3.7,  47 ,  32 ,30.1,  1.61 ,  1.14 ,Health Care,Health Care Providers & Servic,Health Care Equipment & Servic,26.0,125%, #N/A N/A ,  879 
+MCO US Equity,USD,MOODY'S CORP,1.4,1.8,  28 ,  4 ,37.5,  2.13 ,  1.37 ,Financials,Capital Markets,Diversified Financials,15.0,54%, #N/A N/A ,  990 
+ETRN US Equity,USD,EQUITRANS MIDSTREAM CORP,#N/A N/A,#N/A N/A,  6 , #N/A N/A ,#N/A N/A,#VALUE!,#VALUE!,Energy,"Oil, Gas & Consumable Fuels",Energy,5.0,#N/A N/A, #N/A N/A ,"  1,048 "
+APY US Equity,USD,APERGY CORP,#N/A N/A,#N/A N/A,  3 ,  (0),40.8,  1.27 ,  0.32 ,Energy,Energy Equipment & Services,Energy,8.0,#N/A N/A, #N/A N/A ,"  1,050 "
+CHK US Equity,USD,CHESAPEAKE ENERGY CORP,-0.3,3.9,  3 ,  10 ,81.9,  0.73 ,  0.28 ,Energy,"Oil, Gas & Consumable Fuels",Energy,21.0,82%, #N/A N/A ,"  1,072 "
+SWN US Equity,USD,SOUTHWESTERN ENERGY CO,-0.1,2.9,  3 ,  3 ,56.8,  (0.53),  0.86 ,Energy,"Oil, Gas & Consumable Fuels",Energy,27.0,49%, #N/A N/A ,"  1,085 "
+NPSNY US Equity,USD,NASPERS LTD-N SHS SPON ADR,-0.3,-65.3,  87 ,  (7),81.4,#VALUE!,#VALUE!,Communication Services,Media,Media & Entertainment,0.0,23%,  59.18 ,#N/A
+KDDIY US Equity,JPY,KDDI CORP-UNSPONSORED ADR,5.4,0.6,  55 ,  9 ,35.4,  (2.04),#VALUE!,Communication Services,Wireless Telecommunication Ser,Telecommunication Services,1.0,77%,  15.01 ,#N/A
+CFRUY US Equity,EUR,CIE FINANCIERE RICH-UNSP ADR,1.6,-0.6,  38 ,  (6),35.3,#VALUE!,#VALUE!,Consumer Discretionary,"Textiles, Apparel & Luxury Goo",Consumer Durables & Apparel,0.0,51%,  16.23 ,#N/A
+GHC US Equity,USD,GRAHAM HOLDINGS CO-CLASS B,0.2,-0.9,  3 ,  (0),22.7,  (0.60),  1.34 ,Consumer Discretionary,Diversified Consumer Services,Consumer Services,1.0,57%,  15.49 ,#N/A
+KGFHY US Equity,GBP,KINGFISHER PLC-SPONS ADR,-0.1,-0.1,  7 ,  (0),37.3,  0.39 ,  0.58 ,Consumer Discretionary,Specialty Retail,Retailing,1.0,111%,  5.82 ,#N/A
+TR US Equity,USD,TOOTSIE ROLL INDS,0.0,-1.6,  2 ,  (0),21.8,#VALUE!,#VALUE!,Consumer Staples,Food Products,"Food, Beverage & Tobacco",0.0,54%,  10.50 ,#N/A
+NSRGY US Equity,CHF,NESTLE SA-SPONS ADR,11.2,1.9,  256 ,  18 ,18.9,  2.33 ,  1.88 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",1.0,71%,  13.88 ,#N/A
+DANOY US Equity,EUR,DANONE-SPONS ADR,2.7,2.8,  51 ,  18 ,26.0,  1.98 ,  1.55 ,Consumer Staples,Food Products,"Food, Beverage & Tobacco",1.0,55%,  19.41 ,#N/A
+WDFC US Equity,USD,WD-40 CO,0.1,0.4,  2 ,  0 ,34.0,  3.86 ,  1.95 ,Consumer Staples,Household Products,Household & Personal Products,1.0,119%,  44.04 ,#N/A
+UL US Equity,EUR,UNILEVER PLC-SPONSORED ADR,7.7,2.4,  158 ,  25 ,20.0,  2.98 ,  1.41 ,Consumer Staples,Personal Products,Household & Personal Products,2.0,86%,  43.06 ,#N/A
+OGZPY US Equity,RUB,GAZPROM PAO -SPON ADR,1.2,0.8,  55 ,  36 ,35.6,  (1.32),  (1.44),Energy,"Oil, Gas & Consumable Fuels",Energy,0.0,40%,  8.19 ,#N/A
+REPYY US Equity,EUR,REPSOL SA-SPONSORED ADR,1.9,1.3,  29 ,  11 ,22.8,  0.53 ,  0.95 ,Energy,"Oil, Gas & Consumable Fuels",Energy,2.0,79%,  8.88 ,#N/A
+IBOC US Equity,USD,INTERNATIONAL BANCSHARES CRP,0.2,#N/A N/A,  3 ,  1 ,29.4,#VALUE!,#VALUE!,Financials,Banks,Banks,0.0,5%,  11.03 ,#N/A
+CAIXY US Equity,EUR,CAIXABANK- UNSPON ADR,#N/A N/A,#N/A N/A,  24 ,  64 ,36.4,#VALUE!,#VALUE!,Financials,Banks,Banks,0.0,2%,  8.06 ,#N/A
+BDORY US Equity,BRL,BANCO DO BRASIL SA-SPON ADR,3.5,#N/A N/A,  32 ,  82 ,60.2,  0.41 ,  0.50 ,Financials,Banks,Banks,0.0,12%,  12.78 ,#N/A
+JBAXY US Equity,CHF,JULIUS BAER GROUP LTD-UN ADR,0.0,#N/A N/A,  10 ,  (10),23.7,#VALUE!,#VALUE!,Financials,Capital Markets,Diversified Financials,1.0,4%,  14.21 ,#N/A
+RBS US Equity,GBP,ROYAL BANK OF SCOT-SPON ADR,#N/A N/A,#N/A N/A,  36 ,  (4),42.4,  4.15 ,  0.47 ,Financials,Banks,Banks,1.0,2%,  1.57 ,#N/A
+JEF US Equity,USD,JEFFERIES FINANCIAL GROUP IN,#N/A N/A,0.7,  7 ,  2 ,31.5,  (0.27),#VALUE!,Financials,Diversified Financial Services,Diversified Financials,1.0,12%,  7.04 ,#N/A
+HDB US Equity,INR,HDFC BANK LTD-ADR,-1.4,#N/A N/A,  86 ,  8 ,28.9,  1.02 ,  0.81 ,Financials,Banks,Banks,1.0,10%,  18.38 ,#N/A
+IBN US Equity,INR,ICICI BANK LTD-SPON ADR,2.2,#N/A N/A,  33 ,  25 ,33.8,#VALUE!,#VALUE!,Financials,Banks,Banks,1.0,8%,  7.17 ,#N/A
+ING US Equity,EUR,ING GROEP N.V.-SPONSORED ADR,#N/A N/A,#N/A N/A,  48 ,  125 ,32.4,  4.32 ,  1.62 ,Financials,Banks,Banks,1.0,4%,  9.00 ,#N/A
+ISNPY US Equity,EUR,INTESA SANPAOLO-SPON ADR,#N/A N/A,#N/A N/A,  39 ,  173 ,42.6,#VALUE!,#VALUE!,Financials,Banks,Banks,1.0,3%,  8.36 ,#N/A
+MFG US Equity,JPY,MIZUHO FINANCIAL GROUP-ADR,#N/A N/A,#N/A N/A,  43 ,  (133),19.8,  7.43 ,#VALUE!,Financials,Banks,Banks,2.0,2%,  6.86 ,#N/A
+SMFG US Equity,JPY,SUMITOMO MITSUI-SPONS ADR,#N/A N/A,#N/A N/A,  53 ,  (128),28.2,  5.72 ,#VALUE!,Financials,Banks,Banks,2.0,2%,  7.55 ,#N/A
+MUFG US Equity,JPY,MITSUBISHI UFJ FINL-SPON ADR,#N/A N/A,#N/A N/A,  79 ,  (88),25.0,  2.22 ,#VALUE!,Financials,Banks,Banks,2.0,2%,  6.30 ,#N/A
+BCS US Equity,GBP,BARCLAYS PLC-SPONS ADR,#N/A N/A,#N/A N/A,  37 ,  (12),34.4,  1.19 ,  0.60 ,Financials,Banks,Banks,2.0,2%,  0.33 ,#N/A
+Y US Equity,USD,ALLEGHANY CORP,0.3,#N/A N/A,  9 ,  1 ,26.8,  0.78 ,#VALUE!,Financials,Insurance,Insurance,2.0,28%,  10.78 ,#N/A
+LFC US Equity,CNY,CHINA LIFE INSURANCE CO-ADR,34.1,#N/A N/A,  84 ,  9 ,34.7,  0.27 ,#VALUE!,Financials,Insurance,Insurance,2.0,22%,  11.54 ,#N/A
+LYG US Equity,GBP,LLOYDS BANKING GROUP PLC-ADR,#N/A N/A,#N/A N/A,  50 ,  54 ,37.5,  2.70 ,  1.78 ,Financials,Banks,Banks,2.0,2%,  8.71 ,#N/A
+CS US Equity,CHF,CREDIT SUISSE GROUP-SPON ADR,8.2,#N/A N/A,  32 ,  85 ,24.7,  0.14 ,  0.52 ,Financials,Capital Markets,Diversified Financials,2.0,4%,  (0.83),#N/A
+WBK US Equity,AUD,WESTPAC BANKING CORP-SP ADR,15.4,#N/A N/A,  64 ,  128 ,22.9,  6.62 ,#VALUE!,Financials,Banks,Banks,2.0,4%,  12.87 ,#N/A
+BBVA US Equity,EUR,BANCO BILBAO VIZCAYA-SP ADR,#N/A N/A,#N/A N/A,  38 ,  162 ,40.7,  (1.92),  1.04 ,Financials,Banks,Banks,2.0,4%,  9.41 ,#N/A
+SAN US Equity,EUR,BANCO SANTANDER SA-SPON ADR,#N/A N/A,#N/A N/A,  78 ,  309 ,32.6,  0.77 ,  0.84 ,Financials,Banks,Banks,2.0,4%,  7.63 ,#N/A
+ORI US Equity,USD,OLD REPUBLIC INTL CORP,#N/A N/A,#N/A N/A,  7 , #N/A N/A ,35.2,  3.56 ,  5.01 ,Financials,Insurance,Insurance,2.0,33%,  15.47 ,#N/A
+TKPYY US Equity,JPY,TAKEDA PHARMACEUTIC-SP ADR,2.1,1.8,  31 ,  6 ,29.1,#VALUE!,#VALUE!,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",0.0,41%,  6.62 ,#N/A
+BAYRY US Equity,EUR,BAYER AG-SPONSORED ADR,5.5,3.3,  68 ,  4 ,50.5,  0.29 ,  0.66 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",2.0,36%,  13.24 ,#N/A
+CKHUY US Equity,HKD,CK HUTCHISON HOLDIN-UNSP ADR,3.7,3.5,  40 ,  22 ,17.6,#VALUE!,#VALUE!,Industrials,Industrial Conglomerates,Capital Goods,0.0,24%,  8.79 ,#N/A
+BAESY US Equity,GBP,BAE SYSTEMS PLC -SPON ADR,0.9,0.9,  22 ,  1 ,35.6,  1.29 ,  1.23 ,Industrials,Aerospace & Defense,Capital Goods,2.0,77%,  16.61 ,#N/A
+FANUY US Equity,JPY,FANUC CORP-UNSP ADR,#N/A N/A,-2.9,  33 ,  (7),50.7,  0.16 ,#VALUE!,Industrials,Machinery,Capital Goods,2.0,43%,  12.20 ,#N/A
+HI US Equity,USD,HILLENBRAND INC,0.2,1.3,  3 ,  0 ,26.4,  1.72 ,  1.77 ,Industrials,Machinery,Capital Goods,2.0,93%,  10.33 ,#N/A
+AIN US Equity,USD,ALBANY INTL CORP-CL A,0.0,1.8,  2 ,  0 ,34.4,  1.07 ,  1.33 ,Industrials,Machinery,Capital Goods,2.0,69%,  12.82 ,#N/A
+RELX US Equity,GBP,RELX PLC - SPON ADR,2.6,2.5,  41 ,  7 ,17.8,  2.31 ,  2.21 ,Industrials,Professional Services,Commercial & Professional Serv,2.0,56%,  82.86 ,#N/A
+JOBS US Equity,CNY,51JOB INC-ADR,#N/A N/A,#N/A N/A,  4 ,  (1),69.8,  0.91 ,  0.71 ,Industrials,Professional Services,Commercial & Professional Serv,2.0,33%,  11.66 ,#N/A
+FERGY US Equity,USD,FERGUSON PLC-ADR,0.8,0.7,  15 ,  1 ,38.5,  1.60 ,  1.22 ,Industrials,Trading Companies & Distributo,Capital Goods,2.0,183%,  29.46 ,#N/A
+CIOXY US Equity,BRL,CIELO SA-SPONSORED ADR,0.7,0.8,  7 ,  1 ,55.5,  0.21 ,#VALUE!,Information Technology,IT Services,Software & Services,0.0,15%,  33.02 ,#N/A
+MFGP US Equity,USD,MICRO FOCUS INTL-SPN ADR,0.3,4.7,  8 ,  4 ,51.0,#VALUE!,#VALUE!,Information Technology,Software,Software & Services,0.0,29%,  14.87 ,#N/A
+LPL US Equity,KRW,LG DISPLAY CO LTD-ADR,-2.3,1.4,  6 ,  2 ,54.8,  (1.17),#VALUE!,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,1.0,80%,  (2.23),#N/A
+AUO US Equity,TWD,AU OPTRONICS CORP-SPON ADR,0.2,0.5,  4 ,  0 ,33.4,#VALUE!,#VALUE!,Information Technology,"Electronic Equipment, Instrume",Technology Hardware & Equipmen,2.0,72%,  6.93 ,#N/A
+CAJ US Equity,JPY,CANON INC-SPONS ADR,1.7,-0.1,  38 ,  (2),23.2,  35.06 ,#VALUE!,Information Technology,"Technology Hardware, Storage &",Technology Hardware & Equipmen,2.0,79%,  8.36 ,#N/A
+NEU US Equity,USD,NEWMARKET CORP,0.1,1.9,  5 ,  1 ,28.3,#VALUE!,#VALUE!,Materials,Chemicals,Materials,0.0,130%,  29.46 ,#N/A
+BASFY US Equity,EUR,BASF SE-SPON ADR,4.5,1.5,  73 ,  14 ,26.2,  1.61 ,  1.23 ,Materials,Chemicals,Materials,1.0,81%,  17.30 ,#N/A
+VEDL US Equity,INR,VEDANTA LTD-ADR,-11.9,0.6,  11 ,  2 ,50.5,  0.37 ,#VALUE!,Materials,Metals & Mining,Materials,1.0,48%,  16.68 ,#N/A
+CRH US Equity,EUR,CRH PLC-SPONSORED ADR,1.1,2.6,  23 ,  7 ,39.5,  0.78 ,  0.79 ,Materials,Construction Materials,Materials,2.0,72%,  20.72 ,#N/A
+JBGS US Equity,USD,JBG SMITH PROPERTIES,#N/A N/A,7.4,  5 ,  2 ,19.8,#VALUE!,#VALUE!,Real Estate,Equity Real Estate Investment,Real Estate,1.0,11%,  0.74 ,#N/A
+CXW US Equity,USD,CORECIVIC INC,0.3,4.1,  3 ,  1 ,38.1,  5.32 ,  (0.71),Real Estate,Equity Real Estate Investment,Real Estate,2.0,53%,  11.06 ,#N/A
+EBR US Equity,BRL,CENTRAIS ELETRICAS BR-SP ADR,1.0,16.3,  9 ,  11 ,93.6,#VALUE!,#VALUE!,Utilities,Electric Utilities,Utilities,0.0,23%,  (6.17),#N/A
+KEP US Equity,KRW,KOREA ELEC POWER CORP-SP ADR,-2.7,5.2,  16 ,  47 ,49.4,  (0.07),#VALUE!,Utilities,Electric Utilities,Utilities,1.0,33%,  (2.65),#N/A
+ADC US Equity,USD,AGREE REALTY CORP,-0.4,5.3,  2 ,  0 ,23.6,  (4.71),  13.11 ,Real Estate,Equity Real Estate Investment,Real Estate,9.0,9%,  6.52 ,#N/A
+PBH US Equity,USD,PRESTIGE CONSUMER HEALTHCARE,0.2,7.8,  2 ,  2 ,33.6,  2.06 ,  2.09 ,Health Care,Pharmaceuticals,"Pharmaceuticals, Biotechnology",5.0,27%,  32.59 ,#N/A
+DDS US Equity,USD,DILLARDS INC-CL A,0.2,1.3,  2 ,  1 ,61.5,  (2.84),  (0.63),Consumer Discretionary,Multiline Retail,Retailing,5.0,161%,  15.09 ,#N/A
