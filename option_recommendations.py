@@ -10,6 +10,14 @@ from sklearn.preprocessing import StandardScaler
 
 from basic_utils import *
 
+# lambdas
+def date_lambda(x): return date.fromtimestamp(x)
+def pd_datetime(x): return pd.to_datetime(x)
+def datetime_lambda(x): return datetime.fromtimestamp(x) if x > 0 else 0
+def time_delta_to_years(x): return x / 365
+def divide_by_mean(x): return x / x.median()  # consider z-score
+def cap_at_1q(x): return [max(y, 0) for y in x]
+def z_score(x): return (x - x.mean()) / x.std()
 
 # format / clean up functions
 def clean_up_fmt(df):
@@ -20,34 +28,20 @@ def clean_up_fmt(df):
     df.rename(rndm_map, axis=1, inplace=True)
     return df
 
-
 def cols_to_date(df, cols):
     for c in cols:
         if c in df.columns:
             df[c] = df[c].apply(date_lambda)
 
-
 def cols_to_bool(df, cols):
     for c in cols:
         df[c] = df[c].apply(lambda x: pd.to_numeric(x))
-
 
 def divide_by(df, cols, tgt):
     cols.extend([tgt])
     res = (df[cols].T / df[cols][tgt]).T
     cols.remove(tgt)
     return res[cols]
-
-
-# lambdas
-def date_lambda(x): return date.fromtimestamp(x)
-def pd_datetime(x): return pd.to_datetime(x)
-def datetime_lambda(x): return datetime.fromtimestamp(x) if x > 0 else 0
-def time_delta_to_years(x): return x / 365
-def divide_by_mean(x): return x / x.median()  # consider z-score
-def cap_at_1q(x): return [max(y, 0) for y in x]
-def z_score(x): return (x - x.mean()) / x.std()
-
 
 # transforms and utilities
 def merge_ds(fs_df, q_df):
