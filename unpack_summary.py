@@ -2,12 +2,6 @@ from basic_utils import *
 
 dates = read_dates('summary')
 symbol_col = 'symbol'
-# symbol = 'CELG'
-# path = get_path('summary', dates[-1:][0])
-# fileList = list_files('summary', dates[-1:][0])
-
-# summary = json_load(path + json_ext.format(symbol))[0]
-# summary.keys()
 
 # lambdas
 show_structure = lambda dict_struct: {k: type(v) for k, v in dict_struct.items()}
@@ -102,22 +96,8 @@ def get_single_row(key, summary, symbol):
 def direct_row(summary, symbol): return single_row_df(summary, symbol)
 def direct_rows(summary, symbol): return create_normalized_df(summary, symbol)
 
-
-# #### Unpack the summaries
-
-# In[29]:
-
-
-# index = 30
-# print(fileList[index])
-# summary = json_load(fileList[index])[0]
-
-
-# In[30]:
-
-# unpack daily summary
 def unpack_summaries(dates):
-
+    # unpack daily summary JSON files
     for d in dates:
 
         profile_df = pd.DataFrame()
@@ -132,6 +112,14 @@ def unpack_summaries(dates):
         epsTrend_df = pd.DataFrame()
         epsRevisions_df = pd.DataFrame()
         netSharePA_df = pd.DataFrame()
+        majorHolders_df = pd.DataFrame()
+        ownershipList_df = pd.DataFrame()
+        fundOwnership_df = pd.DataFrame()
+        recommendHistory_df = pd.DataFrame()
+        recommendTrend_df = pd.DataFrame()
+        insiderHolders_df = pd.DataFrame()
+        earningsHistory_df = pd.DataFrame()
+        indexTrend_df = pd.DataFrame()
 
         print('Unpacking summary for {}'.format(d))
         fileList = list_files('summary', d)
@@ -162,9 +150,7 @@ def unpack_summaries(dates):
                 if A in summary and Q in summary:
                     finStmtIS_df = finStmtIS_df.append(parse_finstmt(summary, 'IS', symbol), sort=False)
 
-                # daily un-packing
-
-                # stats
+                # other datasets
                 key = 'defaultKeyStatistics'
                 if key in summary:
                     keyStats_df = keyStats_df.append(get_single_row(key, summary, symbol), sort=False)
@@ -172,7 +158,6 @@ def unpack_summaries(dates):
                 if key in summary:
                     finStats_df = finStats_df.append(get_single_row(key, summary, symbol), sort=False)
 
-                # earningsTrend
                 key = 'earningsTrend'
                 if key in summary:
                     eps_est, rev_est, eps_trend, eps_rev = parse_earnings_trend(summary, symbol)
@@ -181,24 +166,73 @@ def unpack_summaries(dates):
                     epsTrend_df = epsTrend_df.append(eps_trend, sort=False)
                     epsRevisions_df = epsRevisions_df.append(eps_rev, sort=False)
 
-                # netSharePurchaseActivity
                 key = 'netSharePurchaseActivity'
                 netSharePA_df = netSharePA_df.append(get_single_row(key, summary, symbol), sort=False)
+
+                key = 'majorHoldersBreakdown'
+                if key in summary:
+                    majorHolders_df = majorHolders_df.append(
+                        get_single_row(key, summary, symbol), sort=False)
+
+                root, sub = 'institutionOwnership', 'ownershipList'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    ownershipList_df = ownershipList_df.append(
+                        create_normalized_df(summary[root][sub], symbol), sort=False)
+
+                root, sub = 'fundOwnership', 'ownershipList'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    fundOwnership_df = fundOwnership_df.append(
+                        create_normalized_df(summary[root][sub], symbol), sort=False)
+
+                root, sub = 'upgradeDowngradeHistory', 'history'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    recommendHistory_df = recommendHistory_df.append(
+                        create_normalized_df(summary[root][sub], symbol), sort=False)
+
+                root, sub = 'insiderHolders', 'holders'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    insiderHolders_df = insiderHolders_df.append(
+                        create_normalized_df(summary[root][sub], symbol), sort=False)
+
+                root, sub = 'recommendationTrend', 'trend'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    recommendTrend_df = recommendTrend_df.append(
+                        create_normalized_df(summary[root][sub], symbol), sort=False)
+
+                root, sub = 'earningsHistory', 'history'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    earningsHistory_df = earningsHistory_df.append(
+                        create_normalized_df(summary[root][sub], symbol), sort=False)
+
+                root, sub = 'indexTrend', 'estimates'
+                if root in summary and sub in summary[root] and len(summary[root][sub]):
+                    route = summary[root][sub]
+                    df = clean_up_fmt(json_normalize(route))
+                    df = df.T.rename(columns=df.period).drop(['period'])
+                    df['peRatio'] = summary['indexTrend']['peRatio']['raw']
+                    df['pegRatio'] = summary['indexTrend']['pegRatio']['raw']
+                    df['symbol'] = summary['indexTrend']['symbol']
+                    indexTrend_df = df
 
             print('{} Full unpack for {}'.format(i, symbol))
             i += 1
 
-        # static info
-        # profile
+        # overriden daily
         csv_store(set_storeDate(profile_df, d), 'summary-categories/', csv_ext.format('assetProfile'))
         csv_store(set_storeDate(officers_df, d), 'summary-categories/', csv_ext.format('companyOfficers'))
-
         # financials -> need to find a way to append to this file
         csv_store(set_storeDate(finStmtBS_df, d), 'summary-categories/', csv_ext.format('financials-BS'))
         csv_store(set_storeDate(finStmtIS_df, d), 'summary-categories/', csv_ext.format('financials-IS'))
         csv_store(set_storeDate(finStmtCF_df, d), 'summary-categories/', csv_ext.format('financials-CF'))
+        # new additions
+        csv_store(set_storeDate(majorHolders_df, d), 'summary-categories/', csv_ext.format('majorHoldersBreakdown'))
+        csv_store(set_storeDate(ownershipList_df, d), 'summary-categories/', csv_ext.format('institutionOwnership'))
+        csv_store(set_storeDate(fundOwnership_df, d), 'summary-categories/', csv_ext.format('fundOwnership'))
+        csv_store(set_storeDate(recommendHistory_df, d), 'summary-categories/', csv_ext.format('upgradeDowngradeHistory'))
+        csv_store(set_storeDate(insiderHolders_df, d), 'summary-categories/', csv_ext.format('insiderHolders'))
+        csv_store(set_storeDate(earningsHistory_df, d), 'summary-categories/', csv_ext.format('earningsHistory'))
 
-        # should be updated daily
+        # saved a record per day
         fname = csv_ext.format(str(d))
         csv_store(set_storeDate(keyStats_df, d), 'summary-categories/defaultKeyStatistics/', fname)
         csv_store(set_storeDate(finStats_df, d), 'summary-categories/financialData/', fname)
@@ -207,3 +241,5 @@ def unpack_summaries(dates):
         csv_store(set_storeDate(epsTrend_df, d), 'summary-categories/epsTrend/', fname)
         csv_store(set_storeDate(epsRevisions_df, d), 'summary-categories/epsRevisions/', fname)
         csv_store(set_storeDate(netSharePA_df, d), 'summary-categories/netSharePurchaseActivity/', fname)
+        csv_store(set_storeDate(indexTrend_df, d), 'summary-categories/indexTrend/', fname)
+        csv_store(set_storeDate(recommendTrend_df, d), 'summary-categories/recommendationTrend/', fname)
