@@ -179,7 +179,9 @@ def value_equity(symbol):
     prem_disc = currentVal / equityVal
     values.append(currentVal)
     values.append(prem_disc)
-    names = ['npvSteadyCF', 'netDebt', 'npvGrowth', 'equityValue', 'currentValue', 'premDisc']
+    values.append(curr)
+    values.append(FX)
+    names = ['npvSteadyCF', 'netDebt', 'npvGrowth', 'equityValue', 'currentValue', 'premDisc', 'financialCurrency', 'FX']
     waterfall.update({x: y for x, y in zip(names, values)})
 
     return waterfall, val_df
@@ -198,7 +200,7 @@ def create_IV_ds():
             val_sheets = val_sheets.append(val_df)
             waterfalls = waterfalls.append(waterfall, ignore_index=True)
         except Exception as e: print(e)
-    waterfalls.set_index('symbol', inplace=True)
+    # waterfalls.set_index('symbol', inplace=True)
 
     # save the results to S3
     csv_store(waterfalls, 'valuation/waterfall/', csv_ext.format(str(today_date)))
