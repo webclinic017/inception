@@ -11,7 +11,9 @@ if __name__ == '__main__':
         quotes = flatten_quotes([str(today_date)])
         csv_store(quotes, get_path('quote_consol'), csv_ext.format(today_date), True)
     elif hook == 'summary':
-        for t in UNIVERSE:
+        sample_set = config['companies'] + config['sectors'] +\
+            config['bonds'] + config['risk']
+        for t in sample_set:
             try:
                 print('Retrieving {0} for {1}'.format(hook, t))
                 get_grouped_ds(t, 'summary')
