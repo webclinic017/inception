@@ -3,7 +3,7 @@ from pricing import *
 
 # TAKES LONG: all pricing loaded, should do only once
 excl_list = ['ORBK'] # removes tickers deleted from config.json
-symbols_list = config['benchmarks'] + config['sectors'] + config['companies']
+symbols_list = config['benchmarks'] + config['companies']
 [symbols_list.remove(x) for x in excl_list]
 px_set = get_mults_pricing(symbols_list, freq, 'close')
 
