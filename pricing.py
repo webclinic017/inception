@@ -146,8 +146,8 @@ def co_price_mom_ds(symbol, px_set):
 
     # apply 20sma upper and lower std bands, # stds from file
     secpx = apply_std_boundaries(secpx, 'close', 20, stds)
-    secpx['pxPercStdUB'] = closepx / secpx['sma20ub']
-    secpx['pxPercStdLB'] = closepx / secpx['sma20lb']
+    secpx['pxPercStdUB'] = closepx / secpx['sma20ub'] - 1
+    secpx['pxPercStdLB'] = closepx / secpx['sma20lb'] - 1
 
     # Volume averages
     volume = secpx['volume']
@@ -164,9 +164,9 @@ def co_price_mom_ds(symbol, px_set):
     secpx['pxMa200'] = closepx.rolling(200).mean()
 
     # closing pricing as % of 20, 50 and 200 day average
-    secpx['pxPercMa20'] = closepx / secpx['pxMa20']
-    secpx['pxPercMa50'] = closepx / secpx['pxMa50']
-    secpx['pxPercMa200'] = closepx / secpx['pxMa200']
+    secpx['pxPercMa20'] = closepx / secpx['pxMa20'] - 1
+    secpx['pxPercMa50'] = closepx / secpx['pxMa50'] - 1
+    secpx['pxPercMa200'] = closepx / secpx['pxMa200'] - 1
 
     # historical returns for 1, 3, and 6 months
     secpx['chg1m'] = closepx.pct_change(periods=20)
@@ -179,17 +179,17 @@ def co_price_mom_ds(symbol, px_set):
     secpx['fwdChg3m'] = closepx.pct_change(60).shift(-60)
 
     # Relative strength to industry, sector and market
-    secpx['rs1mInd'] = (secpx['chg1m'] / index_df['indChg1m'])
-    secpx['rs3mInd'] = (secpx['chg3m'] / index_df['indChg3m'])
-    secpx['rs6mInd'] = (secpx['chg6m'] / index_df['indChg6m'])
+    secpx['rs1mInd'] = (secpx['chg1m'] - index_df['indChg1m'])
+    secpx['rs3mInd'] = (secpx['chg3m'] - index_df['indChg3m'])
+    secpx['rs6mInd'] = (secpx['chg6m'] - index_df['indChg6m'])
 
-    secpx['rs1mSect'] = (secpx['chg1m'] / index_df['sectChg1m'])
-    secpx['rs3mSect'] = (secpx['chg3m'] / index_df['sectChg3m'])
-    secpx['rs6mSect'] = (secpx['chg6m'] / index_df['sectChg6m'])
+    secpx['rs1mSect'] = (secpx['chg1m'] - index_df['sectChg1m'])
+    secpx['rs3mSect'] = (secpx['chg3m'] - index_df['sectChg3m'])
+    secpx['rs6mSect'] = (secpx['chg6m'] - index_df['sectChg6m'])
 
-    secpx['rs1mSPY'] = (secpx['chg1m'] / index_df['spyChg1m'])
-    secpx['rs3mSPY'] = (secpx['chg3m'] / index_df['spyChg3m'])
-    secpx['rs6mSPY'] = (secpx['chg6m'] / index_df['spyChg6m'])
+    secpx['rs1mSPY'] = (secpx['chg1m'] - index_df['spyChg1m'])
+    secpx['rs3mSPY'] = (secpx['chg3m'] - index_df['spyChg3m'])
+    secpx['rs6mSPY'] = (secpx['chg6m'] - index_df['spyChg6m'])
 
     # seasonality analysis
     ss_df, ss_pos = get_pct_chg_seasonality(closepx, 'M')
@@ -197,6 +197,7 @@ def co_price_mom_ds(symbol, px_set):
     # apply seasonality, mean return of curr month plus next two
     secpx['month'] = secpx.index.month
     secpx['fwdSSRet'] = secpx.loc[:].month.apply(fwd_ss_ret, args=(ss_df, ss_pos,))
+    secpx.drop(columns=['month'], inplace=True)
 
     # normalized columns for ML training, still has outliers
     # ml_ds_cols = secpx.describe().loc['50%'][secpx.describe().loc['50%'] < 5].index.tolist()
@@ -212,7 +213,7 @@ def get_pct_chg_seasonality(df, rule):
     return ss_df.loc[('close'),:], ss_pos
 
 # contextual variables, can be configured externally
-market_etf = 'SPY'
+market_etf = '^GSPC'
 freq, tail = '1d', 10**5
 window, stds = 20, 1.75
 dates = read_dates('quote')
