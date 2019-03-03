@@ -141,7 +141,7 @@
  "risk": ["^VIX"],
  "rates": ["^IRX", "^FVX", "^TNX", "^TYX"],
  "commodities": ["GC=F", "SI=F", "HG=F", "CL=F", "NG=F", "BZ=F"],
- "currencies": ["EURUSD=X", "JPY=X", "GBPUSD=X", "CNY=X", "HKD=X", "MXN=X", "AUDUSD=X", "NZDUSD=X", "TWD=X", "CHF=X", "CLP=X", "KRW=X"],
+ "currencies": ["DX-Y.NYB", "EURUSD=X", "JPY=X", "GBPUSD=X", "CNY=X", "HKD=X", "MXN=X", "AUDUSD=X", "NZDUSD=X", "TWD=X", "CHF=X", "CLP=X", "KRW=X"],
  "universe_list": ["companies", "benchmarks", "sectors", "industries", "bonds", "risk", "rates", "commodities", "currencies"],
  "s3_store": true,
  "filename_fmt": "{0}.json",
