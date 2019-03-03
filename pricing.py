@@ -37,7 +37,7 @@ def get_symbol_pricing(symbol, freq='1d', cols=None):
     cols = df.columns if cols is None else cols
     return df[cols].dropna()
 
-def get_mults_pricing(symbols, freq, col='close'):
+def get_mults_pricing(symbols, freq='1d', col='close'):
     group_pricing = pd.DataFrame()
     for n, t in enumerate(symbols):
         try:
