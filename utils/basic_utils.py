@@ -189,11 +189,11 @@ def get_quotes(symbol_list):
     dataset = 'quote'
     full_data = []
     index, max_elems = 0, MAX_SYMBOLS
-    print('Getting quotes for', symbol_list)
     for q in range(int(len(symbol_list) / max_elems) + 1):
         subset = symbol_list[index:index + max_elems]
         index += max_elems
-        symbols = get_cs_tickers(subset)
+        symbols = ','.join(subset)
+        print('Getting quotes for', symbols)
         encoded_kv = urllib.parse.urlencode(
             {QUERY_DICT[dataset][enc_key]: symbols}
         )
@@ -245,7 +245,7 @@ def get_pricing(symbol, interval='1d', prange='5y'):
 
 ###### environment variables ######
 
-config = load_config('utils/config.json')
+config = load_config('config.json')
 QUERY_DICT = config["query_dict"]
 COMPANIES = config['companies']
 UNIVERSE = []

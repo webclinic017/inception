@@ -133,7 +133,7 @@
  "WWD", "WWE", "WWW", "WY", "WYND", "WYNN", "X", "XEC", "XEL", "XLNX", "XOM",
  "XRAY", "XRX", "XYL", "Y", "YELP", "YUM", "YY", "ZBH", "ZBRA", "ZEN", "ZION",
  "ZTO", "ZTS", "ZUO"],
- "benchmarks": ["^DJI", "^IXIC", "^GSPC", "^RUT"],
+ "benchmarks": ["^DJI", "^IXIC", "^GSPC", "^RUT", "^STOXX50E", "^FTSE", "^GDAXI", "^N225", "^HSI", "^AXJO"],
  "sectors": ["SPY", "QQQ", "DIA", "IWM", "IJR", "IJH", "FXI", "EEM", "XLB", "XLC", "XLE", "XLF", "XLI", "XLK", "XLP", "XLRE", "XLU", "XLV", "XLY"],
  "industries": ["XES", "SMH", "XHB", "XRT", "KIE", "XAR", "XBI",
    "XOP", "XME", "KBE", "KRE"],
