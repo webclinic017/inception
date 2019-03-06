@@ -176,15 +176,6 @@ def get_grouped_ds(symbol, dataset):
     path = get_path(dataset, today_date)
     store_s3(data, path + json_ext.format(symbol))
 
-
-def get_cs_tickers(ticker_list):
-    cs_tickers = ticker_list[0]
-    if len(ticker_list) > 1:
-        for t in ticker_list[1:]:
-            cs_tickers = comma_join(cs_tickers, t)
-    return cs_tickers
-
-
 def get_quotes(symbol_list):
     dataset = 'quote'
     full_data = []
