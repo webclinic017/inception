@@ -5,8 +5,7 @@ import numpy as np
 
 # lambdas
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
-shorten_name = lambda x: "^"+"_".join(
-    [str.upper(z[:4]) for z in x.replace('& ','').replace('- ','').split(' ')])
+shorten_name = lambda x: "^"+"_".join([str.upper(z[:4]) for z in x.replace('& ','').replace('- ','').split(' ')])
 roll_vol = lambda df, rw: (df.rolling(rw).std() * pow(252, 1/2))
 fwd_ss_ret = lambda x, df, arr: df.loc[[y for y in arr[x-1] if y in df.index.tolist()]].mean()
 sign_compare = lambda x, y: abs(x) // y if x > y else -(abs(x) // y) if x < -y else 0
@@ -64,13 +63,13 @@ def get_mults_pricing(symbols, freq='1d', col=['close']):
         try:
             df = get_symbol_pricing(t, freq, col)
             rename_col(df, 'close', t)
+            print("Retrieving pricing: {0}".format(t))
             if n == 0:
                 group_pricing = pd.DataFrame(df)
                 continue
             group_pricing = pd.concat([group_pricing, df], axis=1)
-            print("Retrieved pricing for {0}".format(t))
         except Exception as e:
-            print("Exception on {0}\n{1}".format(t, e))
+            print("Exception, get_mults_pricing: {0}\n{1}".format(t, e))
     return group_pricing
 
 def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
@@ -347,7 +346,9 @@ sect_idx_ticker, ind_idx_ticker = '^SECT', '^IND'
 
 # latest_quotes = load_csvs('quote_consol', tgt_date)
 quotes = load_csvs('quote_consol', tgt_date)
+quotes.set_index('symbol', drop=False, inplace=True)
 profile = load_csvs('summary_detail', ['assetProfile'])
+profile.set_index('symbol', drop=False, inplace=True)
 
 industries = profile[show].sort_values(by='industry').industry.dropna().unique().tolist()
 left, right = get_left_right(industries, sl)
