@@ -220,19 +220,13 @@ def get_options(symbol):
     path = get_path(dataset, str(today_date))
     store_s3(data, path + json_ext.format(symbol))
 
-def get_pricing(symbol, interval='1d', prange='5y'):
-    # save pricing for a given interval and range
-    dataset = 'pricing'
-    point = {'s':symbol,'i':interval, 'r': prange}
-    print('Getting pricing interval of {s} interval: {i}, range: {r}'.format(**point))
-    # first expiration no date
-    data = get_data_params('pricing', point)
-    json_dict = json.loads(data)
-    pricing_data = json_dict['chart']['result'][0]
-    data = json.dumps(pricing_data)
-    path = get_path(dataset, interval)
-    store_s3(data, path + json_ext.format(symbol))
-    return pricing_data
+def excl(a, b): return list(set(a).difference(b))
+
+def traverse(o, func):
+    for k in o.keys():
+        if isinstance(o[k], (np.int64, np.ndarray)): o[k] = func(o[k])
+        if isinstance(o[k], dict):
+            traverse(o[k], func)
 
 ###### environment variables ######
 

@@ -1,34 +1,55 @@
 # imports
 from utils.basic_utils import *
+from utils.structured import *
 import numpy as np
 
 # lambdas
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
-shorten_name = lambda x: "".join([str.upper(z[:3]) for z in x])
+shorten_name = lambda x: "^"+"_".join(
+    [str.upper(z[:4]) for z in x.replace('& ','').replace('- ','').split(' ')])
 roll_vol = lambda df, rw: (df.rolling(rw).std() * pow(252, 1/2))
 fwd_ss_ret = lambda x, df, arr: df.loc[[y for y in arr[x-1] if y in df.index.tolist()]].mean()
 sign_compare = lambda x, y: abs(x) // y if x > y else -(abs(x) // y) if x < -y else 0
 pos_neg = lambda x: -1 if x < 0 else 1
+rename_col = lambda df, col, name: df.rename({col: name}, axis=1, inplace=True)
 
 # helper methods
+def get_pricing(symbol, interval='1d', prange='5y', persist=True):
+    # save pricing for a given interval and range
+    dataset = 'pricing'
+    point = {'s':symbol,'i':interval, 'r': prange}
+    print('Getting pricing interval of {s} interval: {i}, range: {r}'.format(**point))
+    # first expiration no date
+    data = get_data_params('pricing', point)
+    json_dict = json.loads(data)
+    pricing_data = json_dict['chart']['result'][0]
+    if persist:
+        data = json.dumps(pricing_data)
+        path = get_path(dataset, interval)
+        store_s3(data, path + json_ext.format(symbol))
+    return pricing_data
+
 def build_px_struct(data_dict, freq):
     dt = date if freq == '1d' else datetime
-    dates = [dt.fromtimestamp(x) for x in data_dict['timestamp']]
+    tz = data_dict['meta']['exchangeTimezoneName']
+    dates = pd.to_datetime(
+        data_dict['timestamp'], unit='s', infer_datetime_format=True)
+    # dates = dates.astype(f'datetime64[ns, {tz}]')
+    dates = dates.tz_localize('America/New_York')
+    # dates = dates.tz_convert('America/New_York')
     hist_pricing = data_dict['indicators']['quote'][0]
     H = hist_pricing['high']
     L = hist_pricing['low']
     O = hist_pricing['open']
     C = hist_pricing['close']
+    # adjC = data_dict['indicators']['adjclose'][0] if 'adjclose' in  data_dict['indicators'] else 0
     V = hist_pricing['volume']
-    price_dict = {'high': H,'low': L,'open': O,'close' : C, 'volume': V}
-    df = pd.DataFrame(price_dict, index=dates)
-    return df
-
-def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
-    data_dict = get_pricing(symbol, freq, prange)
-    df = build_px_struct(data_dict, freq)
-    cols = df.columns if cols is None else cols
-    return df[cols].dropna()
+    price_dict = {
+        'high': H, 'low': L,
+        'open': O, 'close': C,
+        'volume': V}
+    return pd.DataFrame(
+        price_dict, index=dates.floor('d' if freq == '1d' else 'T'))
 
 def get_symbol_pricing(symbol, freq='1d', cols=None):
     path = config['pricing_path'].format(freq)
@@ -37,18 +58,26 @@ def get_symbol_pricing(symbol, freq='1d', cols=None):
     cols = df.columns if cols is None else cols
     return df[cols].dropna()
 
-def get_mults_pricing(symbols, freq='1d', col='close'):
+def get_mults_pricing(symbols, freq='1d', col=['close']):
     group_pricing = pd.DataFrame()
     for n, t in enumerate(symbols):
         try:
-            sec_hp = get_symbol_pricing(t, freq, [col])
-            sec_hp.rename(columns={col: t}, inplace=True)
-            if n == 0: group_pricing = pd.DataFrame(sec_hp)
-            else: group_pricing[t] = sec_hp
+            df = get_symbol_pricing(t, freq, col)
+            rename_col(df, 'close', t)
+            if n == 0:
+                group_pricing = pd.DataFrame(df)
+                continue
+            group_pricing = pd.concat([group_pricing, df], axis=1)
             print("Retrieved pricing for {0}".format(t))
         except Exception as e:
             print("Exception on {0}\n{1}".format(t, e))
     return group_pricing
+
+def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
+    data_dict = get_pricing(symbol, freq, prange, False)
+    df = build_px_struct(data_dict, freq)
+    cols = df.columns if cols is None else cols
+    return df[cols]
 
 def apply_std_boundaries(df, col='close', window=30, stds=2):
     sma = df[col].rolling(window).mean()
@@ -112,6 +141,100 @@ def get_left_right(alist, sl):
 def cutoff_tresh_cols(df, col, th):
     med_co_df = df.describe().loc[col]
     return med_co_df[med_co_df < th].index.tolist()
+
+# Utility functions
+def display_all(df):
+    with pd.option_context("display.max_rows", 1000, "display.max_columns", 1000):
+        display(df)
+
+def log_as_dict(x):
+    obj = x
+    if not isinstance(x, (pd.Series, pd.DataFrame)):
+        obj = pd.DataFrame(x)
+    return obj.describe(include='all').round(3).to_dict()
+
+# Rates transformations
+def rate_feats(df, rolls=[60]):
+    ndf = pd.DataFrame()
+
+    # bps daily change
+    # bps_chg = (df - df.shift(1))
+    # ndf[[x + 'BpsChg' for x in df.columns]] = bps_chg
+    # bps rolling change
+    # for r in rolls:
+    #      cum_bps_chg = (df - df.shift(1)).rolling(r).sum()
+    #      ndf[[x + 'BpsChg' + str(r) for x in df.columns]] = cum_bps_chg
+    # term structure spreads
+    # ts_prem = (df - df.shift(1, axis=1))
+    # ndf[[x + 'TSPrem' for x in df.columns[1:]]] = ts_prem.iloc[:, 1:]
+
+    # ST (3m) vs. LT (10yr) spread
+    ndf['slRateSpread'] = (df['^TNX'] - df['^IRX'])
+    return ndf
+
+def rf_feat_importance(m, df):
+    return pd.DataFrame(
+        {'cols':df.columns, 'imp':m.feature_importances_}
+    ).sort_values('imp', ascending=False)
+
+def show_fi(m, X, max_feats):
+    importances = m.feature_importances_
+    std = np.std([tree.feature_importances_ for tree in m.estimators_], axis=0)
+    indices = np.argsort(importances)[::-1]
+
+    # Print the feature ranking
+    print("Feature ranking:")
+
+    for x, f in enumerate(indices):
+        print("{} feature {} ({})".format(f, X.columns[indices[x]], importances[f]))
+        if x >= max_feats: break
+
+    # Plot the feature importances of the forest
+    plt.figure()
+    plt.title("Feature importances")
+    plt.bar(range(len(indices)), importances[indices], color="r", yerr=std[indices], align="center", )
+    plt.xticks(range(len(indices)), X.columns[indices], rotation='vertical')
+    plt.xlim([-1, max_feats])
+    plt.show()
+
+def show_nas(df): return df.loc[:,df.isna().sum()>0]
+
+# discretize forward returns into classes
+def discret_rets(df, treshs, classes):
+    if isinstance(df, pd.Series):
+        return pd.cut(df.dropna(), treshs, labels=classes)
+    else:
+        df.dropna(inplace=True)
+        for c in df.columns: df[c] = pd.cut(df[c], treshs, labels=classes)
+    return df
+
+# Generic price momentum transformations
+def px_mom_feats(df, s, stds=1, invert=False, incl_px=False, rolls=[20,60,120], incl_name=True):
+    ndf = pd.DataFrame()
+    if invert: df = 1 / df
+    c,o,l,h = df['close'], df['open'], df['low'], df['high']
+    c1ds, pctChg = c.shift(1), c.pct_change()
+    if incl_px: ndf[s + 'Close'] = c
+    ticker = s if incl_name else ''
+    ndf[ticker+'PctChg'+str(stds)+'Stds'] = pctChg.apply(
+        sign_compare, args=(pctChg.std() * stds,))
+    ndf[ticker+'PctMA50'] = (c / c.rolling(50).mean())
+    ndf[ticker+'PctMA200'] = (c / c.rolling(200).mean())
+    ndf[ticker+'RollVol20'] = roll_vol(pctChg, 20)
+    for p in rolls: ndf[ticker+'PctChg'+str(p)] = c.pct_change(periods=p)
+    # ndf[ticker+'OpenGap20'] = ((o - c1ds) / c1ds).rolling(20).sum()
+    # ndf[ticker+'HLDelta20'] = ((h - l) / c1ds).rolling(20).sum()
+    ndf[ticker+'Pct52WkH'] = (c / c.rolling(252).max())
+    ndf[ticker+'Pct52WkL'] = (c / c.rolling(252).min())
+    if not incl_name: ndf['symbol'] = s
+    return ndf
+
+# Forward returns
+def px_fwd_rets(df, s, periods=[20, 60, 120]):
+    ndf = pd.DataFrame()
+    for p in periods:
+        ndf[s + 'FwdPctChg' + str(p)] = df.pct_change(p).shift(-p)
+    return ndf
 
 def co_price_mom_ds(symbol, px_set):
     # Retrieves historical pricing
