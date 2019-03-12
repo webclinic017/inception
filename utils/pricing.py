@@ -61,19 +61,20 @@ def get_symbol_pricing(symbol, freq='1d', cols=None):
     return df[cols].dropna()
 
 def get_mults_pricing(symbols, freq='1d', col=['close']):
-    group_pricing = pd.DataFrame()
+    super_list = []
     for n, t in enumerate(symbols):
         try:
             df = get_symbol_pricing(t, freq, col)
             rename_col(df, 'close', t)
             print("Retrieving pricing: {0}".format(t))
-            if n == 0:
-                group_pricing = pd.DataFrame(df)
-                continue
-            group_pricing = pd.concat([group_pricing, df], axis=1)
+            # if n == 0:
+            #     group_pricing = pd.DataFrame(df)
+            #     continue
+            super_list.append(df)
+            # group_pricing = pd.concat([group_pricing, df], axis=1)
         except Exception as e:
             print("Exception, get_mults_pricing: {0}\n{1}".format(t, e))
-    return group_pricing
+    return pd.concat(super_list, axis=1)
 
 def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
     data_dict = get_pricing(symbol, freq, prange, False)
@@ -238,96 +239,61 @@ def px_fwd_rets(df, s, periods=[20, 60, 120]):
         ndf[s + 'FwdPctChg' + str(p)] = df.pct_change(p).shift(-p)
     return ndf
 
-def co_price_mom_ds(symbol, px_set):
-    # Retrieves historical pricing
-    secpx = get_symbol_pricing(symbol, freq)
-    secpx.set_index(secpx.index.astype(np.datetime64), inplace=True)
-    closepx = secpx['close']
+def px_mom_co_feats(df, ind_df,
+                    groups=('Bench', 'Sector','Industry'),
+                    rolls=[20,60,120]):
+    ndf = pd.DataFrame()
+    c,o,l,h,v = df['close'], df['open'], df['low'], df['high'], df['volume']
+    bech_idx, sect_idx, ind_idx = groups[0], shorten_name(groups[1]), shorten_name(groups[2])
 
-    # industry, sector and market performance
-    row = profile[profile.symbol == symbol]
-    sec_sector, sec_industry = row.iloc[0].sector, row.iloc[0].industry
+    for r in rolls:
+        ndf['rsBench'+str(r)] = (c.pct_change(r) - ind_df[bech_idx].pct_change(r))
+        ndf['rsSect'+str(r)] = (c.pct_change(r) - ind_df[sect_idx].pct_change(r))
+        # rsInd meaninful only if len > 10
+        ndf['rsInd'+str(r)] = (c.pct_change(r) - ind_df[ind_idx].pct_change(r))
 
-    # Note: since the universe is limited industry and sector
-    # are not a good representation, need to expand universe
-    # for better learning
-    sec_index = to_index_form(closepx, symbol)
-    symbols = profile[profile.industry == sec_industry].symbol.tolist()
-    industry_index = get_ind_index(px_set[symbols], '1d', tail, ind_idx_ticker)[[ind_idx_ticker]]
-    symbols = profile[profile.sector == sec_sector].symbol.tolist()
-    sector_index = get_ind_index(px_set[symbols], '1d', tail, sect_idx_ticker)[[sect_idx_ticker]]
-    market_index = to_index_form(get_symbol_pricing(market_etf, freq, 'close').tail(tail), market_etf)
+    # vol as a % of 10 and 60 day averages
+    ndf['volPctMa10'] = v / v.rolling(10).mean()
+    ndf['volPctMa60'] = v / v.rolling(60).mean()
 
-    index_df = pd.DataFrame()
-    index_df = index_df.append(sec_index)
-    index_df[ind_idx_ticker] = industry_index
-    index_df[sect_idx_ticker] = sector_index
-    index_df[market_etf] = market_index
+    # of std deviations for benchmark, sector, and industry
+    bench_pct_chg = ind_df[bech_idx].pct_change()
+    sect_pct_chg = ind_df[sect_idx].pct_change()
+    ind_pct_chg = ind_df[ind_idx].pct_change()
+    ndf['benchPctChgStds'] = bench_pct_chg.apply(sign_compare, args=(bench_pct_chg.std(),))
+    ndf['sectPctChgStds'] = sect_pct_chg.apply(sign_compare, args=(sect_pct_chg.std(),))
+    ndf['indPctChgStds'] = ind_pct_chg.apply(sign_compare, args=(ind_pct_chg.std(),))
 
-    ind_sect_spy = index_df[[ind_idx_ticker, sect_idx_ticker, market_etf]]
-    index_df[['indChg1m', 'sectChg1m', 'spyChg1m']] = ind_sect_spy.pct_change(periods=20)
-    index_df[['indChg3m', 'sectChg3m', 'spyChg3m']] = ind_sect_spy.pct_change(periods=60)
-    index_df[['indChg6m', 'sectChg6m', 'spyChg6m']] = ind_sect_spy.pct_change(periods=180)
+    ndf['sector'] = groups[1]
+    ndf['industry'] = groups[2]
 
-    # apply 20sma upper and lower std bands, # stds from file
-    secpx = apply_std_boundaries(secpx, 'close', 20, stds)
-    secpx['pxPercStdUB'] = closepx / secpx['sma20ub'] - 1
-    secpx['pxPercStdLB'] = closepx / secpx['sma20lb'] - 1
+    return ndf
 
-    # Volume averages
-    volume = secpx['volume']
-    secpx['volMa10'] = volume.rolling(20).mean()
-    secpx['volMa60'] = volume.rolling(60).mean()
+def eq_wgt_indices(profile, px_df, col, group_list, tail=70**2, subset=None):
+    names = []
+    indices_df = pd.DataFrame()
+    for s in group_list:
+        idx_ticker = shorten_name(s)
+        names.append(idx_ticker)
+        symbols = profile[profile[col] == s].symbol.tolist()
+#         print('Equal weight index for: %s, %s, %d, %s\n' \
+#               % (idx_ticker, s, len(symbols), symbols))
+        # if subset: symbols = list(set(symbols).intersection(all_equities))
+        index = get_ind_index(px_df[symbols], '1d', tail, idx_ticker)[[idx_ticker]]
+        if len(indices_df) == 0:
+            indices_df = pd.DataFrame(index)
+            continue
+        indices_df = pd.concat([indices_df, index], axis=1)
+    assert len(names) == len(set(names))
+    return indices_df
 
-    # Volume as a % of 10 and 60 day average
-    secpx['volPercMa10'] = volume / secpx['volMa10']
-    secpx['volPercMa60'] = volume / secpx['volMa60']
-
-    # Price momentum transformations
-    secpx['pxMa20'] = closepx.rolling(20).mean()
-    secpx['pxMa50'] = closepx.rolling(50).mean()
-    secpx['pxMa200'] = closepx.rolling(200).mean()
-
-    # closing pricing as % of 20, 50 and 200 day average
-    secpx['pxPercMa20'] = closepx / secpx['pxMa20'] - 1
-    secpx['pxPercMa50'] = closepx / secpx['pxMa50'] - 1
-    secpx['pxPercMa200'] = closepx / secpx['pxMa200'] - 1
-
-    # historical returns for 1, 3, and 6 months
-    secpx['chg1m'] = closepx.pct_change(periods=20)
-    secpx['chg3m'] = closepx.pct_change(periods=60)
-    secpx['chg6m'] = closepx.pct_change(periods=180)
-
-    # Forward returns, 1w, 1m, 3m
-    secpx['fwdChg1w'] = closepx.pct_change(5).shift(-5)
-    secpx['fwdChg1m'] = closepx.pct_change(20).shift(-20)
-    secpx['fwdChg3m'] = closepx.pct_change(60).shift(-60)
-
-    # Relative strength to industry, sector and market
-    secpx['rs1mInd'] = (secpx['chg1m'] - index_df['indChg1m'])
-    secpx['rs3mInd'] = (secpx['chg3m'] - index_df['indChg3m'])
-    secpx['rs6mInd'] = (secpx['chg6m'] - index_df['indChg6m'])
-
-    secpx['rs1mSect'] = (secpx['chg1m'] - index_df['sectChg1m'])
-    secpx['rs3mSect'] = (secpx['chg3m'] - index_df['sectChg3m'])
-    secpx['rs6mSect'] = (secpx['chg6m'] - index_df['sectChg6m'])
-
-    secpx['rs1mSPY'] = (secpx['chg1m'] - index_df['spyChg1m'])
-    secpx['rs3mSPY'] = (secpx['chg3m'] - index_df['spyChg3m'])
-    secpx['rs6mSPY'] = (secpx['chg6m'] - index_df['spyChg6m'])
-
-    # seasonality analysis
-    ss_df, ss_pos = get_pct_chg_seasonality(closepx, 'M')
-
-    # apply seasonality, mean return of curr month plus next two
-    secpx['month'] = secpx.index.month
-    secpx['fwdSSRet'] = secpx.loc[:].month.apply(fwd_ss_ret, args=(ss_df, ss_pos,))
-    secpx.drop(columns=['month'], inplace=True)
-
-    # normalized columns for ML training, still has outliers
-    # ml_ds_cols = secpx.describe().loc['50%'][secpx.describe().loc['50%'] < 5].index.tolist()
-
-    return secpx
+def max_draw_pull(xs):
+    l_dd = np.argmax(np.maximum.accumulate(xs) - xs)
+    h_dd = np.argmax(np.array(xs[:l_dd]))
+    l_p = np.argmax(xs - np.minimum.accumulate(xs))
+    h_p = np.argmin(np.array(xs[:l_p]))
+    # drawdown low index, high index; pull low index, high index
+    return l_dd, h_dd, l_p, h_p
 
 def get_pct_chg_seasonality(df, rule):
     ss_df = df.pct_change().resample(rule).sum().to_frame()
@@ -336,22 +302,3 @@ def get_pct_chg_seasonality(df, rule):
     ss_pos = [(x, (x+1) if not (x+1) // 12 else 0,
          x+2 if not (x+2) // 12 else x - 10) for x in range(12)]
     return ss_df.loc[('close'),:], ss_pos
-
-# contextual variables, can be configured externally
-market_etf = '^GSPC'
-freq, tail = '1d', 10**5
-window, stds = 20, 1.75
-dates = read_dates('quote')
-tgt_date = [dates[-1]] # last date saved in S3
-sl = 3 # to slice large lists in top / bottom chunks
-show = ['symbol','sector', 'industry']
-sect_idx_ticker, ind_idx_ticker = '^SECT', '^IND'
-
-# latest_quotes = load_csvs('quote_consol', tgt_date)
-quotes = load_csvs('quote_consol', tgt_date)
-quotes.set_index('symbol', drop=False, inplace=True)
-profile = load_csvs('summary_detail', ['assetProfile'])
-profile.set_index('symbol', drop=False, inplace=True)
-
-industries = profile[show].sort_values(by='industry').industry.dropna().unique().tolist()
-left, right = get_left_right(industries, sl)
