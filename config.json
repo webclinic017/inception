@@ -145,7 +145,7 @@
  "universe_list": ["companies", "benchmarks", "sectors", "industries", "bonds", "risk", "rates", "commodities", "currencies"],
  "s3_store": true,
  "filename_fmt": "{0}.json",
- "min_max_sleep": [1, 2],
+ "min_max_sleep": [0, 1],
  "max_symbols_request": 50,
  "bucket_name": "fund-fin-data",
  "pricing_path": "pricing/{0}/",
