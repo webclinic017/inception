@@ -10,7 +10,10 @@ roll_vol = lambda df, rw: (df.rolling(rw).std() * pow(252, 1/2))
 fwd_ss_ret = lambda x, df, arr: df.loc[[y for y in arr[x-1] if y in df.index.tolist()]].mean()
 sign_compare = lambda x, y: abs(x) // y if x > y else -(abs(x) // y) if x < -y else 0
 pos_neg = lambda x: -1 if x < 0 else 1
-rename_col = lambda df, col, name: df.rename({col: name}, axis=1, inplace=True)
+def rename_col(df, col, name): return df.rename({col: name}, axis=1, inplace=True)
+
+# Distribution of historical exposure
+def sample_wgts(y_col, sort): return (pd.value_counts(y_col) / pd.value_counts(y_col).sum())[sort]
 
 # helper methods
 def get_pricing(symbol, interval='1d', prange='5y', persist=True):
@@ -219,7 +222,7 @@ def px_mom_feats(df, s, stds=1, invert=False, incl_px=False, rolls=[20,60,120], 
         sign_compare, args=(pctChg.std() * stds,))
     ndf[ticker+'PctMA50'] = (c / c.rolling(50).mean())
     ndf[ticker+'PctMA200'] = (c / c.rolling(200).mean())
-    ndf[ticker+'RollVol20'] = roll_vol(pctChg, 20)
+    ndf[ticker+'RollVol30'] = roll_vol(pctChg, 30)
     for p in rolls: ndf[ticker+'PctChg'+str(p)] = c.pct_change(periods=p)
     # ndf[ticker+'OpenGap20'] = ((o - c1ds) / c1ds).rolling(20).sum()
     # ndf[ticker+'HLDelta20'] = ((h - l) / c1ds).rolling(20).sum()
