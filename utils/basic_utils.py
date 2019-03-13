@@ -56,14 +56,16 @@ def csv_store(df, path, fname, headings=True):
     store_s3(buffer.getvalue(), f)
     print('Saved', f)
 
-def read_dates(dataset):
-    ds_list = [x.key for x in bucket.objects.filter(Prefix=dataset)]
-    ds_list = list(
-        set([x.split('/')[1][:10] for x in ds_list if x.find('.json') > 0])
-    )
+def read_dates(dataset, ext='.json'):
+    """ Better if used with quotes dataset, not with nested folders """
+    ds_list = [x['Key'] for x in s3client.list_objects(Bucket=BUCKET_NAME, Prefix=dataset)['Contents']]
+    ds_list = [s[::-1].split('/')[0][::-1].split(ext)[0] for s in ds_list if ext in s]
     return sorted(ds_list)
 
-def get_path(dataset, d=None): return config[dataset + '_path'].format(d)
+def get_path(dataset, d=None):
+    key = dataset + '_path'
+    return config[key].format(d) if key in config else None
+
 def list_files(dataset, date=None):
     return [x.key for x in bucket.objects.filter(Prefix=get_path(dataset, date))]
 
@@ -109,16 +111,16 @@ def flatten_options(dates):
     full_set = calls_df.append(puts_frame)
     return full_set
 
-
 def load_csvs(path_key, dates):
-    df = pd.DataFrame()
+    super_list = []
+    path = get_path(path_key)
+    s3_loc = path if path else path_key
     for d in dates:
-        path = get_path(path_key)
-        print('Loading file', path + d)
-        result = csv_load(path + d)
+        print('Loading file', s3_loc + d)
+        result = csv_load(s3_loc + d)
         d_df = pd.read_csv(result)
-        df = df.append(d_df, sort=False)
-    return df
+        super_list.append(d_df)
+    return pd.concat(super_list, sort=False)
 
 
 def load_consol_quotes(dates):
@@ -243,6 +245,7 @@ fname = config['filename_fmt']
 today_date = date.today()
 
 s3 = boto3.resource('s3', 'us-west-2')
+s3client = boto3.client('s3', 'us-west-2')
 BUCKET_NAME = config['bucket_name']
 bucket = s3.Bucket(BUCKET_NAME)
 
