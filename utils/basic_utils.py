@@ -57,7 +57,6 @@ def csv_store(df, path, fname, headings=True):
     print('Saved', f)
 
 def read_dates(dataset, ext='.json'):
-    """ Better if used with quotes dataset, not with nested folders """
     ds_list = [x['Key'] for x in s3client.list_objects(Bucket=BUCKET_NAME, Prefix=dataset)['Contents']]
     ds_list = [s[::-1].split('/')[0][::-1].split(ext)[0] for s in ds_list if ext in s]
     return sorted(ds_list)
