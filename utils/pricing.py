@@ -239,9 +239,8 @@ def px_fwd_rets(df, s, periods=[20, 60, 120]):
         ndf[s + 'FwdPctChg' + str(p)] = df.pct_change(p).shift(-p)
     return ndf
 
-def px_mom_co_feats(df, ind_df,
-                    groups=('Bench', 'Sector','Industry'),
-                    rolls=[20,60,120]):
+def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20,60,120]):
+
     ndf = pd.DataFrame()
     c,o,l,h,v = df['close'], df['open'], df['low'], df['high'], df['volume']
     bech_idx, sect_idx, ind_idx = groups[0], shorten_name(groups[1]), shorten_name(groups[2])
@@ -302,3 +301,10 @@ def get_pct_chg_seasonality(df, rule):
     ss_pos = [(x, (x+1) if not (x+1) // 12 else 0,
          x+2 if not (x+2) // 12 else x - 10) for x in range(12)]
     return ss_df.loc[('close'),:], ss_pos
+
+# turn sectors / industries into dummies
+def dummy_col(pre_df, col, shorten=True):
+    df = pre_df.copy()
+    if shorten: df.loc[:, col] = df[col].apply(shorten_name)
+    df = pd.concat([df, pd.get_dummies(df[col])], axis=1)
+    return df.drop(columns=[col])

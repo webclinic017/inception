@@ -5,33 +5,37 @@ from utils.imports import *
 from utils.structured import *
 
 # utility functions
+chars = list(")(' ")
+def strips(s, l, splt):
+    for r in l: s = s.replace(r, '')
+    return s.split(splt)[1:]
+
 numeric_cols = lambda df: list(df.columns[df.dtypes.apply(is_numeric_dtype).values])
-col_mapper = lambda pre, fields, period: {x:'_'.join([pre,x,period]) for x in fields}
+col_mapper = lambda cols: {x:'_'.join(strips(x, chars, ',')) for x in cols if 'value' in x}
 filter_cols = lambda columns, c: [x for x in columns if c in x]
 day_delta = lambda df, d: df - df.shift(d)
 
 def preproc_df(df, key, pipe, context):
     proc_df = df.copy()
     if key in pipe:
-        for fn in pipe[key]: proc_df = fn(proc_df, context)
+        for fn in pipe[key]:
+            proc_df = fn(proc_df, context)
+            # print(fn.__name__, proc_df.shape)
     return proc_df
 
 def preproc_outlier(df, context):
     """ Remove rows where values > treshold """
     ds_dict = context['ds_dict']
     treshold = ds_dict['outlier']
-    re_idx_df = df.reindex().reset_index()
-    fields = numeric_cols(re_idx_df)
-    ol_locs = list(
-        re_idx_df[
-            (np.abs(re_idx_df[fields]) > treshold)\
-            .any(1)].index)
-    keep_ix = np.isin(np.arange(len(df)), ol_locs)
-    return df.loc[~keep_ix, :]
+    df = df[~(np.abs(df[numeric_cols(df)]) > (df.std() * treshold)).any(1).values]
+    return df
 
 def get_daily_ts(key, ds_dict, dates):
+    """ fix the ds_dict argument
+    pass the whole px_close and divide vectorized instead of loop """
     index_col = ds_dict[key]['index']
     features = ds_dict[key]['features']
+    path = ds_dict[key]['path']
     df = load_csvs(path, dates)
 #     df.loc[:, index_col[0]] = pd.to_datetime(df[index_col[0]], unit='s')
     df.loc[:, index_col] = pd.to_datetime(df[index_col], unit='s')
@@ -40,18 +44,21 @@ def get_daily_ts(key, ds_dict, dates):
     return df[features]
 
 def df_wide_transform(df, context):
-    periods = context['periods']
-    pre = context['pre']
-    # applies only to numeric fields
-    fields = numeric_cols(df)
-    super_list = []
-    for p in periods:
-        filered_df = df[df.period == p][fields]
-        filered_df = filered_df.rename(columns=col_mapper(pre, fields, p))
-        super_list.append(filered_df)
-    new_df = pd.concat(super_list, axis=1, sort=True).dropna(axis=1)
-    new_df['symbol'] = df.symbol.iloc[0]
-    return new_df
+    ds_dict = context['ds_dict']
+    idx_name = ds_dict['index']
+    periods = ds_dict['periods']
+    pvt_cols = ds_dict['pivot_cols']
+
+    df.index.set_names(idx_name, inplace=True)
+    df = df.reset_index().set_index(['storeDate', 'symbol', 'period'])
+    cols = pd.Index(pvt_cols, name='cols')
+    ldata = df.reindex(columns=cols).stack().reset_index().rename(columns={0: 'value'})
+    pivoted = ldata.pivot_table(
+        index=[idx_name, 'symbol'], columns=['period', 'cols'], values=['value'])
+    flat_df = pd.DataFrame(pivoted.loc[(slice(None), ), (slice(None), )].to_records())
+    flat_df.rename(columns=col_mapper(flat_df.columns), inplace=True)
+    flat_df.set_index([idx_name, 'symbol'], inplace=True)
+    return flat_df.sort_index(level=1)
 
 # pre-processing functions
 def preproc_perc_price(df, context):
@@ -84,7 +91,7 @@ def preproc_eps_estimates(df, context):
     df.loc[:, growth_cols] = day_delta(df[growth_cols], 1)
     # shows when there are jumps on low, avg, and high estimates
     df.loc[:, other_cols] = df[other_cols].pct_change()
-    return df
+    return df.sort_index(level=1)
 
 def preproc_day_delta(df, context): return day_delta(df[numeric_cols(df)], 1)
 
