@@ -66,11 +66,11 @@ def get_mults_pricing(symbols, freq='1d', col=['close']):
         try:
             df = get_symbol_pricing(t, freq, col)
             rename_col(df, 'close', t)
-            print("Retrieving pricing: {0}".format(t))
+            print("Retrieving pricing: {0}, {1}".format(t, df.shape))
             # if n == 0:
             #     group_pricing = pd.DataFrame(df)
             #     continue
-            super_list.append(df)
+            super_list.append(df.drop_duplicates())
             # group_pricing = pd.concat([group_pricing, df], axis=1)
         except Exception as e:
             print("Exception, get_mults_pricing: {0}\n{1}".format(t, e))
