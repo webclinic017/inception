@@ -231,7 +231,7 @@ def predict_ds(context):
             bench_df = pd.concat([bench_df, prob_df[fwd_ret_labels]], axis=1)
 
         bench_df.dropna(subset=[bench], inplace=True)
-    bench_df.tail(3).round(2)
+    print(bench_df.tail(3).round(2))
     return bench_df
 
 if __name__ == '__main__':
