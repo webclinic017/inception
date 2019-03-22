@@ -32,12 +32,11 @@ def get_pricing(symbol, interval='1d', prange='5y', persist=True):
     return pricing_data
 
 def build_px_struct(data_dict, freq):
-    dt = date if freq == '1d' else datetime
     tz = data_dict['meta']['exchangeTimezoneName']
     dates = pd.to_datetime(
         data_dict['timestamp'], unit='s', infer_datetime_format=True)
     # dates = dates.astype(f'datetime64[ns, {tz}]')
-    dates = dates.tz_localize('America/New_York')
+    dates = dates.tz_localize(None) # 'America/New_York'
     # dates = dates.tz_convert('America/New_York')
     hist_pricing = data_dict['indicators']['quote'][0]
     H = hist_pricing['high']
@@ -64,17 +63,20 @@ def get_mults_pricing(symbols, freq='1d', col=['close']):
     super_list = []
     for n, t in enumerate(symbols):
         try:
-            df = get_symbol_pricing(t, freq, col)
+            df = get_symbol_pricing(t, freq, cols=None)
             rename_col(df, 'close', t)
             print("Retrieving pricing: {0}, {1}".format(t, df.shape))
-            # if n == 0:
-            #     group_pricing = pd.DataFrame(df)
-            #     continue
-            super_list.append(df.drop_duplicates())
-            # group_pricing = pd.concat([group_pricing, df], axis=1)
+            df.drop_duplicates(inplace=True)
+            df.index = df.index.strftime('%Y-%m-%d')
+            super_list.append(df[t])
         except Exception as e:
             print("Exception, get_mults_pricing: {0}\n{1}".format(t, e))
-    return pd.concat(super_list, axis=1)
+    full_df = pd.DataFrame(super_list[0])
+    if len(super_list[1:]):
+        for x in super_list[1:]: full_df = pd.merge( \
+            full_df, x, left_index=True, right_index=True, how='outer')
+    full_df.index = pd.to_datetime(full_df.index)
+    return full_df
 
 def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
     data_dict = get_pricing(symbol, freq, prange, False)
@@ -215,7 +217,8 @@ def discret_rets(df, treshs, classes):
 def px_mom_feats(df, s, stds=1, invert=False, incl_px=False, rolls=[20,60,120], incl_name=True):
     ndf = pd.DataFrame()
     if invert: df = 1 / df
-    c,o,l,h = df['close'], df['open'], df['low'], df['high']
+    #c,o,l,h = df['close'], df['open'], df['low'], df['high']
+    c = df.dropna()
     c1ds, pctChg = c.shift(1), c.pct_change()
     if incl_px: ndf[s + 'Close'] = c
     ticker = s if incl_name else ''
