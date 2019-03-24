@@ -59,15 +59,16 @@ def get_symbol_pricing(symbol, freq='1d', cols=None):
     cols = df.columns if cols is None else cols
     return df[cols].dropna()
 
-def get_mults_pricing(symbols, freq='1d', col=['close']):
+def get_mults_pricing(symbols, freq='1d', col=['close'], verbose=True):
     super_list = []
     for n, t in enumerate(symbols):
         try:
             df = get_symbol_pricing(t, freq, cols=None)
             rename_col(df, 'close', t)
-            print("Retrieving pricing: {0}, {1}".format(t, df.shape))
+            if verbose:
+                print("Retrieving pricing: {0}, {1}".format(t, df.shape))
             df.drop_duplicates(inplace=True)
-            df.index = df.index.strftime('%Y-%m-%d')
+            if freq == '1d': df.index = df.index.strftime('%Y-%m-%d')
             super_list.append(df[t])
         except Exception as e:
             print("Exception, get_mults_pricing: {0}\n{1}".format(t, e))
