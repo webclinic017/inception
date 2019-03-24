@@ -54,28 +54,16 @@ sec_windows, stds = [5, 20, 60], 1
 f'Include: {include}, invert: {invert}, include price: {incl_price}\
 Benchmark: {bench}, Y-var: {y_col}'
 
-px_close = get_mults_pricing(include, freq);
-px_close.drop_duplicates(inplace=True)
-os.makedirs('tmp', exist_ok=True)
-px_close.to_parquet('tmp/mult-macro-px-ds')
-px_close = pd.read_parquet('tmp/mult-macro-px-ds')
-
-context = {
-    'portion': 100e-2,
-    'train_model': False,
-    'ffill': True,
-    'impute': True,
-    'scale': True,
-    'test_size': .20,
-    'predict_batch': 252*4,
-    'ml_path': './ML/'}
-
 # utility functions
 def create_ds(px_close):
     """ Create macro dataset and filtering index"""
+
+    verbose = context['verbose']
+    # average the return of the next periods
+    # select only rows where Y variable is not null
     ds_idx = px_close.dropna(subset=[bench]).index
     Y = px_fwd_rets(px_close.loc[ds_idx, bench], bench, pred_fwd_windows).mean(axis=1)
-    print('Y.shape: ', Y.shape)
+    if verbose: print('Y.shape: ', Y.shape)
 
     df_large = pd.DataFrame()
     # rate transforms
@@ -95,13 +83,15 @@ def create_ds(px_close):
 
     # drop NAs before discretizing
     df_large = df_large.loc[ds_idx, :]
-    print('df_large.shape: ', df_large.shape)
+    if verbose: print('df_large.shape: ', df_large.shape)
 
     return ds_idx, df_large
 
 def pre_process_ds(df, context):
 
+    verbose = context['verbose']
     portion = context['portion']
+
     train_model = context['train_model']
     ffill, imputer_on, scaler_on = \
         context['ffill'], context['impute'], context['scale']
@@ -114,7 +104,7 @@ def pre_process_ds(df, context):
 
     # reduces the dataset in case is too large
     _, df_raw = train_test_split(df, test_size=portion, shuffle=False, )
-    print('Reduced df_raw.shape: ', df_raw.shape)
+    if verbose: print('Reduced df_raw.shape: ', df_raw.shape)
 
     df_raw.replace([np.inf, -np.inf], np.nan, inplace=True)
     if ffill: df_raw.fillna(method='ffill', inplace=True)
@@ -132,7 +122,7 @@ def pre_process_ds(df, context):
         df_raw[y_col] = df_raw[y_col].astype(str)
 
         y_col_dist = sample_wgts(df_raw[y_col], fwd_ret_labels)
-        print((y_col_dist[fwd_ret_labels]).round(3))
+        if verbose: print((y_col_dist[fwd_ret_labels]).round(3))
 
         # this seems unnecesary
         if imputer_on: df_raw.loc[:, X_cols] = imputer.fit_transform(df_raw[X_cols])
@@ -145,33 +135,32 @@ def pre_process_ds(df, context):
     return pred_X, X_train, X_test, y_train, y_test
 
 def train_ds(context):
+
     ml_path = context['ml_path']
+    verbose = context['verbose']
+
+    px_close = get_mults_pricing(include, freq, verbose=False);
+    px_close.drop_duplicates(inplace=True)
 
     # create and pre-process datasets
     train_idx, df_large = create_ds(px_close)
-    print('df_large.shape: ', df_large.shape)
-
+    if verbose: print('df_large.shape: ', df_large.shape)
     pred_X, X_train, X_test, y_train, y_test = pre_process_ds(df_large, context)
+    if verbose:
+        for x in zip(('pred', 'X_train', 'y_train', 'X_test', 'y_test'),
+        (pred_X, X_train, y_train, X_test, y_test)):
+            print(x[0] + '.shape', x[1].shape)
 
-    for x in zip(('pred', 'X_train', 'y_train', 'X_test', 'y_test'),
-    (pred_X, X_train, y_train, X_test, y_test)):
-        print(x[0] + '.shape', x[1].shape)
+    # PENDING: gridsearch models
 
-    # 1. gridsearch models
-    # 2. ensemble voting classifier
-    # 3. save down to drive
-
-    # RandomForestClassifier
-    # best params from prior GridSearch
+    # RandomForestClassifier, best params from prior GridSearch
     rfc_params = {
         'max_features': 40, 'n_estimators': 100, 'random_state': 7}
     clf1 = RandomForestClassifier(**rfc_params, warm_start=True)
     clf1.fit(X_train, y_train)
     scores = clf1.score(X_train, y_train), clf1.score(X_test, y_test)
-    print(type(clf1), scores)
 
-    # MLPClassifier
-    # best params from prior GridSearch
+    # MLPClassifier, best params from prior GridSearch
     mlp_params = {
         'activation': 'relu', 'alpha': 0.01, 'hidden_layer_sizes': 65,
         'learning_rate': 'adaptive', 'max_iter': 200,
@@ -179,7 +168,6 @@ def train_ds(context):
     clf2 = MLPClassifier(**mlp_params)
     clf2.fit(X_train, y_train)
     scores = clf2.score(X_train, y_train), clf2.score(X_test, y_test)
-    print(type(clf2), scores)
 
     # ExtraTreesClassifier
     clf3 = ExtraTreesClassifier(
@@ -187,15 +175,16 @@ def train_ds(context):
         min_samples_split=2, random_state=0)
     clf3.fit(X_train, y_train)
     scores = clf3.score(X_train, y_train), clf3.score(X_test, y_test)
-    print(type(clf3), scores)
 
     for vote in ['hard', 'soft']:
         eclf = VotingClassifier(
             estimators=[('rf', clf1), ('mlp', clf2), ('et', clf3)],
             voting=vote)
         clf = eclf.fit(X_train, y_train)
-        scores = round(clf.score(X_train, y_train), 3), round(clf.score(X_test, y_test), 3)
-        print(vote, type(clf), scores)
+        scores = clf.score(X_train, y_train), clf.score(X_test, y_test)
+        if verbose:
+            print(clf)
+            print(scores)
 
         os.makedirs(ml_path, exist_ok=True)
         fname = ml_path + f'macro_ML_{vote}.pkl'
@@ -204,6 +193,11 @@ def train_ds(context):
 
 def predict_ds(context):
     ml_path = context['ml_path']
+    verbose = context['verbose']
+
+    px_close = get_mults_pricing(include, freq, verbose=False);
+    px_close.drop_duplicates(inplace=True)
+
     ds_idx, df_large = create_ds(px_close)
     pred_X, _, _, _, _ = pre_process_ds(df_large, context)
 
@@ -215,24 +209,51 @@ def predict_ds(context):
         fname = ml_path + f'macro_ML_{vote}.pkl'
         clf = joblib.load(fname)
         print('Loaded', fname)
-
         preds = clf.predict(pred_X)
 #         pred_class = [x for x in map(fwd_ret_labels.index, preds)]
         pred_class = np.array([fwd_ret_labels.index(x) for x in preds])
         bench_df[f'{vote}_pred_class'] = pred_class
         bench_df[f'{vote}_pred_label'] = preds
-
         if vote == 'soft':
             probs = clf.predict_proba(pred_X)
+            if verbose: print(clf.classes_)
             pred_prob = np.argmax(probs, axis=1)
 #             bench_df[f'{vote}_high_prob_pred_class'] = pred_prob
             bench_df[f'{vote}_confidence'] = [x[np.argmax(x)] for x in probs] # higest prob
             prob_df = pd.DataFrame(probs, index=bench_df.index, columns=clf.classes_)
             bench_df = pd.concat([bench_df, prob_df[fwd_ret_labels]], axis=1)
-
         bench_df.dropna(subset=[bench], inplace=True)
-    print(bench_df.tail(5).round(2).T)
+
     return bench_df
+
+def visualize_predictions(pred_df):
+    pre_class_cols = filter_cols(pred_df.columns, "pred_class")
+    pred_df.loc[:,[bench] + pre_class_cols].plot(
+        secondary_y=pre_class_cols, figsize=(15, 5));
+    pred_df[fwd_ret_labels].plot.area(
+            title='Prediction Probabilities',
+            figsize=(15, 2), ylim=(0, 1), cmap='RdYlGn');
+    f'Confidence Mean: {pred_df["soft_confidence"].mean().round(3)}, Median {pred_df["soft_confidence"].median().round(3)}'
+
+# PENDING
+def append_pricing(symbol, freq='1d', cols=None):
+    """ appends most recent pricing to data on S3"""
+    return appended_df
+
+def pull_latest_px(tickers):
+    """ get appended pricing from dataset """
+    return px_close
+
+#context/config for training and prediction
+context = {
+    'portion': 100e-2,
+    'ffill': True,
+    'impute': True,
+    'scale': True,
+    'test_size': .20,
+    'predict_batch': 252,
+    'ml_path': './ML/',
+    'verbose': True}
 
 if __name__ == '__main__':
     hook = sys.argv[1]
@@ -244,6 +265,7 @@ if __name__ == '__main__':
         print('PREDICTING MACRO RISK EXPOSURE:')
         context['train_model'] = False
         pred_df = predict_ds(context)
+        pred_df.tail(5).round(3).T
         s3_df = pred_df.reset_index(drop=False)
         rename_col(s3_df, 'index', 'pred_date')
         csv_store(s3_df, 'recommend/', 'macro_risk_ML.csv')
