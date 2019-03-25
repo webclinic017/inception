@@ -7,6 +7,9 @@ from utils.fundamental import *
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
+from pandas.api.types import is_string_dtype, is_numeric_dtype, is_categorical_dtype
+from sklearn.ensemble import forest
+
 from sklearn.model_selection import cross_val_score, cross_validate, train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_selection import SelectFromModel
@@ -83,7 +86,7 @@ def create_ds(px_close):
 
     # reduces the dataset in case is too large
     if portion < 100e-2:
-        _, df_large = train_test_split(df_large, test_size=portion)
+        _, df_large = train_test_split(df_large, test_size=portion, random_state=42)
     if verbose: print('create_ds >> df_large.shape: ', df_large.shape)
 
     return ds_idx, df_large
@@ -120,7 +123,7 @@ def pre_process_ds(df, context):
         else: df[X_cols].dropna(inplace=True)
         X, y = df.drop(columns=y_col), df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=test_sz)
+            X, y, test_size=test_sz, random_state=42)
         if verbose:
             y_col_dist = sample_wgts(df[y_col], fwd_ret_labels)
             print('pre_process_ds >> df_raw Y-var class distribution')
@@ -158,7 +161,7 @@ def train_ds(context):
         param_grid = {
             'n_estimators': [100], 'max_features': ['sqrt'],
             'random_state': np.arange(0, 5, 1),}
-        clf = GridSearchCV(RandomForestClassifier(),
+        clf = GridSearchCV(RandomForestClassifier(random_state=42),
                            param_grid, n_jobs=-1,
                            cv=5, iid=True, verbose=verbose)
         clf.fit(X_train, y_train)
@@ -186,7 +189,7 @@ def train_ds(context):
             'learning_rate' : ['adaptive'], # ['constant', 'adaptive']
             'hidden_layer_sizes': np.arange(5, X_train.shape[1] // 3, int(X_train.shape[1] * 0.1)), # np.arange(5, 50, 10)
             'random_state': np.arange(0, 5, 1)} # np.arange(0, 10, 2)
-        clf = GridSearchCV(MLPClassifier(), param_grid, n_jobs=-1, cv=5,
+        clf = GridSearchCV(MLPClassifier(random_state=42), param_grid, n_jobs=-1, cv=5,
                           iid=True, verbose=verbose)
         clf.fit(X_train, y_train)
         if verbose: print_cv_results(
@@ -202,7 +205,7 @@ def train_ds(context):
     # ExtraTreesClassifier
     clf3 = ExtraTreesClassifier(
         n_estimators=100, max_depth=None,
-        min_samples_split=2, random_state=0)
+        min_samples_split=2, random_state=42)
     clf3.fit(X_train, y_train)
     print('ExtraTreesClassifier scores Train {}, Test {}'.format(
     clf3.score(X_train, y_train), clf3.score(X_test, y_test)))
@@ -229,14 +232,13 @@ def predict_ds(context):
 
     ds_idx, df_large = create_ds(px_close)
     pred_X, _, _, _, _ = pre_process_ds(df_large, context)
+
     print('pred_X.shape', pred_X.shape)
 
     bench_df = px_close.loc[pred_X.index, bench].to_frame()
-
-    # load latest models
     for vote in ['hard', 'soft']:
         fname = ml_path + f'macro_ML_{vote}.pkl'
-        clf = joblib.load(fname)
+        clf = joblib.load(fname) # load latest models
         print('Loaded', fname)
         preds = clf.predict(pred_X)
         pred_class = np.array([fwd_ret_labels.index(x) for x in preds])
@@ -295,9 +297,9 @@ context = {
     'scale': True,
     'test_size': .20,
     'predict_batch': 252,
-    'ml_path': './ML/',
+    'ml_path': '../ML/',
     'grid_search': True,
-    'verbose': 1}
+    'verbose': 0}
 
 if __name__ == '__main__':
     hook = sys.argv[1]
@@ -310,6 +312,7 @@ if __name__ == '__main__':
         context['train_model'] = False
         pred_df = predict_ds(context)
         print(pred_df.tail(5).round(3).T)
+        # store in S3
         s3_df = pred_df.reset_index(drop=False)
         rename_col(s3_df, 'index', 'pred_date')
         csv_store(s3_df, 'recommend/', 'macro_risk_ML.csv')
