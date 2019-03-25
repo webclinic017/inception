@@ -34,7 +34,6 @@ benchSL, sectorSL, riskSL, rateSL, bondSL, commSL, currSL = \
     config['bonds'], config['commodities'], config['currencies']
 
 symbols_list = benchSL + sectorSL + riskSL + rateSL + bondSL + commSL + currSL
-print('All symbols: ', symbols_list)
 
 keep_bench = excl(benchSL, ['^STOXX50E', '^AXJO'])
 keep_fx = excl(currSL, ['HKD=X', 'MXN=X', 'AUDUSD=X', 'NZDUSD=X', 'TWD=X', 'CLP=X', 'KRW=X'])
@@ -50,9 +49,6 @@ y_col = 'fwdReturn'
 pred_fwd_windows = [20, 60, 120]
 rate_windows = [20, 60]
 sec_windows, stds = [5, 20, 60], 1
-
-print('Benchmark: {}, Y: {}, Include: {}, invert: {}, include price: {}'.format(
-    bench, y_col, include, invert, incl_price))
 
 # utility functions
 def create_ds(px_close):
@@ -134,6 +130,9 @@ def pre_process_ds(df, context):
 
 def train_ds(context):
 
+    print('Benchmark: {}, Y: {}, Include: {}, invert: {}, include price: {}'.format(
+    bench, y_col, include, invert, incl_price))
+
     ml_path = context['ml_path']
     grid_search = context['grid_search']
     verbose = context['verbose']
@@ -160,7 +159,7 @@ def train_ds(context):
             'random_state': np.arange(0, 5, 1),}
         clf = GridSearchCV(RandomForestClassifier(),
                            param_grid, n_jobs=-1,
-                           cv=5, iid=True, verbose=3)
+                           cv=5, iid=True, verbose=verbose)
         clf.fit(X_train, y_train)
         if verbose: print_cv_results(
             clf, X_train, X_test, y_train, y_test,
@@ -184,7 +183,7 @@ def train_ds(context):
             'hidden_layer_sizes': np.arange(5, X_train.shape[1] // 3, int(X_train.shape[1] * 0.1)), # np.arange(5, 50, 10)
             'random_state': np.arange(0, 5, 1)} # np.arange(0, 10, 2)
         clf = GridSearchCV(MLPClassifier(), parameters, n_jobs=-1, cv=5,
-                          iid=True, verbose=3)
+                          iid=True, verbose=verbose)
         clf.fit(X_train, y_train)
         if verbose: print_cv_results(
             clf, X_train, X_test, y_train, y_test,
@@ -220,14 +219,13 @@ def predict_ds(context):
     ml_path = context['ml_path']
     verbose = context['verbose']
 
-    px_close = get_mults_pricing(include, freq, verbose=False);
+    px_close = get_mults_pricing(include, freq, verbose=verbose);
     px_close.drop_duplicates(inplace=True)
 
     ds_idx, df_large = create_ds(px_close)
     pred_X, _, _, _, _ = pre_process_ds(df_large, context)
 
     bench_df = px_close.loc[pred_X.index, bench].to_frame()
-    bench_df.dropna(subset=[bench], inplace=True)
 
     # load latest models
     for vote in ['hard', 'soft']:
@@ -235,15 +233,12 @@ def predict_ds(context):
         clf = joblib.load(fname)
         print('Loaded', fname)
         preds = clf.predict(pred_X)
-#         pred_class = [x for x in map(fwd_ret_labels.index, preds)]
         pred_class = np.array([fwd_ret_labels.index(x) for x in preds])
         bench_df[f'{vote}_pred_class'] = pred_class
         bench_df[f'{vote}_pred_label'] = preds
         if vote == 'soft':
             probs = clf.predict_proba(pred_X)
-            if verbose: print(clf.classes_)
             pred_prob = np.argmax(probs, axis=1)
-#             bench_df[f'{vote}_high_prob_pred_class'] = pred_prob
             bench_df[f'{vote}_confidence'] = [x[np.argmax(x)] for x in probs] # higest prob
             prob_df = pd.DataFrame(probs, index=bench_df.index, columns=clf.classes_)
             bench_df = pd.concat([bench_df, prob_df[fwd_ret_labels]], axis=1)
@@ -251,7 +246,7 @@ def predict_ds(context):
 
     return bench_df
 
-def print_cv_results(clf, X_train, X_test, y_train, y_test, feat_imp=True, top=20):
+def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, feat_imp=True, top=20):
     print(clf)
     cvres = clf.cv_results_
     print('BEST PARAMS:', clf.best_params_)
@@ -260,9 +255,10 @@ def print_cv_results(clf, X_train, X_test, y_train, y_test, feat_imp=True, top=2
     print('train {}, test {}'.format(
         clf.score(X_train, y_train),
         clf.score(X_test, y_test)))
-    print('GRID RESULTS:')
-    for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
-        print(round(mean_score, 3), params)
+    if full_grid:
+        print('GRID RESULTS:')
+        for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+            print(round(mean_score, 3), params)
     if feat_imp:
         feature_importances = clf.best_estimator_.feature_importances_
         print('SORTED FEATURES:')
@@ -295,7 +291,7 @@ context = {
     'predict_batch': 252,
     'ml_path': './ML/',
     'grid_search': True,
-    'verbose': False}
+    'verbose': 0}
 
 if __name__ == '__main__':
     hook = sys.argv[1]
