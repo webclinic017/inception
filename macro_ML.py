@@ -51,13 +51,13 @@ pred_fwd_windows = [20, 60, 120]
 rate_windows = [20, 60]
 sec_windows, stds = [5, 20, 60], 1
 
-f'Include: {include}, invert: {invert}, include price: {incl_price}\
-Benchmark: {bench}, Y-var: {y_col}'
+print('Benchmark: {}, Y: {}, Include: {}, invert: {}, include price: {}'.format(
+    bench, y_col, include, invert, incl_price))
 
 # utility functions
 def create_ds(px_close):
     """ Create macro dataset and filtering index"""
-
+    portion = context['portion']
     verbose = context['verbose']
     # average the return of the next periods
     # select only rows where Y variable is not null
@@ -85,89 +85,114 @@ def create_ds(px_close):
     df_large = df_large.loc[ds_idx, :]
     if verbose: print('df_large.shape: ', df_large.shape)
 
+    # reduces the dataset in case is too large
+    if portion < 100e-2:
+        _, df_large = train_test_split(df_large, test_size=portion)
+    if verbose: print('create_ds >> df_large.shape: ', df_large.shape)
+
     return ds_idx, df_large
 
 def pre_process_ds(df, context):
 
     verbose = context['verbose']
-    portion = context['portion']
-
     train_model = context['train_model']
-    ffill, imputer_on, scaler_on = \
-        context['ffill'], context['impute'], context['scale']
+    fill_on, imputer_on, scaler_on = \
+        context['fill'], context['impute'], context['scale']
     test_sz = context['test_size']
     pred_batch = context['predict_batch']
+
     imputer = SimpleImputer(
         missing_values=np.nan, strategy='median', copy=False)
     scaler = StandardScaler()
     X_cols = excl(df.columns, [y_col])
 
-    # reduces the dataset in case is too large
-    _, df_raw = train_test_split(df, test_size=portion, shuffle=False, )
-    if verbose: print('Reduced df_raw.shape: ', df_raw.shape)
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    if fill_on: df.fillna(method=fill_on, inplace=True)
+    if scaler_on: df.loc[:, X_cols] = scaler.fit_transform(df[X_cols])
 
-    df_raw.replace([np.inf, -np.inf], np.nan, inplace=True)
-    if ffill: df_raw.fillna(method='ffill', inplace=True)
-    if scaler_on: df_raw.loc[:, X_cols] = scaler.fit_transform(df_raw[X_cols])
-
-    pred_X = df_raw.iloc[-pred_batch:,:-1].copy() # how far back to predict
+    pred_X = df.iloc[-pred_batch:,:-1].copy() # how far back to predict
     X_train = X_test = y_train = y_test = None
 
     if train_model:
-        if ffill: df_raw[X_cols].fillna(method='ffill', inplace=True)
-
-        # for training, discretize forward returns into classes
-        df_raw.dropna(subset=[y_col], inplace=True)
-        df_raw[y_col] = discret_rets(df_raw[y_col], cut_range, fwd_ret_labels)
-        df_raw[y_col] = df_raw[y_col].astype(str)
-
-        y_col_dist = sample_wgts(df_raw[y_col], fwd_ret_labels)
-        if verbose: print((y_col_dist[fwd_ret_labels]).round(3))
-
-        # this seems unnecesary
-        if imputer_on: df_raw.loc[:, X_cols] = imputer.fit_transform(df_raw[X_cols])
-        else: df_raw[X_cols].dropna(inplace=True)
-
-        X, y = df_raw.drop(columns=y_col), df_raw[y_col]
+        if fill_on: df[X_cols].fillna(method=fill_on, inplace=True)
+        # discretize forward returns into classes
+        df.dropna(subset=[y_col], inplace=True)
+        df[y_col] = discret_rets(df[y_col], cut_range, fwd_ret_labels)
+        df[y_col] = df[y_col].astype(str)
+        # this seems unnecesary when fill is on
+        if imputer_on: df.loc[:, X_cols] = imputer.fit_transform(df[X_cols])
+        else: df[X_cols].dropna(inplace=True)
+        X, y = df.drop(columns=y_col), df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=test_sz, random_state=42)
+            X, y, test_size=test_sz)
+        if verbose:
+            y_col_dist = sample_wgts(df[y_col], fwd_ret_labels)
+            print('pre_process_ds >> df_raw Y-var class distribution')
+            print((y_col_dist[fwd_ret_labels]).round(3))
 
     return pred_X, X_train, X_test, y_train, y_test
 
 def train_ds(context):
 
     ml_path = context['ml_path']
+    grid_search = context['grid_search']
     verbose = context['verbose']
 
     px_close = get_mults_pricing(include, freq, verbose=False);
     px_close.drop_duplicates(inplace=True)
+    if verbose: print('train_ds >> px_close.shape', px_close.shape)
 
     # create and pre-process datasets
-    train_idx, df_large = create_ds(px_close)
-    if verbose: print('df_large.shape: ', df_large.shape)
-    pred_X, X_train, X_test, y_train, y_test = pre_process_ds(df_large, context)
+    px_idx, df_raw = create_ds(px_close)
+    pred_X, X_train, X_test, y_train, y_test = pre_process_ds(df_raw, context)
     if verbose:
-        for x in zip(('pred', 'X_train', 'y_train', 'X_test', 'y_test'),
-        (pred_X, X_train, y_train, X_test, y_test)):
+        for x in zip(('df_raw', 'pred', 'X_train', 'y_train', 'X_test', 'y_test'),
+        (df_raw, pred_X, X_train, y_train, X_test, y_test)):
             print(x[0] + '.shape', x[1].shape)
 
-    # PENDING: gridsearch models
-
-    # RandomForestClassifier, best params from prior GridSearch
-    rfc_params = {
-        'max_features': 40, 'n_estimators': 100, 'random_state': 7}
-    clf1 = RandomForestClassifier(**rfc_params, warm_start=True)
+    # RandomForestClassifier
+    best_params = {
+        'max_features': 'sqrt', 'n_estimators': 100,
+        'random_state': 4}
+    if grid_search:
+        param_grid = {
+            'n_estimators': [100], 'max_features': ['sqrt'],
+            'random_state': np.arange(0, 5, 1),}
+        clf = GridSearchCV(RandomForestClassifier(),
+                           param_grid, n_jobs=-1,
+                           cv=5, iid=True, verbose=3)
+        clf.fit(X_train, y_train)
+        if verbose: print_cv_results(
+            clf, X_train, X_test, y_train, y_test,
+            feat_imp=True, top=20)
+        best_params = clf.best_params_
+    clf1 = RandomForestClassifier(**best_params)
     clf1.fit(X_train, y_train)
-    scores = clf1.score(X_train, y_train), clf1.score(X_test, y_test)
 
-    # MLPClassifier, best params from prior GridSearch
-    mlp_params = {
-        'activation': 'relu', 'alpha': 0.01, 'hidden_layer_sizes': 65,
+    # MLPClassifier
+    best_params = {
+        'activation': 'relu', 'alpha': 0.01, 'hidden_layer_sizes': 95,
         'learning_rate': 'adaptive', 'max_iter': 200,
-        'random_state': 3, 'solver': 'lbfgs'}
-    clf2 = MLPClassifier(**mlp_params)
+        'random_state': 4, 'solver': 'lbfgs'}
+    if grid_search:
+        parameters = {
+            'solver': ['lbfgs'], # ['lbfgs', 'sgd', 'adam']
+            'max_iter': [200], # [200, 400, 600]
+            'activation': ['relu'], # ['logistic', 'tanh', 'relu']
+            'alpha': 10.0 ** -np.arange(2, 5, 1), # 10.0 ** -np.arange(2, 5, 1)
+            'learning_rate' : ['adaptive'], # ['constant', 'adaptive']
+            'hidden_layer_sizes': np.arange(5, X_train.shape[1] // 3, int(X_train.shape[1] * 0.1)), # np.arange(5, 50, 10)
+            'random_state': np.arange(0, 5, 1)} # np.arange(0, 10, 2)
+        clf = GridSearchCV(MLPClassifier(), parameters, n_jobs=-1, cv=5,
+                          iid=True, verbose=3)
+        clf.fit(X_train, y_train)
+        if verbose: print_cv_results(
+            clf, X_train, X_test, y_train, y_test,
+            feat_imp=False, top=20)
+        best_params = clf.best_params_
+
+    clf2 = MLPClassifier(**best_params)
     clf2.fit(X_train, y_train)
-    scores = clf2.score(X_train, y_train), clf2.score(X_test, y_test)
 
     # ExtraTreesClassifier
     clf3 = ExtraTreesClassifier(
@@ -183,8 +208,8 @@ def train_ds(context):
         clf = eclf.fit(X_train, y_train)
         scores = clf.score(X_train, y_train), clf.score(X_test, y_test)
         if verbose:
-            print(clf)
-            print(scores)
+            print('Train {}, Test {}'.format(
+                clf.score(X_train, y_train), clf.score(X_test, y_test)))
 
         os.makedirs(ml_path, exist_ok=True)
         fname = ml_path + f'macro_ML_{vote}.pkl'
@@ -226,6 +251,23 @@ def predict_ds(context):
 
     return bench_df
 
+def print_cv_results(clf, X_train, X_test, y_train, y_test, feat_imp=True, top=20):
+    print(clf)
+    cvres = clf.cv_results_
+    print('BEST PARAMS:', clf.best_params_)
+    print('SCORES:')
+    print('clf.best_score_', clf.best_score_)
+    print('train {}, test {}'.format(
+        clf.score(X_train, y_train),
+        clf.score(X_test, y_test)))
+    print('GRID RESULTS:')
+    for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
+        print(round(mean_score, 3), params)
+    if feat_imp:
+        feature_importances = clf.best_estimator_.feature_importances_
+        print('SORTED FEATURES:')
+        print(sorted(zip(feature_importances, list(X_train.columns)), reverse=True)[:top])
+
 def visualize_predictions(pred_df):
     pre_class_cols = filter_cols(pred_df.columns, "pred_class")
     pred_df.loc[:,[bench] + pre_class_cols].plot(
@@ -235,7 +277,6 @@ def visualize_predictions(pred_df):
             figsize=(15, 2), ylim=(0, 1), cmap='RdYlGn');
     f'Confidence Mean: {pred_df["soft_confidence"].mean().round(3)}, Median {pred_df["soft_confidence"].median().round(3)}'
 
-# PENDING
 def append_pricing(symbol, freq='1d', cols=None):
     """ appends most recent pricing to data on S3"""
     return appended_df
@@ -247,13 +288,14 @@ def pull_latest_px(tickers):
 #context/config for training and prediction
 context = {
     'portion': 100e-2,
-    'ffill': True,
+    'fill': 'bfill',
     'impute': True,
     'scale': True,
     'test_size': .20,
     'predict_batch': 252,
     'ml_path': './ML/',
-    'verbose': True}
+    'grid_search': True,
+    'verbose': False}
 
 if __name__ == '__main__':
     hook = sys.argv[1]
@@ -265,7 +307,7 @@ if __name__ == '__main__':
         print('PREDICTING MACRO RISK EXPOSURE:')
         context['train_model'] = False
         pred_df = predict_ds(context)
-        pred_df.tail(5).round(3).T
+        print(pred_df.tail(5).round(3).T)
         s3_df = pred_df.reset_index(drop=False)
         rename_col(s3_df, 'index', 'pred_date')
         csv_store(s3_df, 'recommend/', 'macro_risk_ML.csv')
