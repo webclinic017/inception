@@ -229,6 +229,7 @@ def predict_ds(context):
 
     ds_idx, df_large = create_ds(px_close)
     pred_X, _, _, _, _ = pre_process_ds(df_large, context)
+    print('pred_X.shape', pred_X.shape)
 
     bench_df = px_close.loc[pred_X.index, bench].to_frame()
 
