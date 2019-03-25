@@ -1,8 +1,6 @@
 # imports
 from utils.basic_utils import *
 from utils.pricing import *
-from utils.imports import *
-from utils.structured import *
 
 # utility functions
 chars = list(")(' ")

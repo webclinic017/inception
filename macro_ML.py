@@ -1,11 +1,11 @@
 # imports
+import sys, os
 from utils.basic_utils import *
 from utils.pricing import *
 from utils.fundamental import *
-from utils.imports import *
-from utils.structured import *
 
 from sklearn import preprocessing
+from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score, cross_validate, train_test_split
 from sklearn.model_selection import GridSearchCV
@@ -137,7 +137,7 @@ def train_ds(context):
     grid_search = context['grid_search']
     verbose = context['verbose']
 
-    px_close = get_mults_pricing(include, freq, verbose=False);
+    px_close = get_mults_pricing(include, freq, verbose=verbose);
     px_close.drop_duplicates(inplace=True)
     if verbose: print('train_ds >> px_close.shape', px_close.shape)
 

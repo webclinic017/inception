@@ -1,6 +1,5 @@
 # imports
 from utils.basic_utils import *
-from utils.structured import *
 import numpy as np
 
 # lambdas
