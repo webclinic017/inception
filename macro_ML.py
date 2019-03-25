@@ -154,6 +154,7 @@ def train_ds(context):
         'max_features': 'sqrt', 'n_estimators': 100,
         'random_state': 4}
     if grid_search:
+        print('GridSearchCV for RandomForestClassifier')
         param_grid = {
             'n_estimators': [100], 'max_features': ['sqrt'],
             'random_state': np.arange(0, 5, 1),}
@@ -167,6 +168,8 @@ def train_ds(context):
         best_params = clf.best_params_
     clf1 = RandomForestClassifier(**best_params)
     clf1.fit(X_train, y_train)
+    print('RandomForestClassifier scores: Train {}, Test {}'.format(
+    clf1.score(X_train, y_train), clf1.score(X_test, y_test)))
 
     # MLPClassifier
     best_params = {
@@ -174,7 +177,8 @@ def train_ds(context):
         'learning_rate': 'adaptive', 'max_iter': 200,
         'random_state': 4, 'solver': 'lbfgs'}
     if grid_search:
-        parameters = {
+        print('GridSearchCV for MLPClassifier')
+        param_grid = {
             'solver': ['lbfgs'], # ['lbfgs', 'sgd', 'adam']
             'max_iter': [200], # [200, 400, 600]
             'activation': ['relu'], # ['logistic', 'tanh', 'relu']
@@ -182,7 +186,7 @@ def train_ds(context):
             'learning_rate' : ['adaptive'], # ['constant', 'adaptive']
             'hidden_layer_sizes': np.arange(5, X_train.shape[1] // 3, int(X_train.shape[1] * 0.1)), # np.arange(5, 50, 10)
             'random_state': np.arange(0, 5, 1)} # np.arange(0, 10, 2)
-        clf = GridSearchCV(MLPClassifier(), parameters, n_jobs=-1, cv=5,
+        clf = GridSearchCV(MLPClassifier(), param_grid, n_jobs=-1, cv=5,
                           iid=True, verbose=verbose)
         clf.fit(X_train, y_train)
         if verbose: print_cv_results(
@@ -192,22 +196,23 @@ def train_ds(context):
 
     clf2 = MLPClassifier(**best_params)
     clf2.fit(X_train, y_train)
+    print('MLPClassifier scores Train {}, Test {}'.format(
+    clf2.score(X_train, y_train), clf2.score(X_test, y_test)))
 
     # ExtraTreesClassifier
     clf3 = ExtraTreesClassifier(
         n_estimators=100, max_depth=None,
         min_samples_split=2, random_state=0)
     clf3.fit(X_train, y_train)
-    scores = clf3.score(X_train, y_train), clf3.score(X_test, y_test)
+    print('ExtraTreesClassifier scores Train {}, Test {}'.format(
+    clf3.score(X_train, y_train), clf3.score(X_test, y_test)))
 
     for vote in ['hard', 'soft']:
         eclf = VotingClassifier(
             estimators=[('rf', clf1), ('mlp', clf2), ('et', clf3)],
             voting=vote)
         clf = eclf.fit(X_train, y_train)
-        scores = clf.score(X_train, y_train), clf.score(X_test, y_test)
-        if verbose:
-            print('Train {}, Test {}'.format(
+        print('VotingClassifier scores Train {}, Test {}'.format(
                 clf.score(X_train, y_train), clf.score(X_test, y_test)))
 
         os.makedirs(ml_path, exist_ok=True)
@@ -291,7 +296,7 @@ context = {
     'predict_batch': 252,
     'ml_path': './ML/',
     'grid_search': True,
-    'verbose': 0}
+    'verbose': 1}
 
 if __name__ == '__main__':
     hook = sys.argv[1]
