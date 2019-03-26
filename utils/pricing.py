@@ -1,6 +1,7 @@
 # imports
 from utils.basic_utils import *
 import numpy as np
+from matplotlib import pyplot as plt
 
 # lambdas
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
@@ -13,7 +14,10 @@ def rename_col(df, col, name): return df.rename({col: name}, axis=1, inplace=Tru
 
 # Distribution of historical exposure
 def sample_wgts(y_col, sort): return (pd.value_counts(y_col) / pd.value_counts(y_col).sum())[sort]
-
+try:
+    pass
+except Exception as e:
+    raise
 # helper methods
 def get_pricing(symbol, interval='1d', prange='5y', persist=True):
     # save pricing for a given interval and range
@@ -58,11 +62,11 @@ def get_symbol_pricing(symbol, freq='1d', cols=None):
     cols = df.columns if cols is None else cols
     return df[cols].dropna()
 
-def get_mults_pricing(symbols, freq='1d', col=['close'], verbose=True):
+def get_mults_pricing(symbols, freq='1d', col=None, verbose=True):
     super_list = []
     for n, t in enumerate(symbols):
         try:
-            df = get_symbol_pricing(t, freq, cols=None)
+            df = get_symbol_pricing(t, freq, col)
             rename_col(df, 'close', t)
             if verbose:
                 print("Retrieving pricing: {0}, {1}".format(t, df.shape))
