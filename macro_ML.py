@@ -255,7 +255,6 @@ def predict_ds(context):
     return bench_df
 
 def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, feat_imp=True, top=20):
-    print(clf)
     cvres = clf.cv_results_
     print('BEST PARAMS:', clf.best_params_)
     print('SCORES:')
