@@ -13,6 +13,8 @@ from pandas.io.json import json_normalize
 
 import boto3
 
+def excl(a, b): return list(set(a).difference(b))
+
 # local save and load
 def save_config(config, fname):
     with open(fname, 'w') as file:
@@ -220,8 +222,6 @@ def get_options(symbol):
     data = json.dumps(full_data)
     path = get_path(dataset, str(today_date))
     store_s3(data, path + json_ext.format(symbol))
-
-def excl(a, b): return list(set(a).difference(b))
 
 def traverse(o, func):
     for k in o.keys():

@@ -250,7 +250,8 @@ def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20
 
     ndf = pd.DataFrame()
     c,o,l,h,v = df['close'], df['open'], df['low'], df['high'], df['volume']
-    bech_idx, sect_idx, ind_idx = groups[0], shorten_name(groups[1]), shorten_name(groups[2])
+    (bech_idx, sect_idx, ind_idx) = groups
+    sect_idx, ind_idx = shorten_name(sect_idx), shorten_name(ind_idx)
 
     for r in rolls:
         ndf['rsBench'+str(r)] = (c.pct_change(r) - ind_df[bech_idx].pct_change(r))
@@ -263,9 +264,9 @@ def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20
     ndf['volPctMa60'] = v / v.rolling(60).mean()
 
     # of std deviations for benchmark, sector, and industry
-    bench_pct_chg = ind_df[bech_idx].pct_change()
-    sect_pct_chg = ind_df[sect_idx].pct_change()
-    ind_pct_chg = ind_df[ind_idx].pct_change()
+    bench_pct_chg = ind_df.loc[c.index, bech_idx].pct_change()
+    sect_pct_chg = ind_df.loc[c.index, sect_idx].pct_change()
+    ind_pct_chg = ind_df.loc[c.index, ind_idx].pct_change()
     ndf['benchPctChgStds'] = bench_pct_chg.apply(sign_compare, args=(bench_pct_chg.std(),))
     ndf['sectPctChgStds'] = sect_pct_chg.apply(sign_compare, args=(sect_pct_chg.std(),))
     ndf['indPctChgStds'] = ind_pct_chg.apply(sign_compare, args=(ind_pct_chg.std(),))
