@@ -42,7 +42,7 @@ fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 print('Refreshing equity pricing...')
 excl_list = [] # ['BHF', 'ERI']
 symbols_list = excl(config['companies'], excl_list)
-px_close = get_mults_pricing(symbols_list).drop_duplicates().dropna(subset=['AAPL'])
+px_close = get_mults_pricing(symbols_list, verbose=False).drop_duplicates().dropna(subset=['AAPL'])
 print('px_close.shape', px_close.shape)
 
 # save down to drive if refresh pricing
@@ -221,7 +221,6 @@ def pre_process_ds(df, context):
     return pred_X, X_train, X_test, y_train, y_test
 
 def train_ds(context):
-    context['load_ds'] = True
     context['train_model'] = True
     grid_search = context['grid_search']
     verbose = context['verbose']
@@ -335,10 +334,10 @@ def predict_ds(context):
 # pending cleanup: use ml_path and tmp_path separate
 context = {
     'tickers': eqty_symbols,
-    'ml_path': ('../ML/', 'co_pxmom_ML_{}.pkl'),
+    'ml_path': ('./ML/', 'co_pxmom_ML_{}.pkl'),
     'ds_path_name': ('tmp', 'co-pxmom-large'),
-    'trained_cols': ('../ML/', 'co_pxmom_train_cols.npy'),
-    'load_ds': True,
+    'trained_cols': ('./ML/', 'co_pxmom_train_cols.npy'),
+    'load_ds': False,
     'portion': 99e-2,
     'categoricals': ['sector'],
     'exclude': ['industry', 'country', 'currency', 'symbol'],
