@@ -2,7 +2,8 @@
 from utils.basic_utils import *
 from utils.pricing import *
 
-import os, sys
+import time
+from tqdm import tqdm
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
@@ -136,7 +137,7 @@ def create_ds(context):
         return df_large
 
     super_list = []
-    for i, ticker in enumerate(tickers):
+    for i, ticker in tqdm(enumerate(tickers)):
         try:
             close = px_close[ticker].dropna().tail(tail)
             ft_df = px_mom_feats(close, ticker, stds, inv, incl_px, sec_windows, incl_name)
@@ -150,7 +151,7 @@ def create_ds(context):
             ft_df.loc[:, 'currency'] = quotes.loc[ticker,:].currency
             ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
             super_list.append(ft_df)
-            print('{} Adding {} to dataset'.format(i, ticker))
+            # print('{} Adding {} to dataset'.format(i, ticker))
         except Exception as e:
             print("Exception: {0}\n{1}".format(ticker, e))
     df_large = pd.concat(super_list, axis=0)
