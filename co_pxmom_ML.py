@@ -125,7 +125,7 @@ def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, fea
         print(sorted(zip(feature_importances, list(X_train.columns)), reverse=True)[:top])
 
 def create_ds(context):
-
+    print('Creating dataset...')
     train_model = context['train_model']
     (path, ds_name) = context['ds_path_name']
     tickers = context['tickers']
@@ -166,7 +166,7 @@ def create_ds(context):
     return df_large
 
 def pre_process_ds(df, context):
-
+    print('Pre-processing dataset...')
     verbose = context['verbose']
     train_model = context['train_model']
     fill_on, imputer_on, scaler_on = \
@@ -222,6 +222,7 @@ def pre_process_ds(df, context):
     return pred_X, X_train, X_test, y_train, y_test
 
 def train_ds(context):
+    print('Training dataset...')
     context['train_model'] = True
     grid_search = context['grid_search']
     verbose = context['verbose']
@@ -289,6 +290,7 @@ def train_ds(context):
         print('Saved ', fname)
 
 def predict_ds(context):
+    print('Predicting dataset...')
     context['load_ds'] = False
     context['train_model'] = False
     (path, model_name) = context['ml_path']
@@ -354,14 +356,12 @@ context = {
 if __name__ == '__main__':
     hook = sys.argv[1]
     if hook == 'train':
-        print('Training Company Price Momentum Model:')
         tickers = list(sample_sector_tickers(eqty_symbols, profile, sectors, 50).index)
         context['grid_search'] = False
         context['tickers'] = tickers
         print('Context', context)
         train_ds(context)
     elif hook == 'predict':
-        print('Predicting Company Price Momentum:')
         context['tickers'] = eqty_symbols
         pred_df = predict_ds(context)
     else: print('Invalid option, please try: train or predict')
