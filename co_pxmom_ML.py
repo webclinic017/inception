@@ -328,6 +328,7 @@ def predict_ds(context):
             pred_df = pd.concat([pred_df, prob_df[fwd_ret_labels]], axis=1)
 
     # store in S3
+    s3_path = context['s3_path']
     s3_df = pred_df.reset_index(drop=False)
     rename_col(s3_df, 'index', 'pred_date')
     csv_store(s3_df, s3_path, csv_ext.format(dates[-1]))
