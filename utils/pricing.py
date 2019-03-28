@@ -12,11 +12,9 @@ pos_neg = lambda x: -1 if x < 0 else 1
 def rename_col(df, col, name): return df.rename({col: name}, axis=1, inplace=True)
 
 # Distribution of historical exposure
-def sample_wgts(y_col, sort): return (pd.value_counts(y_col) / pd.value_counts(y_col).sum())[sort]
-try:
-    pass
-except Exception as e:
-    raise
+def sample_wgts(df):
+    return (pd.value_counts(df) / pd.value_counts(df).sum())
+
 # helper methods
 def get_pricing(symbol, interval='1d', prange='5y', persist=True):
     # save pricing for a given interval and range

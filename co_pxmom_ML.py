@@ -1,33 +1,23 @@
 # imports
 from utils.basic_utils import *
 from utils.pricing import *
+from utils import ml_utils as mu
 
-import time, sys, os
+import time, os, sys
 from tqdm import tqdm
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import cross_val_score, cross_validate, train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.feature_selection import SelectFromModel
-from sklearn.utils.validation import column_or_1d
 from sklearn.utils.multiclass import unique_labels
 from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import accuracy_score, log_loss, precision_recall_fscore_support
 from sklearn.metrics import precision_score, roc_auc_score
 
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import AdaBoostClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.neural_network import MLPClassifier
-
-from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
-from sklearn.neural_network import MLPClassifier
 from sklearn.externals import joblib
 
 # environment variables
@@ -43,17 +33,13 @@ fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 print('Refreshing equity pricing...')
 excl_list = [] # ['BHF', 'ERI']
 symbols_list = excl(config['companies'], excl_list)
-px_close = get_mults_pricing(symbols_list, verbose=False).drop_duplicates().dropna(subset=['AAPL'])
-print('px_close.shape', px_close.shape)
-
+px_close = get_mults_pricing(symbols_list).drop_duplicates().dropna(subset=['AAPL'])
 # save down to drive if refresh pricing
 os.makedirs('tmp', exist_ok=True)
 px_close.to_parquet('tmp/mult-co-px-ds')
-px_close = pd.read_parquet('tmp/mult-co-px-ds')
-
 print(px_close.info())
 
-# use the latest saved data for profile and quote info
+# latest quotes, profile, and industries
 dates = read_dates('quote')
 tgt_date = [dates[-1]] # last date saved in S3
 
@@ -90,42 +76,9 @@ indices_df = pd.concat([
     to_index_form(get_symbol_pricing(bench)['close'], bench)
 ], axis=1).drop_duplicates()
 
-#utility functions
-re_order_list = lambda a, b: [x for x in list(a) if x not in b]
-
-def sample_sector_tickers(eqty_symbols, profile, sectors, n=100):
-    show = ['sector']
-    df = profile.loc[profile.symbol.isin(eqty_symbols)][show].copy()
-    mapper = df.groupby(by=show).apply(lambda x: x.count() / df.count()).to_dict()['sector']
-    df.loc[:, 'sect_weight'] = df.sector.map(mapper)
-    while True:
-        sample = df.sample(n, weights='sect_weight')
-        if sample.sector.unique().shape[0] == sectors.shape[0]:
-            return sample
-
-def trim_df(df, portion):
-    _, trim_df = train_test_split(df, test_size=portion, random_state=42)
-    return trim_df
-
-def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, feat_imp=True, top=20):
-    cvres = clf.cv_results_
-    print('BEST PARAMS:', clf.best_params_)
-    print('SCORES:')
-    print('clf.best_score_', clf.best_score_)
-    print('train {}, test {}'.format(
-        clf.score(X_train, y_train),
-        clf.score(X_test, y_test)))
-    if full_grid:
-        print('GRID RESULTS:')
-        for mean_score, params in zip(cvres["mean_test_score"], cvres["params"]):
-            print(round(mean_score, 3), params)
-    if feat_imp:
-        feature_importances = clf.best_estimator_.feature_importances_
-        print('SORTED FEATURES:')
-        print(sorted(zip(feature_importances, list(X_train.columns)), reverse=True)[:top])
-
+# MODEL SPECIIFIC FUNCTIONS
 def create_ds(context):
-    print('Creating dataset...')
+    print('create_ds')
     train_model = context['train_model']
     (path, ds_name) = context['ds_path_name']
     tickers = context['tickers']
@@ -151,7 +104,7 @@ def create_ds(context):
             ft_df.loc[:, 'currency'] = quotes.loc[ticker,:].currency
             ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
             super_list.append(ft_df)
-            # print('{} Adding {} to dataset'.format(i, ticker))
+            print('{} Adding {} to dataset'.format(i, ticker))
         except Exception as e:
             print("Exception: {0}\n{1}".format(ticker, e))
     df_large = pd.concat(super_list, axis=0)
@@ -159,82 +112,71 @@ def create_ds(context):
     if train_model:
         os.makedirs(path, exist_ok=True)
         df_large.to_parquet(path + '/' + ds_name)
-
-    print('create_ds')
     print('df_large.shape {}'.format(df_large.shape))
 
     return df_large
 
-def pre_process_ds(df, context):
-    print('Pre-processing dataset...')
-    verbose = context['verbose']
+def pre_process_ds(raw_df, context):
+    print('pre_process_ds')
     train_model = context['train_model']
-    fill_on, imputer_on, scaler_on = \
-        context['fill'], context['impute'], context['scale']
-    test_sz = context['test_size']
-    categoricals = context['categoricals']
-    exclude = context['exclude']
+    fill_on, imputer_on, scaler_on = context['fill'], context['impute'], context['scale']
+    categoricals, exclude = context['categoricals'], context['exclude']
     (path, train_cols) = context['trained_cols']
+    test_sz, verbose = context['test_size'], context['verbose']
 
-    for col in categoricals: df = dummy_col(df, col, shorten=True)
-    df.drop(columns=exclude[:-1], inplace=True) # remove all except symbol
+    # convert categorical columns
+    for col in categoricals: raw_df = dummy_col(raw_df, col, shorten=True)
+    raw_df.drop(columns=exclude[:-1], inplace=True) # remove all except symbol
 
-    imputer = SimpleImputer(
-        missing_values=np.nan, strategy='median', copy=False)
     scaler = StandardScaler()
+    imputer = SimpleImputer(
+        missing_values=np.nan,
+        strategy='median', copy=False)
+    X_cols = excl(raw_df.columns, [exclude[-1] ,y_col]) #not needed
 
-    x_order = re_order_list(
-    df.columns, ['symbol', y_col]) + ['symbol', y_col]
-    df = df[x_order]
-    num_cols = list(df.select_dtypes('number').columns)
-
-    df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    if scaler_on: df[num_cols] = scaler.fit_transform(df[num_cols])
+    raw_df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    num_cols = list(raw_df.select_dtypes('number').columns)
+    if scaler_on: raw_df[X_cols] = scaler.fit_transform(raw_df[X_cols])
 
     pred_X = X_train = X_test = y_train = y_test = None
     if train_model:
-        if fill_on: df.fillna(method=fill_on, inplace=True)
-        df.drop(columns=exclude[-1], inplace=True) # remove symbol
-        X_cols = excl(df.columns, [y_col])
+        raw_df.drop(columns=exclude[-1], inplace=True) # remove symbol
+        if fill_on: raw_df[X_cols].fillna(method=fill_on, inplace=True)
+
         # discretize forward returns into classes
-        df.dropna(subset=[y_col], inplace=True)
-        df[y_col] = discret_rets(df[y_col], cut_range, fwd_ret_labels)
-        df.dropna(subset=[y_col], inplace=True)
-        df[y_col] = df[y_col].astype(str)
-        # this seems unnecesary when fill is on
-        if imputer_on: df.loc[:, X_cols] = imputer.fit_transform(df[X_cols])
-        else: df[X_cols].dropna(inplace=True)
-        X, y = df.drop(columns=y_col), df[y_col]
+        raw_df.dropna(subset=[y_col], inplace=True)
+        raw_df.loc[:, y_col] = discret_rets(raw_df[y_col], cut_range, fwd_ret_labels)
+        raw_df.dropna(subset=[y_col], inplace=True) # no nas in y_col
+        print(sample_wgts(raw_df[y_col]))
+        raw_df.loc[:, y_col] = raw_df[y_col].astype(str) # class as string
+
+        if imputer_on: raw_df.loc[:, X_cols] = imputer.fit_transform(raw_df[X_cols])
+        else: raw_df = raw_df.dropna()
+
+        X, y = raw_df.drop(columns=y_col), raw_df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_sz, random_state=42)
         np.save(path + train_cols, X_train.columns) # save feature order
-        if verbose:
-            y_col_dist = sample_wgts(df[y_col], fwd_ret_labels)
-            print((y_col_dist[fwd_ret_labels]).round(3))
     else:
-        pred_X = df.loc[df.index[-1], :].drop(columns=y_col).dropna(axis=0)
+        # feature for last date, pending to implement more flexibility
+        pred_X = raw_df.loc[raw_df.index[-1], :].drop(columns=y_col).dropna(axis=0)
 
-    print('pre_process_ds')
-    [print(x.shape)
-     for x in (pred_X, X_train, X_test, y_train, y_test)
-     if x is not None]
-
+    [print(x.shape) for x in (pred_X, X_train, X_test, y_train, y_test) if x is not None]
     return pred_X, X_train, X_test, y_train, y_test
 
 def train_ds(context):
-    print('Training dataset...')
+    context['load_ds'] = True
     context['train_model'] = True
     grid_search = context['grid_search']
     verbose = context['verbose']
     (path, model_name) = context['ml_path']
     portion = context['portion']
 
-    df_large = create_ds(context)
-    print(df_large.info(verbose=False))
-#     if portion < 100e-2: df_large = trim_df(df_large, portion)
-    _, X_train, X_test, y_train, y_test = pre_process_ds(df_large, context)
-    features = X_train.shape[1]
+    ds_df = create_ds(context)
+    print(df.info(verbose=False))
+    _, X_train, X_test, y_train, y_test = pre_process_ds(ds_df, context)
 
+    features = X_train.shape[1]
     best_params = { # best from GridSearch
         'n_estimators': 25,
         'max_features': features,
@@ -290,7 +232,6 @@ def train_ds(context):
         print('Saved ', fname)
 
 def predict_ds(context):
-    print('Predicting dataset...')
     context['load_ds'] = False
     context['train_model'] = False
     (path, model_name) = context['ml_path']
@@ -335,19 +276,19 @@ def predict_ds(context):
 
     return pred_df
 
-# pending cleanup: use ml_path and tmp_path separate
+# CONTEXT
 context = {
     'tickers': eqty_symbols,
     'ml_path': ('./ML/', 'co_pxmom_ML_{}.pkl'),
     'ds_path_name': ('tmp', 'co-pxmom-large'),
     'trained_cols': ('./ML/', 'co_pxmom_train_cols.npy'),
     'load_ds': False,
-    'portion': 99e-2,
+    'portion': 100e-2,
     'categoricals': ['sector'],
     'exclude': ['industry', 'country', 'currency', 'symbol'],
     'fill': 'bfill',
     'impute': False,
-    'scale': True,
+    'scale': False,
     'test_size': .20,
     'grid_search': False,
     'verbose': 2,
@@ -357,12 +298,13 @@ context = {
 if __name__ == '__main__':
     hook = sys.argv[1]
     if hook == 'train':
+        # train with 50 random tickers, keep model small, same results
         tickers = list(sample_sector_tickers(eqty_symbols, profile, sectors, 50).index)
-        context['grid_search'] = False
         context['tickers'] = tickers
-        print('Context', context)
+        print('Training model using:', context)
         train_ds(context)
     elif hook == 'predict':
         context['tickers'] = eqty_symbols
+        print('Predicting model using:', context)
         pred_df = predict_ds(context)
     else: print('Invalid option, please try: train or predict')
