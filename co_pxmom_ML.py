@@ -299,7 +299,7 @@ if __name__ == '__main__':
     hook = sys.argv[1]
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
-        tickers = list(sample_sector_tickers(eqty_symbols, profile, sectors, 50).index)
+        tickers = list(mu.sample_sector_tickers(eqty_symbols, profile, sectors, 50).index)
         context['tickers'] = tickers
         print('Training model using:', context)
         train_ds(context)
