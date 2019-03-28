@@ -54,19 +54,17 @@ rate_windows = [20, 60]
 sec_windows, stds = [5, 20, 60], 1
 
 # utility functions
-def create_ds(px_close):
-    """ Create macro dataset and filtering index"""
+def create_ds(px_close, context):
+
+    train_model = context['train_model']
     portion = context['portion']
     verbose = context['verbose']
     # average the return of the next periods
     # select only rows where Y variable is not null
     ds_idx = px_close.dropna(subset=[bench]).index
-    Y = px_fwd_rets(px_close.loc[ds_idx, bench], bench, pred_fwd_windows).mean(axis=1)
-    if verbose: print('Y.shape: ', Y.shape)
 
     df_large = pd.DataFrame()
-    # rate transforms
-    rate_ft_df = rate_feats(px_close[rateSL], rate_windows)
+    rate_ft_df = rate_feats(px_close[rateSL], rate_windows) # rate transforms
     df_large[rate_ft_df.columns] = rate_ft_df
 
     # price momentum transforms
@@ -78,16 +76,17 @@ def create_ds(px_close):
         ft_df = px_mom_feats(df, ticker, stds, inv, incl_px, sec_windows)
         super_list.append(ft_df.drop_duplicates())
     df_large = pd.concat(super_list, axis=1).sort_index()
-    df_large[y_col] = Y
+    df_large = df_large.loc[ds_idx, :] # drop NAs before discretizing
 
-    # drop NAs before discretizing
-    df_large = df_large.loc[ds_idx, :]
-    if verbose: print('df_large.shape: ', df_large.shape)
-
-    # reduces the dataset in case is too large
-    if portion < 100e-2:
-        _, df_large = train_test_split(df_large, test_size=portion, random_state=42)
-    if verbose: print('create_ds >> df_large.shape: ', df_large.shape)
+    if train_model:
+        Y = px_fwd_rets(px_close.loc[ds_idx, bench], bench, pred_fwd_windows).mean(axis=1)
+        df_large[y_col] = Y
+        # reduce dataset?
+        if portion < 100e-2: _, df_large = train_test_split(
+            df_large, test_size=portion, random_state=42)
+        if verbose:
+            print('create_ds >> df_large.shape: ', df_large.shape)
+            print('Y.shape: ', Y.shape)
 
     return ds_idx, df_large
 
@@ -99,6 +98,7 @@ def pre_process_ds(df, context):
         context['fill'], context['impute'], context['scale']
     test_sz = context['test_size']
     pred_batch = context['predict_batch']
+    (path, train_cols) = context['trained_cols']
 
     imputer = SimpleImputer(
         missing_values=np.nan, strategy='median', copy=False)
@@ -124,6 +124,7 @@ def pre_process_ds(df, context):
         X, y = df.drop(columns=y_col), df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_sz, random_state=42)
+        np.save(path + train_cols, X_train.columns) # save feature order
         if verbose:
             y_col_dist = sample_wgts(df[y_col], fwd_ret_labels)
             print('pre_process_ds >> df_raw Y-var class distribution')
@@ -136,6 +137,7 @@ def train_ds(context):
     print('Benchmark: {}, Y: {}, Include: {}, invert: {}, include price: {}'.format(
     bench, y_col, include, invert, incl_price))
 
+    context['train_model'] = True
     ml_path = context['ml_path']
     grid_search = context['grid_search']
     verbose = context['verbose']
@@ -145,7 +147,7 @@ def train_ds(context):
     if verbose: print('train_ds >> px_close.shape', px_close.shape)
 
     # create and pre-process datasets
-    px_idx, df_raw = create_ds(px_close)
+    px_idx, df_raw = create_ds(px_close, context)
     pred_X, X_train, X_test, y_train, y_test = pre_process_ds(df_raw, context)
     if verbose:
         for x in zip(('df_raw', 'pred', 'X_train', 'y_train', 'X_test', 'y_test'),
@@ -224,16 +226,23 @@ def train_ds(context):
         print('Saved ', fname)
 
 def predict_ds(context):
+    context['train_model'] = False
     ml_path = context['ml_path']
     verbose = context['verbose']
+    (path, train_cols) = context['trained_cols']
 
     px_close = get_mults_pricing(include, freq, verbose=verbose);
     px_close.drop_duplicates(inplace=True)
-
-    ds_idx, df_large = create_ds(px_close)
+    ds_idx, df_large = create_ds(px_close, context)
     pred_X, _, _, _, _ = pre_process_ds(df_large, context)
-
     print('pred_X.shape', pred_X.shape)
+
+    # ensure prediction dataset is consistent with trained model
+    trained_cols = np.load(path + train_cols) # save feature order
+    missing_cols = [x for x in trained_cols if x not in pred_X.columns]
+    pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
+    pred_X[missing_cols] = 0
+    pred_X = pred_X[list(trained_cols)]
 
     bench_df = px_close.loc[pred_X.index, bench].to_frame()
     for vote in ['hard', 'soft']:
@@ -252,9 +261,15 @@ def predict_ds(context):
             bench_df = pd.concat([bench_df, prob_df[fwd_ret_labels]], axis=1)
         bench_df.dropna(subset=[bench], inplace=True)
 
+    # store in S3
+    s3_df = bench_df.reset_index(drop=False)
+    rename_col(s3_df, 'index', 'pred_date')
+    csv_store(s3_df, 'recommend/', 'macro_risk_ML.csv')
+
     return bench_df
 
 def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, feat_imp=True, top=20):
+    print(clf)
     cvres = clf.cv_results_
     print('BEST PARAMS:', clf.best_params_)
     print('SCORES:')
@@ -291,14 +306,15 @@ def pull_latest_px(tickers):
 #context/config for training and prediction
 context = {
     'portion': 100e-2,
+    'trained_cols': ('../ML/', 'macro_train_cols.npy'),
     'fill': 'bfill',
     'impute': True,
     'scale': True,
     'test_size': .20,
     'predict_batch': 252,
-    'ml_path': '../ML/',
+    'ml_path': './ML/',
     'grid_search': True,
-    'verbose': 0}
+    'verbose': 1}
 
 if __name__ == '__main__':
     hook = sys.argv[1]
@@ -311,8 +327,4 @@ if __name__ == '__main__':
         context['train_model'] = False
         pred_df = predict_ds(context)
         print(pred_df.tail(5).round(3).T)
-        # store in S3
-        s3_df = pred_df.reset_index(drop=False)
-        rename_col(s3_df, 'index', 'pred_date')
-        csv_store(s3_df, 'recommend/', 'macro_risk_ML.csv')
     else: print('Invalid option, please try: train or predict')
