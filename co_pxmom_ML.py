@@ -135,7 +135,6 @@ def pre_process_ds(raw_df, context):
     X_cols = excl(raw_df.columns, [exclude[-1] ,y_col]) #not needed
 
     raw_df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    num_cols = list(raw_df.select_dtypes('number').columns)
     if scaler_on: raw_df[X_cols] = scaler.fit_transform(raw_df[X_cols])
 
     pred_X = X_train = X_test = y_train = y_test = None
@@ -173,7 +172,7 @@ def train_ds(context):
     portion = context['portion']
 
     ds_df = create_ds(context)
-    print(df.info(verbose=False))
+    print(ds_df.info(verbose=False))
     _, X_train, X_test, y_train, y_test = pre_process_ds(ds_df, context)
 
     features = X_train.shape[1]
