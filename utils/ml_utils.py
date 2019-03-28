@@ -18,7 +18,8 @@ def trim_df(df, portion):
     _, trim_df = train_test_split(df, test_size=portion, random_state=42)
     return trim_df
 
-def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, feat_imp=True, top=20):
+def print_cv_results(clf, test_train_sets, full_grid=False, feat_imp=True, top=20):
+    (X_train, X_test, y_train, y_test) = test_train_sets
     cvres = clf.cv_results_
     print('BEST PARAMS:', clf.best_params_)
     print('SCORES:')
@@ -33,4 +34,7 @@ def print_cv_results(clf, X_train, X_test, y_train, y_test, full_grid=False, fea
     if feat_imp:
         feature_importances = clf.best_estimator_.feature_importances_
         print('SORTED FEATURES:')
-        print(sorted(zip(feature_importances, list(X_train.columns)), reverse=True)[:top])
+        print(sorted(zip(
+            feature_importances,
+            list(X_train.columns)),
+            reverse=True)[:top])

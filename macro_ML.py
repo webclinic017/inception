@@ -273,7 +273,7 @@ def predict_ds(context):
 
     # store in S3
     (path, fname) = context['s3_path']
-    s3_df = pred_df.reset_index(drop=False)
+    s3_df = bench_df.reset_index(drop=False)
     rename_col(s3_df, 'index', 'pred_date')
     csv_store(s3_df, path, csv_ext.format(fname))
 
