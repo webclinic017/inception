@@ -104,7 +104,7 @@ def create_ds(context):
             ft_df.loc[:, 'currency'] = quotes.loc[ticker,:].currency
             ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
             super_list.append(ft_df)
-            print('{} Adding {} to dataset'.format(i, ticker))
+            # print('{} Adding {} to dataset'.format(i, ticker))
         except Exception as e:
             print("Exception: {0}\n{1}".format(ticker, e))
     df_large = pd.concat(super_list, axis=0)
@@ -172,7 +172,7 @@ def train_ds(context):
     portion = context['portion']
 
     ds_df = create_ds(context)
-    print(ds_df.info(verbose=False))
+    print(df.info(verbose=False))
     _, X_train, X_test, y_train, y_test = pre_process_ds(ds_df, context)
 
     features = X_train.shape[1]
