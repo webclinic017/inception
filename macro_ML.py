@@ -306,7 +306,7 @@ def pull_latest_px(tickers):
 #context/config for training and prediction
 context = {
     'portion': 100e-2,
-    'trained_cols': ('../ML/', 'macro_train_cols.npy'),
+    'trained_cols': ('./ML/', 'macro_train_cols.npy'),
     'fill': 'bfill',
     'impute': True,
     'scale': True,
