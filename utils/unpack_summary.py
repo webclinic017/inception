@@ -1,4 +1,4 @@
-from basic_utils import *
+from utils.basic_utils import *
 
 dates = read_dates('summary')
 symbol_col = 'symbol'

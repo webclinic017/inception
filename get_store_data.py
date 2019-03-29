@@ -1,6 +1,6 @@
 import sys
-from basic_utils import *
-from unpack_summary import *
+from utils.basic_utils import *
+from utils.unpack_summary import *
 
 if __name__ == '__main__':
     hook = sys.argv[1]
