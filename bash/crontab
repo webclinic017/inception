@@ -1,0 +1,14 @@
+00 21 * * 1-5 time python3 get_store_data.py quotes >> cron_jobs.log
+10 21 * * 1-5 time python3 get_store_data.py summary >> cron_jobs.log
+05 21 * * 1-5 time python3 get_store_data.py pricing >> cron_jobs.log
+25 21 * * 1-5 time python3 get_store_data.py options benchmarks >> cron_jobs.log
+30 21 * * 1-5 time python3 get_store_data.py options sectors >> cron_jobs.log
+45 21 * * 1-5 time python3 run_equity_iv.py >> cron_jobs.log
+
+# ML models, daily predictions
+40 21 * * 1-5 ./run_ML.sh macro predict >> cron_jobs.log
+40 21 * * 1-5 ./run_ML.sh micro predict >> cron_jobs.log
+
+# ML models, weekly training
+00 12 * * 6 ./run_ML.sh macro train >> train_ML_macro.log
+00 12 * * 6 ./run_ML.sh micro train >> train_ML_micro.log
