@@ -1,6 +1,5 @@
 # imports
-from basic_utils import *
-import numpy as np
+from utils.basic_utils import *
 
 # lambdas
 list_cols_excl = lambda allCols, exclCols: [x for x in allCols if x not in exclCols]
@@ -251,4 +250,3 @@ latest_finCF = convert_dates(latest_finCF, date_cols, 'endDate')
 
 # WARNING: careful not to import this file
 # upon loading will run valuation for entire universe
-create_IV_ds()
