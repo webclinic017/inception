@@ -172,3 +172,12 @@ def preproc_rec_trend(df, context):
         cur_period = filter_cols(fields, p)
         df.loc[:, cur_period] = df[cur_period].div(df[cur_period].sum(axis=1).values, axis=0)
     return df
+
+def excl_outliers(df, filter_cols, treshold):
+    num_cols = df[filter_cols].select_dtypes('number')
+    return df[~(np.abs(num_cols) > (np.abs(num_cols.std()) * treshold)).any(1)]
+
+def rank_group(df, low, high):
+    lb = df.loc[:, low].rank(ascending=True)
+    hb = df.loc[:, high].rank(ascending=False)
+    return pd.concat([lb, hb], axis=1, sort=False)
