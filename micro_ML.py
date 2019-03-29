@@ -172,7 +172,7 @@ def train_ds(context):
     portion = context['portion']
 
     ds_df = create_ds(context)
-    print(df.info(verbose=False))
+    print(ds_df.info(verbose=False))
     _, X_train, X_test, y_train, y_test = pre_process_ds(ds_df, context)
 
     features = X_train.shape[1]
