@@ -13,8 +13,7 @@ pos_neg = lambda x: -1 if x < 0 else 1
 def rename_col(df, col, name): return df.rename({col: name}, axis=1, inplace=True)
 
 # Distribution of historical exposure
-def sample_wgts(df):
-    return (pd.value_counts(df) / pd.value_counts(df).sum())
+def sample_wgts(df): return (pd.value_counts(df) / pd.value_counts(df).sum())
 
 # helper methods
 def get_pricing(symbol, interval='1d', prange='5y', persist=True):
@@ -180,31 +179,6 @@ def rate_feats(df, rolls=[60]):
     # ST (3m) vs. LT (10yr) spread
     ndf['slRateSpread'] = (df['^TNX'] - df['^IRX'])
     return ndf
-
-def rf_feat_importance(m, df):
-    return pd.DataFrame(
-        {'cols':df.columns, 'imp':m.feature_importances_}
-    ).sort_values('imp', ascending=False)
-
-def show_fi(m, X, max_feats):
-    importances = m.feature_importances_
-    std = np.std([tree.feature_importances_ for tree in m.estimators_], axis=0)
-    indices = np.argsort(importances)[::-1]
-
-    # Print the feature ranking
-    print("Feature ranking:")
-
-    for x, f in enumerate(indices):
-        print("{} feature {} ({})".format(f, X.columns[indices[x]], importances[f]))
-        if x >= max_feats: break
-
-    # Plot the feature importances of the forest
-    plt.figure()
-    plt.title("Feature importances")
-    plt.bar(range(len(indices)), importances[indices], color="r", yerr=std[indices], align="center", )
-    plt.xticks(range(len(indices)), X.columns[indices], rotation='vertical')
-    plt.xlim([-1, max_feats])
-    plt.show()
 
 def show_nas(df): return df.loc[:,df.isna().sum()>0]
 
