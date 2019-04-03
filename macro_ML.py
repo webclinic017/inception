@@ -273,9 +273,10 @@ def predict_ds(context):
 
     # store in S3
     s3_path = context['s3_path']
-    s3_df = pred_df.reset_index(drop=False)
-    rename_col(s3_df, 'index', 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
+    idx_name = 'index' if bench_df.index.name is None else bench_df.index.name
+    s3_df = bench_df.reset_index(drop=False)
+    rename_col(s3_df, idx_name, 'pred_date')
+    csv_store(s3_df, s3_path, csv_ext.format(str(today_date)))
 
     return bench_df
 
@@ -289,12 +290,20 @@ context = {
     'test_size': .20,
     'predict_batch': 252,
     'ml_path': './ML/',
+    'tmp_path': './tmp/',
+    'px_close': 'universe-px-ds',
+    'load_ds': True,
     'grid_search': False,
     's3_path': 'recommend/micro_ML/',
     'verbose': 1}
 
-px_close = get_mults_pricing(include, freq, verbose=context['verbose']);
-px_close.drop_duplicates(inplace=True)
+px_close = load_px_close(
+context['tmp_path'],
+context['px_close'],
+context['load_ds'])[include].drop_duplicates()
+
+# px_close = get_mults_pricing(include, freq, verbose=context['verbose']);
+# px_close.drop_duplicates(inplace=True)
 print('px_close.shape', px_close.shape)
 
 if __name__ == '__main__':

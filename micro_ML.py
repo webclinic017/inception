@@ -30,59 +30,13 @@ cuts = { '1d': [-1, -0.1, -.02, .02, .1, 1.] }
 cut_range = cuts['1d']
 fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 
-print('Refreshing equity pricing...')
-excl_list = [] # ['BHF', 'ERI']
-symbols_list = excl(config['companies'], excl_list)
-px_close = get_mults_pricing(symbols_list).drop_duplicates().dropna(subset=['AAPL'])
-# save down to drive if refresh pricing
-os.makedirs('tmp', exist_ok=True)
-px_close.to_parquet('tmp/mult-co-px-ds')
-print(px_close.info())
-
-# latest quotes, profile, and industries
-dates = read_dates('quote')
-tgt_date = [dates[-1]] # last date saved in S3
-
-quotes = load_csvs('quote_consol', tgt_date)
-quotes.set_index('symbol', drop=False, inplace=True)
-
-profile = load_csvs('summary_detail', ['assetProfile'])
-profile.set_index('symbol', drop=False, inplace=True)
-
-profile.drop(profile[profile.symbol.isin(excl_list)].index, inplace=True)
-
-all_equities = quotes[quotes.quoteType == 'EQUITY'].symbol.unique()
-print('Delta quote: ', set(symbols_list) - set(all_equities))
-# reduced subset, if any
-sub_equities = set(px_close.columns.tolist()).intersection(all_equities)
-print('Delta reduced set: ', set(symbols_list) - set(sub_equities))
-
-eqty_symbols = profile[profile.symbol.isin(sub_equities)].symbol.unique().tolist()
-delta_symb = set(symbols_list) - set(eqty_symbols)
-print('Delta profile: ', len(delta_symb), delta_symb)
-
-# Create a frame of market, sector and industry index (once)
-# for relative performance calculations
-sel_profiles = profile[profile.symbol.isin(all_equities)]
-sel_profiles.groupby(['sector', 'industry'])[['industry']].count()
-sectors = sel_profiles.sector.unique()
-industries = sel_profiles.industry.unique()
-
-print(f'Sectors: {sectors.shape[0]}, Industries: {industries.shape[0]}')
-
-indices_df = pd.concat([
-    eq_wgt_indices(profile, px_close, 'sector', sectors, subset=eqty_symbols),
-    eq_wgt_indices(profile, px_close, 'industry', industries, subset=eqty_symbols),
-    to_index_form(get_symbol_pricing(bench)['close'], bench)
-], axis=1).drop_duplicates()
-
 # MODEL SPECIIFIC FUNCTIONS
 def create_ds(context):
     print('create_ds')
     train_model = context['train_model']
     (path, ds_name) = context['ds_path_name']
     tickers = context['tickers']
-    load_ds = context['load_ds']
+    load_ds = False #need the latest volume, do we really need?
     tail = 10**4 if train_model else 252*2
 
     if load_ds & os.path.isfile(path + '/' + ds_name):
@@ -269,19 +223,22 @@ def predict_ds(context):
 
     # store in S3
     s3_path = context['s3_path']
+    idx_name = 'index' if pred_df.index.name is None else pred_df.index.name
     s3_df = pred_df.reset_index(drop=False)
-    rename_col(s3_df, 'index', 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
+    rename_col(s3_df, idx_name, 'pred_date')
+    csv_store(s3_df, s3_path, csv_ext.format(str(today_date)))
 
     return pred_df
 
+
 # CONTEXT
 context = {
-    'tickers': eqty_symbols,
     'ml_path': ('./ML/', 'co_pxmom_ML_{}.pkl'),
     'ds_path_name': ('tmp', 'co-pxmom-large'),
     'trained_cols': ('./ML/', 'co_pxmom_train_cols.npy'),
-    'load_ds': False,
+    'tmp_path': './tmp/',
+    'px_close': 'universe-px-ds',
+    'load_ds': True,
     'portion': 100e-2,
     'categoricals': ['sector'],
     'exclude': ['industry', 'country', 'currency', 'symbol'],
@@ -293,6 +250,60 @@ context = {
     'verbose': 2,
     's3_path': 'recommend/micro_ML/'
 }
+
+print('Refreshing equity pricing...')
+excl_list = [] # ['BHF', 'ERI']
+symbols_list = excl(config['companies'], excl_list)
+
+px_close = load_px_close(
+    context['tmp_path'],
+    context['px_close'],
+    context['load_ds'])[symbols_list].drop_duplicates()
+
+# px_close = get_mults_pricing(symbols_list).drop_duplicates().dropna(subset=['AAPL'])
+# save down to drive if refresh pricing
+# os.makedirs('tmp', exist_ok=True)
+# px_close.to_parquet('tmp/mult-co-px-ds')
+print(px_close.info())
+
+# latest quotes, profile, and industries
+dates = read_dates('quote')
+tgt_date = [dates[-1]] # last date saved in S3
+
+quotes = load_csvs('quote_consol', tgt_date)
+quotes.set_index('symbol', drop=False, inplace=True)
+
+profile = load_csvs('summary_detail', ['assetProfile'])
+profile.set_index('symbol', drop=False, inplace=True)
+
+profile.drop(profile[profile.symbol.isin(excl_list)].index, inplace=True)
+
+all_equities = quotes[quotes.quoteType == 'EQUITY'].symbol.unique()
+print('Delta quote: ', set(symbols_list) - set(all_equities))
+# reduced subset, if any
+sub_equities = set(px_close.columns.tolist()).intersection(all_equities)
+print('Delta reduced set: ', set(symbols_list) - set(sub_equities))
+
+eqty_symbols = profile[profile.symbol.isin(sub_equities)].symbol.unique().tolist()
+delta_symb = set(symbols_list) - set(eqty_symbols)
+print('Delta profile: ', len(delta_symb), delta_symb)
+
+# Create a frame of market, sector and industry index (once)
+# for relative performance calculations
+sel_profiles = profile[profile.symbol.isin(all_equities)]
+sel_profiles.groupby(['sector', 'industry'])[['industry']].count()
+sectors = sel_profiles.sector.unique()
+industries = sel_profiles.industry.unique()
+
+print(f'Sectors: {sectors.shape[0]}, Industries: {industries.shape[0]}')
+
+indices_df = pd.concat([
+    eq_wgt_indices(profile, px_close, 'sector', sectors, subset=eqty_symbols),
+    eq_wgt_indices(profile, px_close, 'industry', industries, subset=eqty_symbols),
+    to_index_form(get_symbol_pricing(bench)['close'], bench)
+], axis=1).drop_duplicates()
+
+context['tickers'] = eqty_symbols
 
 if __name__ == '__main__':
     hook = sys.argv[1]
