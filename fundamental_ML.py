@@ -380,6 +380,19 @@ ds_dict = {
     },
 }
 
+# pre-processing pipeline
+fn_pipeline = {
+    'fin_data': [chain_scale, chain_divide, chain_post_drop, chain_outlier],
+    'key_statistics': [chain_scale, chain_outlier],
+    'eps_trend': [chain_wide_transform, chain_eps_estimates, chain_outlier],
+    'eps_estimates': [chain_wide_transform, chain_eps_estimates, chain_outlier],
+    'day_quote': [chain_divide, chain_scale, chain_outlier],
+#     'eps_revisions': [chain_wide_transform, chain_outlier],
+#     'spy_trend':[lambda x, y: x],
+#     'net_purchase':[lambda x, y: x],
+#     'rec_trend': [chain_wide_transform, chain_rec_trend, chain_outlier],
+}
+
 # context data
 symbols_list = config['companies']
 px_close = get_mults_pricing(symbols_list)
@@ -404,19 +417,6 @@ profile.set_index('symbol', drop=False, inplace=True)
 
 stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'})
 stacked_px.index.set_names(['storeDate', 'symbol'], inplace=True)
-
-# pre-processing pipeline
-fn_pipeline = {
-    'fin_data': [chain_scale, chain_divide, chain_post_drop, chain_outlier],
-    'key_statistics': [chain_scale, chain_outlier],
-    'eps_trend': [chain_wide_transform, chain_eps_estimates, chain_outlier],
-    'eps_estimates': [chain_wide_transform, chain_eps_estimates, chain_outlier],
-    'day_quote': [chain_divide, chain_scale, chain_outlier],
-#     'eps_revisions': [chain_wide_transform, chain_outlier],
-#     'spy_trend':[lambda x, y: x],
-#     'net_purchase':[lambda x, y: x],
-#     'rec_trend': [chain_wide_transform, chain_rec_trend, chain_outlier],
-}
 
 context = {
     'fn_pipeline': fn_pipeline,
@@ -446,11 +446,11 @@ if __name__ == '__main__':
 
     if hook == 'train':
         print('Training {} using:'.format(key))
-        print('Context: ', context)
+        # print('Context: ', context)
         train_ds(context)
     elif hook == 'predict':
-        print('Predicint {} using:'.format(key))
-        print('Context: ', context)
+        print('Predicting {} using:'.format(key))
+        # print('Context: ', context)
         pred_df = predict_ds(context)
         print(pred_df.tail(5).round(3).T)
     else: print('Invalid option, please try: train or predict')
