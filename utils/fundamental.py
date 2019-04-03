@@ -2,6 +2,8 @@
 from utils.basic_utils import *
 from utils.pricing import *
 
+from pandas.api.types import is_string_dtype, is_numeric_dtype, is_categorical_dtype
+
 # utility functions
 chars = list(")(' ")
 def strips(s, l, splt):
@@ -13,7 +15,7 @@ col_mapper = lambda cols: {x:'_'.join(strips(x, chars, ',')) for x in cols if 'v
 filter_cols = lambda columns, c: [x for x in columns if c in x]
 day_delta = lambda df, d: df - df.shift(d)
 
-def load_append_ds(key, load_dates, ds_dict, dir_loc='tmp/'):
+def load_append_ds(key, load_dates, ds_dict, dir_loc):
     fname = dir_loc + key
     if os.path.isfile(fname):
         daily_df = pd.read_parquet(fname)
@@ -28,6 +30,8 @@ def load_append_ds(key, load_dates, ds_dict, dir_loc='tmp/'):
     else:
         # file does not exist, retrieves all dates
         daily_df = get_daily_ts(key, ds_dict, load_dates)
+        num_cols = excl(daily_df.columns, ['symbol', 'period'])
+        daily_df.loc[:, num_cols] = daily_df[num_cols].astype(np.float32)
         # Make index a flat date, easier to index
         # save down to drive if refresh pricing
         os.makedirs(dir_loc, exist_ok=True)
@@ -50,7 +54,7 @@ def get_daily_ts(key, ds_dict, dates):
     df.index.set_names(index_col, inplace=True)
     return df[features]
 
-def preproc_df(df, key, pipe, context):
+def pipe_transform_df(df, key, pipe, context):
     proc_df = df.copy()
     if key in pipe:
         for fn in pipe[key]:
@@ -58,20 +62,24 @@ def preproc_df(df, key, pipe, context):
             # print(fn.__name__, proc_df.shape)
     return proc_df
 
-def preproc_outlier(df, context):
+def chain_outlier(df, context):
     """ Remove rows where values > treshold """
-    ds_dict = context['ds_dict']
-    treshold = ds_dict['outlier']
-    std_na = pd.value_counts(df.std().isna())
-    std_nas = std_na[True] if True in std_na else 0
-    feat_cols = int(len(df.std()) * 0.33)
-    if std_nas > feat_cols: variance = df.median()
-    else: variance = df.std()
-    df = df[~(np.abs(df[numeric_cols(df)]) > (variance * treshold)).any(1).values]
-    df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    return df
+    # ds_dict = context['ds_dict']
+    # treshold = ds_dict['outlier']
+    # std_na = pd.value_counts(df.std().isna())
+    # std_nas = std_na[True] if True in std_na else 0
+    # feat_cols = int(len(df.std()) * 0.33)
+    # # variance = df.median() if std_nas > feat_cols else variance = df.std()
+    # variance = df.quantile(q=0.99)
+    #
+    # df = df[~(np.abs(df[numeric_cols(df)]) < variance ).any(1).values]
+    # df.replace([np.inf, -np.inf], np.nan, inplace=True)
 
-def df_wide_transform(df, context):
+    num_cols = df.select_dtypes('number')
+    mask = (num_cols > num_cols.quantile(0.01)) & (num_cols < num_cols.quantile(0.99))
+    return df[mask.all(1).values]
+
+def chain_wide_transform(df, context):
     ds_dict = context['ds_dict']
     idx_name = ds_dict['index']
     periods = ds_dict['periods']
@@ -92,7 +100,7 @@ def df_wide_transform(df, context):
     return flat_df.sort_index(level=1)
 
 # pre-processing functions
-def preproc_perc_price(df, context):
+def chain_perc_price(df, context):
     ds_dict = context['ds_dict']
     perc_price_cols = ds_dict['perc_price']
     co_px_df = context['close_px'].loc[df.index, 'close']
@@ -105,21 +113,21 @@ def preproc_perc_price(df, context):
     # df.loc[:, perc_price_cols] = df[perc_price_cols].div(hist_price_df.values, axis=0)
     return df
 
-def preproc_divide(df, context):
+def chain_divide(df, context):
     ds_dict = context['ds_dict']
     divide_tuple = ds_dict['divide']
     df.loc[:, divide_tuple[1]] =  df[divide_tuple[1]].div(df[divide_tuple[0]], axis=0)
     df.drop(columns=divide_tuple[0], inplace=True)
     return df
 
-def preproc_scale(df, context):
+def chain_scale(df, context):
     ds_dict = context['ds_dict']
     scale_cols = ds_dict['scale']
     # for growth we substract from prior date
     df.loc[:, scale_cols] /= df[scale_cols].mean()
     return df
 
-def preproc_eps_estimates(df, context):
+def chain_eps_estimates(df, context):
     fields = numeric_cols(df)
     growth_cols = filter_cols(fields, 'growth')
     other_cols = excl(fields, growth_cols)
@@ -130,7 +138,7 @@ def preproc_eps_estimates(df, context):
     df.loc[:, other_cols] = 1 / df[other_cols].div(co_px_df.values, axis=0)
     return df
 
-def preproc_eps_revisions(df, context):
+def chain_eps_revisions(df, context):
     ds_dict = context['ds_dict']
     periods = ds_dict['periods']
     anr_df = context['nbr_anr']
@@ -143,13 +151,13 @@ def preproc_eps_revisions(df, context):
         df.loc[:, ex_growth] = df[ex_growth].div(anr_df.loc[df.index].values, axis=0)
     return df
 
-def preproc_day_delta(df, context): return day_delta(df[numeric_cols(df)], 1)
-def preproc_post_drop(df, context):
+def chain_day_delta(df, context): return day_delta(df[numeric_cols(df)], 1)
+def chain_post_drop(df, context):
     ds_dict = context['ds_dict']
     drop_cols = ds_dict['post_drop']
     return df.drop(columns=drop_cols)
 
-def preproc_eps_trend(df, context):
+def chain_eps_trend(df, context):
     super_list = []
     periods = context['periods']
     fields = numeric_cols(df)
@@ -164,7 +172,7 @@ def preproc_eps_trend(df, context):
         df.loc[:, slope_cols] = day_delta(df[slope_cols].div(df[slope_cols[-1]], axis=0), 1)
     return df
 
-def preproc_rec_trend(df, context):
+def chain_rec_trend(df, context):
     ds_dict = context['ds_dict']
     periods = ds_dict['periods']
     fields = numeric_cols(df)

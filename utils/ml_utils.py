@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from matplotlib import pyplot as plt
 
 # utility functions
 re_order_list = lambda a, b: [x for x in list(a) if x not in b]
@@ -38,3 +39,28 @@ def print_cv_results(clf, test_train_sets, full_grid=False, feat_imp=True, top=2
             feature_importances,
             list(X_train.columns)),
             reverse=True)[:top])
+
+def rf_feat_importance(m, df):
+    return pd.DataFrame(
+        {'cols':df.columns, 'imp':m.feature_importances_}
+    ).sort_values('imp', ascending=False)
+
+def show_fi(m, X, max_feats):
+    importances = m.feature_importances_
+    std = np.std([tree.feature_importances_ for tree in m.estimators_], axis=0)
+    indices = np.argsort(importances)[::-1]
+
+    # Print the feature ranking
+    print("Feature ranking:")
+
+    for x, f in enumerate(indices):
+        print("{} feature {} ({})".format(f, X.columns[indices[x]], importances[f]))
+        if x >= max_feats: break
+
+    # Plot the feature importances of the forest
+    plt.figure()
+    plt.title("Feature importances")
+    plt.bar(range(len(indices)), importances[indices], color="r", yerr=std[indices], align="center", )
+    plt.xticks(range(len(indices)), X.columns[indices], rotation='vertical')
+    plt.xlim([-1, max_feats])
+    plt.show()
