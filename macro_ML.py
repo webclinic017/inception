@@ -272,10 +272,10 @@ def predict_ds(context):
         bench_df.dropna(subset=[bench], inplace=True)
 
     # store in S3
-    (path, fname) = context['s3_path']
-    s3_df = bench_df.reset_index(drop=False)
+    s3_path = context['s3_path']
+    s3_df = pred_df.reset_index(drop=False)
     rename_col(s3_df, 'index', 'pred_date')
-    csv_store(s3_df, path, csv_ext.format(fname))
+    csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
 
     return bench_df
 
@@ -290,7 +290,7 @@ context = {
     'predict_batch': 252,
     'ml_path': './ML/',
     'grid_search': False,
-    's3_path': ('recommend/', 'macro_risk_ML'),
+    's3_path': 'recommend/micro_ML/',
     'verbose': 1}
 
 px_close = get_mults_pricing(include, freq, verbose=context['verbose']);
