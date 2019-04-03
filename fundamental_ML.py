@@ -259,8 +259,9 @@ def predict_ds(context):
 
     # store in S3
     s3_path = context['s3_path']
+    idx_name = pred_df.index.name
     s3_df = pred_df.reset_index(drop=False)
-    rename_col(s3_df, 'index', 'pred_date')
+    rename_col(s3_df, idx_name, 'pred_date')
     csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
 
     return pred_df
