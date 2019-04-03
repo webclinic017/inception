@@ -1,5 +1,6 @@
 # imports
 from utils.basic_utils import *
+from utils.fundamental import numeric_cols
 import numpy as np
 from tqdm import tqdm
 
@@ -78,6 +79,7 @@ def get_mults_pricing(symbols, freq='1d', col=None, verbose=True):
     if len(super_list[1:]):
         for x in super_list[1:]: full_df = pd.merge( \
             full_df, x, left_index=True, right_index=True, how='outer')
+    # full_df = pd.concat(super_list, axis=1, sort=True)
     full_df.index = pd.to_datetime(full_df.index)
     return full_df
 
@@ -290,3 +292,17 @@ def dummy_col(pre_df, col, shorten=True):
     if shorten: df.loc[:, col] = df[col].apply(shorten_name)
     df = pd.concat([df, pd.get_dummies(df[col])], axis=1)
     return df.drop(columns=[col])
+
+def load_px_close(path, fname, load_ds=True):
+    """ refresh pricing daily, pick up by rest of models without refreshing """
+    if os.path.isfile(path + fname) and load_ds:
+        px_close = pd.read_parquet(path + fname)
+    else:
+        # file does not exist, refreshes full dataset
+        px_close = get_mults_pricing(UNIVERSE)
+        num_cols = numeric_cols(px_close)
+        px_close.loc[:, num_cols] = px_close[num_cols].astype(np.float32)
+        os.makedirs(path, exist_ok=True)
+        px_close.to_parquet(path + fname)
+    px_close.index = px_close.index.date
+    return px_close

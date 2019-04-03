@@ -1,7 +1,7 @@
 # imports
 import os
 from utils.basic_utils import *
-from utils.pricing import get_mults_pricing, discret_rets, sample_wgts, dummy_col, rename_col
+from utils.pricing import load_px_close, discret_rets, sample_wgts, dummy_col, rename_col
 from utils.fundamental import pipe_transform_df, chain_divide, chain_scale
 from utils.fundamental import chain_outlier, chain_post_drop, chain_wide_transform
 from utils.fundamental import chain_eps_estimates, chain_eps_revisions, chain_rec_trend
@@ -35,11 +35,11 @@ def create_ds(context):
     key = context['key']
     load_ds = context['load_ds']
     load_dates = context['load_dates']
-    (path, _) = context['ds_append_path']
+    tmp_path = context['tmp_path']
     tickers = context['tickers']
 
     # Load or append missing data to local dataset
-    fname = path + key
+    fname = tmp_path + key
     if load_ds & os.path.isfile(fname):
         daily_df = pd.read_parquet(fname)
         # compare and load missing dates
@@ -50,14 +50,14 @@ def create_ds(context):
             append_df = get_daily_ts(key, ds_dict, missing_dates)
             daily_df = pd.concat([daily_df, append_df], axis=0) # append to daily
             # daily_df.drop_duplicates(inplace=True)
-            daily_df.to_parquet(path + key) # and persist to drive for next time
+            daily_df.to_parquet(tmp_path + key) # and persist to drive for next time
     else:
         # file does not exist, retrieves all dates
         daily_df = get_daily_ts(key, ds_dict, load_dates)
         num_cols = excl(daily_df.columns, ['symbol', 'period'])
         daily_df.loc[:, num_cols] = daily_df[num_cols].astype(np.float32)
         # Make index a flat date, easier to index save down to drive if refresh pricing
-        os.makedirs(path, exist_ok=True)
+        os.makedirs(tmp_path, exist_ok=True)
         # daily_df.drop_duplicates(inplace=True)
         daily_df.to_parquet(fname)
 
@@ -76,7 +76,6 @@ def pre_process_ds(daily_df, context):
     train_model = context['train_model']
     df_index = key_dict['index']
     (ml_path, _) = context['ml_path']
-    (path, name) = context['ds_append_path']
     trained_cols = context['trained_cols']
     impute_on, scale_on = key_dict = context['impute'], context['scale']
 
@@ -149,6 +148,7 @@ def pre_process_ds(daily_df, context):
             y_train, y_test = y.iloc[train_index], y.iloc[test_index]
             break # just one split
         np.save(ml_path + trained_cols.format(key), X_train.columns) # save feature order
+        print('Saved: ', ml_path + trained_cols.format(key))
     else:
         # feature for last date, pending to implement more flexibility
 #         processed_df.reset_index(drop=True, inplace=True)
@@ -259,19 +259,12 @@ def predict_ds(context):
 
     # store in S3
     s3_path = context['s3_path']
-    idx_name = pred_df.index.name
+    idx_name = 'index' if pred_df.index.name is None else pred_df.index.name
     s3_df = pred_df.reset_index(drop=False)
     rename_col(s3_df, idx_name, 'pred_date')
     csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
 
     return pred_df
-
-# environment variables
-cuts = { '1d': [-1, -0.1, -.02, .02, .1, 1.] }
-cut_range = cuts['1d']
-fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
-look_ahead, look_back = 20, 252
-y_col = 'fwdReturn' + f'{look_ahead}'
 
 # feature mapping for different datasets
 ds_dict = {
@@ -393,56 +386,65 @@ fn_pipeline = {
 #     'rec_trend': [chain_wide_transform, chain_rec_trend, chain_outlier],
 }
 
-# context data
-symbols_list = config['companies']
-px_close = get_mults_pricing(symbols_list)
-
-# last saved pricing from local drive
-px_close = pd.read_parquet('tmp/mult-co-px-ds')
-px_close.index = px_close.index.date
-print(px_close.info())
-
-Y = px_close.pct_change(look_ahead).shift(-look_ahead)
-Y = Y[~(Y.isna().all(1))]
-
-# use the latest saved data for profile and quote info
-dates = read_dates('quote')
-tgt_date = dates[-1:] # last date saved in S3
-
-quotes = load_csvs('quote_consol', tgt_date)
-quotes.set_index('symbol', drop=False, inplace=True)
-
-profile = load_csvs('summary_detail', ['assetProfile'])
-profile.set_index('symbol', drop=False, inplace=True)
-
-stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'})
-stacked_px.index.set_names(['storeDate', 'symbol'], inplace=True)
-
-context = {
-    'fn_pipeline': fn_pipeline,
-    'load_ds': True,
-    'grid_search': False,
-    'tickers': symbols_list,
-    'close_px': stacked_px,
-    'ml_path': ('./ML/', 'fdmn_ML-{}_{}.pkl'),
-    'ds_append_path': ('./tmp/','fund-ml-processed-'),
-    'trained_cols': ('fdmn-{}_train_cols.npy'),
-    'impute': False,
-    'scale': True,
-    'verbose': 0,
-}
+# environment variables
+cuts = { '1d': [-1, -0.1, -.02, .02, .1, 1.] }
+cut_range = cuts['1d']
+fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
+look_ahead, look_back = 20, 252
+y_col = 'fwdReturn' + f'{look_ahead}'
 
 if __name__ == '__main__':
     key = sys.argv[1]
     hook = sys.argv[2]
-    dates = read_dates(ds_dict[key]['path'], '.csv')
-    load_dates = dates[-look_back:]
 
-    context['key'] = key
-    context['pre'] = key.split('_')[0],
+    load_dates = read_dates(ds_dict[key]['path'], '.csv')[-look_back:]
+    context = {
+        'key': key,
+        'pre': key.split('_')[0], # append preffix,
+        'fn_pipeline': fn_pipeline,
+        'ds_dict': ds_dict[key],
+        'ml_path': ('./ML/', 'fdmn_ML-{}_{}.pkl'),
+        'tmp_path': './tmp/',
+        'ds_append': 'fund-ml-processed-',
+        'px_close': 'universe-px-ds',
+        'trained_cols': ('fdmn-{}_train_cols.npy'),
+        's3_path': f'recommend/fdmn_ML-{key}/',
+        'load_ds': True,
+        'grid_search': False,
+        'impute': False,
+        'scale': False,
+        'verbose': 0,
+        # 'nbr_anr': stacked_anr,
+    }
+
+    symbols_list = config['companies']
+    px_close = load_px_close(
+    context['tmp_path'],
+    context['px_close'],
+    context['load_ds'])[symbols_list].drop_duplicates()
+    print('px_close.info()', px_close.info())
+
+    Y = px_close.pct_change(look_ahead).shift(-look_ahead)
+    Y = Y[~(Y.isna().all(1))]
+
+    quote_dates = read_dates('quote')
+    tgt_date = quote_dates[-1:] # last quote saved in S3
+
+    quotes = load_csvs('quote_consol', tgt_date) # metrics for last day
+    profile = load_csvs('summary_detail', ['assetProfile']) # descriptive items
+    quotes.set_index('symbol', drop=False, inplace=True)
+    profile.set_index('symbol', drop=False, inplace=True)
+
+    stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'}) # stack date + symbol
+    stacked_px.index.set_names(['storeDate', 'symbol'], inplace=True) # reindex
+
+    # load data for a given date range, for training models
+    load_dates = read_dates(ds_dict[key]['path'], '.csv')[-look_back:]
+
+    # add additional items to the context
+    context['tickers'] = symbols_list
     context['load_dates'] = load_dates
-    context['ds_dict'] = ds_dict[key]
-    context['s3_path'] = f'recommend/fdmn_ML-{key}'
+    context['close_px'] = stacked_px
 
     if hook == 'train':
         print('Training {} using:'.format(key))
