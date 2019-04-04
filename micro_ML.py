@@ -226,7 +226,7 @@ def predict_ds(context):
     idx_name = 'index' if pred_df.index.name is None else pred_df.index.name
     s3_df = pred_df.reset_index(drop=False)
     rename_col(s3_df, idx_name, 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(str(today_date)))
+    csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
 
     return pred_df
 
