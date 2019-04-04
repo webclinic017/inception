@@ -1,7 +1,7 @@
 import sys
 from utils.basic_utils import *
 from utils.unpack_summary import *
-from utils.pricing import *
+from utils.pricing import load_px_close, get_pricing
 
 if __name__ == '__main__':
     hook = sys.argv[1]
@@ -29,6 +29,10 @@ if __name__ == '__main__':
                 get_pricing(t, '1d', '15y')
             except Exception as e:
                 print(e)
+        # persist closing price for current day
+        temp_path, px_close_fname = 'tmp/', 'universe-px-ds'
+        print('Persisting pricing to {}'.format(temp_path + px_close_fname))
+        load_px_close(temp_path, px_close_fname, False)
     elif hook == 'options':
         sample_set = sys.argv[2]
         for t in config[sample_set]:
