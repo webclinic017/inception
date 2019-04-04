@@ -94,7 +94,8 @@ def pre_process_ds(raw_df, context):
     train_model = context['train_model']
     pred_batch = context['predict_batch']
     fill_on, imputer_on, scaler_on = context['fill'], context['impute'], context['scale']
-    (path, train_cols) = context['trained_cols']
+    ml_path = context['ml_path']
+    train_cols = context['trained_cols']
     test_sz, verbose = context['test_size'], context['verbose']
 
     scaler = StandardScaler()
@@ -105,10 +106,10 @@ def pre_process_ds(raw_df, context):
 
     raw_df.replace([np.inf, -np.inf], np.nan, inplace=True)
     if scaler_on: raw_df[X_cols] = scaler.fit_transform(raw_df[X_cols])
+    if fill_on: raw_df.loc[:, X_cols] = raw_df.fillna(method=fill_on)
 
     pred_X = X_train = X_test = y_train = y_test = None
     if train_model:
-        if fill_on: raw_df.loc[:, X_cols].fillna(method=fill_on, inplace=True)
 
         # discretize forward returns into classes
         raw_df.dropna(subset=[y_col], inplace=True)
@@ -123,7 +124,7 @@ def pre_process_ds(raw_df, context):
         X, y = raw_df.drop(columns=y_col), raw_df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_sz, random_state=42)
-        np.save(path + train_cols, X_train.columns) # save feature order
+        np.save(ml_path + train_cols, X_train.columns) # save feature order
     else:
         pred_X = raw_df.iloc[-pred_batch:,:].dropna(axis=0)
 
@@ -241,14 +242,14 @@ def predict_ds(context):
     context['train_model'] = False
     ml_path = context['ml_path']
     verbose = context['verbose']
-    (path, train_cols) = context['trained_cols']
+    train_cols = context['trained_cols']
 
     ds_idx, df_large = create_ds(px_close, context)
     pred_X, _, _, _, _ = pre_process_ds(df_large, context)
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    trained_cols = np.load(path + train_cols) # save feature order
+    trained_cols = np.load(ml_path + train_cols) # save feature order
     missing_cols = [x for x in trained_cols if x not in pred_X.columns]
     pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
     pred_X[missing_cols] = 0
@@ -276,32 +277,32 @@ def predict_ds(context):
     idx_name = 'index' if bench_df.index.name is None else bench_df.index.name
     s3_df = bench_df.reset_index(drop=False)
     rename_col(s3_df, idx_name, 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(str(today_date)))
+    csv_store(s3_df, s3_path, csv_ext.format(str(bench_df.index[-1])))
 
     return bench_df
 
 #context/config for training and prediction
 context = {
     'portion': 100e-2,
-    'trained_cols': ('./ML/', 'macro_train_cols.npy'),
-    'fill': 'bfill',
-    'impute': True,
-    'scale': True,
-    'test_size': .20,
-    'predict_batch': 252,
     'ml_path': './ML/',
     'tmp_path': './tmp/',
+    'trained_cols': 'macro_train_cols.npy',
+    's3_path': 'recommend/macro_ML/',
     'px_close': 'universe-px-ds',
+    'test_size': .20,
+    'predict_batch': 252,
     'load_ds': True,
     'grid_search': False,
-    's3_path': 'recommend/macro_ML/',
-    'verbose': 1}
+    'fill': 'ffill',
+    'impute': True,
+    'scale': True,
+    'verbose': 1
+}
 
 px_close = load_px_close(
-context['tmp_path'],
-context['px_close'],
-context['load_ds'])[include].drop_duplicates()
-
+    context['tmp_path'],
+    context['px_close'],
+    context['load_ds'])[include].drop_duplicates()
 # px_close = get_mults_pricing(include, freq, verbose=context['verbose']);
 # px_close.drop_duplicates(inplace=True)
 print('px_close.shape', px_close.shape)
