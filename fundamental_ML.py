@@ -289,7 +289,7 @@ ds_dict = {
                    ['revenuePerShare', 'totalCashPerShare',
                     'targetLowPrice', 'targetMeanPrice',
                     'targetMedianPrice', 'targetHighPrice', ]),
-        'outlier': 10,
+        'outlier': 'quantile',
         'post_drop': ['numberOfAnalystOpinions'],
     },
     'key_statistics': {
@@ -302,7 +302,7 @@ ds_dict = {
             'shortPercentOfFloat', 'shortRatio', 'heldPercentInsiders',
             'heldPercentInstitutions', 'symbol', ],
         'scale': ['enterpriseValue', 'netIncomeToCommon', ],
-        'outlier': 10,
+        'outlier': 'quantile',
     },
     'eps_trend': {
         'path': 'summary-categories/epsTrend/',
@@ -313,7 +313,7 @@ ds_dict = {
             'current', '7daysAgo', '30daysAgo', '60daysAgo', '90daysAgo',
             'symbol', ],
         'pivot_cols': ['growth', 'current', '7daysAgo', '30daysAgo', '60daysAgo', '90daysAgo'],
-        'outlier': 3,
+        'outlier': 'quantile',
     },
     'eps_estimates': {
         'path': 'summary-categories/earningsEstimate/',
@@ -322,7 +322,7 @@ ds_dict = {
         'features': [
             'period', 'growth', 'avg', 'low', 'high', 'symbol', ],
         'pivot_cols': ['growth', 'avg', 'low', 'high'],
-        'outlier': 6
+        'outlier': 'quantile',
     },
     'day_quote': {
         'path': 'quote/csv/',
@@ -335,7 +335,7 @@ ds_dict = {
             'forwardPE', 'trailingPE', 'priceToBook', 'marketCap', 'symbol', ],
         'scale': ['marketCap', ],
         'divide': ('regularMarketVolume', ['averageDailyVolume10Day', 'averageDailyVolume3Month']),
-        'outlier': 10,
+        'outlier': 4,
     },
     'eps_revisions': {
         'path': 'summary-categories/epsRevisions/',

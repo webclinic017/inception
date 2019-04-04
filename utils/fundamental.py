@@ -64,8 +64,8 @@ def pipe_transform_df(df, key, pipe, context):
 
 def chain_outlier(df, context):
     """ Remove rows where values > treshold """
-    # ds_dict = context['ds_dict']
-    # treshold = ds_dict['outlier']
+    ds_dict = context['ds_dict']
+    treshold = ds_dict['outlier']
     # std_na = pd.value_counts(df.std().isna())
     # std_nas = std_na[True] if True in std_na else 0
     # feat_cols = int(len(df.std()) * 0.33)
@@ -75,9 +75,15 @@ def chain_outlier(df, context):
     # df = df[~(np.abs(df[numeric_cols(df)]) < variance ).any(1).values]
     # df.replace([np.inf, -np.inf], np.nan, inplace=True)
 
-    num_cols = df.select_dtypes('number')
-    mask = (num_cols > num_cols.quantile(0.01)) & (num_cols < num_cols.quantile(0.99))
-    return df[mask.all(1).values]
+    clean_df = pd.DataFrame()
+    if treshold == 'quantile':
+        num_cols = df.select_dtypes('number')
+        mask = (np.abs(num_cols) < np.abs(num_cols.quantile(0.01))) & (np.abs(num_cols) > np.abs(num_cols.quantile(0.99)))
+        clean_df = df[~mask.any(1).values]
+    else:
+        treshold = ds_dict['outlier']
+        clean_df = df[(np.abs(df[numeric_cols(df)]) < df.std() * treshold).any(1).values]
+    return clean_df
 
 def chain_wide_transform(df, context):
     ds_dict = context['ds_dict']
