@@ -294,7 +294,7 @@ context = {
     'px_close': 'universe-px-ds',
     'load_ds': True,
     'grid_search': False,
-    's3_path': 'recommend/micro_ML/',
+    's3_path': 'recommend/macro_ML/',
     'verbose': 1}
 
 px_close = load_px_close(
