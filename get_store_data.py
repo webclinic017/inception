@@ -25,7 +25,7 @@ if __name__ == '__main__':
         for t in UNIVERSE:
             try:
                 print('Retrieving {0} for {1}'.format(hook, t))
-                get_pricing(t, '1m', '5d')
+                # get_pricing(t, '1m', '5d')
                 get_pricing(t, '1d', '15y')
             except Exception as e:
                 print(e)
