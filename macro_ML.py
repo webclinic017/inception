@@ -277,7 +277,7 @@ def predict_ds(context):
     idx_name = 'index' if bench_df.index.name is None else bench_df.index.name
     s3_df = bench_df.reset_index(drop=False)
     rename_col(s3_df, idx_name, 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(str(bench_df.index[-1])))
+    csv_store(s3_df, s3_path, csv_ext.format(tgt_date[0]))
 
     return bench_df
 
@@ -306,6 +306,9 @@ px_close = load_px_close(
 # px_close = get_mults_pricing(include, freq, verbose=context['verbose']);
 # px_close.drop_duplicates(inplace=True)
 print('px_close.shape', px_close.shape)
+
+dates = read_dates('quote')
+tgt_date = [dates[-1]] # last date saved in S3
 
 if __name__ == '__main__':
     hook = sys.argv[1]
