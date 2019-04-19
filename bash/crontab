@@ -1,9 +1,47 @@
-00 21 * * 1-5 time python3 get_store_data.py quotes >> cron_jobs.log
-10 21 * * 1-5 time python3 get_store_data.py summary >> cron_jobs.log
-05 21 * * 1-5 time python3 get_store_data.py pricing >> cron_jobs.log
-25 21 * * 1-5 time python3 get_store_data.py options benchmarks >> cron_jobs.log
-30 21 * * 1-5 time python3 get_store_data.py options sectors >> cron_jobs.log
-45 21 * * 1-5 time python3 run_equity_iv.py >> cron_jobs.log
+# Preliminary run before market-closes
+55 18 * * 1-5 cd $p && time python3 get_store_data.py quotes >> ../cron_jobs.log
+00 18 * * 1-5 cd $p && time python3 get_store_data.py summary >> ../cron_jobs.l$
+35 18 * * 1-5 cd $p && time python3 get_store_data.py pricing >> ../cron_jobs.l$
+55 18 * * 1-5 cd $p && time python3 get_store_data.py options benchmarks >> ../$
+55 18 * * 1-5 cd $p && time python3 get_store_data.py options sectors >> ../cro$
+59 18 * * 1-5 cd $p && time python3 equity_iv.py >> ../cron_jobs.log
+
+# ML models, daily predictions
+00 19 * * 1-5 cd $p && time python3 macro_ML.py predict >> ../cron_jobs.log
+01 19 * * 1-5 cd $p && time python3 micro_ML.py predict >> ../cron_jobs.log
+02 19 * * 1-5 cd $p && time python3 fundamental_ML.py fin_data predict >> ../cr$
+03 19 * * 1-5 cd $p && time python3 fundamental_ML.py key_statistics predict >>$
+04 19 * * 1-5 cd $p && time python3 fundamental_ML.py eps_trend predict >> ../c$
+05 19 * * 1-5 cd $p && time python3 fundamental_ML.py eps_estimates predict >> $
+06 19 * * 1-5 cd $p && time python3 fundamental_ML.py day_quote predict >> ../c$
+
+# Final run post-market close
+55 21 * * 1-5 cd $p && time python3 get_store_data.py quotes >> ../cron_jobs.log
+00 21 * * 1-5 cd $p && time python3 get_store_data.py summary >> ../cron_jobs.l$
+35 21 * * 1-5 cd $p && time python3 get_store_data.py pricing >> ../cron_jobs.l$
+55 21 * * 1-5 cd $p && time python3 get_store_data.py options benchmarks >> ../$
+55 21 * * 1-5 cd $p && time python3 get_store_data.py options sectors >> ../cro$
+59 21 * * 1-5 cd $p && time python3 equity_iv.py >> ../cron_jobs.log
+
+# ML models, daily predictions
+00 22 * * 1-5 cd $p && time python3 macro_ML.py predict >> ../cron_jobs.log
+01 22 * * 1-5 cd $p && time python3 micro_ML.py predict >> ../cron_jobs.log
+02 22 * * 1-5 cd $p && time python3 fundamental_ML.py fin_data predict >> ../cr$
+03 22 * * 1-5 cd $p && time python3 fundamental_ML.py key_statistics predict >>$
+04 22 * * 1-5 cd $p && time python3 fundamental_ML.py eps_trend predict >> ../c$
+05 22 * * 1-5 cd $p && time python3 fundamental_ML.py eps_estimates predict >> $
+06 22 * * 1-5 cd $p && time python3 fundamental_ML.py day_quote predict >> ../c$
+
+# ML models, weekly training
+00 12 * * 6 cd $p && time python3 macro_ML.py train >> ../ML_train.log
+02 12 * * 6 cd $p && time python3 micro_ML.py train >> ../ML_train.log
+05 12 * * 6 cd $p && time python3 fundamental_ML.py fin_data train >> ../ML_tra$
+06 12 * * 6 cd $p && time python3 fundamental_ML.py key_statistics train >> ../$
+07 12 * * 6 cd $p && time python3 fundamental_ML.py eps_trend train >> ../ML_tr$
+08 12 * * 6 cd $p && time python3 fundamental_ML.py eps_estimates train >> ../M$
+09 12 * * 6 cd $p && time python3 fundamental_ML.py day_quote train >> ../ML_tr$
+
+# OLD
 
 # ML models, daily predictions
 40 21 * * 1-5 ./run_ML.sh macro predict >> cron_jobs.log
