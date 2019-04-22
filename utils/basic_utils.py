@@ -96,14 +96,19 @@ def flatten_options(dates):
                     underlyingSymbol = expiration['underlyingSymbol']
                     updt_root_flag = False
                 options = expiration['options'][0]
-                call_df = clean_up_fmt(json_normalize(options['calls']))
-                put_df = clean_up_fmt(json_normalize(options['puts']))
-                call_df['underlyingSymbol'] = underlyingSymbol
-                call_df['storeDate'] = storeDate
-                put_df['underlyingSymbol'] = underlyingSymbol
-                put_df['storeDate'] = storeDate
-                calls_df = calls_df.append(call_df, sort=False)
-                puts_frame = puts_frame.append(put_df, sort=False)
+                if 'calls' in options:
+                    norm_calls = json_normalize(options['calls'])
+                    call_df = clean_up_fmt(norm_calls)
+                    call_df['underlyingSymbol'] = underlyingSymbol
+                    call_df['storeDate'] = storeDate
+                    calls_df = calls_df.append(call_df, sort=False)
+                if 'puts' in options:
+                    norm_puts = json_normalize(options['puts'])
+                    put_df = clean_up_fmt(norm_puts)
+                    put_df['underlyingSymbol'] = underlyingSymbol
+                    put_df['storeDate'] = storeDate
+                    puts_frame = puts_frame.append(put_df, sort=False)
+
     calls_df['type'] = 'call'
     puts_frame['type'] = 'put'
     full_set = calls_df.append(puts_frame)
