@@ -75,15 +75,20 @@ def chain_outlier(df, context):
     # df = df[~(np.abs(df[numeric_cols(df)]) < variance ).any(1).values]
     # df.replace([np.inf, -np.inf], np.nan, inplace=True)
 
-    clean_df = pd.DataFrame()
-    if treshold == 'quantile':
-        num_cols = df.select_dtypes('number')
-        mask = (np.abs(num_cols) < np.abs(num_cols.quantile(0.01))) & (np.abs(num_cols) > np.abs(num_cols.quantile(0.99)))
-        clean_df = df[~mask.any(1).values]
-    else:
-        treshold = ds_dict['outlier']
-        clean_df = df[(np.abs(df[numeric_cols(df)]) < df.std() * treshold).any(1).values]
-    return clean_df
+    # clean_df = pd.DataFrame()
+    # if treshold == 'quantile':
+    #     num_cols = df.select_dtypes('number')
+    #     mask = (np.abs(num_cols) < np.abs(num_cols.quantile(0.01))) & (np.abs(num_cols) > np.abs(num_cols.quantile(0.99)))
+    #     clean_df = df[~mask.any(1).values]
+    # else:
+    #     treshold = ds_dict['outlier']
+    #     clean_df = df[(np.abs(df[numeric_cols(df)]) < df.std() * treshold).any(1).values]
+
+    p1 = df.quantile(0.01)
+    p99 = df.quantile(0.99)
+    nums = numeric_cols(df)
+    df[nums] = np.minimum(np.maximum(df[nums], p1[nums]), p99[nums])
+    return df
 
 def chain_wide_transform(df, context):
     ds_dict = context['ds_dict']
