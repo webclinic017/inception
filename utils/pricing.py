@@ -252,6 +252,23 @@ def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20
 
     return ndf
 
+def px_mom_co_feats_light(c, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20,60,120]):
+
+    ndf = pd.DataFrame()
+    (bech_idx, sect_idx) = groups
+    sect_idx = shorten_name(sect_idx)
+    for r in rolls:
+        ndf['rsBench'+str(r)] = (c.pct_change(r) - ind_df[bech_idx].pct_change(r))
+        ndf['rsSect'+str(r)] = (c.pct_change(r) - ind_df[sect_idx].pct_change(r))
+    # of std deviations for benchmark and sector
+    bench_pct_chg = ind_df.loc[c.index, bech_idx].pct_change()
+    sect_pct_chg = ind_df.loc[c.index, sect_idx].pct_change()
+    ndf['benchPctChgStds'] = bench_pct_chg.apply(sign_compare, args=(bench_pct_chg.std(),))
+    ndf['sectPctChgStds'] = sect_pct_chg.apply(sign_compare, args=(sect_pct_chg.std(),))
+    ndf['sector'] = groups[1]
+
+    return ndf
+
 def eq_wgt_indices(profile, px_df, col, group_list, tail=70**2, subset=None):
     names = []
     indices_df = pd.DataFrame()
