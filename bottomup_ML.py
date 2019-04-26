@@ -171,7 +171,7 @@ def train_ds(context):
     print('joined_df.shape', joined_df.shape)
 
     # add Y values to processed df fast without having to loop
-    joined_df.loc[:, y_col] = Y_df.loc[processed_df.index, y_col]
+    joined_df.loc[:, y_col] = Y_df.loc[joined_df.index, y_col]
 
     # discretize Y-variable
     joined_df.dropna(subset=[y_col], inplace=True)
