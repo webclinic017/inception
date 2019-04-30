@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 from utils.basic_utils import *
 from utils.pricing import load_px_close, discret_rets, sample_wgts
 from utils.pricing import dummy_col, rename_col, px_fwd_rets, px_mom_feats, px_mom_co_feats_light
-from utils.pricing import eq_wgt_indices, to_index_form, get_symbol_pricing
+from utils.pricing import eq_wgt_indices, to_index_form, get_symbol_pricing, get_return_intervals
 from utils.fundamental import pipe_transform_df, chain_divide, chain_scale
 from utils.fundamental import chain_outlier, chain_post_drop, chain_wide_transform
 from utils.fundamental import chain_eps_estimates, chain_eps_revisions, chain_rec_trend
@@ -69,6 +69,7 @@ def create_ds(context):
 def create_pre_process_ds(context):
 
     # join all datasets
+    tickers = context['tickers']
     super_list = []
     for key in ('fin_data', 'key_statistics', 'day_quote', 'eps_trend', 'eps_estimates'):
         print(f'adding {key}')
@@ -78,7 +79,7 @@ def create_pre_process_ds(context):
         load_dates = read_dates(ds_dict[key]['path'], '.csv')
         context['load_dates'] = load_dates
         df = create_ds(context)
-        df = df.loc[df.symbol.isin(symbols_list),:]
+        df = df.loc[df.symbol.isin(tickers),:]
         processed_df = pipe_transform_df(df, key, fn_pipeline, context)
         if key in ('fin_data', 'key_statistics', 'day_quote'):
             processed_df.index.name = 'storeDate'
@@ -87,14 +88,14 @@ def create_pre_process_ds(context):
     processed_df = pd.concat(super_list, axis=1)
     print(f'processed_df.shape {processed_df.shape}')
 
-    sectors = profile.loc[profile.symbol.isin(symbols_list)].sector.unique()
-    industries = profile.loc[profile.symbol.isin(symbols_list)].industry.unique()
+    sectors = profile.loc[profile.symbol.isin(tickers)].sector.unique()
+    industries = profile.loc[profile.symbol.isin(tickers)].industry.unique()
     bench = '^GSPC'
     print(f'Sectors: {sectors.shape[0]}, Industries: {industries.shape[0]}')
 
     indices_df = pd.concat(
-        [eq_wgt_indices(profile, px_close, 'sector', sectors, subset=symbols_list),
-        eq_wgt_indices(profile, px_close, 'industry', industries, subset=symbols_list),
+        [eq_wgt_indices(profile, px_close, 'sector', sectors, subset=tickers),
+        eq_wgt_indices(profile, px_close, 'industry', industries, subset=tickers),
         to_index_form(get_symbol_pricing(bench)['close'], bench)],
         axis=1).drop_duplicates()
 
@@ -102,11 +103,10 @@ def create_pre_process_ds(context):
     tmp_path = context['tmp_path']
     px_mom_fname = 'px_mom_feat_light'
 
-    if os.path.isfile(tmp_path + px_mom_fname):
+    if False and os.path.isfile(tmp_path + px_mom_fname):
         px_mom_df = pd.read_parquet(tmp_path + px_mom_fname)
     else:
         super_list = []
-        tickers = context['tickers']
         for i, ticker in enumerate(tickers):
             try:
                 close = px_close[ticker].dropna()
@@ -124,9 +124,10 @@ def create_pre_process_ds(context):
         px_mom_df.to_parquet(tmp_path + px_mom_fname)
 
     joined_df = pd.concat([processed_df, px_mom_df], join='inner', axis=1)
+    # joined_df = px_mom_df
     print(f'joined_df.shape {joined_df.shape}')
 
-    # basic impute and scaling
+    # basic scaling
     scale_on = context['scale']
     scaler = StandardScaler()
     num_cols = numeric_cols(joined_df)
@@ -140,11 +141,8 @@ def create_pre_process_ds(context):
 
 def train_ds(context):
 
-    context['train_model'] = True
-    grid_search = context['grid_search']
     verbose = context['verbose']
     (ml_path, model_name) = context['ml_path']
-    train_model = context['train_model']
     trained_cols = context['trained_cols']
     look_ahead, smooth_window = context['look_ahead'], context['smooth_window']
 
@@ -202,7 +200,7 @@ def train_ds(context):
     # MLPClassifier
     neurons = X_train.shape[1] * 2
     mlp_params = {
-        'solver': 'adam', 'max_iter': 200, #reduced from 600 for testing
+        'solver': 'adam', 'max_iter': 400, #reduced from 600 for testing
         'hidden_layer_sizes': (neurons, neurons, neurons, neurons, neurons,),
         'n_iter_no_change': 10, 'verbose': True, 'random_state': None, }
     clf2 = MLPClassifier(**mlp_params)
@@ -221,19 +219,19 @@ def train_ds(context):
         os.makedirs(ml_path, exist_ok=True)
         fname = ml_path + model_name.format(vote)
         joblib.dump(clf, fname)
-        print('Saved ', fname)#     return processed_df
+        print('Saved ', fname)
 
 def predict_ds(context):
 
     print('predict_ds')
     context['load_ds'] = True
-    context['train_model'] = False
     (ml_path, model_name) = context['ml_path']
     verbose = context['verbose']
     trained_cols_fname = context['trained_cols']
 
     joined_df = create_pre_process_ds(context)
-    pred_X = joined_df.loc[joined_df.index[-1], :]
+    pred_X = joined_df.loc[joined_df.sort_index().index[-1], :]
+    joined_df.sort_index().iloc[-1,]
 
     # ensure prediction dataset is consistent with trained model
     train_cols = np.load(ml_path + trained_cols_fname) # save feature order
@@ -399,36 +397,38 @@ fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 
 if __name__ == '__main__':
 
-    symbols_list = config['companies']
+    tickers = config['companies']
     context = {
-        'tickers': symbols_list,
+        'tickers': tickers,
         'fn_pipeline': fn_pipeline,
         'look_ahead': 20,
         'smooth_window': 10,
         'ml_path': ('./ML/', 'bottomup_ML_{}.pkl'),
         'tmp_path': './tmp/',
-        'ds_append': 'fund-ml-processed-',
         'px_close': 'universe-px-ds',
         'trained_cols': ('bottomup-ML_train_cols.npy'),
         's3_path': f'recommend/bottomup_ML/',
         'load_ds': True,
-        'grid_search': False,
-        'impute': False,
         'scale': True,
         'verbose': 0,
-        # 'nbr_anr': stacked_anr,
     }
 
     y_col = 'fwdReturn' + f'{context["look_ahead"]}'
+
     px_close = load_px_close(
         context['tmp_path'],
         context['px_close'],
-        context['load_ds'])[symbols_list].drop_duplicates()
+        context['load_ds']).drop_duplicates()
     print('px_close.info()', px_close.info())
 
     stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'}) # stack date + symbol
     stacked_px.index.set_names(['storeDate', 'symbol'], inplace=True) # reindex
     context['close_px'] = stacked_px
+
+    look_ahead = context['look_ahead']
+    prices = px_close.dropna(subset=['^GSPC'])[tickers]
+    cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
+    fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 
     quote_dates = read_dates('quote')
     tgt_date = quote_dates[-1:] # last quote saved in S3
