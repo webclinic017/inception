@@ -278,7 +278,7 @@ def eq_wgt_indices(profile, px_df, col, group_list, tail=70**2, subset=None):
         symbols = profile[profile[col] == s].symbol.tolist()
 #         print('Equal weight index for: %s, %s, %d, %s\n' \
 #               % (idx_ticker, s, len(symbols), symbols))
-        # if subset: symbols = list(set(symbols).intersection(all_equities))
+        if subset: symbols = list(set(symbols).intersection(subset))
         index = get_ind_index(px_df[symbols], '1d', tail, idx_ticker)[[idx_ticker]]
         if len(indices_df) == 0:
             indices_df = pd.DataFrame(index)
