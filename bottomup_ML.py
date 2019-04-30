@@ -234,15 +234,18 @@ def predict_ds(context):
     joined_df.sort_index().iloc[-1,]
 
     # ensure prediction dataset is consistent with trained model
+    print(f'Loading {ml_path + trained_cols_fname}')
     train_cols = np.load(ml_path + trained_cols_fname) # save feature order
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
+        print(f'Warning, missing columns: {missing_cols}')
         pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
         pred_X[missing_cols] = 0
     print('pred_X.shape', pred_X.shape)
 
     sorted_cols = list(np.append(train_cols, ['symbol']))
     print('pred_X.shape', pred_X[sorted_cols].shape)
+    print(pred_X[sorted_cols].columns)
 
     pred_df = pd.DataFrame()
     pred_df['symbol'] = pred_X.symbol
@@ -406,7 +409,7 @@ if __name__ == '__main__':
         'ml_path': ('./ML/', 'bottomup_ML_{}.pkl'),
         'tmp_path': './tmp/',
         'px_close': 'universe-px-ds',
-        'trained_cols': ('bottomup-ML_train_cols.npy'),
+        'trained_cols': 'bottomup-ML_train_cols.npy',
         's3_path': f'recommend/bottomup_ML/',
         'load_ds': True,
         'scale': True,
