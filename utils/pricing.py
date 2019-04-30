@@ -252,7 +252,7 @@ def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20
 
     return ndf
 
-def px_mom_co_feats_light(c, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20,60,120]):
+def px_mom_co_feats_light(c, ind_df, groups=('Bench', 'Sector'), rolls=[20,60,120]):
 
     ndf = pd.DataFrame()
     (bech_idx, sect_idx) = groups
@@ -323,3 +323,11 @@ def load_px_close(path, fname, load_ds=True):
         px_close.to_parquet(path + fname)
     px_close.index = px_close.index.date
     return px_close
+
+def get_return_intervals(prices, look_back=120, tresholds=[0.25, 0.75]):
+    """ Used for discretizing historical returns into classes """
+    px = prices.pct_change(look_back)
+    # px.where(px > 0).mean().describe(percentiles=[0.01,.25,.5,.75,.99])
+    low_q = list(px.where(px < 0).mean().quantile(tresholds))
+    high_q = list(px.where(px > 0).mean().quantile(tresholds))
+    return (-np.inf, low_q[0], low_q[1], high_q[0], high_q[1], np.inf)
