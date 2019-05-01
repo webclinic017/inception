@@ -198,9 +198,9 @@ def train_ds(context):
 #     print(f'Train {clf1.score(X_train, y_train)}, Test {clf1.score(X_test, y_test)}')
 
     # MLPClassifier
-    neurons = X_train.shape[1] * 2
+    neurons = X_train.shape[1] * 8
     mlp_params = {
-        'solver': 'adam', 'max_iter': 10, #reduced from 600 for testing
+        'solver': 'adam', 'max_iter': 400, #reduced from 600 for testing
         'hidden_layer_sizes': (neurons, neurons, neurons, neurons, neurons,),
         'n_iter_no_change': 10, 'verbose': True, 'random_state': None, }
     clf2 = MLPClassifier(**mlp_params)
