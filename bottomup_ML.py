@@ -101,10 +101,10 @@ def create_pre_process_ds(context):
 
     # create price momentum features
     tmp_path = context['tmp_path']
-    px_mom_fname = 'px_mom_feat_light'
+    ds_name = context['ds_name']
 
-    if False and os.path.isfile(tmp_path + px_mom_fname):
-        px_mom_df = pd.read_parquet(tmp_path + px_mom_fname)
+    if False and os.path.isfile(tmp_path + ds_name):
+        px_mom_df = pd.read_parquet(tmp_path + ds_name)
     else:
         super_list = []
         for i, ticker in enumerate(tickers):
@@ -121,7 +121,7 @@ def create_pre_process_ds(context):
         px_mom_df = pd.concat(super_list, axis=0)
         px_mom_df = px_mom_df.reset_index().set_index(['storeDate', 'symbol']).sort_index().dropna()
         os.makedirs(tmp_path, exist_ok=True)
-        px_mom_df.to_parquet(tmp_path + px_mom_fname)
+        px_mom_df.to_parquet(tmp_path + ds_name)
 
     joined_df = pd.concat([processed_df, px_mom_df], join='inner', axis=1)
     # joined_df = px_mom_df
@@ -200,7 +200,7 @@ def train_ds(context):
     # MLPClassifier
     neurons = X_train.shape[1] * 2
     mlp_params = {
-        'solver': 'adam', 'max_iter': 400, #reduced from 600 for testing
+        'solver': 'adam', 'max_iter': 10, #reduced from 600 for testing
         'hidden_layer_sizes': (neurons, neurons, neurons, neurons, neurons,),
         'n_iter_no_change': 10, 'verbose': True, 'random_state': None, }
     clf2 = MLPClassifier(**mlp_params)
@@ -234,18 +234,15 @@ def predict_ds(context):
     joined_df.sort_index().iloc[-1,]
 
     # ensure prediction dataset is consistent with trained model
-    print(f'Loading {ml_path + trained_cols_fname}')
     train_cols = np.load(ml_path + trained_cols_fname) # save feature order
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
-        print(f'Warning, missing columns: {missing_cols}')
         pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
         pred_X[missing_cols] = 0
     print('pred_X.shape', pred_X.shape)
 
     sorted_cols = list(np.append(train_cols, ['symbol']))
     print('pred_X.shape', pred_X[sorted_cols].shape)
-    print(pred_X[sorted_cols].columns)
 
     pred_df = pd.DataFrame()
     pred_df['symbol'] = pred_X.symbol
@@ -393,11 +390,6 @@ fn_pipeline = {
 #     'rec_trend': [chain_wide_transform, chain_rec_trend, chain_outlier],
 }
 
-# environment variables
-cut_range = [-np.inf, -0.12, -.04, .04, .12, np.inf]
-fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
-
-
 if __name__ == '__main__':
 
     tickers = config['companies']
@@ -408,8 +400,9 @@ if __name__ == '__main__':
         'smooth_window': 10,
         'ml_path': ('./ML/', 'bottomup_ML_{}.pkl'),
         'tmp_path': './tmp/',
+        'ds_name': 'bottomup-ds',
         'px_close': 'universe-px-ds',
-        'trained_cols': 'bottomup-ML_train_cols.npy',
+        'trained_cols': ('bottomup-ML_train_cols.npy'),
         's3_path': f'recommend/bottomup_ML/',
         'load_ds': True,
         'scale': True,
@@ -422,7 +415,7 @@ if __name__ == '__main__':
         context['tmp_path'],
         context['px_close'],
         context['load_ds']).drop_duplicates()
-    print('px_close.info()', px_close.info())
+    print(px_close.info())
 
     stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'}) # stack date + symbol
     stacked_px.index.set_names(['storeDate', 'symbol'], inplace=True) # reindex
@@ -431,11 +424,12 @@ if __name__ == '__main__':
     look_ahead = context['look_ahead']
     prices = px_close.dropna(subset=['^GSPC'])[tickers]
     cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
+    # cut_range = [-np.inf, -0.12, -.04, .04, .12, np.inf]
     fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
+    cut_range
 
     quote_dates = read_dates('quote')
     tgt_date = quote_dates[-1:] # last quote saved in S3
-
     quotes = load_csvs('quote_consol', tgt_date) # metrics for last day
     profile = load_csvs('summary_detail', ['assetProfile']) # descriptive items
     quotes.set_index('symbol', drop=False, inplace=True)
