@@ -41,7 +41,7 @@ context = {
     'px_close': 'universe-px-ds',
     'trained_cols': 'micro_NN_train_cols.npy',
     'look_ahead': 120,
-    'look_back': 252,
+    'look_back': 9999,
     'smooth_window': 20,
     'load_ds': True,
     'fill': 'bfill',
@@ -49,8 +49,8 @@ context = {
     'test_size': .20,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'neuron_mult': 5,
-    'hidden_layers': 3,
+    'neuron_mult': 8,
+    'hidden_layers': 5,
 }
 
 px_close = load_px_close(
@@ -265,7 +265,10 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
-    tickers = list(profile.loc[profile.sector.isin(['Technology']), 'symbol'])
+    tickers = list(profile.loc[profile.sector.isin(
+        [   'Technology', 'Communication Services',
+            'Healthcare', 'Consumer Cyclical',
+            'Consumer Defensive', 'Industrials']), 'symbol'])
     context['tickers'] = tickers
 
     if hook == 'train':
