@@ -2,7 +2,7 @@
 from utils.basic_utils import *
 from utils.fundamental import numeric_cols
 import numpy as np
-from tqdm import tqdm
+from tqdm import *
 
 # lambdas
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
