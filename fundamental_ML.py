@@ -2,7 +2,7 @@
 import os
 from utils.basic_utils import *
 from utils.pricing import load_px_close, discret_rets, sample_wgts, dummy_col, rename_col
-from utils.fundamental import pipe_transform_df, chain_divide, chain_scale
+from utils.fundamental import pipe_transform_df, chain_divide, chain_scale, strips
 from utils.fundamental import chain_outlier, chain_post_drop, chain_wide_transform
 from utils.fundamental import chain_eps_estimates, chain_eps_revisions, chain_rec_trend
 from utils.fundamental import load_append_ds, get_daily_ts, numeric_cols, filter_cols
