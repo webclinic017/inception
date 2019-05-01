@@ -1,19 +1,12 @@
 # imports
 from utils.basic_utils import *
-from utils.pricing import *
-
-from pandas.api.types import is_string_dtype, is_numeric_dtype, is_categorical_dtype
+# from utils.pricing import *
 
 # utility functions
 chars = list(")(' ")
 def strips(s, l, splt):
     for r in l: s = s.replace(r, '')
     return s.split(splt)[1:]
-
-numeric_cols = lambda df: list(df.columns[df.dtypes.apply(is_numeric_dtype).values])
-col_mapper = lambda cols: {x:'_'.join(strips(x, chars, ',')) for x in cols if 'value' in x}
-filter_cols = lambda columns, c: [x for x in columns if c in x]
-day_delta = lambda df, d: df - df.shift(d)
 
 def load_append_ds(key, load_dates, ds_dict, dir_loc):
     fname = dir_loc + key

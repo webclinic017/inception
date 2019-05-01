@@ -5,10 +5,16 @@ import urllib
 from urllib.request import urlopen
 
 import pandas as pd
+from pandas.api.types import is_string_dtype, is_numeric_dtype, is_categorical_dtype
 import numpy as np
 from pandas.io.json import json_normalize
 
 import boto3
+
+numeric_cols = lambda df: list(df.columns[df.dtypes.apply(is_numeric_dtype).values])
+col_mapper = lambda cols: {x:'_'.join(strips(x, chars, ',')) for x in cols if 'value' in x}
+filter_cols = lambda columns, c: [x for x in columns if c in x]
+day_delta = lambda df, d: df - df.shift(d)
 
 def excl(a, b): return list(set(a).difference(b))
 

@@ -1,6 +1,5 @@
 # imports
 from utils.basic_utils import *
-from utils.fundamental import numeric_cols
 import numpy as np
 from tqdm import *
 
