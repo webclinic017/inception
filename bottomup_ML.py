@@ -187,11 +187,6 @@ def train_ds(context):
         y_train, y_test = y.iloc[train_index], y.iloc[test_index]
         break # just one split
 
-    np.save(ml_path + trained_cols, X_train.columns) # save feature order
-    print(f'X_train.shape {X_train.shape}')
-    print(f'X_train columns {X_train.columns}')
-    print('Saved: ', ml_path + trained_cols)
-
     # RandomForestClassifier
     clf1 = RandomForestClassifier()
 #     clf1.fit(X_train, y_train)
@@ -220,6 +215,12 @@ def train_ds(context):
         fname = ml_path + model_name.format(vote)
         joblib.dump(clf, fname)
         print('Saved ', fname)
+
+    np.save(ml_path + trained_cols, X_train.columns) # save feature order
+    print(f'X_train.shape {X_train.shape}')
+    print(f'X_train columns {X_train.columns}')
+    print('Saved: ', ml_path + trained_cols)
+
 
 def predict_ds(context):
 
