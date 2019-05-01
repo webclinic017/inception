@@ -3,11 +3,6 @@ from utils.basic_utils import *
 # from utils.pricing import *
 
 # utility functions
-chars = list(")(' ")
-def strips(s, l, splt):
-    for r in l: s = s.replace(r, '')
-    return s.split(splt)[1:]
-
 def load_append_ds(key, load_dates, ds_dict, dir_loc):
     fname = dir_loc + key
     if os.path.isfile(fname):

@@ -237,6 +237,11 @@ def traverse(o, func):
         if isinstance(o[k], dict):
             traverse(o[k], func)
 
+chars = list(")(' ")
+def strips(s, l, splt):
+    for r in l: s = s.replace(r, '')
+    return s.split(splt)[1:]
+
 ###### environment variables ######
 
 config = load_config('utils/config.json')

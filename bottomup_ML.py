@@ -103,25 +103,20 @@ def create_pre_process_ds(context):
     tmp_path = context['tmp_path']
     ds_name = context['ds_name']
 
-    if False and os.path.isfile(tmp_path + ds_name):
-        px_mom_df = pd.read_parquet(tmp_path + ds_name)
-    else:
-        super_list = []
-        for i, ticker in enumerate(tickers):
-            try:
-                close = px_close[ticker].dropna()
-                ft_df = px_mom_feats(close, ticker, incl_name=False)
-                ft_df = ft_df.loc[processed_df.index.levels[0].sort_values(), :]
-                top_groups = tuple([bench, profile.loc[ticker, 'sector']])
-                co = px_mom_co_feats_light(close, indices_df, top_groups)
-                ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
-                super_list.append(ft_df.copy())
-            except Exception as e:
-                print("Exception: {0} {1}".format(ticker, e))
-        px_mom_df = pd.concat(super_list, axis=0)
-        px_mom_df = px_mom_df.reset_index().set_index(['storeDate', 'symbol']).sort_index().dropna()
-        os.makedirs(tmp_path, exist_ok=True)
-        px_mom_df.to_parquet(tmp_path + ds_name)
+    super_list = []
+    for i, ticker in enumerate(tickers):
+        try:
+            close = px_close[ticker].dropna()
+            ft_df = px_mom_feats(close, ticker, incl_name=False)
+            ft_df = ft_df.loc[processed_df.index.levels[0].sort_values(), :]
+            top_groups = tuple([bench, profile.loc[ticker, 'sector']])
+            co = px_mom_co_feats_light(close, indices_df, top_groups)
+            ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
+            super_list.append(ft_df.copy())
+        except Exception as e:
+            print("Exception: {0} {1}".format(ticker, e))
+    px_mom_df = pd.concat(super_list, axis=0)
+    px_mom_df = px_mom_df.reset_index().set_index(['storeDate', 'symbol']).sort_index().dropna()
 
     joined_df = pd.concat([processed_df, px_mom_df], join='inner', axis=1)
     # joined_df = px_mom_df
@@ -138,6 +133,7 @@ def create_pre_process_ds(context):
     joined_df = dummy_col(joined_df, 'sector', shorten=True)
 
     return joined_df.reset_index('symbol')
+    
 
 def train_ds(context):
 
