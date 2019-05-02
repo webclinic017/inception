@@ -1,6 +1,6 @@
 # imports
 from utils.basic_utils import *
-# from utils.pricing import *
+from utils.pricing import discret_rets
 
 # utility functions
 def load_append_ds(key, load_dates, ds_dict, dir_loc):
@@ -168,3 +168,23 @@ def rank_group(df, low, high):
     lb = df.loc[:, low].rank(ascending=True)
     hb = df.loc[:, high].rank(ascending=False)
     return pd.concat([lb, hb], axis=1, sort=False)
+
+mkt_cap_cuts = [0, 0.3, 2, 10, 300, 5000]
+mkt_cap_labels = ['micro', 'small', 'mid', 'large', 'mega']
+
+def get_focus_tickers(quotes, profile, tgt_sectors):
+
+    eqty_tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
+    size_df = pd.concat([
+        profile.loc[eqty_tickers, ['sector', 'industry']],
+        quotes.loc[eqty_tickers, ['marketCap']]], axis=1)
+    size_df = size_df.loc[size_df.sector.isin(tgt_sectors), :].reindex()
+    size_df.loc[:, 'marketCap'] = size_df.marketCap / 10**9
+    size_df.loc[:, 'size'] = discret_rets(size_df.marketCap, mkt_cap_cuts, mkt_cap_labels)
+
+    agg_mktcap_ind = size_df.groupby('industry').sum()['marketCap'].sort_values()
+    # filter industries with more than 10bn in total market cap
+    tgt_industries = list(agg_mktcap_ind.loc[agg_mktcap_ind > 10].index)
+    size_df = size_df.loc[size_df.industry.isin(tgt_industries)]
+
+    return size_df

@@ -1,6 +1,6 @@
 # imports
 from utils.basic_utils import *
-from utils.fundamental import chain_outlier
+from utils.fundamental import chain_outlier, get_focus_tickers
 from utils.pricing import load_px_close, get_return_intervals
 from utils.pricing import dummy_col, discret_rets, sample_wgts
 from utils.pricing import px_mom_feats, px_mom_co_feats_light
@@ -267,11 +267,12 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
-    tickers = list(profile.loc[profile.sector.isin(
-        [   'Technology', 'Communication Services',
-            'Healthcare', 'Consumer Cyclical',
-            'Consumer Defensive', 'Industrials']), 'symbol'])
-    context['tickers'] = tickers
+    # Smaller subset for testing
+    tgt_sectors = [
+        'Technology', 'Communication Services',
+        'Healthcare', 'Consumer Cyclical', 'Consumer Defensive', 'Industrials']
+    size_df = get_focus_tickers(quotes, profile, tgt_sectors)
+    context['tickers'] = list(size_df.index)
 
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
