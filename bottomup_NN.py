@@ -397,6 +397,7 @@ def train_ds(context):
     print(f'Train {clf.score(X_train, y_train)}, Test {clf.score(X_test, y_test)}')
 
     # save training columns
+    os.makedirs(ml_path, exist_ok=True)
     np.save(ml_path + trained_cols, X_train.columns) # save feature order
     print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
     print('Saved: ', ml_path + trained_cols)

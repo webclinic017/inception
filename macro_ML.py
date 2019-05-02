@@ -124,6 +124,7 @@ def pre_process_ds(raw_df, context):
         X, y = raw_df.drop(columns=y_col), raw_df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_sz, random_state=42)
+        os.makedirs(ml_path, exist_ok=True)
         np.save(ml_path + train_cols, X_train.columns) # save feature order
     else:
         pred_X = raw_df.iloc[-pred_batch:,:].dropna(axis=0)

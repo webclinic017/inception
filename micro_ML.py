@@ -109,6 +109,7 @@ def pre_process_ds(raw_df, context):
         X, y = raw_df.drop(columns=y_col), raw_df[y_col]
         X_train, X_test, y_train, y_test = train_test_split(
             X, y, test_size=test_sz, random_state=42)
+        os.makedirs(ml_path, exist_ok=True)
         np.save(path + train_cols, X_train.columns) # save feature order
     else:
         # feature for last date, pending to implement more flexibility
@@ -232,11 +233,15 @@ def predict_ds(context):
 
 
 # CONTEXT
+bench = '^GSPC'
+tickers = excl(config['companies'], [])
 context = {
+    'tickers': tickers,
     'ml_path': ('./ML/', 'co_pxmom_ML_{}.pkl'),
     'ds_path_name': ('tmp', 'co-pxmom-large'),
     'trained_cols': ('./ML/', 'co_pxmom_train_cols.npy'),
     'tmp_path': './tmp/',
+    'look_ahead': 60,
     'px_close': 'universe-px-ds',
     'load_ds': True,
     'portion': 100e-2,
@@ -251,70 +256,45 @@ context = {
     's3_path': 'recommend/micro_ML/'
 }
 
-print('Refreshing equity pricing...')
-excl_list = [] # ['BHF', 'ERI']
-symbols_list = excl(config['companies'], excl_list)
-
 px_close = load_px_close(
-    context['tmp_path'],
-    context['px_close'],
-    context['load_ds'])[symbols_list].drop_duplicates()
+    context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
+print('px_close.info()', px_close.info())
 
-# px_close = get_mults_pricing(symbols_list).drop_duplicates().dropna(subset=['AAPL'])
-# save down to drive if refresh pricing
-# os.makedirs('tmp', exist_ok=True)
-# px_close.to_parquet('tmp/mult-co-px-ds')
-print(px_close.info())
+prices = px_close.dropna(subset=[bench])[tickers]
+look_ahead = context['look_ahead']
+cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
+fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
+f'Return intervals {cut_range}'
 
 # latest quotes, profile, and industries
 dates = read_dates('quote')
-tgt_date = [dates[-1]] # last date saved in S3
+tgt_date = dates[-1] # last date saved in S3
+print(f'Target date: {tgt_date}')
 
-quotes = load_csvs('quote_consol', tgt_date)
+quotes = load_csvs('quote_consol', [tgt_date])
 quotes.set_index('symbol', drop=False, inplace=True)
 
 profile = load_csvs('summary_detail', ['assetProfile'])
 profile.set_index('symbol', drop=False, inplace=True)
 
-profile.drop(profile[profile.symbol.isin(excl_list)].index, inplace=True)
-
-all_equities = quotes[quotes.quoteType == 'EQUITY'].symbol.unique()
-print('Delta quote: ', set(symbols_list) - set(all_equities))
-# reduced subset, if any
-sub_equities = set(px_close.columns.tolist()).intersection(all_equities)
-print('Delta reduced set: ', set(symbols_list) - set(sub_equities))
-
-eqty_symbols = profile[profile.symbol.isin(sub_equities)].symbol.unique().tolist()
-delta_symb = set(symbols_list) - set(eqty_symbols)
-print('Delta profile: ', len(delta_symb), delta_symb)
-
-# Create a frame of market, sector and industry index (once)
-# for relative performance calculations
-sel_profiles = profile[profile.symbol.isin(all_equities)]
-sel_profiles.groupby(['sector', 'industry'])[['industry']].count()
-sectors = sel_profiles.sector.unique()
-industries = sel_profiles.industry.unique()
-
+sectors = profile.loc[profile.symbol.isin(tickers)].sector.unique()
+industries = profile.loc[profile.symbol.isin(tickers)].industry.unique()
 print(f'Sectors: {sectors.shape[0]}, Industries: {industries.shape[0]}')
 
-indices_df = pd.concat([
-    eq_wgt_indices(profile, px_close, 'sector', sectors, subset=eqty_symbols),
-    eq_wgt_indices(profile, px_close, 'industry', industries, subset=eqty_symbols),
-    to_index_form(get_symbol_pricing(bench)['close'], bench)
-], axis=1).drop_duplicates()
+indices_df = pd.concat(
+    [eq_wgt_indices(profile, px_close, 'sector', sectors, subset=tickers),
+    eq_wgt_indices(profile, px_close, 'industry', industries, subset=tickers),
+    to_index_form(px_close[bench], bench)],
+    axis=1).drop_duplicates()
 
-context['tickers'] = eqty_symbols
 
 if __name__ == '__main__':
     hook = sys.argv[1]
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
-        tickers = list(mu.sample_sector_tickers(eqty_symbols, profile, sectors, 50).index)
-        context['tickers'] = tickers
         print('Training model using:', context)
         train_ds(context)
     elif hook == 'predict':
-        context['tickers'] = eqty_symbols
         print('Predicting model using:', context)
         pred_df = predict_ds(context)
     else: print('Invalid option, please try: train or predict')

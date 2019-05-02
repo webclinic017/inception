@@ -133,7 +133,7 @@ def create_pre_process_ds(context):
     joined_df = dummy_col(joined_df, 'sector', shorten=True)
 
     return joined_df.reset_index('symbol')
-    
+
 
 def train_ds(context):
 
@@ -212,6 +212,7 @@ def train_ds(context):
         joblib.dump(clf, fname)
         print('Saved ', fname)
 
+    os.makedirs(ml_path, exist_ok=True)
     np.save(ml_path + trained_cols, X_train.columns) # save feature order
     print(f'X_train.shape {X_train.shape}')
     print(f'X_train columns {X_train.columns}')

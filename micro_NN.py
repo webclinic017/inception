@@ -49,7 +49,7 @@ context = {
     'test_size': .20,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'neuron_mult': 8,
+    'neuron_mult': 2,
     'hidden_layers': 5,
     'max_iter': 20,
 }
@@ -208,12 +208,12 @@ def train_ds(context):
     print(f'Train {clf.score(X_train, y_train)}, Test {clf.score(X_test, y_test)}')
 
     # save training columns
+    os.makedirs(ml_path, exist_ok=True)
     np.save(ml_path + trained_cols, X_train.columns) # save feature order
     print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
     print('Saved: ', ml_path + trained_cols)
 
     # save model
-    os.makedirs(ml_path, exist_ok=True)
     fname = ml_path + model_name
     joblib.dump(clf, fname)
     print('Saved ', fname)
