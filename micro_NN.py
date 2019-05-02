@@ -51,6 +51,7 @@ context = {
     's3_path': 'recommend/micro_ML/',
     'neuron_mult': 8,
     'hidden_layers': 5,
+    'max_iter': 20,
 }
 
 px_close = load_px_close(
@@ -193,11 +194,12 @@ def train_ds(context):
 
     # MLPClassifier
     neuron_mult = context['neuron_mult']
+    max_iter = context['max_iter']
     neurons = X_train.shape[1] * neuron_mult
     hidden_layers = tuple([neurons for x in range(context['hidden_layers'])])
 
     mlp_params = {
-        'solver': 'adam', 'max_iter': 20, #reduced from 600 for testing
+        'solver': 'adam', 'max_iter': max_iter, #reduced from 600 for testing
         'hidden_layer_sizes': hidden_layers,
         'n_iter_no_change': 10, 'verbose': True, 'random_state': None, }
     clf = MLPClassifier(**mlp_params)

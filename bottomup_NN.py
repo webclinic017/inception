@@ -384,7 +384,6 @@ def train_ds(context):
     # MLPClassifier
     neuron_mult = context['neuron_mult']
     max_iter = context['max_iter']
-    max_iter = context['max_iter']
     neurons = X_train.shape[1] * neuron_mult
     hidden_layers = tuple([neurons for x in range(context['hidden_layers'])])
 
