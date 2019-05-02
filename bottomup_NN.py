@@ -419,7 +419,7 @@ def predict_ds(context):
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    train_cols = np.load(ml_path + trained_cols) # save feature order
+    train_cols = np.load(ml_path + trained_cols, allow_pickle=True) # save feature order
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
         print(f'Warning missing columns: {missing_cols}')
@@ -459,10 +459,16 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
-    tickers = list(profile.loc[profile.sector.isin(
-        [   'Technology', 'Communication Services',
-            'Healthcare', 'Consumer Cyclical',
-            'Consumer Defensive', 'Industrials']), 'symbol'])
+    tgt_sectors = [   
+        'Technology',
+        'Communication Services',
+        # 'Healthcare',
+        # 'Consumer Cyclical',
+        # 'Consumer Defensive',
+        # 'Industrials'
+        ]
+    tickers = list(profile.loc[profile.sector.isin(tgt_sectors), 'symbol'
+            ])
     context['tickers'] = tickers
 
     if hook == 'train':

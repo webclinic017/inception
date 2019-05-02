@@ -250,7 +250,7 @@ def predict_ds(context):
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    trained_cols = np.load(ml_path + train_cols) # save feature order
+    trained_cols = np.load(ml_path + train_cols, allow_pickle=True) # save feature order
     missing_cols = [x for x in trained_cols if x not in pred_X.columns]
     pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
     pred_X[missing_cols] = 0
