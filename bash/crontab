@@ -1,3 +1,39 @@
+SHELL=/bin/bash
+PATH=/home/ubuntu/miniconda3/envs/inception/bin:$PATH
+PYTHONPATH=/home/ubuntu/inception/:$PYTHONPATH
+p=/home/ubuntu/inception
+
+### CURRENT INFERENCE INSTANCE ###
+
+# Preliminary run before market-closes
+55 18 * * 1-5 cd $p && time python3 get_store_data.py quotes >> ../cron_jobs.log
+00 18 * * 1-5 cd $p && time python3 get_store_data.py summary >> ../cron_jobs.log
+35 18 * * 1-5 cd $p && time python3 get_store_data.py pricing >> ../cron_jobs.log
+55 18 * * 1-5 cd $p && time python3 get_store_data.py options benchmarks >> ../cron_jobs.log
+55 18 * * 1-5 cd $p && time python3 get_store_data.py options sectors >> ../cron_jobs.log
+59 18 * * 1-5 cd $p && time python3 equity_iv.py >> ../cron_jobs.log
+
+# ML models, pre-close predictions
+00 19 * * 1-5 cd $p && time python3 macro_ML.py predict >> ../cron_jobs.log
+01 19 * * 1-5 cd $p && time python3 micro_NN.py predict >> ../cron_jobs.log
+02 19 * * 1-5 cd $p && time python3 bottomup_NN.py predict >> ../cron_jobs.log
+
+# Final run post-market close
+55 20 * * 1-5 cd $p && time python3 get_store_data.py quotes >> ../cron_jobs.log
+00 20 * * 1-5 cd $p && time python3 get_store_data.py summary >> ../cron_jobs.log
+35 20 * * 1-5 cd $p && time python3 get_store_data.py pricing >> ../cron_jobs.log
+55 20 * * 1-5 cd $p && time python3 get_store_data.py options benchmarks >> ../cron_jobs.log
+55 20 * * 1-5 cd $p && time python3 get_store_data.py options sectors >> ../cron_jobs.log
+59 20 * * 1-5 cd $p && time python3 equity_iv.py >> ../cron_jobs.log
+
+# ML models, daily predictions
+00 21 * * 1-5 cd $p && time python3 macro_ML.py predict >> ../cron_jobs.log
+01 21 * * 1-5 cd $p && time python3 micro_NN.py predict >> ../cron_jobs.log
+02 21 * * 1-5 cd $p && time python3 bottomup_NN.py predict >> ../cron_jobs.log
+
+
+### OLD ###
+
 # Preliminary run before market-closes
 55 18 * * 1-5 cd $p && time python3 get_store_data.py quotes >> ../cron_jobs.log
 00 18 * * 1-5 cd $p && time python3 get_store_data.py summary >> ../cron_jobs.l$
