@@ -49,9 +49,9 @@ context = {
     'test_size': .20,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'neuron_mult': 2,
+    'neuron_mult': 15,
     'hidden_layers': 5,
-    'max_iter': 20,
+    'max_iter': 400,
 }
 
 px_close = load_px_close(
@@ -270,7 +270,7 @@ if __name__ == '__main__':
     # Smaller subset for testing
     tgt_sectors = [
         'Technology',
-        'Communication Services',
+        # 'Communication Services',
         # 'Healthcare',
         # 'Consumer Cyclical',
         # 'Consumer Defensive',

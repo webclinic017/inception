@@ -175,9 +175,9 @@ context = {
     'verbose': True,
     's3_path': f'recommend/bottomup_ML/',
     'verbose': 0,
-    'neuron_mult': 5,
-    'hidden_layers': 3,
-    'max_iter': 20,
+    'neuron_mult': 15,
+    'hidden_layers': 5,
+    'max_iter': 400,
 }
 
 px_close = load_px_close(
@@ -459,9 +459,9 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
-    tgt_sectors = [   
+    tgt_sectors = [
         'Technology',
-        'Communication Services',
+        # 'Communication Services',
         # 'Healthcare',
         # 'Consumer Cyclical',
         # 'Consumer Defensive',
