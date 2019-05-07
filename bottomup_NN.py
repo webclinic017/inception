@@ -161,9 +161,9 @@ tickers = config['companies']
 context = {
     'tickers': tickers,
     'fn_pipeline': fn_pipeline,
-    'ml_path': './ML/',
+    'ml_path': '../ML/',
     'model_name': 'bottomup_NN.pkl',
-    'tmp_path': './tmp/',
+    'tmp_path': '../tmp/',
     'ds_name': 'co-bottomup-ds',
     'px_close': 'universe-px-ds',
     'trained_cols': 'bottomup_NN_train_cols.npy',
@@ -172,13 +172,14 @@ context = {
     'smooth_window': 10,
     'load_ds': True,
     'scale': True,
-    'test_size': .20,
+    'test_size': .04,
     'verbose': True,
     's3_path': f'recommend/bottomup_ML/',
-    'verbose': 0,
-    'neuron_mult': 15,
+    'verbose': 2,
+    'neuron_mult': 5,
     'hidden_layers': 5,
-    'max_iter': 400,
+    'max_iter': 200,
+    'l2_reg': 0.15,
 }
 
 px_close = load_px_close(
@@ -385,12 +386,17 @@ def train_ds(context):
     # MLPClassifier
     neuron_mult = context['neuron_mult']
     max_iter = context['max_iter']
+    max_iter = context['max_iter']
+    l2_reg = context['l2_reg']
     neurons = X_train.shape[1] * neuron_mult
     hidden_layers = tuple([neurons for x in range(context['hidden_layers'])])
 
     mlp_params = {
-        'solver': 'adam', 'max_iter': max_iter, #reduced from 600 for testing
+        'solver': 'adam',
+        'max_iter': max_iter, #reduced from 600 for testing
+        'activation': 'tanh',
         'hidden_layer_sizes': hidden_layers,
+        'alpha': l2_reg,
         'n_iter_no_change': 10, 'verbose': True, 'random_state': None, }
     clf = MLPClassifier(**mlp_params)
     print(clf)
@@ -461,19 +467,26 @@ if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
     tgt_sectors = [
-            'Technology',
-            'Communication Services',
-            'Healthcare',
-            'Consumer Cyclical',
-            'Consumer Defensive',
-            'Industrials'
-            ]
+        'Technology',
+        'Healthcare',
+        'Industrials',
+        'Basic Materials',
+        'Consumer Cyclical',
+        'Financial Services',
+        'Consumer Defensive',
+        'Real Estate',
+        'Utilities',
+        'Communication Services',
+        'Energy',
+    ]
 
     size_df = get_focus_tickers(quotes, profile, tgt_sectors)
-    ind_count = size_df.groupby('industry').count()['marketCap']
-    tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
+    # ind_count = size_df.groupby('industry').count()['marketCap']
+    # tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
+    # tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
 
-    tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
+    # tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
+    tickers = list(size_df.index)
     context['tickers'] = tickers
     print(f'{len(tickers)} companies')
 
