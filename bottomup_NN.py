@@ -192,7 +192,8 @@ context['close_px'] = stacked_px
 
 prices = px_close.dropna(subset=[bench])[tickers]
 look_ahead = context['look_ahead']
-cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
+# cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
+cut_range = [ -np.inf, -0.13, -0.08,  0.1, 0.16, np.inf]
 fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 f'Return intervals {cut_range}'
 
