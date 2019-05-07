@@ -177,9 +177,9 @@ context = {
     's3_path': f'recommend/bottomup_ML/',
     'verbose': 2,
     'neuron_mult': 5,
-    'hidden_layers': 5,
-    'max_iter': 200,
-    'l2_reg': 0.15,
+    'hidden_layers': 4,
+    'max_iter': 400,
+    'l2_reg': 0.10,
 }
 
 px_close = load_px_close(
