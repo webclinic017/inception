@@ -11,6 +11,7 @@ from utils.fundamental import pipe_transform_df, chain_divide, chain_scale
 from utils.fundamental import chain_outlier, chain_post_drop, chain_wide_transform
 from utils.fundamental import chain_eps_estimates, chain_eps_revisions, chain_rec_trend
 from utils.fundamental import load_append_ds, get_daily_ts, numeric_cols, filter_cols
+from utils.fundamental import get_focus_tickers
 from utils.ml_utils import show_fi, print_cv_results
 
 from sklearn import preprocessing
@@ -460,16 +461,21 @@ if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
     tgt_sectors = [
-        'Technology',
-        # 'Communication Services',
-        # 'Healthcare',
-        # 'Consumer Cyclical',
-        # 'Consumer Defensive',
-        # 'Industrials'
-        ]
-    tickers = list(profile.loc[profile.sector.isin(tgt_sectors), 'symbol'
-            ])
+            'Technology',
+            'Communication Services',
+            'Healthcare',
+            'Consumer Cyclical',
+            'Consumer Defensive',
+            'Industrials'
+            ]
+
+    size_df = get_focus_tickers(quotes, profile, tgt_sectors)
+    ind_count = size_df.groupby('industry').count()['marketCap']
+    tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
+
+    tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
     context['tickers'] = tickers
+    print(f'{len(tickers)} companies')
 
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
