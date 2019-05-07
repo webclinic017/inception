@@ -161,9 +161,9 @@ tickers = config['companies']
 context = {
     'tickers': tickers,
     'fn_pipeline': fn_pipeline,
-    'ml_path': '../ML/',
+    'ml_path': './ML/',
     'model_name': 'bottomup_NN.pkl',
-    'tmp_path': '../tmp/',
+    'tmp_path': './tmp/',
     'ds_name': 'co-bottomup-ds',
     'px_close': 'universe-px-ds',
     'trained_cols': 'bottomup_NN_train_cols.npy',
@@ -331,7 +331,7 @@ def train_ds(context):
 
     # calculation of forward returns
     Y = px_close.loc[:, tickers].pct_change(look_ahead).shift(-look_ahead)
-    # Y = Y.rolling(smooth_window).mean() # smooth by the same length
+    Y = Y.rolling(smooth_window).mean() # smooth by the same length
     Y = Y[~(Y.isna().all(1))]
     Y = Y.loc[joined_df.index.unique(), :]
 
