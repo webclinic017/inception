@@ -5,6 +5,7 @@ from utils.pricing import load_px_close, get_return_intervals
 from utils.pricing import dummy_col, discret_rets, sample_wgts
 from utils.pricing import px_mom_feats, px_mom_co_feats_light
 from utils.pricing import eq_wgt_indices, to_index_form, rename_col
+from utils.fundamental import get_focus_tickers
 
 import time, os, sys
 from tqdm import tqdm
@@ -267,17 +268,22 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
     # Smaller subset for testing
-    # Smaller subset for testing
     tgt_sectors = [
-        'Technology',
-        # 'Communication Services',
-        # 'Healthcare',
-        # 'Consumer Cyclical',
-        # 'Consumer Defensive',
-        # 'Industrials'
-        ]
-    tickers = list(profile.loc[profile.sector.isin(tgt_sectors), 'symbol'])
+            'Technology',
+            'Communication Services',
+            'Healthcare',
+            'Consumer Cyclical',
+            'Consumer Defensive',
+            'Industrials'
+            ]
+
+    size_df = get_focus_tickers(quotes, profile, tgt_sectors)
+    ind_count = size_df.groupby('industry').count()['marketCap']
+    tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
+
+    tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
     context['tickers'] = tickers
+    print(f'{len(tickers)} companies')
 
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
