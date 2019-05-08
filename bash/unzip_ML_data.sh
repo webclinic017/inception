@@ -5,11 +5,10 @@ tmp_fname=all_tmp.tar.gz
 
 echo '>> Unzip models'
 cd $p/ML
-tar -xzf $model_fname
+tar xvzf $model_fname
 
 echo '>> Unzip temp files'
 cd $p/tmp
-tar -xzf $tmp_fname
+tar xvzf $tmp_fname
 
 cd $p
-
