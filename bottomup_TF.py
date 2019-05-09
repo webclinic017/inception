@@ -434,7 +434,7 @@ def predict_ds(context):
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    train_cols = np.load(ml_path + trained_cols) # save feature order
+    train_cols = np.load(ml_path + trained_cols, allow_pickle=True) # save feature order
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
         print(f'Warning missing columns: {missing_cols}')
@@ -452,11 +452,12 @@ def predict_ds(context):
     model = load_model(fname)
     print('Loaded', fname)
 
-    preds = model.predict_classes(pred_X[sorted_cols].iloc[:, :-1])
-    pred_class = np.array([fwd_ret_labels[x] for x in preds])
-    pred_df['pred_class'] = pred_class
-    pred_df['pred_label'] = preds
-    probs = model.predict_proba(pred_X[sorted_cols].iloc[:, :-1])
+    preds = model.predict(pred_X[sorted_cols].iloc[:, :-1])
+    preds_classes = model.predict_classes(pred_X[sorted_cols].iloc[:, :-1])
+
+    pred_df['pred_class'] = preds_classes
+    pred_df['pred_label'] = list(map(lambda x: fwd_ret_labels[x], preds_classes))
+    probs = np.round(preds,3)
     pred_prob = np.argmax(probs, axis=1)
     pred_df['confidence'] = [x[np.argmax(x)] for x in probs] # higest prob
     prob_df = pd.DataFrame(probs, index=pred_df.index, columns=fwd_ret_labels)

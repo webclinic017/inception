@@ -204,42 +204,48 @@ def train_ds(context):
     neuron_mult = context['neuron_mult']
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
-    units = X_train.shape[1] * neuron_mult
-    print(f'max_iter: {max_iter}, l2_reg: {l2_reg}, neuron_mult: {neuron_mult}, units: {units}')
+    # units = X_train.shape[1] * neuron_mult
+    units = 500
+    print(f'max_iter: {max_iter}, l2_reg: {l2_reg}, units: {units}')
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
 
-    keras.regularizers.l2()
+    # keras.regularizers.l2()
 
     model = Sequential()
     model.add(Dense(units, activation='tanh', input_dim=X_train.shape[1]))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
     model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
     model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
     model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.2))
+    model.add(Dropout(0.1))
+    model.add(Dense(units, activation='tanh'))
+    model.add(Dropout(0.1))    
     model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
 
     opt = Adam()
-#     opt = Adagrad() #lr adapted relative to how frequently a parameter gets updated, the more updates the smaller the lr
-#     opt = Adadelta() #more robust extension of Adagrad, adapts lr based on a moving window of gradient updates, instead of accumulating all past gradients
-#     opt = Adamax() #variant of Adam based on the infinity norm
-#     opt = Nadam() #essentially RMSprop with momentum, Nadam is Adam RMSprop with Nesterov momentum
-#     opt = RMSprop() #optimizer is usually a good choice for recurrent neural networks
+    # opt = Adagrad() #lr adapted relative to how frequently a parameter gets updated, the more updates the smaller the lr
+    # opt = Adadelta() #more robust extension of Adagrad, adapts lr based on a moving window of gradient updates, instead of accumulating all past gradients
+    # opt = Adamax() #variant of Adam based on the infinity norm
+    # opt = Nadam() #essentially RMSprop with momentum, Nadam is Adam RMSprop with Nesterov momentum
+    # opt = RMSprop() #optimizer is usually a good choice for recurrent neural networks
 
     es = EarlyStopping(
-        monitor='loss', patience=5, restore_best_weights=True, verbose=1)
+        monitor='loss', patience=10, restore_best_weights=True, verbose=1)
 
     ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
 
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-    model.fit(X_train, y_train_oh, validation_data=(X_test, y_test_oh),
-              epochs=max_iter, batch_size=200, callbacks=[
+    history = model.fit(
+        X_train, y_train_oh, validation_data=(X_test, y_test_oh),
+        epochs=max_iter,
+        batch_size=200,
+        callbacks=[
                   es,
                   checkpointer,
               ])
@@ -332,7 +338,7 @@ if __name__ == '__main__':
     # tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
     # tickers = list(size_df.index)
 
-    context['tickers'] = tickers[:20]
+    context['tickers'] = tickers
     print(f'{len(context["tickers"])} companies')
 
     if hook == 'train':
