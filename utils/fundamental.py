@@ -188,3 +188,9 @@ def get_focus_tickers(quotes, profile, tgt_sectors):
     size_df = size_df.loc[size_df.industry.isin(tgt_industries)]
 
     return size_df
+
+def train_on_winners(prices, tickers, years, quantile):
+    hist_return = prices[tickers].pct_change(252*years).iloc[-1].dropna()
+    hist_return.name = 'totalReturn'
+    mask = hist_return > hist_return.quantile(quantile)
+    return hist_return.loc[mask]
