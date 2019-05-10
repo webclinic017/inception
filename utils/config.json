@@ -158,6 +158,6 @@
  "summary_path": "summary/{0}/",
  "training_path": "training/",
  "option_train_fmt": "options_{0}.csv",
- "ec2_IP": "54.218.91.47",
+ "ec2_IP": "ec2-54-201-44-250.us-west-2.compute.amazonaws.com",
  "remote_path": "/home/ubuntu/inception"
 }

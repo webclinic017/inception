@@ -5,7 +5,7 @@ from tqdm import tqdm
 # from matplotlib import pyplot as plt
 from utils.basic_utils import *
 from utils.basic_utils import *
-from utils.fundamental import chain_outlier, get_focus_tickers
+from utils.fundamental import chain_outlier, get_focus_tickers, train_on_winners
 from utils.pricing import load_px_close, get_return_intervals
 from utils.pricing import dummy_col, discret_rets, sample_wgts
 from utils.pricing import px_mom_feats, px_mom_co_feats_light
@@ -56,9 +56,9 @@ context = {
     'test_size': .05,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'neuron_mult': 30,
+    'units': 750,
     'max_iter': 400,
-    'l2_reg': 1e-2,
+    'l2_reg': 0.007,
 }
 
 px_close = load_px_close(
@@ -137,7 +137,10 @@ def train_ds(context):
     trained_cols = context['trained_cols']
     test_size = context['test_size']
     look_ahead, look_back, smooth_window = context['look_ahead'], context['look_back'], context['smooth_window']
-    f'{look_ahead} days, {look_back} days, {smooth_window} days'
+
+    narrow_list = list(train_on_winners(prices, context['tickers'], 10, 0.75).index)
+    context['tickers'] = narrow_list
+    print(f'Training on {len(context["tickers"])} companies')
 
     joined_df = create_pre_process_ds(context)
 
@@ -194,61 +197,44 @@ def train_ds(context):
         y_train, y_test = y.iloc[train_index], y.iloc[test_index]
         break # just one split
 
-    # skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
+    # skf = StratifiedKFold(n_splits=2, random_state=None)
     # for train_index, test_index in skf.split(X, y):
     #     X_train, X_test = X.iloc[train_index], X.iloc[test_index]
     #     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
     #     break
 
     # Keras Model
-    neuron_mult = context['neuron_mult']
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
-    # units = X_train.shape[1] * neuron_mult
-    units = 500
-    print(f'max_iter: {max_iter}, l2_reg: {l2_reg}, units: {units}')
+    units = context['units']
+
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
 
-    # keras.regularizers.l2()
-
     model = Sequential()
-    model.add(Dense(units, activation='tanh', input_dim=X_train.shape[1]))
-    model.add(Dropout(0.1))
-    model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.1))
-    model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.1))
-    model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.1))
-    model.add(Dense(units, activation='tanh'))
-    model.add(Dropout(0.1))    
+    model.add(Dense(units, activation='relu', input_dim=X_train.shape[1]))
+    # model.add(Dropout(0.05))
+    model.add(Dense(units, activation='relu'))
+    model.add(Dense(units, activation='relu'))
+    model.add(Dense(units, activation='relu'))
+    model.add(Dense(int(units/2), activation='relu'))
     model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
+    keras.regularizers.l2(l2_reg)
 
     opt = Adam()
-    # opt = Adagrad() #lr adapted relative to how frequently a parameter gets updated, the more updates the smaller the lr
-    # opt = Adadelta() #more robust extension of Adagrad, adapts lr based on a moving window of gradient updates, instead of accumulating all past gradients
-    # opt = Adamax() #variant of Adam based on the infinity norm
     # opt = Nadam() #essentially RMSprop with momentum, Nadam is Adam RMSprop with Nesterov momentum
     # opt = RMSprop() #optimizer is usually a good choice for recurrent neural networks
 
-    es = EarlyStopping(
-        monitor='loss', patience=10, restore_best_weights=True, verbose=1)
-
     ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
+    es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
 
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-    history = model.fit(
-        X_train, y_train_oh, validation_data=(X_test, y_test_oh),
-        epochs=max_iter,
-        batch_size=200,
-        callbacks=[
-                  es,
-                  checkpointer,
-              ])
+    history = model.fit(X_train, y_train_oh, validation_data=(X_test, y_test_oh),
+              epochs=max_iter, batch_size=200, callbacks=[es, checkpointer,])
+
     score = model.evaluate(X_test, y_test_oh)
     print(f'Test loss: {score[0]}, Test accuracy: {score[1]}')
 
@@ -260,7 +246,6 @@ def train_ds(context):
     # save model to drive
     model.save(fname)
     print('Saved ', fname)
-
 
 def predict_ds(context):
 
@@ -317,29 +302,22 @@ if __name__ == '__main__':
 
     # Smaller subset for testing
     tgt_sectors = [
-        # 'Technology',
+        'Technology',
         'Healthcare',
-    #     'Industrials',
-    #     'Basic Materials',
-        # 'Consumer Cyclical',
-    #     'Financial Services',
-        # 'Consumer Defensive',
-    #     'Real Estate',
-    #     'Utilities',
-        # 'Communication Services',
-    #     'Energy',
+        'Industrials',
+        'Basic Materials',
+        'Consumer Cyclical',
+        'Financial Services',
+        'Consumer Defensive',
+        'Real Estate',
+        'Utilities',
+        'Communication Services',
+        'Energy',
     ]
 
     size_df = get_focus_tickers(quotes, profile, tgt_sectors)
-    # ind_count = size_df.groupby('industry').count()['marketCap']
-    # tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
-    # tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
     tickers = list(profile.loc[profile.sector.isin(tgt_sectors), 'symbol'])
-    # tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
-    # tickers = list(size_df.index)
-
     context['tickers'] = tickers
-    print(f'{len(context["tickers"])} companies')
 
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
