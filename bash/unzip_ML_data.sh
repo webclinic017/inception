@@ -3,11 +3,11 @@ p=/home/$(whoami)/inception
 models_fname=all_models.tar.gz
 tmp_fname=all_tmp.tar.gz
 
-echo '>> Unzip models'
+echo '>> Unzipping models'
 cd $p/ML
-tar xvzf $model_fname
+tar xvzf $models_fname
 
-echo '>> Unzip temp files'
+echo '>> Unzipping temp files'
 cd $p/tmp
 tar xvzf $tmp_fname
 

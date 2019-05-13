@@ -1,21 +1,21 @@
 #!/bin/bash
 p=/home/$(whoami)/inception
-inference_IP=34.221.106.35
+inference_IP=34.219.253.160
 models_fname=all_models.tar.gz
 tmp_fname=all_tmp.tar.gz
 
-echo '>> Zip models'
+echo '>> Zipping models'
 cd $p/ML
-rm -f $model_fname
-tar -cvzf $model_fname *TF*
+rm -f $models_fname
+tar -cvzf $models_fname .
 
-echo '>> Unzip temp files'
+echo '>> Zipping temp files'
 cd $p/tmp
 rm -f $tmp_fname
 tar -cvzf $tmp_fname .
 
 echo '>> Moving files to inference instance'
-scp -i ~/.ssh/qc_infra.pem $p/ML/$models_fname ubuntu@$inference_IP:$p/ML/$models_fname
-scp -i ~/.ssh/qc_infra.pem $p/tmp/$tmp_fname ubuntu@$inference_IP:$p/tmp/$tmp_fname
+scp -i ~ubuntu/.ssh/qc_infra.pem $p/ML/$models_fname ubuntu@$inference_IP:$p/ML/$models_fname
+scp -i ~ubuntu/.ssh/qc_infra.pem $p/tmp/$tmp_fname ubuntu@$inference_IP:$p/tmp/$tmp_fname
 
 cd $p
