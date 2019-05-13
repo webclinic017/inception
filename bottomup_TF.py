@@ -165,9 +165,9 @@ tickers = config['companies']
 context = {
     'tickers': tickers,
     'fn_pipeline': fn_pipeline,
-    'ml_path': '../ML/',
+    'ml_path': './ML/',
     'model_name': 'bottomup_TF.h5',
-    'tmp_path': '../tmp/',
+    'tmp_path': './tmp/',
     'ds_name': 'co-bottomup-ds',
     'px_close': 'universe-px-ds',
     'trained_cols': 'bottomup_TF_train_cols.npy',

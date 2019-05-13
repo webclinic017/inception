@@ -44,9 +44,9 @@ y_col = 'fwdReturn'
 tickers = excl(config['companies'], [])
 
 context = {
-    'ml_path': '../ML/',
+    'ml_path': './ML/',
     'model_name': 'micro_TF.h5',
-    'tmp_path': '../tmp/',
+    'tmp_path': './tmp/',
     'ds_name': 'co-technicals-ds',
     'px_close': 'universe-px-ds',
     'trained_cols': 'micro_TF_train_cols.npy',
