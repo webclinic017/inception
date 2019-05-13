@@ -55,12 +55,12 @@ context = {
     'smooth_window': 10,
     'load_ds': True,
     'scale': True,
-    'test_size': .02,
+    'test_size': .015,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
     'units': 850,
     'max_iter': 400,
-    'l2_reg': 0.007,
+    'l2_reg': 0.009,
 }
 
 px_close = load_px_close(
@@ -324,11 +324,6 @@ if __name__ == '__main__':
         'Energy',
     ]
 
-    # size_df = get_focus_tickers(quotes, profile, tgt_sectors)
-    # tickers = list(size_df.index)
-    # ind_count = size_df.groupby('industry').count()['marketCap']
-    # tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
-    # tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
     tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
     context['tickers'] = tickers
     print(f'{len(tickers)} companies')
