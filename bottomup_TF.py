@@ -27,11 +27,15 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import accuracy_score, log_loss, precision_recall_fscore_support
 from sklearn.metrics import precision_score, roc_auc_score
 
-import numpy as np
 import keras
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation
-from keras.optimizers import SGD, Adam
+from keras.optimizers import SGD, Adam, Adagrad, Adadelta, Adamax, Nadam, RMSprop
+from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.callbacks import CSVLogger
+
+from keras import backend as K
+K.tensorflow_backend._get_available_gpus()
 
 pd.options.display.float_format = '{:,.2f}'.format
 
@@ -49,7 +53,6 @@ ds_dict = {
             'returnOnAssets', 'returnOnEquity', 'revenueGrowth',
             'targetHighPrice', 'targetLowPrice', 'targetMeanPrice',
             'targetMedianPrice', 'totalCash', 'totalDebt', 'totalRevenue',
-#             'financialCurrency', 'recommendationKey',
             'symbol', ],
         'scale': [
             'freeCashflow', 'operatingCashflow', 'ebitda',
@@ -162,9 +165,9 @@ tickers = config['companies']
 context = {
     'tickers': tickers,
     'fn_pipeline': fn_pipeline,
-    'ml_path': './ML/',
+    'ml_path': '../ML/',
     'model_name': 'bottomup_TF.h5',
-    'tmp_path': './tmp/',
+    'tmp_path': '../tmp/',
     'ds_name': 'co-bottomup-ds',
     'px_close': 'universe-px-ds',
     'trained_cols': 'bottomup_TF_train_cols.npy',
@@ -173,14 +176,15 @@ context = {
     'smooth_window': 10,
     'load_ds': True,
     'scale': True,
-    'test_size': .04,
+    'test_size': .05,
     'verbose': True,
     's3_path': f'recommend/bottomup_ML/',
     'verbose': 2,
-    'neuron_mult': 5,
+    'units': 1000,
     'hidden_layers': 4,
-    'max_iter': 50,
-    'l2_reg': 0.10,
+    'max_iter': 400,
+    'l2_reg': 0.5,
+    'dropout': 0.5,
 }
 
 px_close = load_px_close(
@@ -246,7 +250,7 @@ def create_ds(context):
 
     return daily_df
 
-def create_pre_process_ds(context):
+def pre_process_ds(context):
 
     # join all datasets
     tickers = context['tickers']
@@ -317,15 +321,14 @@ def create_pre_process_ds(context):
 
     return joined_df.reset_index('symbol')
 
-def train_ds(context):
+def get_train_test_sets(context):
 
     verbose = context['verbose']
     ml_path, model_name = context['ml_path'], context['model_name']
-    trained_cols = context['trained_cols']
+    test_size = context['test_size']
     look_ahead, look_back, smooth_window = context['look_ahead'], context['look_back'], context['smooth_window']
-    f'{look_ahead} days, {look_back} days, {smooth_window} days'
 
-    joined_df = create_pre_process_ds(context)
+    joined_df = pre_process_ds(context)
 
     # if we want to limit training set
     # index = joined_df.sort_index().index.unique()[-look_back:]
@@ -374,7 +377,7 @@ def train_ds(context):
 
     # create training and test sets
     X, y = train_df.drop(columns=y_col), train_df[y_col]
-    sss = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+    sss = StratifiedShuffleSplit(n_splits=1, test_size=test_size, random_state=42)
     for train_index, test_index in sss.split(X, y):
         X_train, X_test = X.iloc[train_index], X.iloc[test_index]
         y_train, y_test = y.iloc[train_index], y.iloc[test_index]
@@ -386,29 +389,47 @@ def train_ds(context):
     #     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
     #     break
 
+    return X_train, X_test, y_train, y_test
+
+def train_ds(context):
+
+    X_train, X_test, y_train, y_test = get_train_test_sets(context)
+
     # Keras Model
-    neuron_mult = context['neuron_mult']
+    units = context['units']
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
-    units = X_train.shape[1] * neuron_mult
+    dropout = context['dropout']
+    trained_cols = context['trained_cols']
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
 
+    # keras.regularizers.l2(l=0.001)
+
     model = Sequential()
-    keras.regularizers.l2(l2_reg)
-    model.add(Dense(units, activation='tanh', input_dim=X_train.shape[1]))
-    # model.add(Dropout(0.5))
-    model.add(Dense(units, activation='tanh'))
-    # model.add(Dropout(0.5))
-    model.add(Dense(units, activation='tanh'))
-    # model.add(Dropout(0.5))
-    model.add(Dense(units, activation='tanh'))
+    model.add(Dense(units, activation='relu', input_dim=X_train.shape[1]))
+    model.add(Dropout(0.5))
+    model.add(Dense(units, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(units, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(int(units/2), activation='relu'))
     model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
 
-    opt = Adam(epsilon=1e-8)
+    ml_path, model_name = context['ml_path'], context['model_name']
+    fname = ml_path + model_name
+
+    es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
+    checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
+    csv_logger = CSVLogger('bottomup-train.log')
+
+    opt = Adam()
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-    model.fit(X_train, y_train_oh, epochs=max_iter, batch_size=200)
+    history = model.fit(
+        X_train, y_train_oh, validation_data=(X_test, y_test_oh),
+        epochs=max_iter, batch_size=200, callbacks=[es, checkpointer, csv_logger])
+
     score = model.evaluate(X_test, y_test_oh)
     print(f'Loss: {score[0]}, Accuracy: {score[1]}')
 
@@ -434,7 +455,7 @@ def predict_ds(context):
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    train_cols = np.load(ml_path + trained_cols, allow_pickle=True) # save feature order
+    train_cols = np.load(ml_path + trained_cols) # save feature order
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
         print(f'Warning missing columns: {missing_cols}')
@@ -491,12 +512,7 @@ if __name__ == '__main__':
         'Energy',
     ]
 
-    size_df = get_focus_tickers(quotes, profile, tgt_sectors)
-    # ind_count = size_df.groupby('industry').count()['marketCap']
-    # tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
-    # tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
-    # tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
-    tickers = list(size_df.index)
+    tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
     context['tickers'] = tickers
     print(f'{len(tickers)} companies')
 

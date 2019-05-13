@@ -29,22 +29,24 @@ from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
-import numpy as np
 import keras
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD, Adam, Adagrad, Adadelta, Adamax, Nadam, RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
+from keras.callbacks import CSVLogger
 
-# environment variables
+from keras import backend as K
+K.tensorflow_backend._get_available_gpus()
+
 bench = '^GSPC'
 y_col = 'fwdReturn'
 tickers = excl(config['companies'], [])
 
 context = {
-    'ml_path': './ML/',
+    'ml_path': '../ML/',
     'model_name': 'micro_TF.h5',
-    'tmp_path': './tmp/',
+    'tmp_path': '../tmp/',
     'ds_name': 'co-technicals-ds',
     'px_close': 'universe-px-ds',
     'trained_cols': 'micro_TF_train_cols.npy',
@@ -53,10 +55,10 @@ context = {
     'smooth_window': 10,
     'load_ds': True,
     'scale': True,
-    'test_size': .05,
+    'test_size': .02,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'units': 750,
+    'units': 850,
     'max_iter': 400,
     'l2_reg': 0.007,
 }
@@ -84,7 +86,7 @@ profile.set_index('symbol', drop=False, inplace=True)
 
 
 # MODEL SPECIIFIC FUNCTIONS
-def create_pre_process_ds(context):
+def pre_process_ds(context):
 
     tickers = context['tickers']
     sectors = profile.loc[profile.symbol.isin(tickers)].sector.unique()
@@ -130,7 +132,7 @@ def create_pre_process_ds(context):
 
     return joined_df
 
-def train_ds(context):
+def get_train_test_sets(context):
 
     verbose = context['verbose']
     ml_path, model_name = context['ml_path'], context['model_name']
@@ -142,7 +144,7 @@ def train_ds(context):
     context['tickers'] = narrow_list
     print(f'Training on {len(context["tickers"])} companies')
 
-    joined_df = create_pre_process_ds(context)
+    joined_df = pre_process_ds(context)
 
     # if we want to limit training set
     # index = joined_df.sort_index().index.unique()[-look_back:]
@@ -203,11 +205,17 @@ def train_ds(context):
     #     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
     #     break
 
+    return X_train, X_test, y_train, y_test
+
+def train_ds(context):
+
+    X_train, X_test, y_train, y_test = get_train_test_sets(context)
+
     # Keras Model
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
     units = context['units']
-
+    trained_cols = context['trained_cols']
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
@@ -230,10 +238,11 @@ def train_ds(context):
     fname = ml_path + model_name
     es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
+    csv_logger = CSVLogger('micro-train.log')
 
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
     history = model.fit(X_train, y_train_oh, validation_data=(X_test, y_test_oh),
-              epochs=max_iter, batch_size=200, callbacks=[es, checkpointer,])
+              epochs=max_iter, batch_size=200, callbacks=[es, checkpointer, csv_logger])
 
     score = model.evaluate(X_test, y_test_oh)
     print(f'Test loss: {score[0]}, Test accuracy: {score[1]}')
@@ -258,7 +267,7 @@ def predict_ds(context):
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    train_cols = np.load(ml_path + trained_cols, allow_pickle=False) # save feature order
+    train_cols = np.load(ml_path + trained_cols) # save feature order
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
         print(f'Warning missing columns: {missing_cols}')
@@ -315,9 +324,14 @@ if __name__ == '__main__':
         'Energy',
     ]
 
-    size_df = get_focus_tickers(quotes, profile, tgt_sectors)
-    tickers = list(profile.loc[profile.sector.isin(tgt_sectors), 'symbol'])
+    # size_df = get_focus_tickers(quotes, profile, tgt_sectors)
+    # tickers = list(size_df.index)
+    # ind_count = size_df.groupby('industry').count()['marketCap']
+    # tgt_industries = list(ind_count.loc[ind_count > ind_count.median() - 1].index)
+    # tickers = list(profile.loc[profile.industry.isin(tgt_industries), 'symbol'])
+    tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
     context['tickers'] = tickers
+    print(f'{len(tickers)} companies')
 
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
