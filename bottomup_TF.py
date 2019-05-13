@@ -450,7 +450,7 @@ def predict_ds(context):
     model_name = context['model_name']
     trained_cols = context['trained_cols']
 
-    joined_df = create_pre_process_ds(context)
+    joined_df = pre_process_ds(context)
     pred_X = joined_df.loc[joined_df.sort_index().index[-1], :]
     print('pred_X.shape', pred_X.shape)
 
