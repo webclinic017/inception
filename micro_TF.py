@@ -216,9 +216,15 @@ def train_ds(context):
     l2_reg = context['l2_reg']
     units = context['units']
     trained_cols = context['trained_cols']
+    ml_path, model_name = context['ml_path'], context['model_name']
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
+
+    # save training columns
+    np.save(ml_path + trained_cols, X_train.columns) # save feature order
+    print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
+    print('Saved: ', ml_path + trained_cols)
 
     model = Sequential()
     model.add(Dense(units, activation='relu', input_dim=X_train.shape[1]))
@@ -234,7 +240,6 @@ def train_ds(context):
     # opt = Nadam() #essentially RMSprop with momentum, Nadam is Adam RMSprop with Nesterov momentum
     # opt = RMSprop() #optimizer is usually a good choice for recurrent neural networks
 
-    ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
     es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
@@ -246,11 +251,6 @@ def train_ds(context):
 
     score = model.evaluate(X_test, y_test_oh)
     print(f'Test loss: {score[0]}, Test accuracy: {score[1]}')
-
-    # save training columns
-    np.save(ml_path + trained_cols, X_train.columns) # save feature order
-    print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
-    print('Saved: ', ml_path + trained_cols)
 
     # save model to drive
     model.save(fname)

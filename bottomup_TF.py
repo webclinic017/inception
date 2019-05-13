@@ -401,9 +401,15 @@ def train_ds(context):
     l2_reg = context['l2_reg']
     dropout = context['dropout']
     trained_cols = context['trained_cols']
+    ml_path, model_name = context['ml_path'], context['model_name']    
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
+
+    # save training columns
+    np.save(ml_path + trained_cols, X_train.columns) # save feature order
+    print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
+    print('Saved: ', ml_path + trained_cols)
 
     # keras.regularizers.l2(l=0.001)
 
@@ -417,7 +423,6 @@ def train_ds(context):
     model.add(Dense(int(units/2), activation='relu'))
     model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
 
-    ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
 
     es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
@@ -432,11 +437,6 @@ def train_ds(context):
 
     score = model.evaluate(X_test, y_test_oh)
     print(f'Loss: {score[0]}, Accuracy: {score[1]}')
-
-    # save training columns
-    np.save(ml_path + trained_cols, X_train.columns) # save feature order
-    print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
-    print('Saved: ', ml_path + trained_cols)
 
     # save model to drive
     ml_path, model_name = context['ml_path'], context['model_name']
