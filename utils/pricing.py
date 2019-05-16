@@ -217,9 +217,8 @@ def px_mom_feats(df, s, stds=1, invert=False, incl_px=False, rolls=[20,60,120], 
 # Forward returns
 def px_fwd_rets(df, s, periods=[20, 60, 120]):
     ndf = pd.DataFrame()
-    for p in periods:
-        ndf[s + 'FwdPctChg' + str(p)] = df.pct_change(p).shift(-p)
-    return ndf
+    for p in periods: ndf[s + 'FwdPctChg' + str(p)] = df.pct_change(p).shift(-p)
+    return ndf.mean(axis=1)
 
 def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20,60,120]):
 
