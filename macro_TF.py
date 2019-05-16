@@ -117,7 +117,7 @@ def get_train_test_set(context):
     # create and pre-process datasets
     ds_idx, raw_df = create_ds(px_close, context)
     raw_df = pre_process_ds(raw_df, context)
-    Y = px_fwd_rets(px_close.loc[ds_idx, bench], bench, pred_fwd_windows).mean(axis=1)
+    Y = px_fwd_rets(px_close.loc[ds_idx, bench], bench, pred_fwd_windows)
     raw_df[y_col] = Y
 
     # discretize forward returns into classes
