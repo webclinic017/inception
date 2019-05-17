@@ -214,11 +214,16 @@ def px_mom_feats(df, s, stds=1, invert=False, incl_px=False, rolls=[20,60,120], 
     if not incl_name: ndf['symbol'] = s
     return ndf
 
-# Forward returns
+# Forward returns (@deprecated)
 def px_fwd_rets(df, s, periods=[20, 60, 120]):
     ndf = pd.DataFrame()
     for p in periods: ndf[s + 'FwdPctChg' + str(p)] = df.pct_change(p).shift(-p)
     return ndf.mean(axis=1)
+
+def px_fwd_ret(df, look_ahead, smooth):
+    """ New forward returns, single period """
+    spct_chg = df.pct_change(look_ahead).rolling(smooth).mean()
+    return spct_chg.shift(-int(smooth/2)).shift(-look_ahead)
 
 def px_mom_co_feats(df, ind_df, groups=('Bench', 'Sector','Industry'), rolls=[20,60,120]):
 
