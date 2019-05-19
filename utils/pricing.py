@@ -295,8 +295,8 @@ def max_draw_pull(xs):
     h_dd = np.argmax(np.array(xs[:l_dd]))
     l_p = np.argmax(xs - np.minimum.accumulate(xs))
     h_p = np.argmin(np.array(xs[:l_p]))
-    # drawdown low index, high index; pull low index, high index
-    return l_dd, h_dd, l_p, h_p
+    # drawdown low index, high index; pull high index, low index, 
+    return l_dd, h_dd, h_p, l_p
 
 def get_pct_chg_seasonality(df, rule):
     ss_df = df.pct_change().resample(rule).sum().to_frame()
@@ -319,7 +319,7 @@ def load_px_close(path, fname, load_ds=True):
         px_close = pd.read_parquet(path + fname)
     else:
         # file does not exist, refreshes full dataset
-        px_close = get_mults_pricing(UNIVERSE)
+        px_close = ts_pricing(UNIVERSE)
         num_cols = numeric_cols(px_close)
         px_close.loc[:, num_cols] = px_close[num_cols].astype(np.float32)
         os.makedirs(path, exist_ok=True)
