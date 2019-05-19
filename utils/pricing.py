@@ -59,16 +59,12 @@ def get_symbol_pricing(symbol, freq='1d', cols=None):
     cols = df.columns if cols is None else cols
     return df[cols].dropna()
 
-import time
-from tqdm import tqdm
-
 def get_mults_pricing(symbols, freq='1d', col=None, verbose=True):
     super_list = []
     for n, t in tqdm(enumerate(symbols)):
         try:
             df = get_symbol_pricing(t, freq, col)
             rename_col(df, 'close', t)
-            # if verbose: print("Retrieving pricing: {0}, {1}".format(t, df.shape))
             df.drop_duplicates(inplace=True)
             if freq == '1d': df.index = df.index.strftime('%Y-%m-%d')
             super_list.append(df[t])
@@ -81,6 +77,23 @@ def get_mults_pricing(symbols, freq='1d', col=None, verbose=True):
     # full_df = pd.concat(super_list, axis=1, sort=True)
     full_df.index = pd.to_datetime(full_df.index)
     return full_df
+
+def get_univ_px_vol(symbols, freq='1d'):
+    """
+    Returns full open, close, high, low, volume dataframe
+    """
+    super_list = []
+    for n, t in tqdm(enumerate(symbols)):
+        try:
+            df = get_symbol_pricing(t, freq='1d', cols=None)
+            df.drop_duplicates(inplace=True)
+            df.index.name = 'storeDate'; df['symbol'] = t
+            df.set_index('symbol', append=True, inplace=True)
+            super_list.append(df)
+        except Exception as e:
+            print(f'Exception get_mults_px_vol: {t}{e}')
+    px_vol_df = pd.concat(super_list, axis=0)
+    return px_vol_df.unstack()
 
 def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
     data_dict = get_pricing(symbol, freq, prange, False)
@@ -295,7 +308,7 @@ def max_draw_pull(xs):
     h_dd = np.argmax(np.array(xs[:l_dd]))
     l_p = np.argmax(xs - np.minimum.accumulate(xs))
     h_p = np.argmin(np.array(xs[:l_p]))
-    # drawdown low index, high index; pull high index, low index, 
+    # drawdown low index, high index; pull high index, low index,
     return l_dd, h_dd, h_p, l_p
 
 def get_pct_chg_seasonality(df, rule):
