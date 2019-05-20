@@ -189,8 +189,14 @@ def get_focus_tickers(quotes, profile, tgt_sectors):
 
     return size_df
 
-def best_performers(prices, tickers, years=10, quantile=0.75):
-    hist_return = prices[tickers].pct_change(252*years).iloc[-1].dropna()
+def best_performers(prices, tickers, days=252*7, q=0.75):
+    living_cos = prices[tickers].tail(days).dropna(axis=1)
+    living_index = (living_cos.pct_change() + 1).cumprod()
+    last_close = living_index.iloc[-1]
+    last_close.sort_values()
+    min_q = last_close.quantile(q)
+    above_q = (last_close > min_q)
+    hist_return = last_close.loc[above_q.loc[above_q].index]
     hist_return.name = 'totalReturn'
-    mask = hist_return > hist_return.quantile(quantile)
-    return hist_return.loc[mask]
+    print(f'{hist_return.shape[0]} companies above {round(min_q, 3)}x in the last {days/252} years')
+    return hist_return.sort_values(ascending=False)
