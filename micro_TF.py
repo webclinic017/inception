@@ -4,11 +4,10 @@ from tqdm import tqdm
 
 # from matplotlib import pyplot as plt
 from utils.basic_utils import *
-from utils.basic_utils import *
-from utils.fundamental import chain_outlier, get_focus_tickers, train_on_winners
+from utils.fundamental import chain_outlier, get_focus_tickers, best_performers
 from utils.pricing import load_px_close, get_return_intervals
-from utils.pricing import dummy_col, discret_rets, sample_wgts
-from utils.pricing import px_mom_feats, px_mom_co_feats_light
+from utils.pricing import dummy_col, discret_rets, sample_wgts, px_fwd_ret
+from utils.pricing import px_mom_feats, px_mom_co_feats_light, px_fwd_rets, get_ind_index
 from utils.pricing import eq_wgt_indices, to_index_form, rename_col
 
 import time, os, sys
@@ -68,11 +67,6 @@ px_close = load_px_close(
     context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
 print('px_close.info()', px_close.info())
 
-# load stored pricing
-px_close = load_px_close(
-    context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
-print('px_close.info()', px_close.info())
-
 fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
 clean_co_px = px_close.dropna(subset=[bench])[companies]
 
@@ -82,6 +76,11 @@ cut_range = get_return_intervals(
     tresholds=[0.25, 0.75])
 
 print(f'Return intervals {np.round(cut_range, 3)}')
+
+# Quotes, profile, and industries
+dates = read_dates('quote')
+tgt_date = dates[-1] # last date saved in S3
+print(f'Target date: {tgt_date}')
 
 quotes = load_csvs('quote_consol', [tgt_date])
 quotes = quotes.loc[quotes.symbol.isin(companies)]
