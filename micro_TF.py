@@ -28,12 +28,14 @@ from sklearn.ensemble import VotingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
+import numpy as np
 import keras
 from keras.models import Sequential, load_model
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD, Adam, Adagrad, Adadelta, Adamax, Nadam, RMSprop
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.callbacks import CSVLogger
+from keras.layers import BatchNormalization
 
 from keras import backend as K
 K.tensorflow_backend._get_available_gpus()
