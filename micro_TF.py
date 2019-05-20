@@ -39,9 +39,10 @@ from keras.callbacks import CSVLogger
 from keras import backend as K
 K.tensorflow_backend._get_available_gpus()
 
+# context
 bench = '^GSPC'
 y_col = 'fwdReturn'
-tickers = excl(config['companies'], [])
+companies = excl(config['companies'], [])
 
 context = {
     'ml_path': './ML/',
@@ -51,37 +52,43 @@ context = {
     'px_close': 'universe-px-ds',
     'trained_cols': 'micro_TF_train_cols.npy',
     'look_ahead': 120,
-    'look_back': 252,
-    'smooth_window': 10,
+    'look_back': 252*3,
     'load_ds': True,
     'scale': True,
-    'test_size': .015,
+    'test_size': .05,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'units': 850,
-    'max_iter': 400,
+    'units': 300, #850
+    'max_iter': 10, #50
     'l2_reg': 0.01,
 }
 
+# get latest pricing file from inferece server
 px_close = load_px_close(
     context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
 print('px_close.info()', px_close.info())
 
-prices = px_close.dropna(subset=[bench])[tickers]
-look_ahead = context['look_ahead']
-cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
-fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
-print(f'Return intervals {cut_range}')
+# load stored pricing
+px_close = load_px_close(
+    context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
+print('px_close.info()', px_close.info())
 
-# latest quotes, profile, and industries
-dates = read_dates('quote')
-tgt_date = dates[-1] # last date saved in S3
-print(f'Target date: {tgt_date}')
+fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
+clean_co_px = px_close.dropna(subset=[bench])[companies]
+
+cut_range = get_return_intervals(
+    clean_co_px,
+    context['look_ahead'],
+    tresholds=[0.25, 0.75])
+
+print(f'Return intervals {np.round(cut_range, 3)}')
 
 quotes = load_csvs('quote_consol', [tgt_date])
+quotes = quotes.loc[quotes.symbol.isin(companies)]
 quotes.set_index('symbol', drop=False, inplace=True)
 
 profile = load_csvs('summary_detail', ['assetProfile'])
+profile = profile.loc[profile.symbol.isin(companies)]
 profile.set_index('symbol', drop=False, inplace=True)
 
 
@@ -124,7 +131,8 @@ def pre_process_ds(context):
     scale_on = context['scale']
     scaler = StandardScaler()
     num_cols = numeric_cols(joined_df)
-    joined_df.loc[:, num_cols] = joined_df[num_cols].replace([np.inf, -np.inf, np.nan], 0)
+    # joined_df.loc[:, num_cols] = joined_df[num_cols].replace([np.inf, -np.inf, np.nan], 0)
+    joined_df.dropna(inplace=True)
     if scale_on: joined_df.loc[:, num_cols] = scaler.fit_transform(joined_df[num_cols])
 
     # add categoricals
@@ -138,24 +146,17 @@ def get_train_test_sets(context):
     ml_path, model_name = context['ml_path'], context['model_name']
     trained_cols = context['trained_cols']
     test_size = context['test_size']
-    look_ahead, look_back, smooth_window = context['look_ahead'], context['look_back'], context['smooth_window']
+    look_ahead = context['look_ahead']
 
-    narrow_list = list(train_on_winners(prices, context['tickers'], 10, 0.75).index)
-    context['tickers'] = narrow_list
+    tickers = context['tickers']
     print(f'Training on {len(context["tickers"])} companies')
 
     joined_df = pre_process_ds(context)
 
-    # if we want to limit training set
-    # index = joined_df.sort_index().index.unique()[-look_back:]
-    # joined_df = joined_df.loc[index, :]
-    # joined_df.shape
-
     # calculation of forward returns
-    Y = px_close.loc[:, tickers].pct_change(look_ahead).shift(-look_ahead)
-    Y = Y.rolling(smooth_window).mean() # smooth by the same length
+    look_ahead = context['look_ahead']
+    Y = clean_co_px.apply(px_fwd_ret, args=(look_ahead, int(look_ahead/4)))
     Y = Y[~(Y.isna().all(1))]
-    Y = Y.loc[joined_df.index.unique(), :]
 
     # reshapes to include symbol in index in additional to date
     Y_df = Y.loc[joined_df.index.unique().sortlevel()[0], tickers]
@@ -209,61 +210,63 @@ def get_train_test_sets(context):
 
 def train_ds(context):
 
-    X_train, X_test, y_train, y_test = get_train_test_sets(context)
-
-    # Keras Model
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
     units = context['units']
     trained_cols = context['trained_cols']
-    ml_path, model_name = context['ml_path'], context['model_name']
+
+    X_train, X_test, y_train, y_test = get_train_test_sets(context)
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
+
+    # Keras Model
+    model = Sequential()
+    model.add(Dense(units, input_dim=X_train.shape[1], use_bias=False))
+    model.add(BatchNormalization())
+    model.add(Activation("relu"))
+    model.add(Dense(units, use_bias=False))
+    model.add(BatchNormalization())
+    model.add(Activation("relu"))
+    model.add(Dense(units, use_bias=False))
+    model.add(BatchNormalization())
+    model.add(Activation("relu"))
+    model.add(Dense(int(units/2), use_bias=False))
+    model.add(BatchNormalization())
+    model.add(Activation("relu"))
+    model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
+    keras.regularizers.l2(l2_reg)
+
+    opt = Adam()
+
+    ml_path, model_name = context['ml_path'], context['model_name']
+    fname = ml_path + model_name
+
+    es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
+    checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
+    csv_logger = CSVLogger('micro-train.log')
 
     # save training columns
     np.save(ml_path + trained_cols, X_train.columns) # save feature order
     print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
     print('Saved: ', ml_path + trained_cols)
 
-    model = Sequential()
-    model.add(Dense(units, activation='relu', input_dim=X_train.shape[1]))
-    # model.add(Dropout(0.05))
-    model.add(Dense(units, activation='relu'))
-    model.add(Dense(units, activation='relu'))
-    model.add(Dense(units, activation='relu'))
-    model.add(Dense(int(units/2), activation='relu'))
-    model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
-    keras.regularizers.l2(l2_reg)
-
-    opt = Adam()
-    # opt = Nadam() #essentially RMSprop with momentum, Nadam is Adam RMSprop with Nesterov momentum
-    # opt = RMSprop() #optimizer is usually a good choice for recurrent neural networks
-
-    fname = ml_path + model_name
-    es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
-    checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
-    csv_logger = CSVLogger('micro-train.log')
-
     model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
     history = model.fit(X_train, y_train_oh, validation_data=(X_test, y_test_oh),
-              epochs=max_iter, batch_size=200, callbacks=[es, checkpointer, csv_logger])
+              epochs=max_iter, batch_size=64, callbacks=[es, checkpointer, csv_logger])
 
     score = model.evaluate(X_test, y_test_oh)
     print(f'Test loss: {score[0]}, Test accuracy: {score[1]}')
-
-    # save model to drive
-    model.save(fname)
-    print('Saved ', fname)
 
 def predict_ds(context):
 
     ml_path = context['ml_path']
     model_name = context['model_name']
     trained_cols = context['trained_cols']
+    look_back = context['look_back']
 
     joined_df = pre_process_ds(context)
-    pred_X = joined_df.loc[joined_df.sort_index().index[-1], :]
+    pred_X = joined_df.loc[joined_df.sort_index().index.unique()[-look_back:], :]
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
@@ -271,8 +274,7 @@ def predict_ds(context):
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
         print(f'Warning missing columns: {missing_cols}')
-        pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
-        pred_X[missing_cols] = 0
+        for c in missing_cols: pred_X[c] = 0
 
     sorted_cols = list(np.append(train_cols, ['symbol']))
     print('pred_X.shape', pred_X[sorted_cols].shape)
@@ -309,7 +311,7 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
 
-    # Smaller subset for testing
+    # Training/inference subset
     tgt_sectors = [
         'Technology',
         'Healthcare',
@@ -324,9 +326,9 @@ if __name__ == '__main__':
         'Energy',
     ]
 
-    tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
-    context['tickers'] = tickers
-    print(f'{len(tickers)} companies')
+    subset = list(best_performers(
+        clean_co_px, companies, days=252*7, q=0.75).index)
+    context['tickers'] = subset
 
     if hook == 'train':
         # train with 50 random tickers, keep model small, same results
