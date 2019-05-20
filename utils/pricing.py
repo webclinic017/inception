@@ -78,7 +78,7 @@ def get_mults_pricing(symbols, freq='1d', col=None, verbose=True):
     full_df.index = pd.to_datetime(full_df.index)
     return full_df
 
-def get_univ_px_vol(symbols, freq='1d'):
+def get_universe_px_vol(symbols, freq='1d'):
     """
     Returns full open, close, high, low, volume dataframe
     """
