@@ -97,7 +97,8 @@ class TechnicalDS:
         return {
             shorten_name(x):
             list(self.profile.loc[
-                self.profile.index.isin(tickers) & profile[desc_col].isin([x]),:
+                self.profile.index.isin(tickers) &
+                profile[desc_col].isin([x]),:
             ].index)
             for x in subset
         }
@@ -165,6 +166,13 @@ class TechnicalDS:
             x: self.pct_chg_df_dict[x].apply(lambda x: self.sign_compare(x, x.std()))
             for x in self.pct_chg_keys}
 
+        print('Ranked returns dataframes')
+        self.hist_perf_ranks = {
+            k: self.close_df[self.companies]
+            .apply(lambda x: (x.pct_change(k)+1))
+            .apply(lambda x: x.rank(pct=True, ascending=True), axis=0)
+            for k in self.active_keys}
+
         if self.max_draw_on:
             print(f'Max draw/pull dataframes')
             self.max_draw_df = self.close_df.rolling(self.look_ahead).apply(lambda x: self.max_draw(x), raw=True)
@@ -187,13 +195,16 @@ class TechnicalDS:
         ndf = pd.DataFrame()
         pre = symbol if incl_name else ''
         if incl_close:
-            ndf[symbol + 'Close'] = self.close_df[symbol]
+            ndf[f'{symbol}Close'] = self.close_df[symbol]
         for p in self.pct_chg_keys:
-            ndf[pre+'PctChg'+str(p)] = self.pct_chg_df_dict[p][symbol]
+            ndf[f'{pre}PctChg{p}'] = self.pct_chg_df_dict[p][symbol]
         for p in self.pct_stds_df_dict.keys():
-            ndf[pre+'PctChgStds'+str(p)] = self.pct_stds_df_dict[p][symbol]
+            ndf[f'{pre}PctChgStds{p}'] = self.pct_stds_df_dict[p][symbol]
         for d in self.incl_feat_dict.keys():
-            ndf[pre+d] = self.incl_feat_dict[d][symbol]
+            ndf[f'{pre}{d}'] = self.incl_feat_dict[d][symbol]
+        for p in self.active_keys:
+            ndf[f'{pre}PerfRank{p}'] = self.hist_perf_ranks[p][symbol]
+
         return ndf
 
     def stitch_instruments(self, axis=0):
@@ -229,22 +240,29 @@ class TechnicalDS:
 
         print('Group pct stds')
         self.bench_pct_stds_df = {x: self.pct_chg_bench_dict[x].apply(
-            lambda m: self.sign_compare(m, m.std())) for x in self.active_keys[1:]}
+            lambda m: self.sign_compare(m, m.std()))
+            for x in self.active_keys[1:]}
         self.sect_pct_stds_df = {x: self.pct_chg_sect_dict[x].apply(
-            lambda m: self.sign_compare(m, m.std())) for x in self.active_keys[1:]}
+            lambda m: self.sign_compare(m, m.std()))
+            for x in self.active_keys[1:]}
         self.ind_pct_stds_df = {x: self.pct_chg_ind_dict[x].apply(
-            lambda m: self.sign_compare(m, m.std())) for x in self.active_keys[1:]}
+            lambda m: self.sign_compare(m, m.std()))
+            for x in self.active_keys[1:]}
 
         print('Group performance deltas')
-        self.bench_delta_dict = {k: self.pct_chg_df_dict[k][self.companies].subtract(
+        self.bench_delta_dict = {k:
+            self.pct_chg_df_dict[k][self.companies].subtract(
             self.pct_chg_bench_dict[k].values, axis=1)
                                  for k in self.active_keys[1:]}
-        self.sect_delta_dict = {k: self.pct_chg_df_dict[k][self.companies].apply(
-            lambda x: x - self.get_df(x.name, 'sector', self.profile, k, self.pct_chg_sect_dict))
-                                for k in self.active_keys[1:]}
+        self.sect_delta_dict = {k:
+            self.pct_chg_df_dict[k][self.companies].apply(
+            lambda x: x - self.get_df(
+                x.name, 'sector', self.profile,
+                k, self.pct_chg_sect_dict)) for k in self.active_keys[1:]}
         self.ind_delta_dict = {k: self.pct_chg_df_dict[k][self.companies].apply(
-            lambda x: x - self.get_df(x.name, 'industry', self.profile, k, self.pct_chg_ind_dict))
-                               for k in self.active_keys[1:]}
+            lambda x: x - self.get_df(
+            x.name, 'industry', self.profile,
+                k, self.pct_chg_ind_dict)) for k in self.active_keys[1:]}
 
         print('% above MA by group')
         self.pct_mt50ma_by_group_df = self.pct_above_tresh_by_group(
