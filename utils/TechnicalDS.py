@@ -2,78 +2,45 @@
 import os
 import pandas as pd
 import numpy as np
-from utils.basic_utils import config, UNIVERSE
-from utils.basic_utils import read_dates, load_csvs, numeric_cols, excl
+from utils.basic_utils import UNIVERSE
+from utils.basic_utils import numeric_cols, excl
 from utils.pricing import get_universe_px_vol
 from utils.pricing import shorten_name
 from utils.pricing import to_index_form, eq_wgt_indices
-from utils.fundamental import best_performers
+
+from utils.BaseDS import BaseDS
 
 
-class TechnicalDS:
+class TechnicalDS(BaseDS):
 
-    universe_key = '^ALL'
-    y_col_name = 'fwdRet'
-    forward_return_labels = ["bear", "short", "neutral", "long", "bull"]
+    def __init__(self,
+        path='../tmp/',
+        fname='universe-px-vol-ds.h5',
+        load_ds=True,
+        tickers=None, bench='^GSPC', look_ahead=120, look_back=252*7,
+        invert_list=[], include_list=[],
+        roll_vol_days=30,
+        pct_chg_keys=[1, 20, 50, 200],
+        quantile=0.75, max_draw_on=False):
 
-    def __init__(self, path, fname, load_ds=True,
-                 tickers=None, invert_list=[], include_list=[], bench='^GSPC',
-                 look_ahead=120, look_back=252*7, roll_vol_days=30,
-                 pct_chg_keys=[1, 20, 50, 200],
-                 quantile=0.75, max_draw_on=False):
-        self.path = path
-        self.fname = fname
-        self.load_ds = load_ds
-        self.tickers = tickers
+        BaseDS.__init__(self, path, fname, load_ds,
+            tickers, bench, look_ahead, look_back, quantile)
+
         self.invert_list = invert_list
         self.include_list = include_list
-        self.bench = bench
         self.pct_chg_keys = pct_chg_keys
-        self.look_ahead = look_ahead
-        self.look_back = look_back
         self.roll_vol_days = roll_vol_days
-        self.quantile = quantile
         self.max_draw_on = max_draw_on
         self.ycol_name = f'{self.y_col_name}{self.look_ahead}'
+
+        self.sector_dict = self.dict_by_profile_column(
+            self.tickers, 'sector', self.sectors)
+        self.ind_dict = self.dict_by_profile_column(
+            self.tickers, 'industry', self.industries)
 
         self.incl_feat_dict = None
         self.incl_group_feat_dict = None
 
-        # Quotes, profile, and industries
-        self.dates = read_dates('quote')
-        # last date saved in S3
-        self.tgt_date = self.dates[-1]
-        print(f'Target date: {self.tgt_date}')
-
-        self.companies = config['companies']
-        quotes = load_csvs('quote_consol', [self.tgt_date])
-        quotes = quotes.loc[quotes.symbol.isin(self.companies)]
-        self.quotes = quotes.set_index('symbol', drop=False)
-
-        profile = load_csvs('summary_detail', ['assetProfile'])
-        profile = profile.loc[profile.symbol.isin(self.companies)]
-        self.profile = profile.set_index('symbol', drop=False)
-
-        self.sectors = profile.loc[
-            profile.symbol.isin(self.companies)].sector.unique()
-        self.industries = profile.loc[
-            profile.symbol.isin(self.companies)].industry.unique()
-        print(f'Sectors: {self.sectors.shape[0]}, Industries: {self.industries.shape[0]}')
-
-        self.px_vol_df = self.load_px_vol_ds()
-        self.clean_px = self.px_vol_df['close'].dropna(subset=[bench])
-
-        if tickers is None:
-            self.tickers = list(best_performers(
-                self.clean_px, self.companies,
-                self.look_back, self.quantile).index)
-        else:
-            self.tickers = tickers
-
-        self.sector_dict = self.dict_by_profile_column(
-            self.profile, self.tickers, 'sector', self.sectors)
-        self.ind_dict = self.dict_by_profile_column(
-            self.profile, self.tickers, 'industry', self.industries)
 
     def load_px_vol_ds(self):
         """
@@ -92,15 +59,14 @@ class TechnicalDS:
             # px_vol_ds.index = px_close.index.date
         return self.px_vol_ds
 
-    def dict_by_profile_column(self, profile, tickers, desc_col, subset):
+    def dict_by_profile_column(self, tickers, desc_col, subset):
         """ Maps companies to a descriptive column from profile """
         return {
             shorten_name(x):
             list(self.profile.loc[
                 self.profile.index.isin(tickers) &
-                profile[desc_col].isin([x]),:
-            ].index)
-            for x in subset
+                self.profile[desc_col].isin([x]),:
+            ].index) for x in subset
         }
 
     def create_base_frames(self):
