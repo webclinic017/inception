@@ -1,38 +1,22 @@
 # imports
-import time, os, sys
-from tqdm import tqdm
 
-# from matplotlib import pyplot as plt
-from utils.basic_utils import *
-from utils.fundamental import chain_outlier, get_focus_tickers, best_performers
-from utils.pricing import load_px_close, get_return_intervals
-from utils.pricing import dummy_col, discret_rets, sample_wgts, px_fwd_ret
-from utils.pricing import px_mom_feats, px_mom_co_feats_light, px_fwd_rets, get_ind_index
-from utils.pricing import eq_wgt_indices, to_index_form, rename_col
+import sys
+from utils.basic_utils import csv_store, csv_ext, numeric_cols
+from utils.pricing import dummy_col
+from utils.pricing import rename_col
+from utils.fundamental import chain_outlier
+from utils.TechnicalDS import TechnicalDS
 
-import time, os, sys
-from tqdm import tqdm
-
-from sklearn import preprocessing
-from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
-from sklearn.utils.multiclass import unique_labels
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.metrics import accuracy_score, log_loss, precision_recall_fscore_support
-from sklearn.metrics import precision_score, roc_auc_score
-
-from sklearn.model_selection import StratifiedShuffleSplit
-from sklearn.model_selection import StratifiedKFold
-from sklearn.neural_network import MLPClassifier
-from sklearn.ensemble import VotingClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import ExtraTreesClassifier
-
+import pandas as pd
 import numpy as np
+
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import StratifiedShuffleSplit
+
 import keras
 from keras.models import Sequential, load_model
-from keras.layers import Dense, Dropout, Activation
-from keras.optimizers import SGD, Adam, Adagrad, Adadelta, Adamax, Nadam, RMSprop
+from keras.layers import Dense, Activation
+from keras.optimizers import Adam
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.callbacks import CSVLogger
 from keras.layers import BatchNormalization
@@ -41,16 +25,11 @@ from keras import backend as K
 K.tensorflow_backend._get_available_gpus()
 
 # context
-bench = '^GSPC'
-y_col = 'fwdReturn'
-companies = excl(config['companies'], [])
-
 context = {
     'ml_path': './ML/',
     'model_name': 'micro_TF.h5',
     'tmp_path': './tmp/',
-    'ds_name': 'co-technicals-ds',
-    'px_close': 'universe-px-ds',
+    'px_vol_ds': 'universe-px-vol-ds.h5',
     'trained_cols': 'micro_TF_train_cols.npy',
     'look_ahead': 120,
     'look_back': 252*3,
@@ -59,167 +38,76 @@ context = {
     'test_size': .05,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'units': 300, #850
-    'max_iter': 10, #50
+    'units': 500, #850
+    'max_iter': 30, #50
     'l2_reg': 0.01,
 }
 
-# get latest pricing file from inferece server
-px_close = load_px_close(
-    context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
-print('px_close.info()', px_close.info())
-
-fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
-clean_co_px = px_close.dropna(subset=[bench])[companies]
-
-cut_range = get_return_intervals(
-    clean_co_px,
-    context['look_ahead'],
-    tresholds=[0.25, 0.75])
-
-print(f'Return intervals {np.round(cut_range, 3)}')
-
-# Quotes, profile, and industries
-dates = read_dates('quote')
-tgt_date = dates[-1] # last date saved in S3
-print(f'Target date: {tgt_date}')
-
-quotes = load_csvs('quote_consol', [tgt_date])
-quotes = quotes.loc[quotes.symbol.isin(companies)]
-quotes.set_index('symbol', drop=False, inplace=True)
-
-profile = load_csvs('summary_detail', ['assetProfile'])
-profile = profile.loc[profile.symbol.isin(companies)]
-profile.set_index('symbol', drop=False, inplace=True)
+tech_ds = TechnicalDS(
+    context['tmp_path'],
+    context['px_vol_ds'],
+    load_ds=True,
+    look_ahead=context['look_ahead'],
+    max_draw_on=True)
+y_col = tech_ds.ycol_name
 
 
-# MODEL SPECIIFIC FUNCTIONS
 def pre_process_ds(context):
-
-    tickers = context['tickers']
-    sectors = profile.loc[profile.symbol.isin(tickers)].sector.unique()
-    industries = profile.loc[profile.symbol.isin(tickers)].industry.unique()
-    print(f'Sectors: {sectors.shape[0]}, Industries: {industries.shape[0]}')
-
-    indices_df = pd.concat(
-        [eq_wgt_indices(profile, px_close, 'sector', sectors, subset=tickers),
-        eq_wgt_indices(profile, px_close, 'industry', industries, subset=tickers),
-        to_index_form(px_close[bench], bench)],
-        axis=1).drop_duplicates()
-
-    # create price momentum features
-    tmp_path = context['tmp_path']
-    ds_name = context['ds_name']
-
-    super_list = []
-    for i, ticker in tqdm(enumerate(tickers)):
-        try:
-            close = px_close[ticker].dropna()
-            ft_df = px_mom_feats(close, ticker, incl_name=False)
-            if ticker in profile.symbol.unique():
-                top_groups = tuple([bench, profile.loc[ticker, 'sector']])
-                co = px_mom_co_feats_light(close, indices_df, top_groups)
-                ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
-                super_list.append(ft_df.copy())
-            else: print(ticker, 'missing profile, skipping')
-        except Exception as e:
-            print("Exception: {0} {1}".format(ticker, e))
-
-    joined_df = pd.concat(super_list, axis=0)
-    joined_df = chain_outlier(joined_df, None)
-
+    raw_df = tech_ds.stitch_companies_groups()
+    print(f'Shape excluding NAs: {raw_df.shape}')
+    symbols = raw_df.reset_index().set_index(['symbol']).index
+    sector_map = tech_ds.profile.loc[tech_ds.tickers,'sector'].to_dict()
+    raw_df.loc[:, 'sector'] = symbols.map(sector_map)
+    raw_df = chain_outlier(raw_df, None)
     # basic impute and scaling
     scale_on = context['scale']
     scaler = StandardScaler()
-    num_cols = numeric_cols(joined_df)
-    # joined_df.loc[:, num_cols] = joined_df[num_cols].replace([np.inf, -np.inf, np.nan], 0)
-    joined_df.dropna(inplace=True)
-    if scale_on: joined_df.loc[:, num_cols] = scaler.fit_transform(joined_df[num_cols])
-
+    num_cols = numeric_cols(raw_df)
+    if scale_on: raw_df.loc[:, num_cols] = scaler.fit_transform(
+        raw_df[num_cols])
     # add categoricals
-    joined_df = dummy_col(joined_df, 'sector', shorten=True)
+    raw_df.dropna(subset=['sector'], inplace=True)
+    raw_df = dummy_col(raw_df, 'sector', shorten=True)
+    return raw_df
 
-    return joined_df
 
 def get_train_test_sets(context):
 
-    verbose = context['verbose']
-    ml_path, model_name = context['ml_path'], context['model_name']
-    trained_cols = context['trained_cols']
     test_size = context['test_size']
-    look_ahead = context['look_ahead']
-
-    tickers = context['tickers']
-    print(f'Training on {len(context["tickers"])} companies')
-
     joined_df = pre_process_ds(context)
+    cut_range = tech_ds.return_intervals()
+    TechnicalDS.labelize_ycol(
+        joined_df, tech_ds.ycol_name,
+        cut_range, tech_ds.forward_return_labels)
 
-    # calculation of forward returns
-    look_ahead = context['look_ahead']
-    Y = clean_co_px.apply(px_fwd_ret, args=(look_ahead, int(look_ahead/4)))
-    Y = Y[~(Y.isna().all(1))]
-
-    # reshapes to include symbol in index in additional to date
-    Y_df = Y.loc[joined_df.index.unique().sortlevel()[0], tickers]
-    Y_df = Y_df.stack().to_frame().rename(columns={0: y_col})
-    # somwhat repetitive with steps above but performs faster
-    Y_df.index.set_names(['storeDate', 'symbol'], inplace=True)
-    print('Y_df.shape', Y_df.shape)
-
-    # re-index processed df on storeDate and symbol to have similar indices
-    joined_df.index.set_names('storeDate', inplace=True)
-    joined_df.set_index(['symbol'], append=True, inplace=True)
-    print('joined_df.shape', joined_df.shape)
-
-    # add Y values to processed df fast without having to loop
-    joined_df.loc[:, y_col] = Y_df.loc[joined_df.index, y_col]
-
-    # joined_df.loc[(slice(None), 'AAPL'), y_col].plot() # visualize smoothing
-    # joined_df.groupby('symbol')[y_col].mean().sort_values() # rank long-term mean performance
-
-    # discretize Y-variable
-    joined_df.dropna(subset=[y_col], inplace=True)
-    joined_df[y_col] = discret_rets(joined_df[y_col], cut_range, fwd_ret_labels)
-    print('joined_df.shape', joined_df.shape)
-    print(sample_wgts(joined_df[y_col]))
-
-    joined_df.dropna(subset=[y_col], inplace=True)
-    joined_df.loc[:, y_col] = joined_df[y_col].astype(str)
-
+    joined_df.dropna(inplace=True)
     days = len(joined_df.index.levels[0].unique())
     print(f'Training for {days} dates, {round(days/252, 1)} years')
 
-    # joined_df.loc[(slice(None), 'TAL'), y_col].value_counts() # look at a specific security distribution
-    train_df = joined_df.reset_index(drop=True)
-    train_df.shape
+    train_df = joined_df.reset_index(drop=True) # drop date
+    print(f'Pre X, y columns: {train_df.columns}')
 
     # create training and test sets
     X, y = train_df.drop(columns=y_col), train_df[y_col]
-    sss = StratifiedShuffleSplit(n_splits=1, test_size=test_size, random_state=42)
+    sss = StratifiedShuffleSplit(
+        n_splits=1, test_size=test_size, random_state=42)
+    # just one split
     for train_index, test_index in sss.split(X, y):
         X_train, X_test = X.iloc[train_index], X.iloc[test_index]
         y_train, y_test = y.iloc[train_index], y.iloc[test_index]
-        break # just one split
-
-    # skf = StratifiedKFold(n_splits=2, random_state=None)
-    # for train_index, test_index in skf.split(X, y):
-    #     X_train, X_test = X.iloc[train_index], X.iloc[test_index]
-    #     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
-    #     break
+        break
 
     return X_train, X_test, y_train, y_test
 
-def train_ds(context):
 
+def train_ds(context):
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
     units = context['units']
     trained_cols = context['trained_cols']
-
     X_train, X_test, y_train, y_test = get_train_test_sets(context)
-
-    y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
-    y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
+    y_train_oh = pd.get_dummies(y_train)[tech_ds.forward_return_labels]
+    y_test_oh = pd.get_dummies(y_test)[tech_ds.forward_return_labels]
 
     # Keras Model
     model = Sequential()
@@ -247,35 +135,42 @@ def train_ds(context):
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
     csv_logger = CSVLogger('micro-train.log')
 
-    # save training columns
-    np.save(ml_path + trained_cols, X_train.columns) # save feature order
+    # save training columns, feature order
+    np.save(ml_path + trained_cols, X_train.columns)
     print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
     print('Saved: ', ml_path + trained_cols)
 
-    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-    history = model.fit(X_train, y_train_oh, validation_data=(X_test, y_test_oh),
-              epochs=max_iter, batch_size=64, callbacks=[es, checkpointer, csv_logger])
+    model.compile(
+        loss='categorical_crossentropy',
+        optimizer=opt, metrics=['accuracy'])
+    history = model.fit(
+        X_train, y_train_oh, validation_data=(X_test, y_test_oh),
+        epochs=max_iter, batch_size=64,
+        callbacks=[es, checkpointer, csv_logger])
 
     score = model.evaluate(X_test, y_test_oh)
     print(f'Test loss: {score[0]}, Test accuracy: {score[1]}')
 
-def predict_ds(context):
 
+def predict_ds(context):
     ml_path = context['ml_path']
     model_name = context['model_name']
     trained_cols = context['trained_cols']
     look_back = context['look_back']
 
     joined_df = pre_process_ds(context)
+    joined_df.reset_index(level=1, inplace=True)
     pred_X = joined_df.loc[joined_df.sort_index().index.unique()[-look_back:], :]
     print('pred_X.shape', pred_X.shape)
 
     # ensure prediction dataset is consistent with trained model
-    train_cols = np.load(ml_path + trained_cols, allow_pickle=True) # save feature order
+    # save feature order
+    train_cols = np.load(ml_path + trained_cols, allow_pickle=True)
     missing_cols = [x for x in train_cols if x not in pred_X.columns]
     if len(missing_cols):
         print(f'Warning missing columns: {missing_cols}')
-        for c in missing_cols: pred_X[c] = 0
+        for c in missing_cols:
+            pred_X[c] = 0
 
     sorted_cols = list(np.append(train_cols, ['symbol']))
     print('pred_X.shape', pred_X[sorted_cols].shape)
@@ -291,20 +186,21 @@ def predict_ds(context):
     preds = model.predict(pred_X[sorted_cols].iloc[:, :-1])
     preds_classes = model.predict_classes(pred_X[sorted_cols].iloc[:, :-1])
 
+    labels = tech_ds.forward_return_labels
     pred_df['pred_class'] = preds_classes
-    pred_df['pred_label'] = list(map(lambda x: fwd_ret_labels[x], preds_classes))
-    probs = np.round(preds,3)
-    pred_prob = np.argmax(probs, axis=1)
-    pred_df['confidence'] = [x[np.argmax(x)] for x in probs] # higest prob
-    prob_df = pd.DataFrame(probs, index=pred_df.index, columns=fwd_ret_labels)
-    pred_df = pd.concat([pred_df, prob_df[fwd_ret_labels]], axis=1)
+    pred_df['pred_label'] = list(map(lambda x: labels[x], preds_classes))
+    probs = np.round(preds, 3)
+    # higest prob
+    pred_df['confidence'] = [x[np.argmax(x)] for x in probs]
+    prob_df = pd.DataFrame(probs, index=pred_df.index, columns=labels)
+    pred_df = pd.concat([pred_df, prob_df[labels]], axis=1)
     pred_df.index.name = 'pred_date'
 
     # store in S3
     s3_path = context['s3_path']
     s3_df = pred_df.reset_index(drop=False)
     rename_col(s3_df, 'index', 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(tgt_date))
+    csv_store(s3_df, s3_path, csv_ext.format(tech_ds.tgt_date))
 
     return pred_df
 
@@ -312,30 +208,9 @@ def predict_ds(context):
 if __name__ == '__main__':
     hook = sys.argv[1]
 
-    # Training/inference subset
-    tgt_sectors = [
-        'Technology',
-        'Healthcare',
-        'Industrials',
-        'Basic Materials',
-        'Consumer Cyclical',
-        'Financial Services',
-        'Consumer Defensive',
-        'Real Estate',
-        'Utilities',
-        'Communication Services',
-        'Energy',
-    ]
-
-    subset = list(best_performers(
-        clean_co_px, companies, days=252*7, q=0.75).index)
-    context['tickers'] = subset
-
     if hook == 'train':
-        # train with 50 random tickers, keep model small, same results
         print('Training...')
         train_ds(context)
-
     elif hook == 'predict':
         print('Predicting...')
         predict_ds(context)

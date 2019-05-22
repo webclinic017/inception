@@ -135,10 +135,14 @@ class TechnicalDS:
         self.incl_feat_dict.update({'OpenGap': self.open_gap_df})
 
         print('Relative performance dataframes')
-        self.pct_50d_ma_df = self.close_df / self.close_df.rolling(50).mean() # % of 50 day moving average
-        self.pct_200d_ma_df = self.close_df / self.close_df.rolling(200).mean() # % of 200 day moving average
-        self.pct_52wh_df = self.close_df / self.close_df.rolling(252).max() # % of 52 week high
-        self.pct_52wl_df = self.close_df / self.close_df.rolling(252).min() # % of 52 week low
+        # % of 50 day moving average
+        self.pct_50d_ma_df = self.close_df / self.close_df.rolling(50).mean()
+        # % of 200 day moving average
+        self.pct_200d_ma_df = self.close_df / self.close_df.rolling(200).mean()
+        # % of 52 week high
+        self.pct_52wh_df = self.close_df / self.close_df.rolling(252).max()
+        # % of 52 week low
+        self.pct_52wl_df = self.close_df / self.close_df.rolling(252).min()
 
         self.incl_feat_dict.update({'Pct50MA': self.pct_50d_ma_df})
         self.incl_feat_dict.update({'Pct200MA': self.pct_200d_ma_df})
@@ -146,10 +150,14 @@ class TechnicalDS:
         self.incl_feat_dict.update({'Pct52WL': self.pct_52wl_df})
 
         print('Relative volume and dollar value dataframes')
-        self.pct_vol_10da_df = self.vol_df / self.vol_df.rolling(10).mean() # vol as a pct of 10 day average
-        self.pct_vol_50da_df = self.vol_df / self.vol_df.rolling(50).mean() # vol as a pct of 60 day average
-        self.pct_dv_10da_df = self.dollar_value_df / self.dollar_value_df.rolling(10).mean() # dollar values % of 10 day ma
-        self.pct_dv_50da_df = self.dollar_value_df / self.dollar_value_df.rolling(50).mean() # dollar values % of 50 day ma
+        # vol as a pct of 10 day average
+        self.pct_vol_10da_df = self.vol_df / self.vol_df.rolling(10).mean()
+        # vol as a pct of 60 day average
+        self.pct_vol_50da_df = self.vol_df / self.vol_df.rolling(50).mean()
+        # dollar values % of 10 day ma
+        self.pct_dv_10da_df = self.dollar_value_df / self.dollar_value_df.rolling(10).mean()
+        # dollar values % of 50 day ma
+        self.pct_dv_50da_df = self.dollar_value_df / self.dollar_value_df.rolling(50).mean()
 
         self.incl_feat_dict.update({'PctVol10DA': self.pct_vol_10da_df})
         self.incl_feat_dict.update({'PctVol50DA': self.pct_vol_50da_df})
@@ -157,8 +165,9 @@ class TechnicalDS:
         self.incl_feat_dict.update({'PctDV50DA': self.pct_dv_50da_df})
 
         print('Realized volatility dataframe')
+        # 30 day rolling daily realized return volatility
         self.roll_realvol_df = self.pct_chg_df_dict[1].apply(
-            lambda x: TechnicalDS.roll_vol(x, self.roll_vol_days)) # 30 day rolling daily realized return volatility
+            lambda x: TechnicalDS.roll_vol(x, self.roll_vol_days))
         self.incl_feat_dict.update({f'RollRealVol{self.roll_vol_days}': self.roll_realvol_df})
 
         print('Percentage change stds dataframes')
@@ -175,14 +184,17 @@ class TechnicalDS:
 
         if self.max_draw_on:
             print(f'Max draw/pull dataframes')
-            self.max_draw_df = self.close_df.rolling(self.look_ahead).apply(lambda x: self.max_draw(x), raw=True)
-            self.max_pull_df = self.close_df.rolling(self.look_ahead).apply(lambda x: self.max_pull(x), raw=True)
+            self.max_draw_df = self.close_df.rolling(self.look_ahead).apply(
+                lambda x: self.max_draw(x), raw=True)
+            self.max_pull_df = self.close_df.rolling(self.look_ahead).apply(
+                lambda x: self.max_pull(x), raw=True)
 
             self.incl_feat_dict.update({f'MaxDraw{self.look_ahead}': self.max_draw_df})
             self.incl_feat_dict.update({f'MaxPull{self.look_ahead}': self.max_pull_df})
 
         print('Forward return dataframe')
-        self.fwd_return_df = self.close_df.apply(lambda x: TechnicalDS.forward_returns(x, self.look_ahead))
+        self.fwd_return_df = self.close_df.apply(lambda x:
+            TechnicalDS.forward_returns(x, self.look_ahead))
         self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df})
 
     def technical_transforms(self, symbol, incl_name=False, incl_close=False):
@@ -234,9 +246,12 @@ class TechnicalDS:
             'industry', self.industries, subset=self.companies)
 
         print('Group percentage changes')
-        self.pct_chg_bench_dict = {x: self.bench_index.pct_change(x) for x in self.active_keys[1:]}
-        self.pct_chg_sect_dict = {x: self.sect_index.pct_change(x) for x in self.active_keys[1:]}
-        self.pct_chg_ind_dict = {x: self.ind_index.pct_change(x) for x in self.active_keys[1:]}
+        self.pct_chg_bench_dict = {x: self.bench_index.pct_change(x)
+            for x in self.active_keys[1:]}
+        self.pct_chg_sect_dict = {x: self.sect_index.pct_change(x)
+            for x in self.active_keys[1:]}
+        self.pct_chg_ind_dict = {x: self.ind_index.pct_change(x)
+            for x in self.active_keys[1:]}
 
         print('Group pct stds')
         self.bench_pct_stds_df = {x: self.pct_chg_bench_dict[x].apply(
