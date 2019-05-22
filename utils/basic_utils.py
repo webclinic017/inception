@@ -15,8 +15,7 @@ numeric_cols = lambda df: list(df.columns[df.dtypes.apply(is_numeric_dtype).valu
 col_mapper = lambda cols: {x:'_'.join(strips(x, chars, ',')) for x in cols if 'value' in x}
 filter_cols = lambda columns, c: [x for x in columns if c in x]
 day_delta = lambda df, d: df - df.shift(d)
-
-def excl(a, b): return list(set(a).difference(b))
+excl = lambda columns, c: [x for x in columns if x is not c]
 
 # local save and load
 def save_config(config, fname):
