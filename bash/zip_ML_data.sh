@@ -1,6 +1,6 @@
 #!/bin/bash
 p=/home/$(whoami)/inception
-inference_IP=34.219.253.160
+inference_IP=52.13.205.29
 models_fname=all_models.tar.gz
 tmp_fname=all_tmp.tar.gz
 
