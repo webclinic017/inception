@@ -47,6 +47,7 @@ tech_ds = TechnicalDS(
     context['tmp_path'],
     context['px_vol_ds'],
     load_ds=True,
+    tickers='All',
     look_ahead=context['look_ahead'],
     max_draw_on=True)
 y_col = tech_ds.ycol_name
@@ -75,7 +76,7 @@ def get_train_test_sets(context):
 
     test_size = context['test_size']
     joined_df = pre_process_ds(context)
-    cut_range = tech_ds.return_intervals()
+    cut_range = tech_ds.return_intervals(tresholds=[0.6, 0.8])
     TechnicalDS.labelize_ycol(
         joined_df, tech_ds.ycol_name,
         cut_range, tech_ds.forward_return_labels)
@@ -101,6 +102,7 @@ def get_train_test_sets(context):
 
 
 def train_ds(context):
+
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
     units = context['units']
@@ -153,6 +155,7 @@ def train_ds(context):
 
 
 def predict_ds(context):
+
     ml_path = context['ml_path']
     model_name = context['model_name']
     trained_cols = context['trained_cols']
