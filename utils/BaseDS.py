@@ -39,6 +39,9 @@ class BaseDS(object):
             self.tickers = list(best_performers(
                 self.clean_px, self.companies,
                 self.look_back, self.quantile).index)
+        elif tickers == 'All':
+            self.tickers = self.companies
+            print(f'{len(self.companies)} companies')
         else:
             self.tickers = tickers
 
@@ -70,11 +73,11 @@ class BaseDS(object):
             self.px_vol_ds = pd.read_hdf(self.path + self.fname, 'px_vol_df')
         else:
             # file does not exist, refreshes full dataset
-            px_vol_ds = self.get_universe_px_vol(UNIVERSE)
+            self.px_vol_ds = self.get_universe_px_vol(UNIVERSE)
             num_cols = numeric_cols(px_vol_ds)
-            px_vol_ds.loc[:, num_cols] = px_vol_ds[num_cols].astype(np.float32)
+            self.px_vol_ds.loc[:, num_cols] = px_vol_ds[num_cols].astype(np.float32)
             os.makedirs(self.path, exist_ok=True)
-            px_vol_ds.to_hdf(self.path + self.fname, 'px_vol_df')
+            self.px_vol_ds.to_hdf(self.path + self.fname, 'px_vol_df')
             # px_vol_ds.index = px_close.index.date
         return self.px_vol_ds
 
