@@ -3,7 +3,6 @@ from tqdm import *
 from utils.basic_utils import load_csvs, config, UNIVERSE
 from utils.basic_utils import read_dates, numeric_cols
 from utils.pricing import get_symbol_pricing
-from utils.fundamental import best_performers
 import pandas as pd
 import numpy as np
 
@@ -33,17 +32,6 @@ class BaseDS(object):
 
         self.px_vol_df = self.load_px_vol_ds()
         self.clean_px = self.px_vol_df['close'].dropna(subset=[self.bench])
-        self.companies = config['companies']
-
-        if tickers is None:
-            self.tickers = list(best_performers(
-                self.clean_px, self.companies,
-                self.look_back, self.quantile).index)
-        elif tickers == 'All':
-            self.tickers = self.companies
-            print(f'{len(self.companies)} companies')
-        else:
-            self.tickers = tickers
 
         # Quotes, profile, and industries
         self.dates = read_dates('quote')
@@ -52,17 +40,11 @@ class BaseDS(object):
         print(f'Target date: {self.tgt_date}')
 
         quotes = load_csvs('quote_consol', [self.tgt_date])
-        quotes = quotes.loc[quotes.symbol.isin(self.companies)]
+        # quotes = quotes.loc[quotes.symbol.isin(self.companies)]
         self.quotes = quotes.set_index('symbol', drop=False)
         profile = load_csvs('summary_detail', ['assetProfile'])
-        profile = profile.loc[profile.symbol.isin(self.companies)]
+        # profile = profile.loc[profile.symbol.isin(self.companies)]
         self.profile = profile.set_index('symbol', drop=False)
-
-        self.sectors = profile.loc[
-            profile.symbol.isin(self.companies)].sector.unique()
-        self.industries = profile.loc[
-            profile.symbol.isin(self.companies)].industry.unique()
-        print(f'Sectors: {self.sectors.shape[0]}, Industries: {self.industries.shape[0]}')
 
     def load_px_vol_ds(self):
         """
