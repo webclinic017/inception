@@ -78,23 +78,6 @@ def get_mults_pricing(symbols, freq='1d', col=None, verbose=True):
     full_df.index = pd.to_datetime(full_df.index)
     return full_df
 
-def get_universe_px_vol(symbols, freq='1d'):
-    """
-    Returns full open, close, high, low, volume dataframe
-    """
-    super_list = []
-    for n, t in tqdm(enumerate(symbols)):
-        try:
-            df = get_symbol_pricing(t, freq='1d', cols=None)
-            df.drop_duplicates(inplace=True)
-            df.index.name = 'storeDate'; df['symbol'] = t
-            df.set_index('symbol', append=True, inplace=True)
-            super_list.append(df)
-        except Exception as e:
-            print(f'Exception get_mults_px_vol: {t}{e}')
-    px_vol_df = pd.concat(super_list, axis=0)
-    return px_vol_df.unstack()
-
 def get_rt_pricing(symbol, freq='1d', prange='10d', cols=None):
     data_dict = get_pricing(symbol, freq, prange, False)
     df = build_px_struct(data_dict, freq)

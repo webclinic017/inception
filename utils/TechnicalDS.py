@@ -1,10 +1,7 @@
 
-import os
 import pandas as pd
 import numpy as np
-from utils.basic_utils import UNIVERSE
-from utils.basic_utils import numeric_cols, excl
-from utils.pricing import get_universe_px_vol
+from utils.basic_utils import excl
 from utils.pricing import shorten_name
 from utils.pricing import to_index_form, eq_wgt_indices
 
@@ -40,24 +37,6 @@ class TechnicalDS(BaseDS):
 
         self.incl_feat_dict = None
         self.incl_group_feat_dict = None
-
-
-    def load_px_vol_ds(self):
-        """
-        Refresh price and volume daily,
-        used by most models with technical stats without refreshing
-        """
-        if os.path.isfile(self.path + self.fname) and self.load_ds:
-            self.px_vol_ds = pd.read_hdf(self.path + self.fname, 'px_vol_df')
-        else:
-            # file does not exist, refreshes full dataset
-            px_vol_ds = get_universe_px_vol(UNIVERSE)
-            num_cols = numeric_cols(px_vol_ds)
-            px_vol_ds.loc[:, num_cols] = px_vol_ds[num_cols].astype(np.float32)
-            os.makedirs(self.path, exist_ok=True)
-            px_vol_ds.to_hdf(self.path + self.fname, 'px_vol_df')
-            # px_vol_ds.index = px_close.index.date
-        return self.px_vol_ds
 
     def dict_by_profile_column(self, tickers, desc_col, subset):
         """ Maps companies to a descriptive column from profile """
@@ -185,18 +164,21 @@ class TechnicalDS(BaseDS):
 
         return ndf
 
-    def stitch_instruments(self, axis=0):
+    def stitch_instruments(self, symbols=None, name=False, axis=0):
         """
         Stitch all companies vertically
         """
         if self.incl_feat_dict is None:
             self.create_base_frames()
+        if symbols is None:
+            symbols = self.tickers
         super_list = []
-        for t in self.tickers:
-            incl_close = True if t in self.invert_list else False
-            df = self.technical_transforms(t, incl_name=False, incl_close=incl_close)
-            df['symbol'] = t
-            df.set_index('symbol', append=True, inplace=True)
+        for t in self.symbols:
+            incl_close = True if t in self.include_list else False
+            df = self.technical_transforms(t, incl_name=name, incl_close=incl_close)
+            if axis == 0:
+                df['symbol'] = t
+                df.set_index('symbol', append=True, inplace=True)
             super_list.append(df)
         return pd.concat(super_list, axis=axis)
 

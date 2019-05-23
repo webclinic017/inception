@@ -33,6 +33,9 @@ if __name__ == '__main__':
         temp_path, px_close_fname = 'tmp/', 'universe-px-ds'
         print('Persisting pricing to {}'.format(temp_path + px_close_fname))
         load_px_close(temp_path, px_close_fname, False)
+        px_vol_fname = 'universe-px-vol-ds.h5'
+        print(f'Persisting universe price and volume to {temp_path + px_vol_fname}')
+        _ = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=True, )
     elif hook == 'options':
         sample_set = sys.argv[2]
         for t in config[sample_set]:
