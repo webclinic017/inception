@@ -30,10 +30,9 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
         # persist closing price for current day
-        temp_path, px_close_fname = 'tmp/', 'universe-px-ds'
+        temp_path, px_close_fname, px_vol_fname = 'tmp/', 'universe-px-ds', 'universe-px-vol-ds.h5'
         print('Persisting pricing to {}'.format(temp_path + px_close_fname))
         load_px_close(temp_path, px_close_fname, False)
-        px_vol_fname = 'universe-px-vol-ds.h5'
         print(f'Persisting universe price and volume to {temp_path + px_vol_fname}')
         BaseDS(path=temp_path, fname=px_vol_fname, load_ds=False, )
     elif hook == 'options':
