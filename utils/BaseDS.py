@@ -60,7 +60,8 @@ class BaseDS(object):
             self.px_vol_ds.loc[:, num_cols] = px_vol_ds[num_cols].astype(np.float32)
             os.makedirs(self.path, exist_ok=True)
             self.px_vol_ds.to_hdf(self.path + self.fname, 'px_vol_df')
-            # px_vol_ds.index = px_close.index.date
+            # px_vol_ds.index = px_vol_ds.index.date
+        print(self.px_vol_ds.info())
         return self.px_vol_ds
 
     @staticmethod
