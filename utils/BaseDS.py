@@ -56,7 +56,7 @@ class BaseDS(object):
         else:
             # file does not exist, refreshes full dataset
             self.px_vol_ds = self.get_universe_px_vol(UNIVERSE)
-            num_cols = numeric_cols(px_vol_ds)
+            num_cols = numeric_cols(self.px_vol_ds)
             self.px_vol_ds.loc[:, num_cols] = px_vol_ds[num_cols].astype(np.float32)
             os.makedirs(self.path, exist_ok=True)
             self.px_vol_ds.to_hdf(self.path + self.fname, 'px_vol_df')
