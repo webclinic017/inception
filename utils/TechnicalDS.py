@@ -15,14 +15,16 @@ class TechnicalDS(BaseDS):
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
-        tickers=None, bench='^GSPC', look_ahead=120, look_back=252*7,
+        tickers=None,
+        bench='^GSPC',
+        look_ahead=120, look_back=252*7,
         invert_list=[], include_list=[],
         roll_vol_days=30,
         pct_chg_keys=[1, 20, 50, 200],
         quantile=0.75, max_draw_on=False):
 
         BaseDS.__init__(self, path, fname, load_ds,
-            tickers, bench, look_ahead, look_back, quantile)
+            bench, look_ahead, look_back, quantile)
 
         self.invert_list = invert_list
         self.include_list = include_list
@@ -31,8 +33,8 @@ class TechnicalDS(BaseDS):
         self.max_draw_on = max_draw_on
         self.active_keys = self.pct_chg_keys[1:]
         self.ycol_name = f'{self.y_col_name}{self.look_ahead}'
-
         self.companies = config['companies']
+
         if tickers is None:
             self.tickers = list(best_performers(
                 self.clean_px, self.companies,
@@ -47,7 +49,7 @@ class TechnicalDS(BaseDS):
             self.profile.symbol.isin(self.companies)].sector.unique()
         self.industries = self.profile.loc[
             self.profile.symbol.isin(self.companies)].industry.unique()
-        print(f'Sectors: {self.sectors.shape[0]}, Industries: {self.industries.shape[0]}')
+        print(f'Universe sectors: {self.sectors.shape[0]}, industries: {self.industries.shape[0]}')
 
         self.sector_dict = self.dict_by_profile_column(
             self.tickers, 'sector', self.sectors)

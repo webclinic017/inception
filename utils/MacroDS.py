@@ -17,7 +17,7 @@ class MacroDS(TechnicalDS):
         quantile=0.75, max_draw_on=False, is_company=True):
 
         BaseDS.__init__(self, path, fname, load_ds,
-            tickers, bench, look_ahead, look_back, quantile)
+            bench, look_ahead, look_back, quantile)
 
         instruments = list(config['universe_list'])
         instruments.remove('companies')

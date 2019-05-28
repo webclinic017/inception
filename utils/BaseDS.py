@@ -15,7 +15,7 @@ class BaseDS(object):
     def __init__(self,
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
-        load_ds=True, tickers=None,
+        load_ds=True,
         bench='^GSPC',
         look_ahead=120, look_back=252*7,
         quantile=0.75):
@@ -23,7 +23,6 @@ class BaseDS(object):
         self.path = path
         self.fname = fname
         self.load_ds = load_ds
-        self.tickers = tickers
         self.bench = bench
         self.look_ahead = look_ahead
         self.look_back = look_back
@@ -57,7 +56,7 @@ class BaseDS(object):
             # file does not exist, refreshes full dataset
             self.px_vol_ds = self.get_universe_px_vol(UNIVERSE)
             num_cols = numeric_cols(self.px_vol_ds)
-            self.px_vol_ds.loc[:, num_cols] = px_vol_ds[num_cols].astype(np.float32)
+            self.px_vol_ds.loc[:, num_cols] = self.px_vol_ds[num_cols].astype(np.float32)
             os.makedirs(self.path, exist_ok=True)
             self.px_vol_ds.to_hdf(self.path + self.fname, 'px_vol_df')
             # px_vol_ds.index = px_vol_ds.index.date
