@@ -4,7 +4,7 @@ import sys, os
 from utils.basic_utils import *
 from utils.pricing import *
 from utils.fundamental import *
-from utils import ml_utils as mu
+from utils.BaseDS import BaseDS
 
 pd.options.display.float_format = '{:,.2f}'.format
 
@@ -251,8 +251,7 @@ context = {
     'ml_path': './ML/',
     'model_name': 'macro_TF.h5',
     'tmp_path': './tmp/',
-    'ds_name': 'co-bottomup-ds',
-    'px_close': 'universe-px-ds',
+    'px_vol_ds': 'universe-px-vol-ds.h5',
     'trained_cols': 'macro_TF_train_cols.npy',
     'look_ahead': 20,
     'look_back': 252,
@@ -272,11 +271,11 @@ context = {
     'dropout': 0.5,
 }
 
-px_close = load_px_close(
-    context['tmp_path'],
-    context['px_close'],
-    context['load_ds'])[include].drop_duplicates()
-print('px_close.shape', px_close.shape)
+temp_path = context['tmp_path']
+px_vol_fname = context['px_vol_ds']
+base_ds = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=True, )
+# temporary workaround until load_px_close is @deprecated
+px_close = base_ds.px_vol_df['close']
 
 dates = read_dates('quote')
 tgt_date = [dates[-1]] # last date saved in S3

@@ -32,7 +32,7 @@ context = {
     'px_vol_ds': 'universe-px-vol-ds.h5',
     'trained_cols': 'micro_TF_train_cols.npy',
     'look_ahead': 120,
-    'look_back': 252*3,
+    'look_back': 252,
     'load_ds': True,
     'scale': True,
     'test_size': .05,
@@ -102,7 +102,6 @@ def get_train_test_sets(context):
 
 
 def train_ds(context):
-
     max_iter = context['max_iter']
     l2_reg = context['l2_reg']
     units = context['units']

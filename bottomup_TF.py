@@ -12,6 +12,7 @@ from utils.fundamental import chain_outlier, chain_post_drop, chain_wide_transfo
 from utils.fundamental import chain_eps_estimates, chain_eps_revisions, chain_rec_trend
 from utils.fundamental import load_append_ds, get_daily_ts, numeric_cols, filter_cols
 from utils.fundamental import get_focus_tickers
+from utils.BaseDS import BaseDS
 
 from sklearn import preprocessing
 
@@ -168,8 +169,7 @@ context = {
     'ml_path': './ML/',
     'model_name': 'bottomup_TF.h5',
     'tmp_path': './tmp/',
-    'ds_name': 'co-bottomup-ds',
-    'px_close': 'universe-px-ds',
+    'px_vol_ds': 'universe-px-vol-ds.h5',
     'trained_cols': 'bottomup_TF_train_cols.npy',
     'look_ahead': 20,
     'look_back': 252,
@@ -187,9 +187,11 @@ context = {
     'dropout': 0.5,
 }
 
-px_close = load_px_close(
-    context['tmp_path'], context['px_close'], context['load_ds']).drop_duplicates()
-print('px_close.info()', px_close.info())
+temp_path = context['tmp_path']
+px_vol_fname = context['px_vol_ds']
+base_ds = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=True, )
+# temporary workaround until load_px_close is @deprecated
+px_close = base_ds.px_vol_df['close']
 
 stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'}) # stack date + symbol
 stacked_px.index.set_names(['storeDate', 'symbol'], inplace=True) # reindex
@@ -286,7 +288,6 @@ def pre_process_ds(context):
 
     # company specific statistics
     tmp_path = context['tmp_path']
-    ds_name = context['ds_name']
 
     super_list = []
     for i, ticker in tqdm(enumerate(tickers)):
@@ -401,7 +402,7 @@ def train_ds(context):
     l2_reg = context['l2_reg']
     dropout = context['dropout']
     trained_cols = context['trained_cols']
-    ml_path, model_name = context['ml_path'], context['model_name']    
+    ml_path, model_name = context['ml_path'], context['model_name']
 
     y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
     y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
