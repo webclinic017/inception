@@ -39,7 +39,7 @@ context = {
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
     'units': 500, #850
-    'max_iter': 30, #50
+    'max_iter': 50, #50
     'l2_reg': 0.01,
 }
 
@@ -213,8 +213,15 @@ if __name__ == '__main__':
     if hook == 'train':
         print('Training...')
         train_ds(context)
+
     elif hook == 'predict':
         print('Predicting...')
+        # price/share > 20 and vol > 300k shares
+        quotes = tech_ds.quotes
+        liquid_tickers = len(quotes.loc[
+            (quotes.regularMarketPrice > 20) &
+            (quotes.averageDailyVolume3Month > 0.3e6), 'symbol']), len(tech_ds.tickers)
+        tech_ds.tickers = liquid_tickers
         predict_ds(context)
 
     else: print('Invalid option, please try: train or predict')
