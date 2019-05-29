@@ -218,9 +218,11 @@ if __name__ == '__main__':
         print('Predicting...')
         # price/share > 20 and vol > 300k shares
         quotes = tech_ds.quotes
-        liquid_tickers = len(quotes.loc[
+        liquid_tickers = list(quotes.loc[
+            (quotes.quoteType == 'EQUITY') &
             (quotes.regularMarketPrice > 20) &
-            (quotes.averageDailyVolume3Month > 0.3e6), 'symbol']), len(tech_ds.tickers)
+            (quotes.averageDailyVolume3Month > 0.3e6)
+            , 'symbol'])
         tech_ds.tickers = liquid_tickers
         predict_ds(context)
 
