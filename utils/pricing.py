@@ -315,7 +315,7 @@ def load_px_close(path, fname, load_ds=True):
         px_close = pd.read_parquet(path + fname)
     else:
         # file does not exist, refreshes full dataset
-        px_close = ts_pricing(UNIVERSE)
+        px_close = get_mults_pricing(UNIVERSE)
         num_cols = numeric_cols(px_close)
         px_close.loc[:, num_cols] = px_close[num_cols].astype(np.float32)
         os.makedirs(path, exist_ok=True)
