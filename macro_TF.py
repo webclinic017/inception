@@ -240,7 +240,7 @@ def predict_ds(context):
     s3_path = context['s3_path']
     s3_df = pred_df.reset_index(drop=False)
     rename_col(s3_df, 'index', 'pred_date')
-    tgt_date = str(pred_X.index[-1])
+    # tgt_date = str(pred_X.index[-1])
     csv_store(s3_df, s3_path, csv_ext.format(tgt_date))
 
     return pred_df
@@ -278,7 +278,7 @@ base_ds = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=True, )
 px_close = base_ds.px_vol_df['close']
 
 dates = read_dates('quote')
-tgt_date = [dates[-1]] # last date saved in S3
+tgt_date = dates[-1] # last date saved in S3
 
 if __name__ == '__main__':
     hook = sys.argv[1]
