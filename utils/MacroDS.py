@@ -4,9 +4,11 @@ from utils.basic_utils import config
 from utils.TechnicalDS import TechnicalDS
 from utils.BaseDS import BaseDS
 
+
 class MacroDS(TechnicalDS):
 
-    def __init__(self,
+    def __init__(
+        self,
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
@@ -14,10 +16,13 @@ class MacroDS(TechnicalDS):
         invert_list=[], include_list=[],
         roll_vol_days=30,
         pct_chg_keys=[1, 20, 50, 200],
-        quantile=0.75, max_draw_on=False, is_company=True):
+        quantile=0.75,
+        max_draw_on=False,
+        is_company=True
+    ):
 
-        BaseDS.__init__(self, path, fname, load_ds,
-            bench, look_ahead, look_back, quantile)
+        BaseDS.__init__(
+            self, path, fname, load_ds, bench, look_ahead, look_back, quantile)
 
         instruments = list(config['universe_list'])
         instruments.remove('companies')
