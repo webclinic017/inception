@@ -32,7 +32,7 @@ context = {
     'px_vol_ds': 'universe-px-vol-ds.h5',
     'trained_cols': 'micro_TF_train_cols.npy',
     'look_ahead': 120,
-    'look_back': 252,
+    'look_back': 120,
     'load_ds': True,
     'scale': True,
     'test_size': .05,
