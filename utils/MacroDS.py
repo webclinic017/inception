@@ -12,13 +12,12 @@ class MacroDS(TechnicalDS):
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
-        tickers=None, bench='^GSPC', look_ahead=120, look_back=252*7,
+        tickers=None, bench='^GSPC', look_ahead=60, look_back=252,
         invert_list=[], include_list=[],
         roll_vol_days=30,
         pct_chg_keys=[1, 20, 50, 200],
         quantile=0.75,
-        max_draw_on=False,
-        is_company=True
+        max_draw_on=False
     ):
 
         BaseDS.__init__(
@@ -42,10 +41,11 @@ class MacroDS(TechnicalDS):
         self.max_draw_on = max_draw_on
         self.active_keys = self.pct_chg_keys[1:]
         self.ycol_name = f'{self.y_col_name}{self.look_ahead}'
-        self.is_company = is_company
 
         self.incl_feat_dict = None
         TechnicalDS.create_base_frames(self)
         self.fwd_return_df = self.fwd_return_df[[self.bench]]
-        self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df[[self.bench]]})
-        self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df[[self.bench]]})
+        self.incl_feat_dict.update(
+            {self.ycol_name: self.fwd_return_df[[self.bench]]})
+        self.incl_feat_dict.update(
+            {self.ycol_name: self.fwd_return_df[[self.bench]]})

@@ -1,7 +1,7 @@
 import os
 from tqdm import *
 from utils.basic_utils import load_csvs, config, UNIVERSE
-from utils.basic_utils import read_dates, numeric_cols
+from utils.basic_utils import read_dates, numeric_cols, excl
 from utils.pricing import get_symbol_pricing
 import pandas as pd
 import numpy as np
@@ -82,3 +82,71 @@ class BaseDS(object):
 
         px_vol_df = pd.concat(super_list, axis=0)
         return px_vol_df.unstack()
+
+    @staticmethod
+    def roll_vol(df, rw): return df.rolling(rw).std() * pow(252, 1/2)
+
+    @staticmethod
+    def get_df(ticker, desc, desc_df, period, tgt_df):
+        if ticker in desc_df.index:
+            return tgt_df[period][shorten_name(desc_df.loc[ticker, desc])]
+        else: return np.nan
+
+    @staticmethod
+    def max_draw(xs):
+        l_dd = np.argmax(np.maximum.accumulate(xs) - xs)
+        h_dd = np.argmax(np.array(xs[:l_dd]))
+        return xs[l_dd]/xs[h_dd]-1
+
+    @staticmethod
+    def max_pull(xs):
+        h_p = np.argmax(xs - np.minimum.accumulate(xs))
+        l_p = np.argmin(np.array(xs[:h_p]))
+        return xs[h_p]/xs[l_p]-1
+
+    @staticmethod
+    def sign_compare(x, y):
+        x_abs = np.abs(x)
+        res = x_abs // y
+        return (res * np.sign(x))
+
+    @staticmethod
+    def pct_of(df, count_df, name):
+        df = count_df.T.count() / df.T.count()
+        df.name = name
+        return df
+
+    @staticmethod
+    def pct_above_series(df, key, tresh):
+        count_df = df[df > tresh] if tresh >= 0 else df[df < tresh]
+        return TechnicalDS.pct_of(df, count_df, key)
+
+    @staticmethod
+    def forward_returns(df, look_ahead, smooth=None):
+        """ New forward returns, single period """
+        if smooth is None:
+            smooth = int(look_ahead/4)
+        spct_chg = df.pct_change(look_ahead).rolling(smooth).mean()
+        return spct_chg.shift(-int(smooth/2)).shift(-look_ahead)
+
+    @staticmethod
+    def discretize_returns(df, treshs, classes):
+        """ discretize forward returns into classes """
+        if isinstance(df, pd.Series):
+            return pd.cut(df.dropna(), treshs, labels=classes)
+        else:
+            df.dropna(inplace=True)
+            for c in df.columns:
+                df[c] = pd.cut(df[c], treshs, labels=classes)
+        return df
+
+    @staticmethod
+    def labelize_ycol(df, ycol_name, cut_range, labels):
+        """ replaces numeric with labels for classification """
+        df[ycol_name] = BaseDS.discretize_returns(
+            df[ycol_name], cut_range, labels)
+        df.dropna(subset=[ycol_name], inplace=True)
+        df[ycol_name] = df[ycol_name].astype(str)
+        print(pd.value_counts(df[ycol_name]) / pd.value_counts(df[ycol_name]).sum())
+        new_order = excl(df.columns, [ycol_name]) + [ycol_name]
+        df = df[new_order]

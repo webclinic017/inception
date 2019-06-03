@@ -1,7 +1,7 @@
 
 import pandas as pd
 import numpy as np
-from utils.basic_utils import excl, config
+from utils.basic_utils import config
 from utils.pricing import shorten_name
 from utils.pricing import to_index_form, eq_wgt_indices
 from utils.fundamental import best_performers
@@ -134,13 +134,14 @@ class TechnicalDS(BaseDS):
         print('Realized volatility dataframe')
         # 30 day rolling daily realized return volatility
         self.roll_realvol_df = self.pct_chg_df_dict[1].apply(
-            lambda x: TechnicalDS.roll_vol(x, self.roll_vol_days))
+            lambda x: BaseDS.roll_vol(x, self.roll_vol_days))
         self.incl_feat_dict.update({f'RollRealVol{self.roll_vol_days}': self.roll_realvol_df})
 
         print('Percentage change stds dataframes')
         self.pct_stds_df_dict = {
-            x: self.pct_chg_df_dict[x].apply(lambda x: self.sign_compare(x, x.std()))
-            for x in self.pct_chg_keys}
+            x: self.pct_chg_df_dict[x].apply(lambda x: BaseDS.sign_compare(x, x.std()))
+            for x in self.pct_chg_keys
+            }
 
         for p in self.pct_stds_df_dict.keys():
             self.incl_feat_dict.update({f'PctChgStds{p}': self.pct_stds_df_dict[p]})
@@ -148,9 +149,9 @@ class TechnicalDS(BaseDS):
         if self.max_draw_on:
             print(f'Max draw/pull dataframes')
             self.max_draw_df = self.close_df.rolling(self.look_ahead).apply(
-                lambda x: self.max_draw(x), raw=True)
+                lambda x: BaseDS.max_draw(x), raw=True)
             self.max_pull_df = self.close_df.rolling(self.look_ahead).apply(
-                lambda x: self.max_pull(x), raw=True)
+                lambda x: BaseDS.max_pull(x), raw=True)
 
             self.incl_feat_dict.update({f'MaxDraw{self.look_ahead}': self.max_draw_df})
             self.incl_feat_dict.update({f'MaxPull{self.look_ahead}': self.max_pull_df})
@@ -168,8 +169,9 @@ class TechnicalDS(BaseDS):
                 })
 
         print('Forward return dataframe')
-        self.fwd_return_df = self.close_df.apply(lambda x:
-            TechnicalDS.forward_returns(x, self.look_ahead))
+        self.fwd_return_df = self.close_df.apply(
+            lambda x: BaseDS.forward_returns(x, self.look_ahead)
+            )
         self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df})
 
     def technical_transforms(self, symbol, incl_name=False, incl_close=False):
@@ -177,13 +179,16 @@ class TechnicalDS(BaseDS):
         Create technical transformations for a single instrument
         Can be used for both micro and macro
         """
-        if self.incl_feat_dict is None: self.create_base_frames()
+        if self.incl_feat_dict is None: 
+            self.create_base_frames()
         ndf = pd.DataFrame()
         pre = symbol if incl_name else ''
-        if incl_close: ndf[f'{symbol}Close'] = self.close_df[symbol]
+        if incl_close: 
+            ndf[f'{symbol}Close'] = self.close_df[symbol]
         for d in self.incl_feat_dict.keys():
             df = self.incl_feat_dict[d]
-            # print(d, symbol, fwd_symbol, d == self.ycol_name and symbol is not fwd_symbol)
+            # print(d, symbol, fwd_symbol, d == self.ycol_name 
+            # and symbol is not fwd_symbol)
             if symbol in df.columns:
                 ndf[f'{pre}{d}'] = df[symbol]
 
@@ -229,13 +234,13 @@ class TechnicalDS(BaseDS):
 
         print('Group pct stds')
         self.bench_pct_stds_df = {x: self.pct_chg_bench_dict[x].apply(
-            lambda m: self.sign_compare(m, m.std()))
+            lambda m: BaseDS.sign_compare(m, m.std()))
             for x in self.active_keys[1:]}
         self.sect_pct_stds_df = {x: self.pct_chg_sect_dict[x].apply(
-            lambda m: self.sign_compare(m, m.std()))
+            lambda m: BaseDS.sign_compare(m, m.std()))
             for x in self.active_keys[1:]}
         self.ind_pct_stds_df = {x: self.pct_chg_ind_dict[x].apply(
-            lambda m: self.sign_compare(m, m.std()))
+            lambda m: BaseDS.sign_compare(m, m.std()))
             for x in self.active_keys[1:]}
 
         self.incl_group_feat_dict = {}
@@ -391,78 +396,14 @@ class TechnicalDS(BaseDS):
         px = self.fwd_return_df
         npa = px.values.reshape(-1,)
         npa = npa[~np.isnan(npa)]
-        high_q = np.quantile(npa[np.where( npa > 0)], tresholds)
-        low_q = np.quantile(npa[np.where( npa < 0)], list(1 - np.array(tresholds[::-1])))
+        high_q = np.quantile(npa[np.where(npa > 0)], tresholds)
+        low_q = np.quantile(
+            npa[np.where(npa < 0)], list(1 - np.array(tresholds[::-1])))
         cuts = (-np.inf, low_q[0], low_q[1], high_q[0], high_q[1], np.inf)
         print(f'Treshold distributions: {np.round(cuts, 2)}')
         return cuts
-
-    @staticmethod
-    def forward_returns(df, look_ahead, smooth=None):
-        """ New forward returns, single period """
-        if smooth is None: smooth = int(look_ahead/4)
-        spct_chg = df.pct_change(look_ahead).rolling(smooth).mean()
-        return spct_chg.shift(-int(smooth/2)).shift(-look_ahead)
-
-    @staticmethod
-    def discretize_returns(df, treshs, classes):
-        """ discretize forward returns into classes """
-        if isinstance(df, pd.Series): return pd.cut(df.dropna(), treshs, labels=classes)
-        else:
-            df.dropna(inplace=True)
-            for c in df.columns: df[c] = pd.cut(df[c], treshs, labels=classes)
-        return df
-
-    @staticmethod
-    def labelize_ycol(df, ycol_name, cut_range, labels):
-        """ replaces numeric with labels for classification """
-        df[ycol_name] = TechnicalDS.discretize_returns(
-            df[ycol_name], cut_range, labels)
-        df.dropna(subset=[ycol_name], inplace=True)
-        df[ycol_name] = df[ycol_name].astype(str)
-        print(pd.value_counts(df[ycol_name]) / pd.value_counts(df[ycol_name]).sum())
-        new_order = excl(df.columns, [ycol_name]) + [ycol_name]
-        df = df[new_order]
 
     def get_group_keys(self, symbol):
         sect_ind = [shorten_name(x) for x in list(
             self.profile.loc[symbol, ['sector', 'industry']])]
         return [self.universe_key] + sect_ind
-
-    @staticmethod
-    def roll_vol(df, rw): return df.rolling(rw).std() * pow(252, 1/2)
-
-    @staticmethod
-    def get_df(ticker, desc, desc_df, period, tgt_df):
-        if ticker in desc_df.index:
-            return tgt_df[period][shorten_name(desc_df.loc[ticker, desc])]
-        else: return np.nan
-
-    @staticmethod
-    def max_draw(xs):
-        l_dd = np.argmax(np.maximum.accumulate(xs) - xs)
-        h_dd = np.argmax(np.array(xs[:l_dd]))
-        return xs[l_dd]/xs[h_dd]-1
-
-    @staticmethod
-    def max_pull(xs):
-        h_p = np.argmax(xs - np.minimum.accumulate(xs))
-        l_p = np.argmin(np.array(xs[:h_p]))
-        return xs[h_p]/xs[l_p]-1
-
-    @staticmethod
-    def sign_compare(x, y):
-        x_abs = np.abs(x)
-        res = x_abs // y
-        return (res * np.sign(x))
-
-    @staticmethod
-    def pct_of(df, count_df, name):
-        df = count_df.T.count() / df.T.count()
-        df.name = name
-        return df
-
-    @staticmethod
-    def pct_above_series(df, key, tresh):
-        count_df = df[df > tresh] if tresh >= 0 else df[df < tresh]
-        return TechnicalDS.pct_of(df, count_df, key)
