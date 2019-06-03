@@ -81,6 +81,9 @@ class BaseDS(object):
                 print(f'Exception get_mults_px_vol: {t}{e}')
 
         px_vol_df = pd.concat(super_list, axis=0)
+        px_vol_df.drop_duplicates(inplace=True)
+        index_cols = ['storeDate', 'symbol']
+        px_vol_df = px_vol_df.reset_index().drop_duplicates(subset=index_cols).set_index(index_cols)
         return px_vol_df.unstack()
 
     @staticmethod
