@@ -2,9 +2,10 @@ import os
 from tqdm import *
 from utils.basic_utils import load_csvs, config, UNIVERSE
 from utils.basic_utils import read_dates, numeric_cols, excl
-from utils.pricing import get_symbol_pricing
+from utils.pricing import get_symbol_pricing, shorten_name
 import pandas as pd
 import numpy as np
+
 
 class BaseDS(object):
 
@@ -12,13 +13,16 @@ class BaseDS(object):
     y_col_name = 'fwdRet'
     forward_return_labels = ["bear", "short", "neutral", "long", "bull"]
 
-    def __init__(self,
+    def __init__(
+        self,
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
         bench='^GSPC',
-        look_ahead=120, look_back=252*7,
-        quantile=0.75):
+        look_ahead=120,
+        look_back=252*7,
+        quantile=0.75
+    ):
 
         self.path = path
         self.fname = fname
@@ -122,7 +126,7 @@ class BaseDS(object):
     @staticmethod
     def pct_above_series(df, key, tresh):
         count_df = df[df > tresh] if tresh >= 0 else df[df < tresh]
-        return TechnicalDS.pct_of(df, count_df, key)
+        return BaseDS.pct_of(df, count_df, key)
 
     @staticmethod
     def forward_returns(df, look_ahead, smooth=None):

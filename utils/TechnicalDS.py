@@ -11,7 +11,8 @@ from utils.BaseDS import BaseDS
 
 class TechnicalDS(BaseDS):
 
-    def __init__(self,
+    def __init__(
+        self,
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
