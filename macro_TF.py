@@ -266,7 +266,7 @@ macro_ds = MacroDS(
     look_back=252,
     invert_list=['EURUSD=X', 'GBPUSD=X'],
     include_list=['^VIX'],
-    # max_draw_on=True,
+    max_draw_on=True,
     )
 y_col = f'{macro_ds.bench}{macro_ds.ycol_name}'
 labels = macro_ds.forward_return_labels
