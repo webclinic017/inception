@@ -271,6 +271,7 @@ macro_ds = MacroDS(
 y_col = f'{macro_ds.bench}{macro_ds.ycol_name}'
 labels = macro_ds.forward_return_labels
 
+# %%
 if __name__ == '__main__':
     hook = sys.argv[1]
     if hook == 'train':
@@ -283,7 +284,15 @@ if __name__ == '__main__':
     else:
         print('Invalid option, please try: train or predict')
 
+
 """
+# %%
+# get latest pricing file from inferece instance
+px_vol_ds = context['px_vol_ds']
+tmp_path = context['tmp_path']
+os.makedirs(tmp_path, exist_ok=True)
+get_ipython().system('scp -i ~/.ssh/qc_infra.pem ubuntu@35.162.96.235:~/inception/tmp/{px_vol_ds} {tmp_path}{px_vol_ds}')
+
 # %% Train
 train_ds(context)
 
