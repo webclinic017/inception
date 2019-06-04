@@ -249,7 +249,7 @@ context = {
     'verbose': 2,
     'units': 300,
     'hidden_layers': 4,
-    'max_iter': 50,
+    'max_iter': 100,
     'l2_reg': 1,
     'dropout': 0.5,
 }
