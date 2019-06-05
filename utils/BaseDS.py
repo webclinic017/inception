@@ -36,17 +36,18 @@ class BaseDS(object):
         self.px_vol_df = self.load_px_vol_ds()
         self.clean_px = self.px_vol_df['close'].dropna(subset=[self.bench])
 
-        # Quotes, profile, and industries
-        self.dates = read_dates('quote')
-        # last date saved in S3
-        self.tgt_date = self.dates[-1]
+        # Quotes, profile, and industries for last date of dataset
+        dates = self.clean_px.index.unique()
+        self.tgt_date = dates[-1].strftime('%Y-%m-%d')
         print(f'Target date: {self.tgt_date}')
 
-        quotes = load_csvs('quote_consol', [self.tgt_date])
-        # quotes = quotes.loc[quotes.symbol.isin(self.companies)]
-        self.quotes = quotes.set_index('symbol', drop=False)
+        quotes = load_csvs('quote', ['csv/' + self.tgt_date])
+        keystats = load_csvs('summary_detail', ['defaultKeyStatistics/' + self.tgt_date])
+        finstats = load_csvs('summary_detail', ['financialData/' + self.tgt_date])
         profile = load_csvs('summary_detail', ['assetProfile'])
-        # profile = profile.loc[profile.symbol.isin(self.companies)]
+        self.quotes = quotes.set_index('symbol', drop=False)
+        self.keystats = keystats.set_index('symbol', drop=False)
+        self.finstats = finstats.set_index('symbol', drop=False)
         self.profile = profile.set_index('symbol', drop=False)
 
     def load_px_vol_ds(self):
