@@ -18,7 +18,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedShuffleSplit
 
 pd.options.display.float_format = '{:,.2f}'.format
-get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'svg'")
 mpl.rcParams['font.size'] = 8
 mpl.rcParams['legend.fontsize'] = 'medium'
 mpl.rcParams['figure.titlesize'] = 'large'
@@ -189,6 +188,7 @@ else:
 
 
 # %% historical index for predictions
+# get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'svg'")
 get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
     title='Historical Performance of Portfolio'
 )
