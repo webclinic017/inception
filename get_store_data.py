@@ -31,15 +31,8 @@ if __name__ == '__main__':
             except Exception as e:
                 print(e)
         temp_path, px_close_fname, px_vol_fname = 'tmp/', 'universe-px-ds', 'universe-px-vol-ds.h5'
-        # load_px_close(temp_path, px_close_fname, False)
         print(f'Persisting universe price and volume to {temp_path + px_vol_fname}')
         baseDs = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=False, )
-        # temporary workaround until load_px_close is @deprecated
-        # px_close = baseDs.px_vol_df['close']
-        # num_cols = numeric_cols(px_close)
-        # px_close.loc[:, num_cols] = px_close[num_cols].astype(np.float32)
-        # os.makedirs(temp_path, exist_ok=True)
-        # px_close.to_parquet(temp_path + px_close_fname)
 
     elif hook == 'options':
         sample_set = sys.argv[2]
