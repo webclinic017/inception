@@ -1,16 +1,20 @@
-import datetime, logging, json, os
+import logging, json, os
+from datetime import datetime
 import pandas as pd
-from utils.basic_utils import store_s3, csv_store
+from utils.basic_utils import store_s3, csv_store, csv_ext
 from ib_insync import IB, util
 from ib_insync import Contract, ContractDetails, ContractDescription
 from ib_insync import Stock, Forex, Index, Future, ContFuture, CFD, Option, Bond
 from ib_insync.client import Client
 from ib_insync.objects import FundamentalRatios
 
+util.logToConsole(logging.WARNING)
+logger = logging.getLogger()
+logger.setLevel("ERROR")
+
 """
-Folder structure:
-ib_datasets
-    xdetails (overriden)
+ib_ds
+    contracts (overriden)
     historical (daily)
         price_vol
         options
@@ -24,208 +28,117 @@ ib_datasets
     positions (daily)
 """
 
-util.logToConsole(logging.WARNING)
-logger = logging.getLogger()
-logger.setLevel("ERROR")
+ib_config = {
+    'store_path': {
+        'contracts': 'ib_ds/',
+        'price_vol': 'ib_ds/historical/price_vol/',
+        'fundamental_ratios': 'ib_ds/fundamental/ratios/',
+        'fundamental_reports': 'ib_ds/fundamental/reports/{}/',
+        'options': 'ib_ds/historical/options/',
+        'positions': 'ibk_positions/'
+    }
+}
+
+ib_sleep = 5
+tmp_folder = './tmp/'
+os.makedirs(tmp_folder, exist_ok=True)
+
+ib_univ = pd.read_csv('./utils/ib_universe.csv', index_col='symbol')
+store_date = datetime.now().strftime('%Y-%m-%d')
+duration = '5 Y'
+bar_size = '1 day'
+wts_dict = {'Forex': 'BID_ASK'}
+
+get_hist_data_type = lambda x: wts_dict[x] if x in wts_dict.keys() else 'ADJUSTED_LAST'
+
+def get_hist_data(contract, duration, bar_size, hist_data_type):
+    " Retrieves historical price and volume for a given contract "
+    print(f'Historical data for {contract}')
+    bars = ib.reqHistoricalData(
+        contract, endDateTime='',
+        durationStr=duration,
+        barSizeSetting=bar_size, 
+        whatToShow=hist_data_type, 
+        useRTH=True)
+    return util.df(bars)
 
 ib = IB()
 ib.connect('127.0.0.1', 7496, clientId=1)
-ib_sleep = 0.5
 
-_folder = './tmp/'
-os.makedirs(_folder, exist_ok=True)
-
-universe = pd.read_csv('./utils/ib_universe.csv', index_col='symbol')
-types = list(universe.type.unique())
-all_contracts = []
-wts_dict = {'FX': 'BID_ASK'}
-duration = '15 Y'
-bar_size = '1 d'
-
-active_type = 'Stock'
-hist_data_type = wts_dict[active_type] if active_type in wts_dict.keys() else 'ADJUSTED_LAST'
 contracts = []
-symbols = universe.loc[universe.type.isin([active_type])]
-contracts = [Stock(s, 
-        universe.loc[s, 'exchange'], 
-        universe.loc[s, 'currency']) 
-        for s in symbols]
-all_contracts.extend(contracts)
 
-def get_historical(contracts, duration, bar_size, hist_data_type, store_path):
-    for contract in contracts:
-        bars = ib.reqHistoricalData(
-            contract, endDateTime='',
-            durationStr=duration,
-            barSizeSetting=bar_size, 
-            whatToShow=hist_data_type, 
-            useRTH=True)
-        df = util.df(bars)
-        df.to_csv(f'{_folder}{contract.symbol}.csv')
+ss_df = ib_univ.loc[ib_univ.type.isin(['Stock'])]
+stocks = [Stock(t, exchange=ss_df.loc[t, "exchange"], currency=ss_df.loc[t, "currency"]) for t in list(ss_df.index)]
+ss_df = ib_univ.loc[ib_univ.type.isin(['ETF'])]
+etfs = [Stock(t, exchange=ss_df.loc[t, "exchange"], currency=ss_df.loc[t, "currency"]) for t in list(ss_df.index)]
+ss_df = ib_univ.loc[ib_univ.type.isin(['Index'])]
+indices = [Index(t, exchange=ss_df.loc[t, "exchange"], currency=ss_df.loc[t, "currency"]) for t in list(ss_df.index)]
+ss_df = ib_univ.loc[ib_univ.type.isin(['Forex'])]
+forex = [Forex(t) for t in list(ss_df.index)]
+ss_df = ib_univ.loc[ib_univ.type.isin(['ContFuture'])]
+futures = [ContFuture(t, exchange=ss_df.loc[t, "exchange"], currency=ss_df.loc[t, "currency"]) for t in list(ss_df.index)]
+# ss_df = ib_univ.loc[ib_univ.type.isin(['Option'])]
+# options = [Option(t, exchange=ss_df.loc[t, "exchange"], currency=ss_df.loc[t, "currency"]) for t in list(ss_df.index)]
 
-# CONTRACT DETAILS
+contracts = stocks + etfs + indices + forex + futures
+ib.qualifyContracts(*contracts)
+
 """
-sample_contracts = [
-    Contract(conId=270639),
-    Stock('TSLA', exchange='SMART', currency='USD'),
-    Index('VIX'),
-    Stock('SPY', exchange='SMART', currency='USD'),    
-    Forex('EURUSD'),
-    ContFuture('HG', exchange='NYMEX', currency='USD'),
-    Option('FXI', exchange='SMART', currency='USD'),
-]
+print("Contract details...")
+store_path = ib_config['store_path']['contracts']
 s_l = []
-for contract in sample_contracts:
+for contract in contracts:
     cds = ib.reqContractDetails(contract)
     sec_contracts = [cd.contract for cd in cds]
     df = util.df(sec_contracts)
+    print(f'{contract.symbol} details: {df is not None}')
     s_l.append(df)
-pd.concat(s_l, axis=0).to_csv(f'{_folder}contract-details.csv')
+df = pd.concat(s_l, axis=0)
+csv_store(df, store_path, f'contract_details.csv')
 """
-
-# EQUITIES
 """
-logger.info("Equities Start")
-logger.info("Contracts...")
-categ_list = pd.read_csv('company_map.csv', index_col=[0])
-c_list = list(categ_list.index.unique())
-contracts = [
-    Stock(t, 
-    categ_list.loc[t, 'exchange'], 
-    categ_list.loc[t, 'currency']) 
-for t in c_list]
-
-# cds = ib.reqContractDetails(Stock(c_list[0]))
-# contracts = [cd.contract for cd in cds]
-# print({key: set(getattr(c, key) for c in contracts) for key in Contract.defaults})
-"""
-
-"""
-logger.info("Ingesting historical price and volume...")
-for contract in contracts:
-    bars = ib.reqHistoricalData(
-        contract, 
-        endDateTime='', 
-        durationStr='15 Y',
-        barSizeSetting='1 day', 
-        whatToShow='ADJUSTED_LAST', 
-        useRTH=True)
-    df = util.df(bars)
-    df.to_csv(f'{_folder}{contract.symbol}.csv')
+print("Ingesting historical price and volume...")
+store_path = ib_config['store_path']['price_vol']
+sel_contracts = stocks
+for contract in sel_contracts:
+    c_type = contract.__class__.__name__
+    hist_data_type = get_hist_data_type(c_type)
+    df = get_hist_data(contract, duration, bar_size, hist_data_type)
+    print(f'{contract.symbol} pricing: {df is not None}')
+    csv_store(df, store_path, csv_ext.format(f'{contract.symbol}'))
     break
 """
 """
-logger.info("Ingesting fundamental ratios...")
+print("Ingesting fundamental ratios...")
+store_path = ib_config['store_path']['fundamental_ratios']
 s_l, idx_l = [], []
-for contract in contracts:
+sel_contracts = stocks + etfs
+for contract in sel_contracts:
     ticker = ib.reqMktData(contract, '258')
     ib.sleep(ib_sleep)
     fr = ticker.fundamentalRatios
-    idx_l.append(contract.symbol)
-    s_l.append(fr)
-    # with open(f'{_folder}{contract.symbol}.json', 'w') as f:
-    #     f.write(json.dumps(vars(fr)))
+    print(f'{contract.symbol} ratios: {fr is not None}')
+    if fr is not None: 
+        idx_l.append(contract.symbol)
+        s_l.append(fr)
 df = util.df(s_l)
-df.index = idx_l
-df.to_csv(f'{_folder}fundamental-ratios.csv')
-# """
+df['symbol'] = idx_l
+df['storeDate'] = store_date
+csv_store(df, store_path, f'{store_date}.csv')
+print(df)
 """
-logger.info("Ingesting fundamental reports...")
-for contract in contracts:
+"""
+print("Ingesting fundamental reports...")
+store_path = ib_config['store_path']['fundamental_reports']
+for contract in stocks:
     # fundamental reports in XML
     fund_reports = ['ReportsFinSummary', 'ReportSnapshot', 'ReportsFinStatements', 'RESC']
     for r in fund_reports:
         fr = ib.reqFundamentalData(contract, r)
-        with open(f'{_folder}{contract.symbol}{r}.xml', 'w') as f:
-            f.write(fr)
+        path = f'{store_path.format(r)}{contract.symbol}.xml'
+        print(path)
+        store_s3(fr, path)
+
 logger.info("Equities Complete")
 """
-
-# INDICES
-"""
-categ_list = pd.read_csv('index_request.csv', index_col=[0])
-c_list = list(categ_list.index.unique())
-contracts = [
-    Index(t, categ_list.loc[t, 'exchange'], categ_list.loc[t, 'currency']) for t in c_list]
-ib.qualifyContracts(*contracts)
-
-# historical price and volume (OCHLV)
-for contract in contracts:
-    bars = ib.reqHistoricalData(
-        contract, 
-        endDateTime='', 
-        durationStr='15 Y',
-        barSizeSetting='1 day', 
-        whatToShow='ADJUSTED_LAST', 
-        useRTH=True)
-    df = util.df(bars)
-    df.to_csv(f'{_folder}{contract.symbol}.csv')
-"""
-
-# ETF
-"""
-categ_list = pd.read_csv('etf_request.csv', index_col=[0])
-c_list = list(categ_list.index.unique())
-contracts = [
-    Stock(t, categ_list.loc[t, 'exchange'], categ_list.loc[t, 'currency']) for t in c_list]
-ib.qualifyContracts(*contracts)
-
-# historical price and volume (OCHLV)
-for contract in contracts:
-    bars = ib.reqHistoricalData(
-        contract, 
-        endDateTime='', 
-        durationStr='15 Y',
-        barSizeSetting='1 day', 
-        whatToShow='ADJUSTED_LAST', 
-        useRTH=True)
-    df = util.df(bars)
-    df.to_csv(f'{_folder}{contract.symbol}.csv')
-    ib.sleep(1)
-"""
-
-# FUTURES
-"""
-categ_list = pd.read_csv('future_map.csv', index_col=[0], delimiter=',')
-c_list = list(categ_list.index.unique())
-contracts = [
-    ContFuture(t, 
-        exchange=categ_list.loc[t, 'exchange'],
-        currency=categ_list.loc[t, 'currency'],
-    ) for t in c_list
-]
-ib.qualifyContracts(*contracts)
-
-for contract in contracts:
-    bars = ib.reqHistoricalData(
-        contract,
-        endDateTime='',
-        durationStr='15 Y',
-        barSizeSetting='1 day',
-        whatToShow='ADJUSTED_LAST',
-        useRTH=True)
-    df = util.df(bars)
-    df.to_csv(f'{_folder}{contract.symbol}.csv')
-"""
-
-# FOREX
-"""
-categ_list = pd.read_csv('fx_request.csv', index_col=[0], delimiter=',')
-c_list = ['EURUSD', 'GBPUSD', 'USDHKD', 'USDJPY']
-contracts = [Forex(t) for t in c_list]
-ib.qualifyContracts(*contracts)
-
-# historical price and volume (OCHLV)
-for contract in contracts:
-    bars = ib.reqHistoricalData(
-        contract,
-        endDateTime='',
-        durationStr='15 Y',
-        barSizeSetting='1 day',
-        whatToShow='BID_ASK',
-        useRTH=True)
-    df = util.df(bars)
-    df.to_csv(f'{_folder}{contract.localSymbol}.csv')
-"""
-
 ib.disconnect()
