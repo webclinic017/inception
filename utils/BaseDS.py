@@ -11,7 +11,8 @@ class BaseDS(object):
 
     universe_key = '^ALL'
     y_col_name = 'fwdRet'
-    forward_return_labels = ["bear", "short", "neutral", "long", "bull"]
+    # forward_return_labels = ["bear", "short", "neutral", "long", "bull"]
+    forward_return_labels = ["bear", "short", "negative", "positive", "long", "bull"]
 
     def __init__(
         self,

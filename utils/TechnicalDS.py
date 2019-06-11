@@ -400,7 +400,7 @@ class TechnicalDS(BaseDS):
         high_q = np.quantile(npa[np.where(npa > 0)], tresholds)
         low_q = np.quantile(
             npa[np.where(npa < 0)], list(1 - np.array(tresholds[::-1])))
-        cuts = (-np.inf, low_q[0], low_q[1], high_q[0], high_q[1], np.inf)
+        cuts = (-np.inf, low_q[0], low_q[1], 0, high_q[0], high_q[1], np.inf)
         print(f'Treshold distributions: {np.round(cuts, 2)}')
         return cuts
 

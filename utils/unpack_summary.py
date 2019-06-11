@@ -85,9 +85,6 @@ def parse_earnings_trend(summary, symbol):
     return epsEst_df, revEst_df, epsTrend_df, epsRev_df
 
 
-# In[28]:
-
-
 def get_mult_rows(key, summary, symbol):
     if key in summary: return create_normalized_df(summary[key], symbol)
 def get_single_row(key, summary, symbol):
