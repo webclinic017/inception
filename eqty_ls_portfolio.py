@@ -116,9 +116,10 @@ pred_df.tail()
 
 # %% Assumptions
 # enable long or short
-amount = 800000/6
-long = True
 ls_dict = {True: 0.84, False: -0.36}
+leverage = (abs(ls_dict[True]) + abs(ls_dict[False]))
+amount = 875000/6 * leverage
+long = True
 # stop losses dont seem to help
 loss_protection = False
 max_loss = 0.1
@@ -146,11 +147,11 @@ for long in [True, False]:
         pred_df, study_dates, top_pred,
         pred_classes, period_tresh)
     if watch_overtime:
-        top_pos = most_freq_df.head(nbr_positions)
+        top_pos = most_freq_df
     else:
         top_pos = top_pred.loc[
             top_pred.pred_class.isin(pred_classes) &
-            top_pred.confidence > min_confidence].head(nbr_positions)
+            top_pred.confidence > min_confidence]
     symbols = list(top_pos.symbol)
     print(f'{len(symbols)} {"LONG" if long else "SHORT"} Symbols, {symbols}')
 
@@ -162,7 +163,7 @@ for long in [True, False]:
     show_cols = ['sector', 'industry']
     profile_alloc = profile.loc[symbols, show_cols]
 
-    w = 1 / nbr_positions * ls_dict[long]
+    w = 1 / nbr_positions * ls_dict[long] / leverage
     allocation = amount * w
     alloc_df = (allocation / quotes.loc[
         symbols, ['regularMarketPrice']]).round(0)
@@ -189,17 +190,17 @@ else:
 
 # %% historical index for predictions
 # get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'svg'")
-get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
-    title='Historical Performance of Portfolio'
-)
+# get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
+#     title='Historical Performance of Portfolio'
+# );
 
 # %% By sector
-by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
-(by_sect / amount).plot.bar()
+# by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
+# (by_sect / amount).plot.bar()
 
 # %% By industry
-by_ind = alloc_df.groupby(by=['industry']).sum().loc[:,'dollarValue'].sort_values()
-(by_ind / amount).plot.bar()
+# by_ind = alloc_df.groupby(by=['industry']).sum().loc[:,'dollarValue'].sort_values()
+# (by_ind / amount).plot.bar()
 
 # %%
 # finstats.loc[symbols]
