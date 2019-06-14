@@ -33,13 +33,14 @@ context = {
     'trained_cols': 'micro_TF_train_cols.npy',
     'look_ahead': 120,
     'look_back': 120,
+    'smooth': 1,
     'load_ds': True,
     'scale': True,
     'test_size': .05,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
-    'units': 500, #850
-    'max_iter': 50, #50
+    'units': 750, #850
+    'max_iter': 100, #50
     'l2_reg': 0.01,
 }
 
@@ -47,8 +48,9 @@ tech_ds = TechnicalDS(
     context['tmp_path'],
     context['px_vol_ds'],
     load_ds=True,
-    # tickers='All',
+    tickers='All',
     look_ahead=context['look_ahead'],
+    fwd_smooth=context['smooth'],
     max_draw_on=True)
 y_col = tech_ds.ycol_name
 
