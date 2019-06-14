@@ -10,6 +10,7 @@ from utils.pricing import dummy_col, px_fwd_ret, get_ind_index, discret_rets
 from utils.pricing import rename_col
 from utils.fundamental import chain_outlier
 from utils.TechnicalDS import TechnicalDS
+from utils.pred_utils import get_top_predictions, get_most_frequent_preds, get_study_date_range, stop_loss
 
 import pandas as pd
 import numpy as np
@@ -21,53 +22,6 @@ pd.options.display.float_format = '{:,.2f}'.format
 mpl.rcParams['font.size'] = 8
 mpl.rcParams['legend.fontsize'] = 'medium'
 mpl.rcParams['figure.titlesize'] = 'large'
-
-
-# %%
-def get_top_predictions(pred_df, as_of_date, min_confidence):
-    """ return top recommendatins by label as of a given date """
-    label_mask = (pred_df.pred_class.isin(pred_classes))         & (pred_df.confidence > min_confidence)
-
-    idx = pred_df.index.unique()[as_of_date]
-    top_pred = pred_df.loc[(pred_df.index == idx) & label_mask]        .sort_values(by=['pred_label', 'confidence'], ascending=False)
-    
-    return top_pred
-
-
-def get_most_frequent_preds(pred_df, study_dates, top_pred, pred_classes, treshold=0.6):
-    """ return most frequent predictions of a given class for a study period """
-    # print(f'Most frequent predictions as of {study_dates[-1]} for classes {pred_classes}')
-    last_xdays_pred = pred_df.loc[study_dates]
-    last_xdays_pred = last_xdays_pred.loc[
-        last_xdays_pred.symbol.isin(list(top_pred.symbol)), 
-        ['symbol', 'pred_class', 'confidence']].reset_index()
-    most_freq_df = last_xdays_pred.groupby(
-        by=['symbol', 'pred_class']).agg(['count', 'mean']).reset_index()
-    filter_mask = most_freq_df['pred_class'].isin(pred_classes) &\
-    (most_freq_df[('confidence', 'count')] > int(len(study_dates) * treshold))
-    result = most_freq_df.loc[filter_mask].sort_values(
-        by=[('confidence', 'count'), ('confidence', 'mean')], 
-        ascending=False)
-
-    return result
-
-
-def get_study_date_range(pred_df, as_of_date, study_period):
-    """ 
-    return date range for a study period, as of = prediction, 
-    study period = number of days to observe stability of predictions    
-    """
-    if as_of_date == -1:
-        return pred_df.index.unique()[study_period + as_of_date:]
-    else:
-        return pred_df.index.unique()[(study_period + as_of_date + 1):as_of_date+1]
-
-
-def stop_loss(df, long, max_loss):
-    truth_df = (df < 1 - max_loss) if long else (df > 1 + max_loss)
-    pos = truth_df[truth_df == True]
-    if len(pos): df.loc[pos.index[0]:] = df.loc[pos.index[0]]
-    return df
 
 # %% 
 context = {
@@ -101,14 +55,14 @@ profile = tech_ds.profile
 keystats = tech_ds.keystats
 finstats = tech_ds.finstats
 clean_px, labels = tech_ds.clean_px, tech_ds.forward_return_labels
+labels_list = list(reversed(range(len(tech_ds.forward_return_labels))))
 
 # Read today's predictions from S3
 s3_path = context['s3_pred_path']
 pred_df = pd.read_csv(
     csv_load(f'{s3_path}{tgt_date}'),
     index_col='pred_date',
-    parse_dates=True
-)
+    parse_dates=True)
 pred_df.info()
 print('Prediction distribution')
 print(pd.value_counts(pred_df.pred_label) / pd.value_counts(pred_df.pred_label).sum())
@@ -132,7 +86,7 @@ study_period = -10
 # cut off
 min_confidence = 0.95
 # percent of time in the list during study period
-period_tresh = 0.9
+period_tresh = 0.5
 nbr_positions = 10
 look_ahead, look_back = context['look_ahead'], context['look_back']
 
@@ -140,8 +94,8 @@ look_ahead, look_back = context['look_ahead'], context['look_back']
 super_list = []
 most_freq_df = None
 for long in [True, False]:
-    pred_classes = [3, 4] if long else [0, 1]
-    top_pred = get_top_predictions(pred_df, as_of_date, min_confidence)
+    pred_classes = labels_list[:2] if long else labels_list[-2:]
+    top_pred = get_top_predictions(pred_df, as_of_date, pred_classes, min_confidence)
     study_dates = get_study_date_range(pred_df, as_of_date, study_period)
     most_freq_df = get_most_frequent_preds(
         pred_df, study_dates, top_pred,
@@ -189,7 +143,6 @@ else:
 
 
 # %% historical index for predictions
-# get_ipython().run_line_magic('config', "InlineBackend.figure_format = 'svg'")
 # get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
 #     title='Historical Performance of Portfolio'
 # );
