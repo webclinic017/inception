@@ -12,8 +12,13 @@ class MacroDS(TechnicalDS):
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
-        tickers=None, bench='^GSPC', look_ahead=60, look_back=252,
-        invert_list=[], include_list=[],
+        tickers=None, 
+        bench='^GSPC', 
+        look_ahead=60, 
+        fwd_smooth=None,
+        look_back=252,
+        invert_list=[], 
+        include_list=[],
         roll_vol_days=30,
         pct_chg_keys=[1, 20, 50, 200],
         quantile=0.75,
@@ -21,7 +26,8 @@ class MacroDS(TechnicalDS):
     ):
 
         BaseDS.__init__(
-            self, path, fname, load_ds, bench, look_ahead, look_back, quantile)
+            self, path, fname, load_ds, bench, look_ahead, fwd_smooth, look_back, 
+            invert_list, include_list, quantile, max_draw_on)
 
         instruments = list(config['universe_list'])
         instruments.remove('companies')

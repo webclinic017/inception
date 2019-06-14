@@ -18,22 +18,24 @@ class TechnicalDS(BaseDS):
         load_ds=True,
         tickers=None,
         bench='^GSPC',
-        look_ahead=120, look_back=252*7,
-        invert_list=[], include_list=[],
+        look_ahead=120,
+        fwd_smooth=None,        
+        look_back=252*7,
+        invert_list=[], 
+        include_list=[],
         roll_vol_days=30,
         pct_chg_keys=[1, 20, 50, 200],
-        quantile=0.75, max_draw_on=False):
+        quantile=0.75, 
+        max_draw_on=False):
 
         BaseDS.__init__(self, path, fname, load_ds,
-            bench, look_ahead, look_back, quantile)
+            bench, look_ahead, fwd_smooth, look_back, 
+            invert_list, include_list,
+            quantile, max_draw_on)
 
-        self.invert_list = invert_list
-        self.include_list = include_list
         self.pct_chg_keys = pct_chg_keys
         self.roll_vol_days = roll_vol_days
-        self.max_draw_on = max_draw_on
         self.active_keys = self.pct_chg_keys[1:]
-        self.ycol_name = f'{self.y_col_name}{self.look_ahead}'
         self.companies = config['companies']
 
         if tickers is None:
@@ -70,111 +72,6 @@ class TechnicalDS(BaseDS):
             ].index) for x in subset
         }
 
-    def create_base_frames(self):
-        """
-        Price and volume base dataframes, Adjusted for SP500 trading days
-        """
-        self.incl_feat_dict = {}
-
-        print('OCLHV dataframes')
-        self.close_df = self.px_vol_df['close'].dropna(subset=[self.bench])
-        self.open_df = self.px_vol_df['open'].dropna(subset=[self.bench])
-        self.low_df = self.px_vol_df['low'].dropna(subset=[self.bench])
-        self.high_df = self.px_vol_df['high'].dropna(subset=[self.bench])
-
-        # inverted securities before transforms
-        print('Inverting instruments')
-        for df in (self.close_df, self.open_df, self.low_df, self.high_df):
-            df[self.invert_list] = 1/df[self.invert_list]
-        self.vol_df = self.px_vol_df['volume'].dropna(subset=[self.bench])
-        self.dollar_value_df = self.close_df * self.vol_df
-
-        print('Change dataframes')
-        self.close_1d_shift_df = self.close_df.shift(1)
-        self.close_1d_chg_df = self.close_df - self.close_1d_shift_df
-        self.pct_chg_df_dict = {x: self.close_df.pct_change(x) for x in self.pct_chg_keys}
-        self.intra_day_chg_df = (self.close_df - self.open_df) / self.open_df
-        self.open_gap_df = (self.open_df - self.close_1d_shift_df) / self.close_1d_shift_df
-
-        for p in self.pct_chg_df_dict.keys():
-            self.incl_feat_dict.update({f'PctChg{p}': self.pct_chg_df_dict[p]})
-
-        self.incl_feat_dict.update({'IntraDayChg': self.intra_day_chg_df})
-        self.incl_feat_dict.update({'OpenGap': self.open_gap_df})
-
-        print('Relative performance dataframes')
-        # % of 50 day moving average
-        self.pct_50d_ma_df = self.close_df / self.close_df.fillna(method='ffill').rolling(50).mean()
-        # % of 200 day moving average
-        self.pct_200d_ma_df = self.close_df / self.close_df.fillna(method='ffill').rolling(200).mean()
-        # % of 52 week high
-        self.pct_52wh_df = self.close_df / self.close_df.fillna(method='ffill').rolling(252).max()
-        # % of 52 week low
-        self.pct_52wl_df = self.close_df / self.close_df.fillna(method='ffill').rolling(252).min()
-
-        self.incl_feat_dict.update({'Pct50MA': self.pct_50d_ma_df})
-        self.incl_feat_dict.update({'Pct200MA': self.pct_200d_ma_df})
-        self.incl_feat_dict.update({'Pct52WH': self.pct_52wh_df})
-        self.incl_feat_dict.update({'Pct52WL': self.pct_52wl_df})
-
-        print('Relative volume and dollar value dataframes')
-        # vol as a pct of 10 day average
-        self.pct_vol_10da_df = self.vol_df / self.vol_df.fillna(method='ffill').rolling(10).mean()
-        # vol as a pct of 60 day average
-        self.pct_vol_50da_df = self.vol_df / self.vol_df.fillna(method='ffill').rolling(50).mean()
-        # dollar values % of 10 day ma
-        self.pct_dv_10da_df = self.dollar_value_df / self.dollar_value_df.rolling(10).mean()
-        # dollar values % of 50 day ma
-        self.pct_dv_50da_df = self.dollar_value_df / self.dollar_value_df.rolling(50).mean()
-
-        self.incl_feat_dict.update({'PctVol10DA': self.pct_vol_10da_df})
-        self.incl_feat_dict.update({'PctVol50DA': self.pct_vol_50da_df})
-        self.incl_feat_dict.update({'PctDV10DA': self.pct_dv_10da_df})
-        self.incl_feat_dict.update({'PctDV50DA': self.pct_dv_50da_df})
-
-        print('Realized volatility dataframe')
-        # 30 day rolling daily realized return volatility
-        self.roll_realvol_df = self.pct_chg_df_dict[1].apply(
-            lambda x: BaseDS.roll_vol(x, self.roll_vol_days))
-        self.incl_feat_dict.update({f'RollRealVol{self.roll_vol_days}': self.roll_realvol_df})
-
-        print('Percentage change stds dataframes')
-        self.pct_stds_df_dict = {
-            x: self.pct_chg_df_dict[x].apply(lambda x: BaseDS.sign_compare(x, x.std()))
-            for x in self.pct_chg_keys
-            }
-
-        for p in self.pct_stds_df_dict.keys():
-            self.incl_feat_dict.update({f'PctChgStds{p}': self.pct_stds_df_dict[p]})
-
-        if self.max_draw_on:
-            print(f'Max draw/pull dataframes')
-            self.max_draw_df = self.close_df.rolling(self.look_ahead).apply(
-                lambda x: BaseDS.max_draw(x), raw=True)
-            self.max_pull_df = self.close_df.rolling(self.look_ahead).apply(
-                lambda x: BaseDS.max_pull(x), raw=True)
-
-            self.incl_feat_dict.update({f'MaxDraw{self.look_ahead}': self.max_draw_df})
-            self.incl_feat_dict.update({f'MaxPull{self.look_ahead}': self.max_pull_df})
-
-        print('Ranked returns dataframes')
-        self.hist_perf_ranks = {
-            k: self.close_df[self.tickers]
-            .apply(lambda x: (x.pct_change(k)+1))
-            .apply(lambda x: x.rank(pct=True, ascending=True), axis=0)
-            for k in self.active_keys}
-
-        for p in self.hist_perf_ranks.keys():
-            self.incl_feat_dict.update({
-                f'PerfRank{p}': self.hist_perf_ranks[p]
-                })
-
-        print('Forward return dataframe')
-        self.fwd_return_df = self.close_df.apply(
-            lambda x: BaseDS.forward_returns(x, self.look_ahead)
-            )
-        self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df})
-
     def technical_transforms(self, symbol, incl_name=False, incl_close=False):
         """
         Create technical transformations for a single instrument
@@ -186,6 +83,7 @@ class TechnicalDS(BaseDS):
         pre = symbol if incl_name else ''
         if incl_close: 
             ndf[f'{symbol}Close'] = self.close_df[symbol]
+        
         for d in self.incl_feat_dict.keys():
             df = self.incl_feat_dict[d]
             # print(d, symbol, fwd_symbol, d == self.ycol_name 
@@ -196,9 +94,7 @@ class TechnicalDS(BaseDS):
         return ndf
 
     def stitch_instruments(self, symbols=None, name=False, axis=0):
-        """
-        Stitch all companies vertically
-        """
+        """ Stitch all companies vertically """
         if self.incl_feat_dict is None:
             self.create_base_frames()
         if symbols is None:
@@ -206,7 +102,6 @@ class TechnicalDS(BaseDS):
         super_list = []
         for t in symbols:
             incl_close = True if t in self.include_list else False
-            fwd_ret_symbol = t if axis == 0 else self.bench
             df = self.technical_transforms(t, incl_name=name, incl_close=incl_close)
             if axis == 0:
                 df['symbol'] = t
@@ -392,7 +287,7 @@ class TechnicalDS(BaseDS):
             for s in self.ind_dict.keys()], axis=1)
         return pd.concat([univ_df, sect_df, ind_df], axis=1)
 
-    def return_intervals(self, tresholds=[0.5, 0.75]):
+    def return_intervals(self, tresholds=[0.4, 0.75]):
         """ Used for discretizing historical returns into classes """
         px = self.fwd_return_df
         npa = px.values.reshape(-1,)
@@ -400,6 +295,7 @@ class TechnicalDS(BaseDS):
         high_q = np.quantile(npa[np.where(npa > 0)], tresholds)
         low_q = np.quantile(
             npa[np.where(npa < 0)], list(1 - np.array(tresholds[::-1])))
+        # cuts = (-np.inf, low_q[0], low_q[1], high_q[0], high_q[1], np.inf)
         cuts = (-np.inf, low_q[0], low_q[1], 0, high_q[0], high_q[1], np.inf)
         print(f'Treshold distributions: {np.round(cuts, 2)}')
         return cuts
