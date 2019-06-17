@@ -27,10 +27,10 @@ K.tensorflow_backend._get_available_gpus()
 # context
 context = {
     'ml_path': './ML/',
-    'model_name': 'micro_TF.h5',
     'tmp_path': './tmp/',
     'px_vol_ds': 'universe-px-vol-ds.h5',
-    'trained_cols': 'micro_TF_train_cols.npy',
+    'model_name': 'micro_TF-all.h5',
+    'trained_cols': 'micro_TF_train_cols-all.npy',
     'look_ahead': 120,
     'look_back': 120,
     'smooth': 1,
