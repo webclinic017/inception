@@ -30,7 +30,6 @@ context = {
     'tmp_path': './tmp/',
     'px_vol_ds': 'universe-px-vol-ds.h5',
     'look_ahead': 120,
-    'look_back': 252*15,
     'load_ds': True,
     'verbose': True,
     's3_store': True,
@@ -46,9 +45,7 @@ tech_ds = TechnicalDS(
     load_ds=context['load_ds'],
     look_ahead=context['look_ahead'],
     max_draw_on=True,
-    tickers='All',
-)
-
+    tickers='All')
 tgt_date = tech_ds.tgt_date
 quotes = tech_ds.quotes
 profile = tech_ds.profile
@@ -56,6 +53,28 @@ keystats = tech_ds.keystats
 finstats = tech_ds.finstats
 clean_px, labels = tech_ds.clean_px, tech_ds.forward_return_labels
 labels_list = list(reversed(range(len(tech_ds.forward_return_labels))))
+tech_ds.create_base_frames()
+
+summ_feats_dict = {
+    'pct_chg_df_dict[20]': tech_ds.pct_chg_df_dict[20],
+    'pct_chg_df_dict[50]': tech_ds.pct_chg_df_dict[50],
+    'pct_chg_df_dict[200]': tech_ds.pct_chg_df_dict[200],
+    'pct_stds_df_dict[20]': tech_ds.pct_stds_df_dict[20].where(np.abs(tech_ds.pct_stds_df_dict[20])>0),
+    'pct_stds_df_dict[50]': tech_ds.pct_stds_df_dict[50].where(np.abs(tech_ds.pct_stds_df_dict[50])>0),
+    'pct_stds_df_dict[200]': tech_ds.pct_stds_df_dict[200].where(np.abs(tech_ds.pct_stds_df_dict[200])>0),    
+    'hist_perf_ranks[20]': tech_ds.hist_perf_ranks[20],
+    'hist_perf_ranks[50]': tech_ds.hist_perf_ranks[50],
+    'hist_perf_ranks[200]': tech_ds.hist_perf_ranks[200],
+    'max_draw_df': tech_ds.max_draw_df,
+    'max_pull_df': tech_ds.max_pull_df,
+    'pct_50d_ma_df': tech_ds.pct_50d_ma_df,
+    'pct_200d_ma_df': tech_ds.pct_200d_ma_df,
+    'pct_52wh_df': tech_ds.pct_52wh_df,
+    'pct_52wl_df': tech_ds.pct_52wl_df,
+    'pct_dv_10da_df': tech_ds.pct_dv_10da_df,
+    'pct_dv_50da_df': tech_ds.pct_dv_50da_df,
+    'dollar_value_df': tech_ds.dollar_value_df,
+}
 
 # Read today's predictions from S3
 s3_path = context['s3_pred_path']
@@ -82,13 +101,13 @@ holding_period = 120
 as_of_date = -1
 # pick most frequent predictions within X study period
 watch_overtime = True
-study_period = -10
+study_period = -20
 # cut off
-min_confidence = 0.95
+min_confidence = 0.8
 # percent of time in the list during study period
-period_tresh = 0.5
+period_tresh = 0.7
 nbr_positions = 10
-look_ahead, look_back = context['look_ahead'], context['look_back']
+look_ahead = context['look_ahead']
 
 # %% AI portfolio - one period
 super_list = []
@@ -107,6 +126,22 @@ for long in [True, False]:
             top_pred.pred_class.isin(pred_classes) &
             top_pred.confidence > min_confidence]
     symbols = list(top_pos.symbol)
+
+    # create dispersion stats for a given universe, to compare against ideal metrics
+    s_l = []
+    for k in summ_feats_dict.keys():
+        df = summ_feats_dict[k].loc[:, symbols].iloc[-1]
+        df.name = k
+        s_l.append(df)
+    latest_df = pd.concat(s_l, axis=1).T
+    ls_categ = "long" if long else "short"
+    disp_df = pd.read_csv(csv_load(f'models/equity_dispersion_{ls_categ}'), index_col=[0])
+    ratio_disp_df = latest_df.T.div(disp_df['50%']).T
+    ranked_df = ratio_disp_df.rank(axis=1, method='dense', pct=True)
+    ranked_df = ranked_df.mean().sort_values(ascending=True if long else False)
+    ranked_df = ranked_df.tail(int(len(ranked_df) * .8))
+    symbols = list(ranked_df.index)
+
     print(f'{len(symbols)} {"LONG" if long else "SHORT"} Symbols, {symbols}')
 
     # Share allocation
@@ -132,7 +167,6 @@ alloc_df['pred_date'] = date.today()
 
 s3_store = context['s3_store']
 s3_portfolio_path = context['s3_portfolio_path']
-
 if s3_store:
     # store in S3
     s3_df = alloc_df.reset_index(drop=False)

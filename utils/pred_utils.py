@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 from matplotlib import pyplot as plt
+from utils.TechnicalDS import TechnicalDS
 
 pd.options.display.float_format = '{:,.3f}'.format
 mpl.rcParams['figure.figsize'] = [5.0, 3.0]
@@ -13,7 +14,8 @@ def get_top_predictions(pred_df, as_of_date, pred_classes, min_confidence):
     """ return top recommendatins by label as of a given date """
     label_mask = (pred_df.pred_class.isin(pred_classes)) & (pred_df.confidence > min_confidence)
     idx = pred_df.index.unique()[as_of_date]
-    top_pred = pred_df.loc[(pred_df.index == idx) & label_mask].sort_values(by=['pred_label', 'confidence'], ascending=False)
+    sort = True if np.mean(pred_classes) < 2.5 else False
+    top_pred = pred_df.loc[(pred_df.index == idx) & label_mask].sort_values(by=['pred_label', 'confidence'], ascending=sort)
     
     return top_pred
 
@@ -54,37 +56,47 @@ def stop_loss(df, long, max_loss):
     return df
 
 
-def plot_symbol_hist_pred(pred_symbol, clean_px, context, pred_df, labels):
+def plot_symbol_hist_pred(pred_symbol, clean_px, tail, context, pred_df, labels):
 
-    fig, axes = plt.subplots(nrows=3, figsize=(10, 10))
+    fig, axes = plt.subplots(nrows=3, figsize=(10, 8), sharex=True)
     plt.subplots_adjust(hspace=0.5)
 
-    px_df = clean_px[pred_symbol]
-    px_df.name = 'close'
+    hist_px = clean_px[pred_symbol].copy().dropna()
+    hist_px.name = 'close'
     look_ahead = context['look_ahead']
-    pct_chg_df = px_df.pct_change(look_ahead)
+    pct_chg_df = hist_px.pct_change(look_ahead).tail(tail)
     pct_chg_df.name = 'pct_chg'
-
-    co_pred = pred_df.loc[pred_df.symbol.isin([pred_symbol]), ['pred_class'] + labels]
-    hist_pred = pd.concat([px_df.loc[pred_df.index.unique()], co_pred['pred_class']], axis=1, sort=False)
+    # hist_px = pd.concat([hist_px, pct_chg_df], axis=1, sort=False)
+    co_pred = pred_df.loc[(pred_df.symbol == pred_symbol) & (pred_df.index.isin(pct_chg_df.index)), ['pred_class'] + labels]
+    # hist_pred = pd.concat([co_pred['pred_class'], pct_chg_df], axis=1, sort=False)
     
     # forward looking returns
-    pct_chg_df.reindex(index=pred_df.index.unique()).plot(
-        title=f'{pred_symbol} {int(np.mean(context["look_ahead"]))} day return', 
-        grid=True, rot=0, ax=axes[0], 
-        # figsize=(10, 2), 
+    hist_px.tail(tail).plot(
+        title=f'{pred_symbol}: Historical share  price', 
+        grid=True, rot=0,
+        ax=axes[0], 
     )
 
-    # historical predictions
-    hist_pred.dropna().plot(
-        title=f'{pred_symbol} historical prediction',  
-        secondary_y='pred_class', rot=0, ax=axes[1],
-        # figsize=(10, 3),
+    # forward looking returns
+    pct_chg_df.tail(tail).plot.area(
+        title=f'{int(np.mean(context["look_ahead"]))} day historical return',  
+        grid=True, rot=0, color='orange', stacked=False,
+        ax=axes[1],
     )
 
     # probability distribution
     co_pred[labels].plot.area(
-        title=f'{pred_symbol} Prediction probabilities', 
-        ylim=(0, 1), cmap='RdYlGn', rot=0, ax=axes[2],
-        # figsize=(10, 2), 
+        title=f'{int(np.mean(context["look_ahead"]))} day forward looking probability distribution', 
+        ylim=(0, 1), cmap='RdYlGn', rot=0, 
+        ax=axes[2],
     )
+    # axes[2].legend(**plt_dict)
+    
+def get_dispersion_stats(key, feats_dict, sel_df, symbols):
+    df = feats_dict[key]
+    tgt_df = df.loc[sel_df.index, symbols]
+    res_df = tgt_df[~sel_df.isna()].describe().T
+#     print(res_df.sort_values(by='mean'))
+    desc_df = res_df.describe().loc[['25%','50%','75%'], '50%']
+    desc_df.name = key
+    return desc_df
