@@ -1,0 +1,263 @@
+{
+ "fin_data": {
+  "path": "summary-categories/financialData/",
+  "index": "storeDate",
+  "features": [
+   "numberOfAnalystOpinions",
+   "currentPrice",
+   "revenuePerShare",
+   "totalCashPerShare",
+   "currentRatio",
+   "debtToEquity",
+   "earningsGrowth",
+   "ebitda",
+   "ebitdaMargins",
+   "freeCashflow",
+   "grossMargins",
+   "grossProfits",
+   "operatingCashflow",
+   "operatingMargins",
+   "profitMargins",
+   "quickRatio",
+   "recommendationMean",
+   "returnOnAssets",
+   "returnOnEquity",
+   "revenueGrowth",
+   "targetHighPrice",
+   "targetLowPrice",
+   "targetMeanPrice",
+   "targetMedianPrice",
+   "totalCash",
+   "totalDebt",
+   "totalRevenue",
+   "symbol"
+  ],
+  "scale": [
+   "freeCashflow",
+   "operatingCashflow",
+   "ebitda",
+   "totalCash",
+   "totalDebt",
+   "totalRevenue",
+   "grossProfits"
+  ],
+  "divide": [
+   "currentPrice",
+   [
+    "revenuePerShare",
+    "totalCashPerShare",
+    "targetLowPrice",
+    "targetMeanPrice",
+    "targetMedianPrice",
+    "targetHighPrice"
+   ]
+  ],
+  "outlier": "quantile",
+  "post_drop": [
+   "numberOfAnalystOpinions"
+  ]
+ },
+ "key_statistics": {
+  "path": "summary-categories/defaultKeyStatistics/",
+  "index": "storeDate",
+  "features": [
+   "beta",
+   "earningsQuarterlyGrowth",
+   "enterpriseToEbitda",
+   "enterpriseToRevenue",
+   "enterpriseValue",
+   "netIncomeToCommon",
+   "pegRatio",
+   "shortPercentOfFloat",
+   "shortRatio",
+   "heldPercentInsiders",
+   "heldPercentInstitutions",
+   "symbol"
+  ],
+  "scale": [
+   "enterpriseValue",
+   "netIncomeToCommon"
+  ],
+  "outlier": "quantile"
+ },
+ "day_quote": {
+  "path": "quote/csv/",
+  "index": "storeDate",
+  "features": [
+   "regularMarketChangePercent",
+   "averageDailyVolume10Day",
+   "averageDailyVolume3Month",
+   "regularMarketVolume",
+   "fiftyDayAverageChangePercent",
+   "twoHundredDayAverageChangePercent",
+   "fiftyTwoWeekHighChangePercent",
+   "fiftyTwoWeekLowChangePercent",
+   "forwardPE",
+   "trailingPE",
+   "priceToBook",
+   "marketCap",
+   "symbol"
+  ],
+  "scale": [
+   "marketCap"
+  ],
+  "divide": [
+   "regularMarketVolume",
+   [
+    "averageDailyVolume10Day",
+    "averageDailyVolume3Month"
+   ]
+  ],
+  "outlier": 4
+ },
+ "eps_trend": {
+  "path": "summary-categories/epsTrend/",
+  "index": "storeDate",
+  "periods": [
+   "0y",
+   "+1y",
+   "+5y",
+   "-5y"
+  ],
+  "features": [
+   "period",
+   "growth",
+   "current",
+   "7daysAgo",
+   "30daysAgo",
+   "60daysAgo",
+   "90daysAgo",
+   "symbol"
+  ],
+  "pivot_cols": [
+   "growth",
+   "current",
+   "7daysAgo",
+   "30daysAgo",
+   "60daysAgo",
+   "90daysAgo"
+  ],
+  "outlier": "quantile"
+ },
+ "eps_estimates": {
+  "path": "summary-categories/earningsEstimate/",
+  "index": "storeDate",
+  "periods": [
+   "0y",
+   "+1y",
+   "+5y",
+   "-5y"
+  ],
+  "features": [
+   "period",
+   "avg",
+   "low",
+   "high",
+   "symbol"
+  ],
+  "pivot_cols": [
+   "avg",
+   "low",
+   "high"
+  ],
+  "outlier": "quantile"
+ },
+ "rev_estimates": {
+    "path": "summary-categories/revenueEstimate/",
+    "index": "storeDate",
+    "periods": [
+     "0y",
+     "+1y",
+     "+5y",
+     "-5y"
+    ],
+    "features": [
+     "period",
+     "avg",
+     "low",
+     "high",
+     "symbol"
+    ],
+    "pivot_cols": [
+     "avg",
+     "low",
+     "high"
+    ],
+    "outlier": "quantile"
+},
+ "eps_revisions": {
+  "path": "summary-categories/epsRevisions/",
+  "index": "storeDate",
+  "periods": [
+   "0y",
+   "+1y",
+   "+5y",
+   "-5y"
+  ],
+  "features": [
+   "period",
+   "growth",
+   "upLast7days",
+   "upLast30days",
+   "downLast30days",
+   "symbol"
+  ],
+  "pivot_cols": [
+   "growth",
+   "upLast7days",
+   "upLast30days",
+   "downLast30days"
+  ],
+  "outlier": 3
+ },
+ "spy_trend": {
+  "path": "summary-categories/indexTrend/",
+  "index": "storeDate",
+  "features": [
+   "0q",
+   "+1q",
+   "0y",
+   "+1y",
+   "+5y",
+   "-5y",
+   "peRatio",
+   "pegRatio",
+   "symbol"
+  ]
+ },
+ "net_purchase": {
+  "path": "summary-categories/netSharePurchaseActivity/",
+  "index": "storeDate",
+  "features": [
+   "netPercentInsiderShares",
+   "buyPercentInsiderShares",
+   "sellPercentInsiderShares",
+   "symbol"
+  ]
+ },
+ "rec_trend": {
+  "path": "summary-categories/recommendationTrend/",
+  "index": "storeDate",
+  "periods": [
+   "-1m",
+   "-2m"
+  ],
+  "features": [
+   "period",
+   "strongBuy",
+   "buy",
+   "hold",
+   "sell",
+   "strongSell",
+   "symbol"
+  ],
+  "pivot_cols": [
+   "strongBuy",
+   "buy",
+   "hold",
+   "sell",
+   "strongSell"
+  ],
+  "outlier": 10
+ }
+}
