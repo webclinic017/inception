@@ -84,14 +84,6 @@
   "path": "quote/csv/",
   "index": "storeDate",
   "features": [
-   "regularMarketChangePercent",
-   "averageDailyVolume10Day",
-   "averageDailyVolume3Month",
-   "regularMarketVolume",
-   "fiftyDayAverageChangePercent",
-   "twoHundredDayAverageChangePercent",
-   "fiftyTwoWeekHighChangePercent",
-   "fiftyTwoWeekLowChangePercent",
    "forwardPE",
    "trailingPE",
    "priceToBook",
@@ -191,20 +183,17 @@
   "periods": [
    "0y",
    "+1y",
-   "+5y",
-   "-5y"
+   "+5y"
   ],
   "features": [
    "period",
    "growth",
-   "upLast7days",
    "upLast30days",
    "downLast30days",
    "symbol"
   ],
   "pivot_cols": [
    "growth",
-   "upLast7days",
    "upLast30days",
    "downLast30days"
   ],

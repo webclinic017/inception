@@ -37,13 +37,14 @@ class TechnicalDS(BaseDS):
         self.roll_vol_days = roll_vol_days
         self.active_keys = self.pct_chg_keys[1:]
         self.companies = config['companies']
+        self.sectors = config['sectors']
 
         if tickers is None:
             self.tickers = list(best_performers(
                 self.clean_px, self.companies,
                 self.look_back, self.quantile).index)
         elif tickers == 'All':
-            self.tickers = self.companies
+            self.tickers = self.companies + self.sectors
             print(f'{len(self.companies)} companies')
         else:
             self.tickers = tickers

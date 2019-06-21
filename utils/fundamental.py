@@ -50,10 +50,10 @@ def pipe_transform_df(df, key, pipe, context):
             # print(fn.__name__, proc_df.shape)
     return proc_df
 
-def chain_outlier(df, context):
+def chain_outlier(df, context, treshold=0.01):
     """ Remove rows where values > treshold """
-    p1 = df.quantile(0.01)
-    p99 = df.quantile(0.99)
+    p1 = df.quantile(treshold)
+    p99 = df.quantile(1 - treshold)
     nums = numeric_cols(df)
     df[nums] = np.minimum(np.maximum(df[nums], p1[nums]), p99[nums])
     return df
@@ -63,7 +63,7 @@ def chain_wide_transform(df, context):
     idx_name = ds_dict['index']
     periods = ds_dict['periods']
     pvt_cols = ds_dict['pivot_cols']
-
+    key = context['key']
     df.index.set_names(idx_name, inplace=True)
     df = df.loc[df['period'].isin(periods), :]
     df = df.reset_index()
@@ -72,9 +72,13 @@ def chain_wide_transform(df, context):
     cols = pd.Index(pvt_cols, name='cols')
     ldata = df.reindex(columns=cols).stack().reset_index().rename(columns={0: 'value'})
     pivoted = ldata.pivot_table(
-        index=[idx_name, 'symbol'], columns=['period', 'cols'], values=['value'])
+        index=[idx_name, 'symbol'], 
+        columns=['period', 'cols'], 
+        values=['value'])
     flat_df = pd.DataFrame(pivoted.loc[(slice(None), ), (slice(None), )].to_records())
-    flat_df.rename(columns=col_mapper(flat_df.columns), inplace=True)
+    col_map = col_mapper(flat_df.columns)
+    for k in col_map.keys(): col_map[k] = "_".join([key, col_map[k]])
+    flat_df.rename(columns=col_map, inplace=True)
     flat_df.set_index([idx_name, 'symbol'], inplace=True)
     return flat_df.sort_index(level=1)
 
@@ -106,13 +110,11 @@ def chain_scale(df, context):
     df.loc[:, scale_cols] /= df[scale_cols].mean()
     return df
 
-def chain_eps_estimates(df, context):
+def chain_share_multiple(df, context):
     fields = numeric_cols(df)
     growth_cols = filter_cols(fields, 'growth')
     other_cols = excl(fields, growth_cols)
     co_px_df = context['close_px'].loc[df.index, 'close']
-    # for growth we substract from prior date
-    # df.loc[:, growth_cols] = day_delta(df[growth_cols], 1)
     # calculate range of PE consensus estimates
     df.loc[:, other_cols] = 1 / df[other_cols].div(co_px_df.values, axis=0)
     return df
@@ -151,7 +153,7 @@ def chain_eps_trend(df, context):
         df.loc[:, slope_cols] = day_delta(df[slope_cols].div(df[slope_cols[-1]], axis=0), 1)
     return df
 
-def chain_rec_trend(df, context):
+def chain_percent_total(df, context):
     ds_dict = context['ds_dict']
     periods = ds_dict['periods']
     fields = numeric_cols(df)

@@ -1,3 +1,4 @@
+# %%
 # imports
 import time, os, sys
 from tqdm import tqdm
@@ -9,14 +10,15 @@ from utils.pricing import dummy_col, rename_col, px_fwd_rets, px_mom_feats, px_m
 from utils.pricing import eq_wgt_indices, to_index_form, get_symbol_pricing, get_return_intervals
 from utils.fundamental import pipe_transform_df, chain_divide, chain_scale
 from utils.fundamental import chain_outlier, chain_post_drop, chain_wide_transform
-from utils.fundamental import chain_eps_estimates, chain_eps_revisions, chain_rec_trend
+from utils.fundamental import chain_share_multiple, chain_percent_total
 from utils.fundamental import load_append_ds, get_daily_ts, numeric_cols, filter_cols
 from utils.fundamental import get_focus_tickers
 from utils.BaseDS import BaseDS
 
+
 from sklearn import preprocessing
 
-from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler, MaxAbsScaler
+from sklearn.preprocessing import PowerTransformer, StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.model_selection import cross_val_score, cross_validate, train_test_split
@@ -28,169 +30,74 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import accuracy_score, log_loss, precision_recall_fscore_support
 from sklearn.metrics import precision_score, roc_auc_score
 
-import keras
-from keras.models import Sequential, load_model
-from keras.layers import Dense, Dropout, Activation
-from keras.optimizers import SGD, Adam, Adagrad, Adadelta, Adamax, Nadam, RMSprop
-from keras.callbacks import EarlyStopping, ModelCheckpoint
-from keras.callbacks import CSVLogger
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+
+# import keras
+# from keras.models import Sequential, load_model
+# from keras.layers import Dense, Dropout, Activation
+# from keras.optimizers import SGD, Adam, RMSprop
+# from keras.callbacks import EarlyStopping, ModelCheckpoint, CSVLogger
 
 from keras import backend as K
 K.tensorflow_backend._get_available_gpus()
 
 pd.options.display.float_format = '{:,.2f}'.format
 
+#%%
 # feature mapping for different datasets
-ds_dict = {
-    'fin_data': {
-        'path': 'summary-categories/financialData/',
-        'index': 'storeDate',
-        'features': [
-            'numberOfAnalystOpinions', 'currentPrice', 'revenuePerShare', 'totalCashPerShare',
-            'currentRatio', 'debtToEquity', 'earningsGrowth', 'ebitda',
-            'ebitdaMargins', 'freeCashflow', 'grossMargins',
-            'grossProfits', 'operatingCashflow', 'operatingMargins', 'profitMargins',
-            'quickRatio', 'recommendationMean',
-            'returnOnAssets', 'returnOnEquity', 'revenueGrowth',
-            'targetHighPrice', 'targetLowPrice', 'targetMeanPrice',
-            'targetMedianPrice', 'totalCash', 'totalDebt', 'totalRevenue',
-            'symbol', ],
-        'scale': [
-            'freeCashflow', 'operatingCashflow', 'ebitda',
-            'totalCash', 'totalDebt', 'totalRevenue', 'grossProfits', ],
-        'divide': ('currentPrice',
-                   ['revenuePerShare', 'totalCashPerShare',
-                    'targetLowPrice', 'targetMeanPrice',
-                    'targetMedianPrice', 'targetHighPrice', ]),
-        'outlier': 'quantile',
-        'post_drop': ['numberOfAnalystOpinions'],
-    },
-    'key_statistics': {
-        'path': 'summary-categories/defaultKeyStatistics/',
-        'index': 'storeDate',
-        'features': [
-            'beta', 'earningsQuarterlyGrowth',
-            'enterpriseToEbitda', 'enterpriseToRevenue', 'enterpriseValue',
-            'netIncomeToCommon', 'pegRatio',
-            'shortPercentOfFloat', 'shortRatio', 'heldPercentInsiders',
-            'heldPercentInstitutions', 'symbol', ],
-        'scale': ['enterpriseValue', 'netIncomeToCommon', ],
-        'outlier': 'quantile',
-    },
-    'day_quote': {
-        'path': 'quote/csv/',
-        'index': 'storeDate',
-        'features': [
-            'regularMarketChangePercent',
-            'averageDailyVolume10Day', 'averageDailyVolume3Month', 'regularMarketVolume',
-            'fiftyDayAverageChangePercent', 'twoHundredDayAverageChangePercent',
-            'fiftyTwoWeekHighChangePercent', 'fiftyTwoWeekLowChangePercent',
-            'forwardPE', 'trailingPE', 'priceToBook', 'marketCap', 'symbol', ],
-        'scale': ['marketCap', ],
-        'divide': ('regularMarketVolume', ['averageDailyVolume10Day', 'averageDailyVolume3Month']),
-        'outlier': 4,
-    },
-    'eps_trend': {
-        'path': 'summary-categories/epsTrend/',
-        'index': 'storeDate',
-        'periods': ['0y', '+1y', '+5y', '-5y'],
-        'features': [
-            'period', 'growth',
-            'current', '7daysAgo', '30daysAgo', '60daysAgo', '90daysAgo',
-            'symbol', ],
-        'pivot_cols': ['growth', 'current', '7daysAgo', '30daysAgo', '60daysAgo', '90daysAgo'],
-        'outlier': 'quantile',
-    },
-    'eps_estimates': {
-        'path': 'summary-categories/earningsEstimate/',
-        'index': 'storeDate',
-        'periods': ['0y', '+1y', '+5y', '-5y'],
-        'features': ['period', 'avg', 'low', 'high', 'symbol', ],
-        'pivot_cols': ['avg', 'low', 'high'],
-        'outlier': 'quantile',
-    },
-    'eps_revisions': {
-        'path': 'summary-categories/epsRevisions/',
-        'index': 'storeDate',
-        'periods': ['0y', '+1y', '+5y', '-5y'],
-        'features': [
-            'period', 'growth', 'upLast7days', 'upLast30days', 'downLast30days',
-            'symbol', ],
-        'pivot_cols': ['growth', 'upLast7days', 'upLast30days', 'downLast30days'],
-        'outlier': 3,
-    },
-    'spy_trend': {
-        'path': 'summary-categories/indexTrend/',
-        'index': 'storeDate',
-        'features': [
-            '0q', '+1q', '0y', '+1y', '+5y', '-5y',
-            'peRatio', 'pegRatio', 'symbol', ]
-    },
-    'net_purchase': {
-        'path': 'summary-categories/netSharePurchaseActivity/',
-        'index': 'storeDate',
-        'features': [
-            'netPercentInsiderShares', 'buyPercentInsiderShares', 'sellPercentInsiderShares',
-            'symbol', ]
-    },
-    'rec_trend': {
-        'path': 'summary-categories/recommendationTrend/',
-        'index': 'storeDate',
-        'periods': ['-1m', '-2m'],
-        'features': [
-            'period', 'strongBuy', 'buy', 'hold', 'sell', 'strongSell',
-            'symbol', ],
-        'pivot_cols': ['strongBuy', 'buy', 'hold', 'sell', 'strongSell'],
-        'outlier': 10,
-    },
-}
+ds_dict = load_config('./utils/fund_ds_dict.json')
+# save_config(ds_dict, './utils/fund_ds_dict.json')
 
 # pre-processing pipeline
 fn_pipeline = {
-    'fin_data': [chain_scale, chain_divide, chain_post_drop, chain_outlier],
-    'key_statistics': [chain_scale, chain_outlier],
-    'day_quote': [chain_divide, chain_scale, chain_outlier],
-    'eps_trend': [chain_wide_transform, chain_eps_estimates, chain_outlier],
-    'eps_estimates': [chain_wide_transform, chain_eps_estimates, chain_outlier],
-#     'eps_revisions': [chain_wide_transform, chain_outlier],
-#     'spy_trend':[lambda x, y: x],
-#     'net_purchase':[lambda x, y: x],
-#     'rec_trend': [chain_wide_transform, chain_rec_trend, chain_outlier],
+    # 'fin_data': [chain_scale, chain_divide, chain_post_drop, chain_outlier],
+    'fin_data': [chain_divide],
+    # 'key_statistics': [chain_scale, chain_outlier],
+    'key_statistics': [lambda x, y: x],
+    # 'day_quote': [chain_divide, chain_scale, chain_outlier],
+    'day_quote': [lambda x, y: x],
+    'eps_trend': [chain_wide_transform, chain_share_multiple],
+    'eps_estimates': [chain_wide_transform, chain_share_multiple],
+    'rev_estimates': [chain_wide_transform],
+    'eps_revisions': [chain_wide_transform],
+    # 'spy_trend': [lambda x, y: x],
+    # 'net_purchase':[lambda x, y: x],
+    'rec_trend': [chain_wide_transform, chain_percent_total],
 }
 
+# %%
 # environment variables
-bench = '^GSPC'
-y_col = 'fwdReturn'
-tickers = config['companies']
+# latest quotes, profile, and industries
+dates = read_dates('quote')
+tgt_date = dates[-1] # last date saved in S3
+print(f'Target date: {tgt_date}')
 
-context = {
-    'tickers': tickers,
-    'fn_pipeline': fn_pipeline,
-    'ml_path': './ML/',
-    'model_name': 'bottomup_TF.h5',
-    'tmp_path': './tmp/',
-    'px_vol_ds': 'universe-px-vol-ds.h5',
-    'trained_cols': 'bottomup_TF_train_cols.npy',
-    'look_ahead': 20,
-    'look_back': 252,
-    'smooth_window': 10,
-    'load_ds': True,
-    'scale': True,
-    'test_size': .05,
-    'verbose': True,
-    's3_path': f'recommend/bottomup_ML/',
-    'verbose': 2,
-    'units': 1000,
-    'hidden_layers': 4,
-    'max_iter': 400,
-    'l2_reg': 0.5,
-    'dropout': 0.5,
-}
+quotes = load_csvs('quote_consol', [tgt_date])
+profile = load_csvs('summary_detail', ['assetProfile'])
+quotes.set_index('symbol', drop=False, inplace=True)
+profile.set_index('symbol', drop=False, inplace=True)
 
+# save_config(context, './utils/bottomup_context.json')
+context = load_config('./utils/bottomup_context.json')
+context['fn_pipeline'] = fn_pipeline
+bench = context['bench']
+y_col = context['y_col']
 temp_path = context['tmp_path']
 px_vol_fname = context['px_vol_ds']
+
+# PENDING: do the filtering here, outside of the functions
+base_mask = (quotes.financialCurrency == 'USD') & (quotes.quoteType == 'EQUITY')
+tickers = list(quotes.loc[base_mask].index)
+# tickers = config['companies']
+context['tickers'] = tickers
+
+# %%
 base_ds = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=True, )
-# temporary workaround until load_px_close is @deprecated
 px_close = base_ds.px_vol_df['close']
 
 stacked_px = px_close.stack().to_frame().rename(columns={0: 'close'}) # stack date + symbol
@@ -199,26 +106,13 @@ context['close_px'] = stacked_px
 
 prices = px_close.dropna(subset=[bench])[tickers]
 look_ahead = context['look_ahead']
-# cut_range = get_return_intervals(prices, look_ahead, tresholds=[0.25, 0.75])
-# hardcoded to narrow the range of recomendation in these limited dataset
-cut_range = [ -np.inf, -0.13, -0.08,  0.1, 0.16, np.inf]
-fwd_ret_labels = ["bear", "short", "neutral", "long", "bull"]
-f'Return intervals {np.round(cut_range, 2)}'
 
-# latest quotes, profile, and industries
-dates = read_dates('quote')
-tgt_date = dates[-1] # last date saved in S3
-print(f'Target date: {tgt_date}')
+x_scaler = PowerTransformer()
+y_scaler = StandardScaler()
 
-quotes = load_csvs('quote_consol', [tgt_date])
-quotes.set_index('symbol', drop=False, inplace=True)
-
-profile = load_csvs('summary_detail', ['assetProfile'])
-profile.set_index('symbol', drop=False, inplace=True)
-
-
-# MODEL SPECIIFIC FUNCTIONS
-def create_ds(context):
+# %%
+def load_files(context):
+    """ load fundamental datasets from S3 or locally """
     # context variables
     key = context['key']
     load_ds = context['load_ds']
@@ -247,244 +141,190 @@ def create_ds(context):
         os.makedirs(tmp_path, exist_ok=True)
         # daily_df.drop_duplicates(inplace=True)
         daily_df.to_parquet(fname)
+    
     daily_df.index.name = ds_dict[key]['index']
     daily_df.index = daily_df.index.date
 
     return daily_df
 
-def pre_process_ds(context):
-
-    # join all datasets
+def create_ds(context):
+    """ join and return all raw datasets """
     tickers = context['tickers']
     sectors = profile.loc[profile.symbol.isin(tickers)].sector.unique()
     industries = profile.loc[profile.symbol.isin(tickers)].industry.unique()
     print(f'Sectors: {sectors.shape[0]}, Industries: {industries.shape[0]}')
+    # indices_df = pd.concat(
+    #     [eq_wgt_indices(profile, px_close, 'sector', sectors, subset=tickers),
+    #     eq_wgt_indices(profile, px_close, 'industry', industries, subset=tickers),
+    #     to_index_form(px_close[bench], bench)],
+    #     axis=1).drop_duplicates()
 
-    indices_df = pd.concat(
-        [eq_wgt_indices(profile, px_close, 'sector', sectors, subset=tickers),
-        eq_wgt_indices(profile, px_close, 'industry', industries, subset=tickers),
-        to_index_form(px_close[bench], bench)],
-        axis=1).drop_duplicates()
-
-    # generic price momentum statistics
-    super_list = []
-    for key in ('fin_data', 'key_statistics', 'day_quote', 'eps_trend', 'eps_estimates'):
+    s_l = []
+    active_datasets = context['active_datasets']
+    for key in active_datasets:
         print(f'adding {key}')
         context['key'] = key
         context['pre'] = key.split('_')[0] # append preffix
         context['ds_dict'] = ds_dict[key]
         load_dates = read_dates(ds_dict[key]['path'], '.csv')
         context['load_dates'] = load_dates
-        df = create_ds(context)
+        df = load_files(context)
         df = df.loc[df.symbol.isin(tickers),:]
+        df.index.name = 'storeDate'
         processed_df = pipe_transform_df(df, key, fn_pipeline, context)
-        if key in ('fin_data', 'key_statistics', 'day_quote'):
-            processed_df.index.name = 'storeDate'
-            processed_df = processed_df.reset_index().set_index(['storeDate', 'symbol'])
-        super_list.append(processed_df.drop_duplicates())
-
-    processed_df = pd.concat(super_list, axis=1)
-    print(f'processed_df.shape {processed_df.shape}')
-
-    # company specific statistics
-    tmp_path = context['tmp_path']
-
-    super_list = []
-    for i, ticker in tqdm(enumerate(tickers)):
-        try:
-            close = px_close[ticker].dropna()
-            ft_df = px_mom_feats(close, ticker, incl_name=False)
-            if ticker in profile.symbol.unique():
-                top_groups = tuple([bench, profile.loc[ticker, 'sector']])
-                co = px_mom_co_feats_light(close, indices_df, top_groups)
-                ft_df = pd.concat([ft_df, co.loc[ft_df.index, :]], axis=1)
-                ft_df.index.name = 'storeDate'
-                super_list.append(ft_df.copy())
-            else: print(ticker, 'missing profile, skipping')
-        except Exception as e:
-            print("Exception: {0} {1}".format(ticker, e))
-
-    px_mom_df = pd.concat(super_list, axis=0)
-
-    px_mom_df = px_mom_df.reset_index().set_index(['storeDate', 'symbol']).sort_index().dropna()
-    joined_df = pd.concat([processed_df, px_mom_df], join='inner', axis=1)
-    print(f'joined_df.shape {joined_df.shape}')
-
-    # basic scaling
-    scale_on = context['scale']
-    scaler = StandardScaler()
-    num_cols = numeric_cols(joined_df)
-    joined_df.loc[:, num_cols] = joined_df[num_cols].replace([np.inf, -np.inf, np.nan], 0)
-    if scale_on: joined_df.loc[:, num_cols] = scaler.fit_transform(joined_df[num_cols])
+        if 'symbol' in processed_df.columns:
+            processed_df.set_index('symbol', append=True, inplace=True)
+        df = processed_df.copy()
+        s_l.append(df)
+    dataset = pd.concat(s_l, axis=1)
 
     # add categoricals
-    joined_df = dummy_col(joined_df, 'sector', shorten=True)
+    # joined_df = dummy_col(joined_df, 'sector', shorten=True)
 
-    return joined_df.reset_index('symbol')
+    return dataset
 
-def get_train_test_sets(context):
+def pre_process_ds(context):
 
-    verbose = context['verbose']
-    ml_path, model_name = context['ml_path'], context['model_name']
-    test_size = context['test_size']
-    look_ahead, look_back, smooth_window = context['look_ahead'], context['look_back'], context['smooth_window']
+    # cleans and scales datasets
+    joined_df = create_ds(context)
+    idx = pd.IndexSlice
+    x_cols = context['x_cols']
+    dataset = joined_df[x_cols]
+    num_cols = numeric_cols(dataset)
+    dataset.loc[:, num_cols] = dataset[num_cols].replace([np.inf, -np.inf, np.nan], 0)
+    # dataset.describe().T
+    base_mask = (quotes.financialCurrency == 'USD') & (quotes.quoteType == 'EQUITY')
+    tickers = list(quotes.loc[base_mask].index)
+    dataset = dataset.loc[idx[:, tickers], x_cols]
+    dataset = dataset.loc[dataset[y_col] > 0]
+    # dataset.describe().T
+    X, y = dataset.drop(columns=y_col), dataset[y_col].values.reshape(-1,1)
 
-    joined_df = pre_process_ds(context)
+    scaled_X = x_scaler.fit_transform(X)
+    scaled_y = y_scaler.fit_transform(y)
+    dataset[excl(x_cols, [y_col])] = scaled_X
+    dataset[y_col] = scaled_y
+    dataset.describe(include='all').T
 
-    # if we want to limit training set
-    # index = joined_df.sort_index().index.unique()[-look_back:]
-    # joined_df = joined_df.loc[index, :]
-    # joined_df.shape
+    # drop the absolute minimum
+    # dropna_cols = context['dropna_cols'] + [y_col]
+    # dataset.dropna(subset=dropna_cols).isna().sum().sort_values()
+    # dataset.dropna(subset=dropna_cols, inplace=True)
+    # dataset.describe().T
 
-    # calculation of forward returns
-    Y = px_close.loc[:, tickers].pct_change(look_ahead).shift(-look_ahead)
-    Y = Y.rolling(smooth_window).mean() # smooth by the same length
-    Y = Y[~(Y.isna().all(1))]
-    Y = Y.loc[joined_df.index.unique(), :]
+    # then replace remaining NAs with 0, minimizes 0 bias
+    # num_cols = numeric_cols(dataset)
+    # dataset.replace([np.inf, -np.inf], 0, inplace=True)
+    # dataset.fillna(0, inplace=True)
+    # print(f'dataset.shape {dataset.shape}')
 
-    # reshapes to include symbol in index in additional to date
-    Y_df = Y.loc[joined_df.index.unique().sortlevel()[0], tickers]
-    Y_df = Y_df.stack().to_frame().rename(columns={0: y_col})
-    # somwhat repetitive with steps above but performs faster
-    Y_df.index.set_names(['storeDate', 'symbol'], inplace=True)
-    print('Y_df.shape', Y_df.shape)
+    # idx = pd.IndexSlice
+    # dataset = raw_df[x_cols]
+    # dataset = dataset.loc[dataset[y_col] > 0]
+    # dataset = dataset.loc[idx[:, tickers], x_cols]
+    # X, y = dataset.drop(columns=y_col), dataset[y_col].values.reshape(-1,1)
 
-    # re-index processed df on storeDate and symbol to have similar indices
-    joined_df.index.set_names('storeDate', inplace=True)
-    joined_df.set_index(['symbol'], append=True, inplace=True)
-    print('joined_df.shape', joined_df.shape)
+    # scale_on = context['scale']
+    # if scale_on: 
+    #     scaled_X = x_scaler.fit_transform(X)
+    #     scaled_y = y_scaler.fit_transform(y)
+    #     dataset[excl(x_cols, [y_col])] = scaled_X
+    #     dataset[y_col] = scaled_y
 
-    # add Y values to processed df fast without having to loop
-    joined_df.loc[:, y_col] = Y_df.loc[joined_df.index, y_col]
-
-    # joined_df.loc[(slice(None), 'AAPL'), y_col].plot() # visualize smoothing
-    # joined_df.groupby('symbol')[y_col].mean().sort_values() # rank long-term mean performance
-
-    # discretize Y-variable
-    joined_df.dropna(subset=[y_col], inplace=True)
-    joined_df[y_col] = discret_rets(joined_df[y_col], cut_range, fwd_ret_labels)
-    print('joined_df.shape', joined_df.shape)
-    print(sample_wgts(joined_df[y_col]))
-
-    joined_df.dropna(subset=[y_col], inplace=True)
-    joined_df.loc[:, y_col] = joined_df[y_col].astype(str)
-
-    days = len(joined_df.index.levels[0].unique())
-    print(f'Training for {days} dates, {round(days/252, 1)} years')
-
-    # joined_df.loc[(slice(None), 'TAL'), y_col].value_counts() # look at a specific security distribution
-    train_df = joined_df.reset_index(drop=True)
-    train_df.shape
-
-    # create training and test sets
-    X, y = train_df.drop(columns=y_col), train_df[y_col]
-    sss = StratifiedShuffleSplit(n_splits=1, test_size=test_size, random_state=42)
-    for train_index, test_index in sss.split(X, y):
-        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
-        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
-        break # just one split
-
-    # skf = StratifiedKFold(n_splits=2, random_state=None, shuffle=False)
-    # for train_index, test_index in skf.split(X, y):
-    #     X_train, X_test = X.iloc[train_index], X.iloc[test_index]
-    #     y_train, y_test = y.iloc[train_index], y.iloc[test_index]
-    #     break
-
-    return X_train, X_test, y_train, y_test
+    return dataset
 
 def train_ds(context):
 
-    X_train, X_test, y_train, y_test = get_train_test_sets(context)
+    dataset = pre_process_ds(context)
+    test_size = context['test_size']
+    train_dataset = dataset.sample(frac=0.8, random_state=0)
+    test_dataset = dataset.drop(train_dataset.index)
+    train_labels = train_dataset.pop(y_col)
+    test_labels = test_dataset.pop(y_col)
 
-    # Keras Model
     units = context['units']
-    max_iter = context['max_iter']
-    l2_reg = context['l2_reg']
-    dropout = context['dropout']
+    max_iter = context['epochs']
+    # l2_reg = context['l2_reg']
+    # dropout = context['dropout']
     trained_cols = context['trained_cols']
     ml_path, model_name = context['ml_path'], context['model_name']
 
-    y_train_oh = pd.get_dummies(y_train)[fwd_ret_labels]
-    y_test_oh = pd.get_dummies(y_test)[fwd_ret_labels]
-
     # save training columns
-    np.save(ml_path + trained_cols, X_train.columns) # save feature order
-    print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
+    np.save(ml_path + trained_cols, train_dataset.keys()) # save feature order
+    print(f'X_train.shape {train_dataset.shape}, columns: {train_dataset.keys()}')
     print('Saved: ', ml_path + trained_cols)
 
-    # keras.regularizers.l2(l=0.001)
+    model = keras.Sequential([
+        layers.Dense(64, activation=tf.nn.relu, input_shape=[len(train_dataset.keys())]),
+        layers.Dense(64, activation=tf.nn.relu),
+        layers.Dense(1)
+    ])
 
-    model = Sequential()
-    model.add(Dense(units, activation='relu', input_dim=X_train.shape[1]))
-    model.add(Dropout(0.5))
-    model.add(Dense(units, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(units, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(int(units/2), activation='relu'))
-    model.add(Dense(len(pd.unique(y_train)), activation='softmax'))
+    optimizer = tf.keras.optimizers.RMSprop(0.001)
+    model.compile(
+        loss='mean_squared_error', optimizer=optimizer,
+        metrics=['mean_absolute_error', 'mean_squared_error'])
 
-    fname = ml_path + model_name
-
-    es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
-    checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
-    csv_logger = CSVLogger('bottomup-train.log')
-
-    opt = Adam()
-    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['accuracy'])
-    history = model.fit(
-        X_train, y_train_oh, validation_data=(X_test, y_test_oh),
-        epochs=max_iter, batch_size=200, callbacks=[es, checkpointer, csv_logger])
-
-    score = model.evaluate(X_test, y_test_oh)
-    print(f'Loss: {score[0]}, Accuracy: {score[1]}')
-
-    # save model to drive
+    EPOCHS = 100
     ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
+
+    # The patience parameter is the amount of epochs to check for improvement
+    early_stop = keras.callbacks.EarlyStopping(
+        monitor='val_loss', patience=10)
+    checkpointer = keras.callbacks.ModelCheckpoint(
+            filepath=fname, verbose=1, save_best_only=True)
+
+    history = model.fit(
+        train_dataset, train_labels,
+        epochs=EPOCHS, validation_split=0.2, verbose=1,
+        callbacks=[early_stop, checkpointer])
+
+    loss, mae, mse = model.evaluate(test_dataset, test_labels, verbose=0)
+    print(f'loss {loss}, mae {mae}, mse {mse}')
+
+    # save model to drive
     model.save(fname)
     print('Saved ', fname)
 
+    hist = pd.DataFrame(history.history)
+    hist['epoch'] = history.epoch
+    hist.tail()
+    plot_history(history, y_col)
+
+    test_predictions = model.predict(test_dataset).flatten()
+    error = test_predictions - test_labels
+    error = y_scaler.inverse_transform(error) / 10**9
+    plot_scatter_error(test_labels, test_predictions, y_col)
+    plot_error_hist(error, 50, (-100, 100), y_col)
+
+
 def predict_ds(context):
 
-    ml_path = context['ml_path']
-    model_name = context['model_name']
-    trained_cols = context['trained_cols']
-
-    joined_df = pre_process_ds(context)
-    pred_X = joined_df.loc[joined_df.sort_index().index[-1], :]
-    print('pred_X.shape', pred_X.shape)
+    dataset = pre_process_ds(context)
+    idx = pd.IndexSlice
+    look_back = context['look_back']
+    look_back_dates = dataset.index.levels[0][-look_back:]
+    pred_X = dataset.loc[idx[look_back_dates, :], :]
 
     # ensure prediction dataset is consistent with trained model
-    train_cols = np.load(ml_path + trained_cols, allow_pickle=True) # save feature order
-    missing_cols = [x for x in train_cols if x not in pred_X.columns]
-    if len(missing_cols):
-        print(f'Warning missing columns: {missing_cols}')
-        pred_X = pd.concat([pred_X, pd.DataFrame(columns=missing_cols)], axis=1)
-        pred_X[missing_cols] = 0
-
-    sorted_cols = list(np.append(train_cols, ['symbol']))
-    print('pred_X.shape', pred_X[sorted_cols].shape)
-
-    pred_df = pd.DataFrame()
-    pred_df['symbol'] = pred_X.symbol
+    ml_path, model_name = context['ml_path'], context['model_name']
+    pred_df = pd.DataFrame(index=pred_X.index)
 
     # Load model
     fname = ml_path + model_name
-    model = load_model(fname)
+    model = keras.models.load_model(fname)
     print('Loaded', fname)
 
-    preds = model.predict(pred_X[sorted_cols].iloc[:, :-1])
-    preds_classes = model.predict_classes(pred_X[sorted_cols].iloc[:, :-1])
+    # Predict
+    actual = y_scaler.inverse_transform(pred_X[y_col].copy())
+    predictions = model.predict(pred_X.drop(columns=[y_col])).flatten()
+    unscaled = y_scaler.inverse_transform(predictions)
 
-    pred_df['pred_class'] = preds_classes
-    pred_df['pred_label'] = list(map(lambda x: fwd_ret_labels[x], preds_classes))
-    probs = np.round(preds,3)
-    pred_prob = np.argmax(probs, axis=1)
-    pred_df['confidence'] = [x[np.argmax(x)] for x in probs] # higest prob
-    prob_df = pd.DataFrame(probs, index=pred_df.index, columns=fwd_ret_labels)
-    pred_df = pd.concat([pred_df, prob_df[fwd_ret_labels]], axis=1)
-    pred_df.index.name = 'pred_date'
+    # Update dataframe
+    pred_df['predicted'] = unscaled
+    pred_df['current'] = actual
+    pred_df.index.name = ['pred_date', 'symbol']
 
     # store in S3
     s3_path = context['s3_path']
@@ -494,31 +334,48 @@ def predict_ds(context):
 
     return pred_df
 
+def plot_scatter_error(true_vals, predicted_vals, y_col):
+    plt.scatter(true_vals, predicted_vals)
+    plt.xlabel(f'True Values [{y_col}]')
+    plt.ylabel(f'Predictions [{y_col}]')
+    plt.axis('equal')
+    plt.axis('square')
+    plt.xlim([0, plt.xlim()[1]])
+    plt.ylim([0, plt.ylim()[1]])
+    _ = plt.plot([-100, 100], [-100, 100])
+
+def plot_error_hist(error, bins, x_range, y_col):
+    plt.hist(error, bins)
+    plt.xlim(x_range)
+    plt.xlabel(f"Prediction Error [{y_col}]")
+    _ = plt.ylabel("Count")
+
+def plot_history(history, y_col):
+  hist = pd.DataFrame(history.history)
+  hist['epoch'] = history.epoch
+  
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel(f'Mean Abs Error [{y_col}]')
+  plt.plot(hist['epoch'], hist['mean_absolute_error'],
+           label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mean_absolute_error'], label = 'Val Error')
+  """ plt.legend() """
+  plt.figure()
+  plt.xlabel('Epoch')
+  plt.ylabel('Mean Square Error')
+  plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
+  plt.plot(hist['epoch'], hist['val_mean_squared_error'], label = 'Val Error')
+  """ plt.ylim([0,20]) """
+  plt.legend()
+  plt.show()
+
+# %%
 
 if __name__ == '__main__':
     hook = sys.argv[1]
 
-    # Smaller subset for testing
-    tgt_sectors = [
-        'Technology',
-        'Healthcare',
-        'Industrials',
-        'Basic Materials',
-        'Consumer Cyclical',
-        'Financial Services',
-        'Consumer Defensive',
-        'Real Estate',
-        'Utilities',
-        'Communication Services',
-        'Energy',
-    ]
-
-    tickers = list(quotes.loc[quotes.quoteType == 'EQUITY', 'symbol'])
-    context['tickers'] = tickers
-    print(f'{len(tickers)} companies')
-
     if hook == 'train':
-        # train with 50 random tickers, keep model small, same results
         print('Training...')
         train_ds(context)
 
@@ -527,3 +384,119 @@ if __name__ == '__main__':
         predict_ds(context)
 
     else: print('Invalid option, please try: train or predict')
+
+# %% TEST TRAIN
+# train_ds(context)
+
+# %% TEST AND PLOT PREDICT
+# pred_df = predict_ds(context)
+# pred_df = pred_df / 10**9
+# _curr, _pred = pred_df['current'].values, pred_df['predicted'].values
+# error = _pred - _curr
+# plot_scatter_error(_curr, _pred, y_col)
+# plot_error_hist(error, 50, (-50, 50), y_col)
+# symbol = 'WMT'
+# idx = pd.IndexSlice
+# pred_df.loc[idx[:, symbol], :].reset_index().iloc[:,-2:].plot()
+
+# %% OLD STABLE / QUICK AND DIRTY
+# df = create_ds(context)
+# joined_df = df.copy()
+# joined_df.head()
+# joined_df.describe().T
+# idx = pd.IndexSlice
+# x_cols = context['x_cols']
+# dataset = joined_df[x_cols]
+# num_cols = numeric_cols(dataset)
+# dataset.loc[:, num_cols] = dataset[num_cols].replace([np.inf, -np.inf, np.nan], 0)
+# dataset.describe().T
+# base_mask = (quotes.financialCurrency == 'USD') & (quotes.quoteType == 'EQUITY')
+# tickers = list(quotes.loc[base_mask].index)
+# dataset = dataset.loc[idx[:, tickers], x_cols]
+# dataset = dataset.loc[dataset[y_col] > 0]
+# dataset.describe().T
+# X, y = dataset.drop(columns=y_col), dataset[y_col].values.reshape(-1,1)
+
+# x_scaler = PowerTransformer()
+# y_scaler = StandardScaler()
+# scaled_X = x_scaler.fit_transform(X)
+# scaled_y = y_scaler.fit_transform(y)
+# dataset[excl(x_cols, [y_col])] = scaled_X
+# dataset[y_col] = scaled_y
+# dataset.describe(include='all').T
+
+# train_dataset = dataset.sample(frac=0.8,random_state=0)
+# test_dataset = dataset.drop(train_dataset.index)
+# len(train_dataset.keys())
+
+# train_labels = train_dataset.pop(y_col)
+# test_labels = test_dataset.pop(y_col)
+# dataset.describe().T
+
+# def build_model():
+#   model = keras.Sequential([
+#     layers.Dense(64, activation=tf.nn.relu, input_shape=[len(train_dataset.keys())]),
+#     layers.Dense(64, activation=tf.nn.relu),
+#     layers.Dense(1)
+#   ])
+
+#   optimizer = tf.keras.optimizers.RMSprop(0.001)
+
+#   model.compile(loss='mean_squared_error',
+#                 optimizer=optimizer,
+#                 metrics=['mean_absolute_error', 'mean_squared_error'])
+#   return model
+
+# model = build_model()
+# model.summary()
+
+# %% TEST MODEL WORKS BEFORE TRAINING
+# example_batch = train_dataset.iloc[:10]
+# example_batch.T
+# example_batch.describe().T
+# example_result = model.predict(example_batch)
+# example_result
+
+#%%
+# EPOCHS = 100
+# ml_path, model_name = context['ml_path'], context['model_name']
+# fname = ml_path + model_name
+
+# early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=10)
+# checkpointer = keras.callbacks.ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
+
+# history = model.fit(
+#   train_dataset, train_labels,
+#   epochs=EPOCHS, validation_split=0.2, verbose=1,
+#   callbacks=[early_stop, checkpointer])
+
+# plot_history(history, y_col)
+# hist = pd.DataFrame(history.history)
+# hist['epoch'] = history.epoch
+# hist.tail()
+# loss, mae, mse = model.evaluate(test_dataset, test_labels, verbose=0)
+# test_predictions = model.predict(test_dataset).flatten()
+# error = test_predictions - test_labels
+# error = y_scaler.inverse_transform(error) / 10**9
+# plot_scatter_error(test_labels, test_predictions, y_col)
+# plot_error_hist(error, 50, (-100, 100), y_col)
+
+#%% CHECK WETHER HISTORICAL PREDICTIONS TRACK ACTUAL VALUE
+# symbol = 'AAPL'
+# offset = -30
+# idx = pd.IndexSlice
+# sample_x = train_dataset.loc[idx[:,symbol], :].sort_index()
+# print(sample_x.shape)
+# sample_x.to_csv(f'{symbol}.csv')
+# predictions = model.predict(sample_x).flatten()
+# unscaled = y_scaler.inverse_transform(predictions) / 10**9
+# actual_mktcap = joined_df.loc[sample_x.index, 'marketCap'] / 10**9
+# plt.plot(unscaled)
+# plt.plot(actual_mktcap.values)
+# unscaled - actual_mktcap
+
+#%% FILTER FOR PERIODS WITHOUT DATA
+# joined_df.loc[idx['20190110':'20190120',symbol], :].iloc[-20:].T
+
+# %% TAKES A LONG TIME WITH LARGE DATASETS
+# sns.pairplot(dataset[dataset.columns[:5]], diag_kind="kde")
