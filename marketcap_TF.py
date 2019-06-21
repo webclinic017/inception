@@ -50,7 +50,7 @@ pd.options.display.float_format = '{:,.2f}'.format
 
 #%%
 # feature mapping for different datasets
-ds_dict = load_config('./utils/fund_ds_dict.json')
+ds_dict = load_config('./utils/fundamental_ds_dict.json')
 # save_config(ds_dict, './utils/fund_ds_dict.json')
 
 # pre-processing pipeline
@@ -82,8 +82,8 @@ profile = load_csvs('summary_detail', ['assetProfile'])
 quotes.set_index('symbol', drop=False, inplace=True)
 profile.set_index('symbol', drop=False, inplace=True)
 
-# save_config(context, './utils/bottomup_context.json')
-context = load_config('./utils/bottomup_context.json')
+# save_config(context, './utils/marketcap_context.json')
+context = load_config('./utils/marketcap_context.json')
 context['fn_pipeline'] = fn_pipeline
 bench = context['bench']
 y_col = context['y_col']
