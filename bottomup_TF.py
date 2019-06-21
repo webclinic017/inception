@@ -390,14 +390,12 @@ if __name__ == '__main__':
 
 # %% TEST AND PLOT PREDICT
 # pred_df = predict_ds(context)
+
 # pred_df = pred_df / 10**9
 # _curr, _pred = pred_df['current'].values, pred_df['predicted'].values
 # error = _pred - _curr
 # plot_scatter_error(_curr, _pred, y_col)
 # plot_error_hist(error, 50, (-50, 50), y_col)
-# symbol = 'WMT'
-# idx = pd.IndexSlice
-# pred_df.loc[idx[:, symbol], :].reset_index().iloc[:,-2:].plot()
 
 # %% OLD STABLE / QUICK AND DIRTY
 # df = create_ds(context)
