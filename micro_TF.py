@@ -44,11 +44,12 @@ context = {
     'l2_reg': 0.01,
 }
 
+from utils.basic_utils import config
 tech_ds = TechnicalDS(
     context['tmp_path'],
     context['px_vol_ds'],
     load_ds=True,
-    tickers='All',
+    tickers=config['sectors'],
     look_ahead=context['look_ahead'],
     fwd_smooth=context['smooth'],
     max_draw_on=True)
