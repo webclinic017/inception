@@ -31,7 +31,6 @@ from sklearn.metrics import accuracy_score, log_loss, precision_recall_fscore_su
 from sklearn.metrics import precision_score, roc_auc_score
 
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 import tensorflow as tf
 from tensorflow import keras
