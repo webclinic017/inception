@@ -16,8 +16,8 @@ p=/home/ubuntu/inception
 # ML models, pre-close predictions
 20 17 * * 1-5 cd $p && time python3 macro_TF.py predict >> ../cron_jobs.log
 21 17 * * 1-5 cd $p && time python3 micro_TF.py predict >> ../cron_jobs.log
-22 17 * * 1-5 cd $p && time python3 bottomup_TF.py predict >> ../cron_jobs.log
-30 17 * * 1-5 cd $p && time python3 eqty_ls_portfolio.py
+22 17 * * 1-5 cd $p && time python3 marketcap_TF.py predict >> ../cron_jobs.log
+30 17 * * 1-5 cd $p && time python3 eqty_ls_portfolio.py >> ../cron_jobs.log
 
 # Final run post-market close
 55 20 * * 1-5 cd $p && time python3 get_store_data.py quotes >> ../cron_jobs.log
@@ -30,7 +30,7 @@ p=/home/ubuntu/inception
 # ML models, daily predictions
 00 21 * * 1-5 cd $p && time python3 macro_TF.py predict >> ../cron_jobs.log
 01 21 * * 1-5 cd $p && time python3 micro_TF.py predict >> ../cron_jobs.log
-02 21 * * 1-5 cd $p && time python3 bottomup_TF.py predict >> ../cron_jobs.log
+02 21 * * 1-5 cd $p && time python3 marketcap_TF.py predict >> ../cron_jobs.log
 
 
 ### OLD ###
