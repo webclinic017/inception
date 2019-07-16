@@ -91,7 +91,7 @@ pred_df.tail()
 # enable long or short
 ls_dict = {True: 0.84, False: -0.36}
 leverage = (abs(ls_dict[True]) + abs(ls_dict[False]))
-amount = 875000/6 * leverage
+amount = 930000/6 * leverage
 long = True
 # stop losses dont seem to help
 loss_protection = False
@@ -103,9 +103,9 @@ as_of_date = -1
 watch_overtime = True
 study_period = -20
 # cut off
-min_confidence = 0.8
+min_confidence = 0.9
 # percent of time in the list during study period
-period_tresh = 0.7
+period_tresh = 0.9
 nbr_positions = 10
 look_ahead = context['look_ahead']
 

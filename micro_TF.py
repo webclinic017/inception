@@ -1,7 +1,7 @@
+# %%
 # imports
-
 import sys
-from utils.basic_utils import csv_store, csv_ext, numeric_cols
+from utils.basic_utils import csv_store, csv_ext, numeric_cols, config
 from utils.pricing import dummy_col
 from utils.pricing import rename_col
 from utils.fundamental import chain_outlier
@@ -44,18 +44,16 @@ context = {
     'l2_reg': 0.01,
 }
 
-from utils.basic_utils import config
 tech_ds = TechnicalDS(
     context['tmp_path'],
     context['px_vol_ds'],
     load_ds=True,
-    tickers=config['sectors'],
     look_ahead=context['look_ahead'],
     fwd_smooth=context['smooth'],
     max_draw_on=True)
 y_col = tech_ds.ycol_name
 
-
+# %%
 def pre_process_ds(context):
     raw_df = tech_ds.stitch_companies_groups()
     print(f'Shape excluding NAs: {raw_df.shape}')
@@ -73,7 +71,6 @@ def pre_process_ds(context):
     raw_df.dropna(subset=['sector'], inplace=True)
     raw_df = dummy_col(raw_df, 'sector', shorten=True)
     return raw_df
-
 
 def get_train_test_sets(context):
 
@@ -102,7 +99,6 @@ def get_train_test_sets(context):
         break
 
     return X_train, X_test, y_train, y_test
-
 
 def train_ds(context):
     max_iter = context['max_iter']
@@ -154,7 +150,6 @@ def train_ds(context):
 
     score = model.evaluate(X_test, y_test_oh)
     print(f'Test loss: {score[0]}, Test accuracy: {score[1]}')
-
 
 def predict_ds(context):
 
@@ -209,7 +204,7 @@ def predict_ds(context):
 
     return pred_df
 
-
+# %%
 if __name__ == '__main__':
     hook = sys.argv[1]
 
