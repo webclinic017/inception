@@ -5,6 +5,10 @@
 		}
 	],
 	"settings": {
-		"python.pythonPath": "."
+		"python.pythonPath": ".",
+		"editor.fontSize": 14,
+		"editor.fontFamily": "Menlo, Monaco, monospace",
+		"terminal.integrated.fontFamily": "monospace",
+		"terminal.integrated.fontSize": 14
 	}
 }
