@@ -258,6 +258,7 @@ latest_finBS = convert_dates(latest_finBS, date_cols, 'endDate')
 latest_finIS = convert_dates(latest_finIS, date_cols, 'endDate')
 latest_finCF = convert_dates(latest_finCF, date_cols, 'endDate')
 
+"""
 # %%
 iv_waterfall = pd.read_csv(csv_load(f'valuation/waterfall/{str(today_date)}'), parse_dates=True, index_col='symbol')
 pred_df = pd.read_csv(csv_load(f'recommend/equities/{str(today_date)}'), parse_dates=True, index_col='symbol')
@@ -277,6 +278,7 @@ iv_waterfall.loc[long_symbols[:5], 'premDisc']
 # %% testing random stuff
 # latest_finIS.columns
 # str(today_date)
+"""
 
 # %%
 if __name__ == '__main__':

@@ -23,16 +23,7 @@ echo "macro_ML"
 aws s3 ls fund-fin-data/recommend/macro_ML/ | tail -n 3
 echo "micro_ML"
 aws s3 ls fund-fin-data/recommend/micro_ML/ | tail -n 3
-echo "bottomup"
-aws s3 ls fund-fin-data/recommend/bottomup_ML/ | tail -n 3
-
-# echo "day_quote"
-# aws s3 ls fund-fin-data/recommend/fdmn_ML-day_quote/ | tail -n 3
-# echo "eps_estimates"
-# aws s3 ls fund-fin-data/recommend/fdmn_ML-eps_estimates/ | tail -n 3
-# echo "eps_trend"
-# aws s3 ls fund-fin-data/recommend/fdmn_ML-eps_trend/ | tail -n 3
-# echo "fin_data"
-# aws s3 ls fund-fin-data/recommend/fdmn_ML-fin_data/ | tail -n 3
-# echo "key_statistics"
-# aws s3 ls fund-fin-data/recommend/fdmn_ML-key_statistics/ | tail -n 3
+echo "marketcap_ML"
+aws s3 ls fund-fin-data/recommend/marketcap_ML/ | tail -n 3
+echo "equity portfolio"
+aws s3 ls fund-fin-data/recommend/equities/ | tail -n 3
