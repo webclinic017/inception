@@ -113,3 +113,4 @@ exps/
 images/
 dd/
 twtr_dl/
+**/config.json
