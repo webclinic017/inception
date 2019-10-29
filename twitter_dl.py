@@ -33,7 +33,8 @@ for u in pending_accts:
     pickle.dump(they_follow, open(fname, "wb"))
     print(f'Saved: {fname}')
 
-dl_accts = !ls ./{dl_folder}
+
+dl_accts = [x for x in os.listdir(dl_folder) if '.p' in x]
 sn_list = []
 for fn in dl_accts:
     u = fn.split('_following')[0]
