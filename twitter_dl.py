@@ -15,103 +15,37 @@ api = twitter.Api(consumer_key=CONSUMER_KEY,
                   access_token_secret=ACCESS_TOKEN_SECRET,
                   sleep_on_rate_limit=True)
 
-iam_following = api.GetFriends()
-
-pending_accts = ['cdixon',
-                 'joulee',
-                 'DavidSacks',
-                 'rabois',
-                 'nntaleb',
-                 'benedictevans',
-                 'mcuban',
-                 'bgarlinghouse',
-                 'aantonop',
-                 'JamesClear',
-                 'PTetlock',
-                 'EricTopol',
-                 'patrickc',
-                 'AnnieDuke',
-                 'podcastnotes',
-                 'EricRWeinstein',
-                 'm2jr',
-                 'wolfejosh',
-                 'soumithchintala',
-                 'wintonARK',
-                 'lloydblankfein',
-                 'masason',
-                 'sbarnettARK',
-                 'zarazhangrui',
-                 'Arie_Belldegrun',
-                 'FEhrsam',
-                 'LauraDeming',
-                 'PalmerLuckey',
-                 'fredwilson',
-                 'moskov',
-                 'paulg',
-                 'sapinker',
-                 'stratechery',
-                 'vkhosla',
-                 'ylecun',
-                 'eladgil',
-                 'bgurley',
-                 'bhavanaYarasuri',
-                 'jwangARK',
-                 'msamyARK',
-                 'skorusARK',
-                 'TashaARK',
-                 'finkd',
-                 'kaifulee',
-                 'Chad_Hurley',
-                 'eldsjal',
-                 'leijun',
-                 'ShouZiChew',
-                 'JohnathanIve',
-                 'RobertIger',
-                 'tim_cook',
-                 'BillGates',
-                 'hanstung',
-                 'davidein',
-                 'WarrenBuffett',
-                 'benbernanke',
-                 'LHSummers',
-                 'HowardMarksBook',
-                 'BillAckman',
-                 'JTLonsdale',
-                 'woodhaus2',
-                 'RobertGreene',
-                 'sparker',
-                 'tfadell',
-                 'thielfellowship',
-                 'moritzKBE',
-                 'gdb',
-                 'briansin',
-                 'naval',
-                 'pmarca',
-                 'bhorowitz',
-                 'KenHowery',
-                 'mlevchin',
-                 'karpathy',
-                 'demishassabis',
-                 'travisk',
-                 'TruthGundlach',
-                 'chamath',
-                 'RayDalio',
-                 'sama',
-                 'reedhastings',
-                 'AndrewYNg',
-                 'JeffBezos',
-                 'peterthiel',
-                 'elonmusk',
-                 'foundersfund']
+# get the screen name of all accounts I follow
+following = api.GetFriends()
+pending_accts = [x.screen_name for x in following]
 
 dl_folder = 'twtr_dl'
 os.makedirs(dl_folder, exist_ok=True)
 
+# for all accounts, pickle list of who they follow
 friends_list = []
 for u in pending_accts:
+    print(u)
     they_follow = api.GetFriends(screen_name=u, cursor=-1, )
     print(f'{u} follows {len(they_follow)}')
     friends_list.append(they_follow)
     fname = f'./{dl_folder}/{u}_following.p'
     pickle.dump(they_follow, open(fname, "wb"))
     print(f'Saved: {fname}')
+
+dl_accts = !ls ./{dl_folder}
+sn_list = []
+for fn in dl_accts:
+    u = fn.split('_following')[0]
+    following = pickle.load(open(f'{dl_folder}/{fn}', "rb" ))
+    sn_list.extend([x.screen_name for x in following])
+
+# load following for each user I follow
+# add to "beast" list
+index, max_elems = 0, 99
+for _ in range(int(len(sn_list) / max_elems) + 1):
+    subset = sn_list[index:index + max_elems]
+    index += max_elems
+    api.CreateListsMember(
+        slug='beast', owner_screen_name='vicvveiga', 
+        screen_name=subset)

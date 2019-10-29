@@ -1,7 +1,7 @@
 {
     "python.pythonPath": "/Users/vveiga/miniconda3/envs/inception/bin/python",
     "python.linting.pylintEnabled": true,
-    "python.linting.pep8Enabled": false,
+    "python.linting.pycodestyleEnabled": false,
     "python.linting.enabled": true,
     "python.terminal.activateEnvironment":true,
 }

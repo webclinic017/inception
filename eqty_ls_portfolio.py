@@ -89,9 +89,13 @@ pred_df.tail()
 
 # %% Assumptions
 # enable long or short
-ls_dict = {True: 0.84, False: -0.36}
+# ls_dict = {True: 0.84, False: -0.36}
+ls_dict = {True: 0.5, False: -0.5}
+# leverage = (abs(ls_dict[True]) + abs(ls_dict[False]))
 leverage = (abs(ls_dict[True]) + abs(ls_dict[False]))
-amount = 930000/6 * leverage
+nbr_positions = 15
+portfolio = 900000
+amount = portfolio / nbr_positions * leverage
 long = True
 # stop losses dont seem to help
 loss_protection = False
@@ -106,7 +110,7 @@ study_period = -20
 min_confidence = 0.9
 # percent of time in the list during study period
 period_tresh = 0.9
-nbr_positions = 10
+
 look_ahead = context['look_ahead']
 
 # %% AI portfolio - one period
@@ -152,8 +156,8 @@ for long in [True, False]:
     show_cols = ['sector', 'industry']
     profile_alloc = profile.loc[symbols, show_cols]
 
-    w = 1 / nbr_positions * ls_dict[long] / leverage
-    allocation = amount * w
+    w = 1 / nbr_positions * ls_dict[long]
+    allocation = portfolio * w
     alloc_df = (allocation / quotes.loc[
         symbols, ['regularMarketPrice']]).round(0)
     alloc_df['dollarValue'] = alloc_df * quotes.loc[
