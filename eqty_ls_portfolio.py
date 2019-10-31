@@ -166,33 +166,32 @@ else:
     alloc_df.to_csv(f'{str(date.today())}.csv')
 
 
+# # %% historical index for predictions
+# get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
+#     title='Historical Performance of Portfolio'
+# );
 
-# %% historical index for predictions
-get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
-    title='Historical Performance of Portfolio'
-);
+# # %% By sector
+# by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
+# (by_sect / amount).plot.bar()
 
-# %% By sector
-by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
-(by_sect / amount).plot.bar()
+# # %% By industry
+# by_ind = alloc_df.groupby(by=['industry']).sum().loc[:,'dollarValue'].sort_values()
+# (by_ind / amount).plot.bar()
 
-# %% By industry
-by_ind = alloc_df.groupby(by=['industry']).sum().loc[:,'dollarValue'].sort_values()
-(by_ind / amount).plot.bar()
+# # %%
+# finstats.loc[symbols]
+# list(quotes.columns)
 
-# %%
-finstats.loc[symbols]
-list(quotes.columns)
+# # %% check one company confidence levels
+# curr_port = ['TSLA']
+# pred_df.loc[pred_df.symbol.isin(curr_port), 'confidence'].tail(10).mean()
 
-# %% check one company confidence levels
-curr_port = ['TSLA']
-pred_df.loc[pred_df.symbol.isin(curr_port), 'confidence'].tail(10).mean()
+# # %% check one company confidence levels
+# most_freq_df
+# pred_df.loc[pred_df.symbol.isin(['SE']), 'confidence'].tail(10).mean()
 
-# %% check one company confidence levels
-most_freq_df
-pred_df.loc[pred_df.symbol.isin(['SE']), 'confidence'].tail(10).mean()
-
-# %% double check mean confidence over study period
+# # %% double check mean confidence over study period
 # df = pred_df.loc[pred_df.symbol.isin(symbols), ['symbol', 'pred_class', 'confidence']]
 # df = df.set_index('symbol', append=True).unstack().tail(10)
 # df['confidence'].plot(legend=False)
