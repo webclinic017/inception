@@ -29,14 +29,15 @@ context = {
     'ml_path': './ML/',
     'tmp_path': './tmp/',
     'px_vol_ds': 'universe-px-vol-ds.h5',
-    'model_name': 'micro_TF-ns.h5',
-    'trained_cols': 'micro_TF_train_cols-ns.npy',
-    'look_ahead': 120,
-    'look_back': 120,
+    'model_name': 'micro_TF-21fwd.h5',
+    'trained_cols': 'micro_TF_train_cols-21fwd.npy',
+    'look_ahead': 21,
+    'train_window': 250*3,
+    'look_back': 20,
     'smooth': 1,
     'load_ds': True,
     'scale': True,
-    'test_size': .05,
+    'test_size': .10,
     'verbose': True,
     's3_path': 'recommend/micro_ML/',
     'units': 750, #850
@@ -49,34 +50,38 @@ tech_ds = TechnicalDS(
     context['px_vol_ds'],
     load_ds=True,
     look_ahead=context['look_ahead'],
+    look_back=context['train_window'],
     fwd_smooth=context['smooth'],
     max_draw_on=True)
 y_col = tech_ds.ycol_name
 
 # %%
 def pre_process_ds(context):
+
     raw_df = tech_ds.stitch_companies_groups()
+    num_cols = [x for x in numeric_cols(raw_df) if x != y_col]
+
+    # basic impute and scaling
+    raw_df[num_cols] = chain_outlier(raw_df[num_cols], None)
+    scale_on = context['scale']
+    if scale_on: 
+        scaler = StandardScaler()
+        raw_df.loc[:, num_cols] = scaler.fit_transform(raw_df[num_cols])
     print(f'Shape excluding NAs: {raw_df.shape}')
+    # add categoricals
     symbols = raw_df.reset_index().set_index(['symbol']).index
     sector_map = tech_ds.profile.loc[tech_ds.tickers,'sector'].to_dict()
     raw_df.loc[:, 'sector'] = symbols.map(sector_map)
-    raw_df = chain_outlier(raw_df, None)
-    # basic impute and scaling
-    scale_on = context['scale']
-    scaler = StandardScaler()
-    num_cols = numeric_cols(raw_df)
-    if scale_on: raw_df.loc[:, num_cols] = scaler.fit_transform(
-        raw_df[num_cols])
-    # add categoricals
     raw_df.dropna(subset=['sector'], inplace=True)
     raw_df = dummy_col(raw_df, 'sector', shorten=True)
+
     return raw_df
 
 def get_train_test_sets(context):
 
     test_size = context['test_size']
     joined_df = pre_process_ds(context)
-    cut_range = tech_ds.return_intervals(tresholds=[0.4, 0.75])
+    cut_range = tech_ds.return_intervals(tresholds=[0.80, 0.90])
     TechnicalDS.labelize_ycol(
         joined_df, tech_ds.ycol_name,
         cut_range, tech_ds.forward_return_labels)
@@ -131,9 +136,9 @@ def train_ds(context):
     ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
 
-    es = EarlyStopping(monitor='loss', patience=10, restore_best_weights=True, verbose=1)
+    es = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True, verbose=1)
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
-    csv_logger = CSVLogger('micro-train.log')
+    csv_logger = CSVLogger(f'micro-train-{tech_ds.tgt_date}.log')
 
     # save training columns, feature order
     np.save(ml_path + trained_cols, X_train.columns)
@@ -207,6 +212,14 @@ def predict_ds(context):
 # %%
 if __name__ == '__main__':
     hook = sys.argv[1]
+    # price/share > 20 and vol > 300k shares
+    quotes = tech_ds.quotes
+    liquid_tickers = list(quotes.loc[
+        (quotes.quoteType == 'EQUITY') &
+        (quotes.regularMarketPrice > 20) &
+        (quotes.averageDailyVolume3Month > 0.3e6)
+        , 'symbol'])
+    tech_ds.tickers = liquid_tickers
 
     if hook == 'train':
         print('Training...')
@@ -214,14 +227,35 @@ if __name__ == '__main__':
 
     elif hook == 'predict':
         print('Predicting...')
-        # price/share > 20 and vol > 300k shares
-        quotes = tech_ds.quotes
-        liquid_tickers = list(quotes.loc[
-            (quotes.quoteType == 'EQUITY') &
-            (quotes.regularMarketPrice > 20) &
-            (quotes.averageDailyVolume3Month > 0.3e6)
-            , 'symbol'])
-        tech_ds.tickers = liquid_tickers
         predict_ds(context)
 
     else: print('Invalid option, please try: train or predict')
+
+
+# %% some simple checks
+
+# quotes = tech_ds.quotes
+# liquid_tickers = list(quotes.loc[
+#     (quotes.quoteType == 'EQUITY') &
+#     (quotes.regularMarketPrice > 20) &
+#     (quotes.averageDailyVolume3Month > 0.3e6)
+#     , 'symbol'])
+# tech_ds.tickers = liquid_tickers
+
+# joined_df = pre_process_ds(context)
+# cut_range = tech_ds.return_intervals(tresholds=[0.80, 0.90])
+# TechnicalDS.labelize_ycol(
+#     joined_df, tech_ds.ycol_name,
+#     cut_range, tech_ds.forward_return_labels)
+
+# joined_df[y_col].plot.hist(bins=12)
+
+# idx = pd.IndexSlice
+# # joined_df.tail()
+# joined_df.loc[idx[:,'AAP'], 'fwdRet21']
+
+# from utils.BaseDS import BaseDS
+# fwd_ret_df = BaseDS.forward_returns(tech_ds.clean_px, 20)
+# fwd_ret_df.mean(1)
+
+# %%

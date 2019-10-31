@@ -36,14 +36,8 @@ def pre_process_ds(context):
     )
 
     keep_bench = excl(benchSL, ['^STOXX50E', '^AXJO'])
-    keep_fx = excl(
-        currSL,
-        ['HKD=X', 'MXN=X', 'AUDUSD=X', 'NZDUSD=X', 'TWD=X', 'CLP=X', 'KRW=X']
-    )
-    keep_sect = excl(
-        sectorSL,
-        ['SPY', 'QQQ', 'DIA', 'IWM', 'XLC', 'XLRE']
-    )
+    keep_fx = excl(currSL, ['HKD=X', 'MXN=X', 'AUDUSD=X', 'NZDUSD=X', 'TWD=X', 'CLP=X', 'KRW=X'])
+    keep_sect = excl(sectorSL,['SPY', 'QQQ', 'DIA', 'IWM', 'XLC', 'XLRE'])
     keep_bonds = ['LQD', 'HYG']
     include = riskSL + keep_bench + keep_sect + rateSL + keep_fx + keep_bonds
     raw_df = macro_ds.stitch_instruments(symbols=include, name=True, axis=1)
@@ -80,7 +74,7 @@ def get_train_test_sets(context):
 
     raw_df = pre_process_ds(context)
     # discretize forward returns into classes
-    cut_range = macro_ds.return_intervals()
+    cut_range = macro_ds.return_intervals(tresholds=[0.60, 0.90])
     BaseDS.labelize_ycol(raw_df, y_col, cut_range, labels)
 
     X_cols = excl(raw_df.columns, [y_col])
@@ -153,14 +147,9 @@ def train_ds(context):
     print(f'X_train.shape {X_train.shape}, columns: {list(X_train.columns)}')
     print('Saved: ', ml_path + trained_cols)
 
-    es = EarlyStopping(
-        monitor='loss',
-        patience=10,
-        restore_best_weights=True,
-        verbose=1)
-    checkpointer = ModelCheckpoint(
-        filepath=fname, verbose=1, save_best_only=True)
-    csv_logger = CSVLogger('macro-train.log')
+    es = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True, verbose=1)
+    checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
+    csv_logger = CSVLogger(f'macro-train-{macro_ds.tgt_date}.log')
 
     opt = Adam()
     model.compile(
@@ -232,14 +221,15 @@ def predict_ds(context):
 context = {
     'portion': 100e-2,
     'ml_path': './ML/',
-    'model_name': 'macro_TF.h5',
+    'model_name': 'macro_TF-21fwd.h5',
     'tmp_path': './tmp/',
     'px_vol_ds': 'universe-px-vol-ds.h5',
-    'trained_cols': 'macro_TF_train_cols.npy',
-    'look_ahead': 60,
-    'look_back': 252,
-    'smooth_window': 10,
+    'trained_cols': 'macro_TF_train_cols-21fwd.npy',
+    'look_ahead': 21,
+    'look_back': 120,
+    'smooth_window': 1,
     'predict_batch': 252,
+    'train_window': 250*3,
     'load_ds': True,
     'impute': True,
     'fill': 'ffill',
@@ -247,7 +237,7 @@ context = {
     'test_size': .10,
     's3_path': 'recommend/macro_ML/',
     'verbose': 2,
-    'units': 300,
+    'units': 500,
     'hidden_layers': 4,
     'max_iter': 100,
     'l2_reg': 1,
@@ -262,8 +252,8 @@ macro_ds = MacroDS(
     fname=px_vol_fname,
     load_ds=True,
     bench='^GSPC',
-    look_ahead=60,
-    look_back=252,
+    look_ahead=context['look_ahead'],
+    look_back=context['train_window'],
     invert_list=['EURUSD=X', 'GBPUSD=X'],
     include_list=['^VIX'],
     max_draw_on=True,

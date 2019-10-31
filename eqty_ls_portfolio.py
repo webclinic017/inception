@@ -107,9 +107,9 @@ as_of_date = -1
 watch_overtime = True
 study_period = -20
 # cut off
-min_confidence = 0.9
+min_confidence = 0.7
 # percent of time in the list during study period
-period_tresh = 0.9
+period_tresh = 0.1
 
 look_ahead = context['look_ahead']
 
