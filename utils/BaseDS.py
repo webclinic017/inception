@@ -44,6 +44,7 @@ class BaseDS(object):
         self.universe_dict = {k: config[k] for k in config['universe_list']}
 
         self.px_vol_df = self.load_px_vol_ds()
+        self.px_vol_df = self.px_vol_df.tail(self.look_back)
         self.clean_px = self.px_vol_df['close'].dropna(subset=[self.bench])
 
         # Quotes, profile, and industries for last date of dataset

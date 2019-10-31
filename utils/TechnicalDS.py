@@ -9,7 +9,7 @@ from utils.fundamental import best_performers
 from utils.BaseDS import BaseDS
 
 
-class TechnicalDS(BaseDS):
+class TechnicalDS(BaseDS):  
 
     def __init__(
         self,
