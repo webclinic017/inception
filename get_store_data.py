@@ -27,7 +27,7 @@ if __name__ == '__main__':
             try:
                 print('Retrieving {0} for {1}'.format(hook, t))
                 # get_pricing(t, '1m', '5d')
-                get_pricing(t, '1d', '15y')
+                get_pricing(t, '1d', '7y')
             except Exception as e:
                 print(e)
         temp_path, px_close_fname, px_vol_fname = 'tmp/', 'universe-px-ds', 'universe-px-vol-ds.h5'
