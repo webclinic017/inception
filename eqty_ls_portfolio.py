@@ -129,22 +129,10 @@ for long in [True, False]:
         top_pos = top_pred.loc[
             top_pred.pred_class.isin(pred_classes) &
             top_pred.confidence > min_confidence]
-    symbols = list(top_pos.symbol)
-
-    # # create dispersion stats for a given universe, to compare against ideal metrics
-    # s_l = []
-    # for k in summ_feats_dict.keys():
-    #     df = summ_feats_dict[k].loc[:, symbols].iloc[-1]
-    #     df.name = k
-    #     s_l.append(df)
-    # latest_df = pd.concat(s_l, axis=1).T
-    # ls_categ = "long" if long else "short"
-    # disp_df = pd.read_csv(csv_load(f'models/equity_dispersion_{ls_categ}'), index_col=[0])
-    # ratio_disp_df = latest_df.T.div(disp_df['50%']).T
-    # ranked_df = ratio_disp_df.rank(axis=1, method='dense', pct=True)
-    # ranked_df = ranked_df.mean().sort_values(ascending=True if long else False)
-    # ranked_df = ranked_df.tail(int(len(ranked_df) * .8))
-    # symbols = list(ranked_df.index)
+    symbols = list(set(top_pos.symbol))
+    last_pred_df = pred_df.loc[pred_df.index[-1],:]
+    rec_summary_df = last_pred_df.loc[last_pred_df.symbol.isin(symbols), ['symbol', 'pred_label', 'confidence']]
+    rec_summary_df = rec_summary_df.reset_index().set_index('symbol')
 
     print(f'{len(symbols)} {"LONG" if long else "SHORT"} Symbols, {symbols}')
 
@@ -158,16 +146,14 @@ for long in [True, False]:
 
     w = 1 / nbr_positions * ls_dict[long]
     allocation = portfolio * w
-    alloc_df = (allocation / quotes.loc[
-        symbols, ['regularMarketPrice']]).round(0)
-    alloc_df['dollarValue'] = alloc_df * quotes.loc[
-        symbols, ['regularMarketPrice']]
+    alloc_df = (allocation / quotes.loc[symbols, ['regularMarketPrice']]).round(0)
+    alloc_df['dollarValue'] = alloc_df * quotes.loc[symbols, ['regularMarketPrice']]
     alloc_df.columns = ['shares', 'dollarValue']
-    alloc_df = pd.concat([alloc_df, quote_alloc, profile_alloc], axis=1)
+    alloc_df = pd.concat([rec_summary_df, alloc_df, quote_alloc, profile_alloc], axis=1)
     super_list.append(alloc_df)
 
 alloc_df = pd.concat(super_list, axis=0)
-alloc_df['pred_date'] = date.today()
+# alloc_df['pred_date'] = date.today()
 
 s3_store = context['s3_store']
 s3_portfolio_path = context['s3_portfolio_path']
@@ -180,26 +166,31 @@ else:
     alloc_df.to_csv(f'{str(date.today())}.csv')
 
 
+
 # %% historical index for predictions
-# get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
-#     title='Historical Performance of Portfolio'
-# );
+get_ind_index(clean_px[symbols], tail=252, name='^PORT')['^PORT'].plot(
+    title='Historical Performance of Portfolio'
+);
 
 # %% By sector
-# by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
-# (by_sect / amount).plot.bar()
+by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
+(by_sect / amount).plot.bar()
 
 # %% By industry
-# by_ind = alloc_df.groupby(by=['industry']).sum().loc[:,'dollarValue'].sort_values()
-# (by_ind / amount).plot.bar()
+by_ind = alloc_df.groupby(by=['industry']).sum().loc[:,'dollarValue'].sort_values()
+(by_ind / amount).plot.bar()
 
 # %%
-# finstats.loc[symbols]
-# list(quotes.columns)
+finstats.loc[symbols]
+list(quotes.columns)
 
 # %% check one company confidence levels
-# most_freq_df
-# pred_df.loc[pred_df.symbol.isin(['CHTR']), 'confidence'].tail(10).mean()
+curr_port = ['TSLA']
+pred_df.loc[pred_df.symbol.isin(curr_port), 'confidence'].tail(10).mean()
+
+# %% check one company confidence levels
+most_freq_df
+pred_df.loc[pred_df.symbol.isin(['SE']), 'confidence'].tail(10).mean()
 
 # %% double check mean confidence over study period
 # df = pred_df.loc[pred_df.symbol.isin(symbols), ['symbol', 'pred_class', 'confidence']]
