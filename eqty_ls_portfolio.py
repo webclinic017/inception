@@ -53,28 +53,6 @@ keystats = tech_ds.keystats
 finstats = tech_ds.finstats
 clean_px, labels = tech_ds.clean_px, tech_ds.forward_return_labels
 labels_list = list(reversed(range(len(tech_ds.forward_return_labels))))
-# tech_ds.create_base_frames()
-
-# summ_feats_dict = {
-#     'pct_chg_df_dict[20]': tech_ds.pct_chg_df_dict[20],
-#     'pct_chg_df_dict[50]': tech_ds.pct_chg_df_dict[50],
-#     'pct_chg_df_dict[200]': tech_ds.pct_chg_df_dict[200],
-#     'pct_stds_df_dict[20]': tech_ds.pct_stds_df_dict[20].where(np.abs(tech_ds.pct_stds_df_dict[20])>0),
-#     'pct_stds_df_dict[50]': tech_ds.pct_stds_df_dict[50].where(np.abs(tech_ds.pct_stds_df_dict[50])>0),
-#     'pct_stds_df_dict[200]': tech_ds.pct_stds_df_dict[200].where(np.abs(tech_ds.pct_stds_df_dict[200])>0),    
-#     'hist_perf_ranks[20]': tech_ds.hist_perf_ranks[20],
-#     'hist_perf_ranks[50]': tech_ds.hist_perf_ranks[50],
-#     'hist_perf_ranks[200]': tech_ds.hist_perf_ranks[200],
-#     'max_draw_df': tech_ds.max_draw_df,
-#     'max_pull_df': tech_ds.max_pull_df,
-#     'pct_50d_ma_df': tech_ds.pct_50d_ma_df,
-#     'pct_200d_ma_df': tech_ds.pct_200d_ma_df,
-#     'pct_52wh_df': tech_ds.pct_52wh_df,
-#     'pct_52wl_df': tech_ds.pct_52wl_df,
-#     'pct_dv_10da_df': tech_ds.pct_dv_10da_df,
-#     'pct_dv_50da_df': tech_ds.pct_dv_50da_df,
-#     'dollar_value_df': tech_ds.dollar_value_df,
-# }
 
 # Read today's predictions from S3
 s3_path = context['s3_pred_path']
@@ -91,33 +69,27 @@ pred_df.tail()
 # enable long or short
 # ls_dict = {True: 0.84, False: -0.36}
 ls_dict = {True: 0.5, False: -0.5}
-# leverage = (abs(ls_dict[True]) + abs(ls_dict[False]))
 leverage = (abs(ls_dict[True]) + abs(ls_dict[False]))
-nbr_positions = 15
+nbr_positions = 10
 portfolio = 900000
 amount = portfolio / nbr_positions * leverage
 long = True
 # stop losses dont seem to help
-loss_protection = False
-max_loss = 0.1
-# how many days to hold / rebalance
-holding_period = 120
 as_of_date = -1
 # pick most frequent predictions within X study period
 watch_overtime = True
-study_period = -20
+study_period = -10
 # cut off
-min_confidence = 0.7
+min_confidence = 0.9
 # percent of time in the list during study period
-period_tresh = 0.1
-
-look_ahead = context['look_ahead']
+period_tresh = 0.5
 
 # %% AI portfolio - one period
 super_list = []
 most_freq_df = None
 for long in [True, False]:
-    pred_classes = labels_list[:2] if long else labels_list[-2:]
+    span = 3
+    pred_classes = labels_list[:span] if long else labels_list[-span:]
     top_pred = get_top_predictions(pred_df, as_of_date, pred_classes, min_confidence)
     study_dates = get_study_date_range(pred_df, as_of_date, study_period)
     most_freq_df = get_most_frequent_preds(
@@ -171,7 +143,35 @@ else:
 #     title='Historical Performance of Portfolio'
 # );
 
-# # %% By sector
+# %% what's the average class and confidence level by sector?
+# pred_symbols_df = pred_df.reset_index().set_index('symbol')
+# pred_desc = profile.loc[pred_symbols_df.index, ['sector', 'industry']]
+# show_cols = ['pred_date', 'pred_class', 'pred_label', 'confidence', 'sector', 'industry']
+# pred_clean = pd.concat([pred_symbols_df, pred_desc], axis=1)[show_cols]
+# idx = pd.IndexSlice
+
+# # average class and confidence by sector
+# symbol_date_pred_df = pred_clean.reset_index().set_index(['symbol', 'pred_date'])
+# last_date = symbol_date_pred_df.index.levels[1].unique()[-1]
+# last_pred = symbol_date_pred_df.loc[idx[:, last_date], :]
+# # sector level count
+# last_pred.groupby(by=['sector']).count().sort_values(by=['pred_class'], ascending=False).dropna()
+# # sector level median
+# last_pred.groupby(by=['sector']).median().sort_values(by=['pred_class'], ascending=False).dropna()
+# # sector and industry deeper dive
+# last_pred.groupby(by=['sector', 'industry']).median().sort_values(by=['sector'], ascending=False).dropna()
+# # sector and industry deeper dive
+# sel_sector = 'Technology'
+# sel_industry = 'Software - Infrastructure'
+# mask = (last_pred.sector == sel_sector) & (last_pred.industry == sel_industry)
+# last_pred.loc[mask, :]
+
+# # historical charts of average class and confidence by sector
+# groups = pred_clean.groupby(by=['sector', 'pred_date']).median()
+# for i in groups.index.levels[0]:
+#     groups.loc[idx[i, :], :].plot(title=i, secondary_y='confidence')
+
+# %% By sector
 # by_sect = alloc_df.groupby(by=['sector']).sum().loc[:,'dollarValue'].sort_values()
 # (by_sect / amount).plot.bar()
 
@@ -183,9 +183,9 @@ else:
 # finstats.loc[symbols]
 # list(quotes.columns)
 
-# # %% check one company confidence levels
-# curr_port = ['TSLA']
-# pred_df.loc[pred_df.symbol.isin(curr_port), 'confidence'].tail(10).mean()
+# %% check one company confidence levels
+# curr_port = ['CRM']
+# pred_df.loc[pred_df.symbol.isin(curr_port), :]
 
 # # %% check one company confidence levels
 # most_freq_df
@@ -197,3 +197,5 @@ else:
 # df['confidence'].plot(legend=False)
 # df['confidence'].mean().sort_values()
 # symbols
+
+# %%
