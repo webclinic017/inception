@@ -103,7 +103,7 @@ for long in [True, False]:
             top_pred.confidence > min_confidence]
     symbols = list(set(top_pos.symbol))
     last_pred_df = pred_df.loc[pred_df.index[-1],:]
-    rec_summary_df = last_pred_df.loc[last_pred_df.symbol.isin(symbols), ['symbol', 'pred_label', 'confidence']]
+    rec_summary_df = last_pred_df.loc[last_pred_df.symbol.isin(symbols), ['symbol', 'pred_class', 'pred_label', 'confidence']]
     rec_summary_df = rec_summary_df.reset_index().set_index('symbol')
 
     print(f'{len(symbols)} {"LONG" if long else "SHORT"} Symbols, {symbols}')
