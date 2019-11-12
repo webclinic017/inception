@@ -264,7 +264,6 @@ def train_ds(context):
         loss='mean_squared_error', optimizer=optimizer,
         metrics=['mean_absolute_error', 'mean_squared_error'])
 
-    EPOCHS = 100
     ml_path, model_name = context['ml_path'], context['model_name']
     fname = ml_path + model_name
 
@@ -273,11 +272,12 @@ def train_ds(context):
         monitor='val_loss', patience=10)
     checkpointer = keras.callbacks.ModelCheckpoint(
             filepath=fname, verbose=1, save_best_only=True)
+    csv_logger = CSVLogger(f'{ml_path}marketcap-train-{tgt_date}.log')
 
     history = model.fit(
         train_dataset, train_labels,
-        epochs=EPOCHS, validation_split=0.2, verbose=1,
-        callbacks=[early_stop, checkpointer])
+        epochs=max_iter, validation_split=test_size, verbose=1,
+        callbacks=[early_stop, checkpointer, csv_logger])
 
     loss, mae, mse = model.evaluate(test_dataset, test_labels, verbose=0)
     print(f'loss {loss}, mae {mae}, mse {mse}')
