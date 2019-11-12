@@ -17,7 +17,7 @@
         "rec_trend"
     ],
     "look_ahead": 20,
-    "look_back": 20,
+    "look_back": 1,
     "smooth_window": 10,
     "load_ds": true,
     "scale": true,
