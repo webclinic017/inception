@@ -5,7 +5,7 @@ from tqdm import *
 
 # lambdas
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
-shorten_name = lambda x: "^"+"_".join([str.upper(z[:4]) for z in x.replace('& ','').replace('- ','').split(' ')])
+shorten_name = lambda x: "^"+"_".join([str.upper(z[:7]) for z in x.replace('& ','').replace('- ','').split(' ')])
 roll_vol = lambda df, rw: (df.rolling(rw).std() * pow(252, 1/2))
 fwd_ss_ret = lambda x, df, arr: df.loc[[y for y in arr[x-1] if y in df.index.tolist()]].mean()
 sign_compare = lambda x, y: abs(x) // y if x > y else -(abs(x) // y) if x < -y else 0
@@ -274,7 +274,8 @@ def eq_wgt_indices(profile, px_df, col, group_list, tail=70**2, subset=None):
     for s in group_list:
         idx_ticker = shorten_name(s)
         names.append(idx_ticker)
-        symbols = profile[profile[col] == s].symbol.tolist()
+        clear_profile = profile.dropna(subset=['sector', 'industry'])
+        symbols = clear_profile[clear_profile[col] == s].symbol.tolist()
 #         print('Equal weight index for: %s, %s, %d, %s\n' \
 #               % (idx_ticker, s, len(symbols), symbols))
         if subset: symbols = list(set(symbols).intersection(subset))

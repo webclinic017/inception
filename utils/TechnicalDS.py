@@ -36,7 +36,8 @@ class TechnicalDS(BaseDS):
         self.pct_chg_keys = pct_chg_keys
         self.roll_vol_days = roll_vol_days
         self.active_keys = self.pct_chg_keys[1:]
-        self.companies = config['companies']
+        self.companies = list(self.profile.loc[config['companies'], :].dropna(subset=['sector', 'industry']).index)
+        self.profile.dropna(subset=['sector', 'industry'], inplace=True)
         self.sectors = config['sectors']
 
         if tickers is None:
@@ -44,8 +45,8 @@ class TechnicalDS(BaseDS):
                 self.clean_px, self.companies,
                 self.look_back, self.quantile).index)
         elif tickers == 'All':
-            self.tickers = self.companies + self.sectors
-            print(f'{len(self.companies)} companies')
+            self.tickers = self.companies
+            print(f'{len(self.tickers)} companies')
         else:
             self.tickers = tickers
 

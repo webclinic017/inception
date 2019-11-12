@@ -49,6 +49,7 @@ tech_ds = TechnicalDS(
     context['tmp_path'],
     context['px_vol_ds'],
     load_ds=True,
+    tickers="All",
     look_ahead=context['look_ahead'],
     look_back=context['train_window'],
     fwd_smooth=context['smooth'],
@@ -212,20 +213,19 @@ def predict_ds(context):
 # %%
 if __name__ == '__main__':
     hook = sys.argv[1]
-    # price/share > 20 and vol > 300k shares
-    quotes = tech_ds.quotes
-    liquid_tickers = list(quotes.loc[
-        (quotes.quoteType == 'EQUITY') &
-        (quotes.regularMarketPrice > 20) &
-        (quotes.averageDailyVolume3Month > 0.3e6)
-        , 'symbol'])
-    tech_ds.tickers = liquid_tickers
 
     if hook == 'train':
         print('Training...')
         train_ds(context)
-
     elif hook == 'predict':
+        # price/share > 20 and vol > 300k shares
+        quotes = tech_ds.quotes
+        liquid_tickers = list(quotes.loc[
+            (quotes.quoteType == 'EQUITY') &
+            (quotes.regularMarketPrice > 20) &
+            (quotes.averageDailyVolume3Month > 0.3e6)
+            , 'symbol'])
+        tech_ds.tickers = liquid_tickers
         print('Predicting...')
         predict_ds(context)
 
