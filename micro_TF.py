@@ -139,7 +139,7 @@ def train_ds(context):
 
     es = EarlyStopping(monitor='val_loss', patience=10, restore_best_weights=True, verbose=1)
     checkpointer = ModelCheckpoint(filepath=fname, verbose=1, save_best_only=True)
-    csv_logger = CSVLogger(f'micro-train-{tech_ds.tgt_date}.log')
+    csv_logger = CSVLogger(f'{ml_path}micro-train-{tech_ds.tgt_date}.log')
 
     # save training columns, feature order
     np.save(ml_path + trained_cols, X_train.columns)
