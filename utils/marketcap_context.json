@@ -17,11 +17,11 @@
         "rec_trend"
     ],
     "look_ahead": 20,
-    "look_back": 120,
+    "look_back": 20,
     "smooth_window": 10,
     "load_ds": true,
     "scale": true,
-    "test_size": 0.05,
+    "test_size": 0.1,
     "verbose": 2,
     "s3_path": "recommend/marketcap_ML/",
     "units": 64,
