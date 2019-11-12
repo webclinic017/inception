@@ -50,9 +50,9 @@ class TechnicalDS(BaseDS):
             self.tickers = tickers
 
         self.sectors = self.profile.loc[
-            self.profile.symbol.isin(self.companies)].sector.unique()
+            self.profile.symbol.isin(self.companies)].sector.dropna().unique()
         self.industries = self.profile.loc[
-            self.profile.symbol.isin(self.companies)].industry.unique()
+            self.profile.symbol.isin(self.companies)].industry.dropna().unique()
         print(f'Universe sectors: {self.sectors.shape[0]}, industries: {self.industries.shape[0]}')
 
         self.sector_dict = self.dict_by_profile_column(
