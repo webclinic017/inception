@@ -220,12 +220,13 @@ if __name__ == '__main__':
     elif hook == 'predict':
         # price/share > 20 and vol > 300k shares
         quotes = tech_ds.quotes
+        profile = tech_ds.profile
         liquid_tickers = list(quotes.loc[
             (quotes.quoteType == 'EQUITY') &
             (quotes.regularMarketPrice > 20) &
             (quotes.averageDailyVolume3Month > 0.3e6)
             , 'symbol'])
-        tech_ds.tickers = liquid_tickers
+        tech_ds.tickers = list(profile.loc[liquid_tickers,:].dropna(subset=['sector','industry']).index)
         print('Predicting...')
         predict_ds(context)
 
