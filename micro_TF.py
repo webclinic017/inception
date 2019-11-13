@@ -1,7 +1,7 @@
 # %%
 # imports
 import sys
-from utils.basic_utils import csv_store, csv_ext, numeric_cols, config
+from utils.basic_utils import csv_store, csv_ext, numeric_cols, config, save_config, load_config
 from utils.pricing import dummy_col
 from utils.pricing import rename_col
 from utils.fundamental import chain_outlier
@@ -25,25 +25,7 @@ from keras import backend as K
 K.tensorflow_backend._get_available_gpus()
 
 # context
-context = {
-    'ml_path': './ML/',
-    'tmp_path': './tmp/',
-    'px_vol_ds': 'universe-px-vol-ds.h5',
-    'model_name': 'micro_TF-21fwd.h5',
-    'trained_cols': 'micro_TF_train_cols-21fwd.npy',
-    'look_ahead': 21,
-    'train_window': 250*3,
-    'look_back': 20,
-    'smooth': 1,
-    'load_ds': True,
-    'scale': True,
-    'test_size': .10,
-    'verbose': True,
-    's3_path': 'recommend/micro_ML/',
-    'units': 750, #850
-    'max_iter': 100, #50
-    'l2_reg': 0.01,
-}
+context = load_config('./utils/micro_context.json')
 
 tech_ds = TechnicalDS(
     context['tmp_path'],
@@ -223,7 +205,7 @@ if __name__ == '__main__':
         profile = tech_ds.profile
         liquid_tickers = list(quotes.loc[
             (quotes.quoteType == 'EQUITY') &
-            (quotes.regularMarketPrice > 20) &
+            (quotes.regularMarketPrice > 10) &
             (quotes.averageDailyVolume3Month > 0.3e6)
             , 'symbol'])
         tech_ds.tickers = list(profile.loc[liquid_tickers,:].dropna(subset=['sector','industry']).index)

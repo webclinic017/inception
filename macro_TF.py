@@ -1,7 +1,7 @@
 # %%
 import sys
 import os
-from utils.basic_utils import *
+from utils.basic_utils import csv_store, csv_ext, numeric_cols, config, save_config, load_config
 from utils.pricing import *
 from utils.fundamental import *
 from utils.MacroDS import MacroDS
@@ -69,7 +69,6 @@ def pre_process_ds(context):
     return raw_df
 
 
-# %%
 def get_train_test_sets(context):
 
     raw_df = pre_process_ds(context)
@@ -102,7 +101,6 @@ def get_train_test_sets(context):
     return X_train, X_test, y_train, y_test
 
 
-# %%
 def train_ds(context):
 
     max_iter = context['max_iter']
@@ -166,7 +164,6 @@ def train_ds(context):
     print(f'Loss: {score[0]}, Accuracy: {score[1]}')
 
 
-# %%
 def predict_ds(context):
 
     ml_path = context['ml_path']
@@ -218,31 +215,8 @@ def predict_ds(context):
 
 
 # %%
-context = {
-    'portion': 100e-2,
-    'ml_path': './ML/',
-    'model_name': 'macro_TF-21fwd.h5',
-    'tmp_path': './tmp/',
-    'px_vol_ds': 'universe-px-vol-ds.h5',
-    'trained_cols': 'macro_TF_train_cols-21fwd.npy',
-    'look_ahead': 21,
-    'look_back': 120,
-    'smooth_window': 1,
-    'predict_batch': 252,
-    'train_window': 250*3,
-    'load_ds': True,
-    'impute': True,
-    'fill': 'ffill',
-    'scale': True,
-    'test_size': .10,
-    's3_path': 'recommend/macro_ML/',
-    'verbose': 2,
-    'units': 500,
-    'hidden_layers': 4,
-    'max_iter': 100,
-    'l2_reg': 1,
-    'dropout': 0.5,
-}
+# context
+context = load_config('./utils/macro_context.json')
 
 # %%
 temp_path = context['tmp_path']
