@@ -19,7 +19,7 @@ class BaseDS(object):
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
-        bench='^GSPC',
+        bench=None,
         look_ahead=120,
         fwd_smooth=None,
         look_back=252*7,
@@ -32,7 +32,7 @@ class BaseDS(object):
         self.path = path
         self.fname = fname
         self.load_ds = load_ds
-        self.bench = bench
+        self.bench =  bench if len(bench) > 1 else [bench]
         self.look_ahead = look_ahead
         self.fwd_smooth = fwd_smooth
         self.look_back = look_back
@@ -45,7 +45,7 @@ class BaseDS(object):
 
         self.px_vol_df = self.load_px_vol_ds()
         self.px_vol_df = self.px_vol_df.tail(self.look_back)
-        self.clean_px = self.px_vol_df['close'].dropna(subset=[self.bench])
+        self.clean_px = self.px_vol_df['close'].dropna(subset=self.bench)
 
         # Quotes, profile, and industries for last date of dataset
         dates = self.clean_px.index.unique()
@@ -86,16 +86,16 @@ class BaseDS(object):
         self.incl_feat_dict = {}
 
         print('OCLHV dataframes')
-        self.close_df = self.px_vol_df['close'].dropna(subset=[self.bench])
-        self.open_df = self.px_vol_df['open'].dropna(subset=[self.bench])
-        self.low_df = self.px_vol_df['low'].dropna(subset=[self.bench])
-        self.high_df = self.px_vol_df['high'].dropna(subset=[self.bench])
+        self.close_df = self.px_vol_df['close'].dropna(subset=self.bench)
+        self.open_df = self.px_vol_df['open'].dropna(subset=self.bench)
+        self.low_df = self.px_vol_df['low'].dropna(subset=self.bench)
+        self.high_df = self.px_vol_df['high'].dropna(subset=self.bench)
 
         # inverted securities before transforms
         print('Inverted instruments')
         for df in (self.close_df, self.open_df, self.low_df, self.high_df):
             df[self.invert_list] = 1/df[self.invert_list]
-        self.vol_df = self.px_vol_df['volume'].dropna(subset=[self.bench])
+        self.vol_df = self.px_vol_df['volume'].dropna(subset=self.bench)
         self.dollar_value_df = self.close_df * self.vol_df
 
         print('Change dataframes')

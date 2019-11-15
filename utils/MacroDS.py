@@ -50,8 +50,8 @@ class MacroDS(TechnicalDS):
 
         self.incl_feat_dict = None
         TechnicalDS.create_base_frames(self)
-        self.fwd_return_df = self.fwd_return_df[[self.bench]]
-        self.incl_feat_dict.update(
-            {self.ycol_name: self.fwd_return_df[[self.bench]]})
-        self.incl_feat_dict.update(
-            {self.ycol_name: self.fwd_return_df[[self.bench]]})
+        # now benchmark is a list
+
+        # self.fwd_return_df = self.fwd_return_df[[self.bench]]
+        # self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df[[self.bench]]})
+        # self.incl_feat_dict.update({self.ycol_name: self.fwd_return_df[[self.bench]]})

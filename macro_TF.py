@@ -26,21 +26,23 @@ K.tensorflow_backend._get_available_gpus()
 
 # %%
 def pre_process_ds(context):
-    temp_path = context['tmp_path']
-    px_vol_fname = context['px_vol_ds']
-    benchSL, sectorSL, riskSL, rateSL, bondSL, commSL, currSL = (
-        macro_ds.universe_dict[x]
-        for x in (
-            'benchmarks', 'sectors', 'risk', 'rates',
-            'bonds', 'commodities', 'currencies')
-    )
 
-    keep_bench = excl(benchSL, ['^STOXX50E', '^AXJO'])
-    keep_fx = excl(currSL, ['HKD=X', 'MXN=X', 'AUDUSD=X', 'NZDUSD=X', 'TWD=X', 'CLP=X', 'KRW=X'])
-    keep_sect = excl(sectorSL,['SPY', 'QQQ', 'DIA', 'IWM', 'XLC', 'XLRE'])
+    riskSL, rateSL = (macro_ds.universe_dict[x] for x in ('risk', 'rates'))
     keep_bonds = ['LQD', 'HYG']
-    include = riskSL + keep_bench + keep_sect + rateSL + keep_fx + keep_bonds
-    raw_df = macro_ds.stitch_instruments(symbols=include, name=True, axis=1)
+    # pending to add additional columns
+    include = riskSL + rateSL + keep_bonds
+    benchmarks = context['benchmark']
+    raw_df = macro_ds.stitch_instruments(symbols=benchmarks, name=False, axis=0)
+    # append additional columns horizontally
+    horizontal_df = macro_ds.stitch_instruments(symbols=include, name=True, axis=1)
+    non_fwd_cols = [x for x in horizontal_df.columns if y_col not in x]
+    # set index to date
+    raw_df = raw_df.reset_index(['symbol'], drop=False)
+    raw_df[non_fwd_cols] = horizontal_df[non_fwd_cols]
+    raw_df = raw_df.reset_index().set_index(['storeDate','symbol'])
+    
+    # run loop here were you stitching horizontally and veritically
+    # stitch raw with horizontal columns
 
     # clean up empty columns
     empty_cols = raw_df.iloc[-1].loc[raw_df.iloc[-1].isna()].index
@@ -48,11 +50,11 @@ def pre_process_ds(context):
     raw_df.drop(columns=remove_cols, inplace=True)
     print('Pre-clean up shape:', raw_df.shape)
 
-    slim_cols = raw_df.isna().where(raw_df.isna() == True)\
-        .count().sort_values(ascending=False)
-    # keep columns with less than 400 NAs
-    keep_cols = list(slim_cols.loc[slim_cols < 400].index)
-    raw_df = raw_df[keep_cols]
+    # slim_cols = raw_df.isna().where(raw_df.isna() == True).count().sort_values(ascending=False)
+    # keep columns with less than total rows / # of benchmarks * 50%
+    # max_nas = int(len(raw_df)/len(benchmarks)* 0.5)
+    # keep_cols = list(slim_cols.loc[slim_cols < max_nas].index)
+    # raw_df = raw_df[keep_cols]
     print('Post-clean up shape:', raw_df.shape)
     fill_on = context['fill']
     scaler_on = context['scale']
@@ -61,10 +63,8 @@ def pre_process_ds(context):
     X_cols = excl(raw_df.columns, [y_col])
     raw_df.replace([np.inf, -np.inf], np.nan, inplace=True)
 
-    if scaler_on:
-        raw_df[X_cols] = scaler.fit_transform(raw_df[X_cols])
-    if fill_on:
-        raw_df.loc[:, X_cols] = raw_df.fillna(method=fill_on)
+    if scaler_on: raw_df[X_cols] = scaler.fit_transform(raw_df[X_cols])
+    if fill_on: raw_df.loc[:, X_cols] = raw_df.fillna(method=fill_on)
 
     return raw_df
 
@@ -73,7 +73,7 @@ def get_train_test_sets(context):
 
     raw_df = pre_process_ds(context)
     # discretize forward returns into classes
-    cut_range = macro_ds.return_intervals(tresholds=[0.60, 0.90])
+    cut_range = macro_ds.return_intervals(tresholds=[0.4, 0.6])
     BaseDS.labelize_ycol(raw_df, y_col, cut_range, labels)
 
     X_cols = excl(raw_df.columns, [y_col])
@@ -82,10 +82,8 @@ def get_train_test_sets(context):
     imputer = SimpleImputer(
         missing_values=np.nan,
         strategy='median', copy=False)
-    if imputer_on:
-        raw_df.loc[:, X_cols] = imputer.fit_transform(raw_df[X_cols])
-    else:
-        raw_df.dropna(inplace=True)
+    if imputer_on: raw_df.loc[:, X_cols] = imputer.fit_transform(raw_df[X_cols])
+    else: raw_df.dropna(inplace=True)
 
     test_sz = context['test_size']
     # create training and test sets
@@ -171,47 +169,55 @@ def predict_ds(context):
     trained_cols = context['trained_cols']
     look_back = context['look_back']
 
-    joined_df = pre_process_ds(context)
-    pred_X = joined_df.loc[
-        joined_df.sort_index().index.unique()[-look_back:], :]
-    print('pred_X.shape', pred_X.shape)
-
-    # ensure prediction dataset is consistent with trained model
-    # save feature order
-    train_cols = np.load(ml_path + trained_cols, allow_pickle=True)
-    missing_cols = [x for x in train_cols if x not in pred_X.columns]
-    if len(missing_cols):
-        print(f'Warning missing columns: {missing_cols}')
-        for c in missing_cols:
-            pred_X[c] = 0
-
-    sorted_cols = list(train_cols)
-    print('pred_X.shape', pred_X[sorted_cols].shape)
-    pred_df = macro_ds.px_vol_df['close']\
-        .loc[pred_X.index, macro_ds.bench].to_frame()
-
     # Load model
     fname = ml_path + model_name
     model = load_model(fname)
     print('Loaded', fname)
-    # Predict
-    preds = model.predict(pred_X[sorted_cols])
-    preds_classes = model.predict_classes(pred_X[sorted_cols])
-    pred_df['pred_class'] = preds_classes
-    pred_df['pred_label'] = list(map(lambda x: labels[x], preds_classes))
-    probs = np.round(preds, 3)
-    # higest prob
-    pred_df['confidence'] = [x[np.argmax(x)] for x in probs]
-    prob_df = pd.DataFrame(probs, index=pred_df.index, columns=labels)
-    pred_df = pd.concat([pred_df, prob_df[labels]], axis=1)
-    pred_df.index.name = 'pred_date'
+
+    joined_df = pre_process_ds(context)
+    # ensure prediction dataset is consistent with trained model
+    # save feature order
+    train_cols = np.load(ml_path + trained_cols, allow_pickle=True)
+    missing_cols = [x for x in train_cols if x not in joined_df.columns]
+    if len(missing_cols):
+        print(f'Warning missing columns: {missing_cols}')
+        for c in missing_cols: joined_df[c] = 0
+
+    sorted_cols = list(train_cols)
+    print('joined_df.shape', joined_df[sorted_cols].shape)
+    idx = pd.IndexSlice
+    super_list = []
+    for b in context['benchmark']:
+        print(f'Predicting...{b}')
+        # filter by bechmark then predict independently
+        pred_X = joined_df.loc[idx[:,b], :]
+        pred_X = pred_X.loc[pred_X.sort_index().index.unique()[-look_back:], :]
+        print('pred_X.shape', pred_X.shape)
+
+        pred_df = macro_ds.px_vol_df['close'][b].tail(look_back).to_frame()
+        pred_df.rename(columns={b: "close"}, inplace=True)
+        pred_df['benchmark'] = b
+        # Predict
+        preds = model.predict(pred_X[sorted_cols])
+        preds_classes = model.predict_classes(pred_X[sorted_cols])
+        pred_df['pred_class'] = preds_classes
+        pred_df['pred_label'] = list(map(lambda x: labels[x], preds_classes))
+        probs = np.round(preds, 3)
+        # higest prob
+        pred_df['confidence'] = [x[np.argmax(x)] for x in probs]
+        prob_df = pd.DataFrame(probs, index=pred_df.index, columns=labels)
+        pred_df = pd.concat([pred_df, prob_df[labels]], axis=1)
+        pred_df.index.name = 'pred_date'
+        super_list.append(pred_df)
+    
     # store in S3
     s3_path = context['s3_path']
-    s3_df = pred_df.reset_index(drop=False)
+    s3_df = pd.concat(super_list, axis=0)
+    s3_df.reset_index(drop=False, inplace=True)
     rename_col(s3_df, 'index', 'pred_date')
-    csv_store(s3_df, s3_path, csv_ext.format(macro_ds.tgt_date))
+    csv_store(s3_df, s3_path, f'{csv_ext.format(macro_ds.tgt_date)}')    
 
-    return pred_df
+    return s3_df
 
 
 # %%
@@ -219,20 +225,20 @@ def predict_ds(context):
 context = load_config('./utils/macro_context.json')
 
 # %%
+# now benchmark is a list in config file
+# for training use entire list
+# for predicting build macro object one at a time, build > predict
+
 temp_path = context['tmp_path']
 px_vol_fname = context['px_vol_ds']
 macro_ds = MacroDS(
-    path=temp_path,
-    fname=px_vol_fname,
-    load_ds=True,
-    bench='^GSPC',
+    path=temp_path, fname=px_vol_fname, load_ds=True,
+    bench=context['benchmark'],
     look_ahead=context['look_ahead'],
     look_back=context['train_window'],
-    invert_list=['EURUSD=X', 'GBPUSD=X'],
     include_list=['^VIX'],
-    max_draw_on=True,
-    )
-y_col = f'{macro_ds.bench}{macro_ds.ycol_name}'
+    max_draw_on=True)
+y_col = f'{macro_ds.ycol_name}'
 labels = macro_ds.forward_return_labels
 
 # %%
@@ -242,7 +248,6 @@ if __name__ == '__main__':
         print('Training...')
         train_ds(context)
     elif hook == 'predict':
-        print('Predicting...')
         pred_df = predict_ds(context)
         print(pred_df.tail(10).round(3).T)
     else:
