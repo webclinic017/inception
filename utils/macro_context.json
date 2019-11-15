@@ -8,7 +8,7 @@
     "look_ahead": 21,
     "look_back": 10,
     "smooth_window": 1,
-    "train_window": 1300,
+    "train_window": 1750,
     "load_ds": true,
     "impute": true,
     "fill": "ffill",
