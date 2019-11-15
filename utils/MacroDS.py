@@ -13,7 +13,7 @@ class MacroDS(TechnicalDS):
         fname='universe-px-vol-ds.h5',
         load_ds=True,
         tickers=None, 
-        bench='^GSPC', 
+        bench=['^GSPC'], 
         look_ahead=60, 
         fwd_smooth=None,
         look_back=252,

@@ -32,7 +32,7 @@ class BaseDS(object):
         self.path = path
         self.fname = fname
         self.load_ds = load_ds
-        self.bench =  bench if len(bench) > 1 else [bench]
+        self.bench =  bench
         self.look_ahead = look_ahead
         self.fwd_smooth = fwd_smooth
         self.look_back = look_back
