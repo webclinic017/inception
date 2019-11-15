@@ -32,7 +32,7 @@ if __name__ == '__main__':
                 print(e)
         temp_path, px_close_fname, px_vol_fname = 'tmp/', 'universe-px-ds', 'universe-px-vol-ds.h5'
         print(f'Persisting universe price and volume to {temp_path + px_vol_fname}')
-        baseDs = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=False, )
+        base_ds = BaseDS(path=temp_path, fname=px_vol_fname, load_ds=False, )
 
     elif hook == 'options':
         sample_set = sys.argv[2]

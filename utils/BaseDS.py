@@ -19,7 +19,7 @@ class BaseDS(object):
         path='../tmp/',
         fname='universe-px-vol-ds.h5',
         load_ds=True,
-        bench=None,
+        bench=['^GSPC'],
         look_ahead=120,
         fwd_smooth=None,
         look_back=252*7,
