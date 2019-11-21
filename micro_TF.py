@@ -131,7 +131,7 @@ def train_ds(context):
     model.compile(
         loss='categorical_crossentropy',
         optimizer=opt, metrics=['accuracy'])
-    history = model.fit(
+    model.fit(
         X_train, y_train_oh, validation_data=(X_test, y_test_oh),
         epochs=max_iter, batch_size=64,
         callbacks=[es, checkpointer, csv_logger])

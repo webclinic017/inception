@@ -1,11 +1,17 @@
 # imports
 from utils.basic_utils import *
 import numpy as np
-from tqdm import *
+from tqdm import tqdm
 
 # lambdas
 freq_dist = lambda df, col, tail: df[col].tail(tail).value_counts(bins=12, normalize=True).sort_index()
-shorten_name = lambda x: "^"+"_".join([str.upper(z[:7]) for z in x.replace('& ','').replace('- ','').split(' ')])
+shorten_name = lambda x: "^"+"_".join(
+    [str.upper(z[:7]) for z in x
+        .replace('& ',' ')
+        .replace('-',' ')
+        .replace('—',' ')
+        .split(' ')
+        ])
 roll_vol = lambda df, rw: (df.rolling(rw).std() * pow(252, 1/2))
 fwd_ss_ret = lambda x, df, arr: df.loc[[y for y in arr[x-1] if y in df.index.tolist()]].mean()
 sign_compare = lambda x, y: abs(x) // y if x > y else -(abs(x) // y) if x < -y else 0
@@ -32,7 +38,7 @@ def get_pricing(symbol, interval='1d', prange='5y', persist=True):
     return pricing_data
 
 def build_px_struct(data_dict, freq):
-    tz = data_dict['meta']['exchangeTimezoneName']
+    # tz = data_dict['meta']['exchangeTimezoneName']
     dates = pd.to_datetime(
         data_dict['timestamp'], unit='s', infer_datetime_format=True)
     # dates = dates.astype(f'datetime64[ns, {tz}]')
@@ -194,7 +200,7 @@ def px_mom_feats(df, s, stds=1, invert=False, incl_px=False, rolls=[20,60,120], 
     if invert: df = 1 / df
     #c,o,l,h = df['close'], df['open'], df['low'], df['high']
     c = df.dropna()
-    c1ds, pctChg = c.shift(1), c.pct_change()
+    pctChg = c.pct_change()
     if incl_px: ndf[s + 'Close'] = c
     ticker = s if incl_name else ''
     ndf[ticker+'PctChg'+str(stds)+'Stds'] = pctChg.apply(
